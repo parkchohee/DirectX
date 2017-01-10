@@ -68,6 +68,7 @@ void cMainGame::Render()
 	m_pD3DDevice->BeginScene();
 
 	// 그림을 그린다.
+	// test
 
 	m_pD3DDevice->EndScene();
 
