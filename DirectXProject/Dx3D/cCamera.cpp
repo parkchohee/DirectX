@@ -57,7 +57,7 @@ void cCamera::Update()
 	}
 */
 
-	m_vEye = D3DXVECTOR3(0, 1, 0);
+	m_vEye = D3DXVECTOR3(0, 1,0);
 	m_vLookAt = D3DXVECTOR3(0, 1, 5);
 
 	D3DXMATRIXA16 matR, matRX, matRY;

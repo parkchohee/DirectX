@@ -2,12 +2,12 @@
 #include "cMainGame.h"
 #include "cCamera.h"
 #include "cGrid.h"
-#include "cZealot.h"
+#include "cPlayer.h"
 
 cMainGame::cMainGame(void)
 	: m_pCamera(NULL)
 	, m_pGrid(NULL)
-	, m_pHoldZealot(NULL)
+	, m_pPlayer(NULL)
 {
 }
 
@@ -17,7 +17,7 @@ cMainGame::~cMainGame(void)
 	SAFE_DELETE(m_pCamera);
 	SAFE_DELETE(m_pGrid);
 
-	SAFE_DELETE(m_pHoldZealot);
+	SAFE_RELEASE(m_pPlayer);
 
 	g_pSkinnedMeshManager->Destroy();
 	g_pObjectManager->Destroy();
@@ -28,9 +28,9 @@ cMainGame::~cMainGame(void)
 
 void cMainGame::Setup()
 {
-	m_pHoldZealot = new cZealot;
-	m_pHoldZealot->Setup();
-
+	m_pPlayer = new cPlayer;
+	m_pPlayer->Setup();
+	
 	m_pCamera = new cCamera;
 	m_pCamera->Setup(NULL);
 
@@ -39,18 +39,17 @@ void cMainGame::Setup()
 
 	SetLight();
 
-	g_pD3DDevice->SetRenderState(D3DRS_NORMALIZENORMALS, true);
 }
 
 void cMainGame::Update()
 {
 	g_pTimeManager->Update();
 
+	if (m_pPlayer)
+		m_pPlayer->Update();
+
 	if (m_pCamera)
 		m_pCamera->Update();
-
-	if (m_pHoldZealot)
-		m_pHoldZealot->Update(NULL);
 
 }
 
@@ -66,9 +65,9 @@ void cMainGame::Render()
 
 	if(m_pGrid)
 		m_pGrid->Render();
-
-	if (m_pHoldZealot)
-		m_pHoldZealot->Render(NULL);
+	
+	if (m_pPlayer)
+		m_pPlayer->Render();
 
 	g_pD3DDevice->EndScene();
 
@@ -89,6 +88,7 @@ void cMainGame::SetLight()
 	g_pD3DDevice->SetLight(0, &stLight);
 	g_pD3DDevice->LightEnable(0, true);
 
+	g_pD3DDevice->SetRenderState(D3DRS_NORMALIZENORMALS, true);
 }
 
 void cMainGame::WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )

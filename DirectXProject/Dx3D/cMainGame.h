@@ -2,7 +2,7 @@
 
 class cCamera;
 class cGrid;
-class cZealot;
+class cPlayer;
 
 #include "cUIButton.h"
 
@@ -13,8 +13,7 @@ private:
 	cCamera*					m_pCamera;
 	cGrid*						m_pGrid;
 	
-
-	cZealot*					m_pHoldZealot;
+	cPlayer*					m_pPlayer;
 
 public:
 	cMainGame(void);

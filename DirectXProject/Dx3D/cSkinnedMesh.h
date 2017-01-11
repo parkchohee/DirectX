@@ -14,10 +14,13 @@ private:
 	
 	LPD3DXANIMATIONCONTROLLER	m_pAnimController;
 	D3DXMATRIXA16				m_matWorldTM;
+	D3DXMATRIXA16				m_matSaveWorldTM;
 
 	/// >> : OBB -
 	SYNTHESIZE(D3DXVECTOR3, m_vMin, Min);
 	SYNTHESIZE(D3DXVECTOR3, m_vMax, Max);
+
+
 
 public:
 	cSkinnedMesh(char* szFolder, char* szFilename);
@@ -25,6 +28,8 @@ public:
 	
 	void UpdateAndRender();
 	void SetAnimationIndex(int nIndex);
+
+	void SetSRT(D3DXMATRIXA16& matSRT);
 
 	void SetRandomTrackPosition();
 	void SetTransform(D3DXMATRIXA16* pmat)
