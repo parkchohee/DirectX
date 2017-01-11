@@ -100,7 +100,8 @@ STDMETHODIMP cAllocateHierarchy::CreateMeshContainer( THIS_ LPCSTR Name,
 		
 		pMeshData->pMesh->CloneMeshFVF(
 			pMeshData->pMesh->GetOptions(),
-			pMeshData->pMesh->GetFVF(),
+			/*pMeshData->pMesh->GetFVF()*/
+			ST_PNT_VERTEX::FVF,
 			g_pD3DDevice,
 			&pBoneMesh->pOrigMesh);
 	}
