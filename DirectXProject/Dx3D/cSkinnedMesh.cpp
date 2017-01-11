@@ -18,6 +18,7 @@ cSkinnedMesh::cSkinnedMesh(char* szFolder, char* szFilename)
 	m_pmWorkingPalette = pSkinnedMesh->m_pmWorkingPalette;
 	m_pEffect = pSkinnedMesh->m_pEffect;
 
+
 	/// >> : OBB
 	{
 		m_vMin = pSkinnedMesh->m_vMin;
@@ -287,6 +288,11 @@ void cSkinnedMesh::SetAnimationIndex( int nIndex )
 	m_pAnimController->GetAnimationSet(nIndex, &pAnimSet);
 	m_pAnimController->SetTrackAnimationSet(0, pAnimSet);
 	SAFE_RELEASE(pAnimSet);
+}
+
+void cSkinnedMesh::SetSRT(D3DXMATRIXA16 & matSRT)
+{
+	m_matWorldTM = matSRT;
 }
 
 void cSkinnedMesh::Destroy()
