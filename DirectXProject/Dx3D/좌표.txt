@@ -1,0 +1,374 @@
+
+	//¸ö
+
+	m_rVertex[0].t.x = (float)32/ 64;	m_rVertex[0].t.y = (float)32/ 32;
+	m_rVertex[1].t.x = (float)32/ 64;	m_rVertex[1].t.y = (float)20/ 32;
+	m_rVertex[2].t.x = (float)40/ 64;	m_rVertex[2].t.y = (float)20/ 32;	 //¾Õ¸é À­»ï°¢ 
+	//0,1,2
+
+	m_rVertex[3].t.x = (float)32/ 64;	m_rVertex[3].t.y = (float)32/ 32;
+	m_rVertex[4].t.x = (float)40/ 64;	m_rVertex[4].t.y = (float)20/ 32;
+	m_rVertex[5].t.x = (float)40/ 64;	m_rVertex[5].t.y = (float)32/ 32;	 //¾Õ¸é ¾Æ·§»ï°¢
+	//0,2,3
+
+	m_rVertex[6].t.x = (float)28/ 64;	m_rVertex[6].t.y = (float)32/ 32;
+	m_rVertex[7].t.x = (float)20/ 64;	m_rVertex[7].t.y = (float)20/ 32;
+	m_rVertex[8].t.x = (float)28/ 64;	m_rVertex[8].t.y = (float)20/ 32;	 //µÞ¸é À­»ï°¢
+	//4,6,5
+
+	m_rVertex[9].t.x = (float)28/ 64;	m_rVertex[9].t.y = (float)32/ 32;
+	m_rVertex[10].t.x = (float)20/ 64;	m_rVertex[10].t.y = (float)32/ 32;
+	m_rVertex[11].t.x = (float)20/ 64;	m_rVertex[11].t.y = (float)20/ 32;	 //µÞ¸é ¾Æ·§»ï°¢
+	//4,7,6
+
+	m_rVertex[12].t.x = (float)28/ 64;	m_rVertex[12].t.y = (float)32/ 32;
+	m_rVertex[13].t.x = (float)28/ 64;	m_rVertex[13].t.y = (float)20/ 32;
+	m_rVertex[14].t.x = (float)32/ 64;	m_rVertex[14].t.y = (float)20/ 32;	 //¿ÞÂÊ¸é À­»ï°¢
+	//4,5,1
+
+	m_rVertex[15].t.x = (float)28/ 64;	m_rVertex[15].t.y = (float)32/ 32;
+	m_rVertex[16].t.x = (float)32/ 64;	m_rVertex[16].t.y = (float)20/ 32;
+	m_rVertex[17].t.x = (float)32/ 64;	m_rVertex[17].t.y = (float)32/ 32;	 //¿ÞÂÊ¸é ¾Æ·§»ï°¢
+	//4,1,0
+
+	m_rVertex[18].t.x = (float)16/ 64;	m_rVertex[18].t.y = (float)32/ 32;
+	m_rVertex[19].t.x = (float)16/ 64;	m_rVertex[19].t.y = (float)20/ 32;
+	m_rVertex[20].t.x = (float)20/ 64;	m_rVertex[20].t.y = (float)20/ 32;	 //¿À¸¥¸é À­»ï°¢
+	//3,2,6
+
+	m_rVertex[21].t.x = (float)16/ 64;	m_rVertex[21].t.y = (float)32/ 32;
+	m_rVertex[22].t.x = (float)20/ 64;	m_rVertex[22].t.y = (float)20/ 32;
+	m_rVertex[23].t.x = (float)20/ 64;	m_rVertex[23].t.y = (float)32/ 32;	 //¿À¸¥¸é ¾Æ·§»ï°¢
+	//3,6,7
+
+	m_rVertex[24].t.x = (float)28/ 64;	m_rVertex[24].t.y = (float)16/ 32;
+	m_rVertex[25].t.x = (float)28/ 64;	m_rVertex[25].t.y = (float)20/ 32;
+	m_rVertex[26].t.x = (float)20/ 64;	m_rVertex[26].t.y = (float)20/ 32;	 //À­¸é À­»ï°¢
+	//1,5,6
+
+	m_rVertex[27].t.x = (float)28/ 64;	m_rVertex[27].t.y = (float)16/ 32;
+	m_rVertex[28].t.x = (float)20/ 64;	m_rVertex[28].t.y = (float)20/ 32;
+	m_rVertex[29].t.x = (float)20/ 64;	m_rVertex[29].t.y = (float)16/ 32;	 //À­¸é ¾Æ·§»ï°¢
+	//1,6,2
+
+	m_rVertex[30].t.x = (float)28/ 64;	m_rVertex[30].t.y = (float)16/ 32;
+	m_rVertex[31].t.x = (float)28/ 64;	m_rVertex[31].t.y = (float)20/ 32;
+	m_rVertex[32].t.x = (float)36/ 64;	m_rVertex[32].t.y = (float)20/ 32;	 //¾Æ·§¸é À­»ï°¢
+	//4,0,3
+
+	m_rVertex[33].t.x = (float)28/ 64;	m_rVertex[33].t.y = (float)16/ 32;
+	m_rVertex[34].t.x = (float)36/ 64;	m_rVertex[34].t.y = (float)20/ 32;
+	m_rVertex[35].t.x = (float)36/ 64;	m_rVertex[35].t.y = (float)20/ 32;	 //¾Æ·§¸é ¾Æ·§»ï°¢
+
+
+if (partName == '¸Ó¸®')
+	{
+		m_rVertex[0].t.x = (float)24 / 64;	m_rVertex[0].t.y = (float)16 / 32;
+		m_rVertex[1].t.x = (float)24 / 64;	m_rVertex[1].t.y = (float)8 / 32;
+		m_rVertex[2].t.x = (float)32 / 64;	m_rVertex[2].t.y = (float)8 / 32;	 //¾Õ¸é À­»ï°¢ 
+		//0,1,2
+
+		m_rVertex[3].t.x = (float)24 / 64;	m_rVertex[3].t.y = (float)16 / 32;
+		m_rVertex[4].t.x = (float)32 / 64;	m_rVertex[4].t.y = (float)8 / 32;
+		m_rVertex[5].t.x = (float)32 / 64;	m_rVertex[5].t.y = (float)16 / 32;	 //¾Õ¸é ¾Æ·§»ï°¢
+		//0,2,3
+
+		m_rVertex[6].t.x = (float)16 / 64;	m_rVertex[6].t.y = (float)16 / 32;
+		m_rVertex[7].t.x = (float)8 / 64;	m_rVertex[7].t.y = (float)8 / 32;
+		m_rVertex[8].t.x = (float)16 / 64;	m_rVertex[8].t.y = (float)8 / 32;	 //µÞ¸é À­»ï°¢
+		//4,6,5
+
+		m_rVertex[9].t.x = (float)16 / 64;	m_rVertex[9].t.y = (float)16 / 32;
+		m_rVertex[10].t.x = (float)8 / 64;	m_rVertex[10].t.y = (float)16 / 32;
+		m_rVertex[11].t.x = (float)8 / 64;	m_rVertex[11].t.y = (float)8 / 32;	 //µÞ¸é ¾Æ·§»ï°¢
+		//4,7,6
+
+		m_rVertex[12].t.x = (float)16 / 64;	m_rVertex[12].t.y = (float)16 / 32;
+		m_rVertex[13].t.x = (float)16 / 64;	m_rVertex[13].t.y = (float)8 / 32;
+		m_rVertex[14].t.x = (float)24 / 64;	m_rVertex[14].t.y = (float)8 / 32;	 //¿ÞÂÊ¸é À­»ï°¢
+		//4,5,1
+
+		m_rVertex[15].t.x = (float)16 / 64;	m_rVertex[15].t.y = (float)16 / 32;
+		m_rVertex[16].t.x = (float)24 / 64;	m_rVertex[16].t.y = (float)8 / 32;
+		m_rVertex[17].t.x = (float)25 / 64;	m_rVertex[17].t.y = (float)16 / 32;	 //¿ÞÂÊ¸é ¾Æ·§»ï°¢
+		//4,1,0
+
+		m_rVertex[18].t.x = (float)0 / 64;	m_rVertex[18].t.y = (float)16 / 32;
+		m_rVertex[19].t.x = (float)0 / 64;	m_rVertex[19].t.y = (float)8 / 32;
+		m_rVertex[20].t.x = (float)8 / 64;	m_rVertex[20].t.y = (float)8 / 32;	 //¿À¸¥¸é À­»ï°¢
+		//3,2,6
+
+		m_rVertex[21].t.x = (float)0 / 64;	m_rVertex[21].t.y = (float)16 / 32;
+		m_rVertex[22].t.x = (float)8 / 64;	m_rVertex[22].t.y = (float)8 / 32;
+		m_rVertex[23].t.x = (float)8 / 64;	m_rVertex[23].t.y = (float)16 / 32;	 //¿À¸¥¸é ¾Æ·§»ï°¢
+		//3,6,7
+
+		m_rVertex[24].t.x = (float)16 / 64;	m_rVertex[24].t.y = (float)0 / 32;
+		m_rVertex[25].t.x = (float)16 / 64;	m_rVertex[25].t.y = (float)8 / 32;
+		m_rVertex[26].t.x = (float)8 / 64;	m_rVertex[26].t.y = (float)8 / 32;	 //À­¸é À­»ï°¢
+		//1,5,6
+
+		m_rVertex[27].t.x = (float)16 / 64;	m_rVertex[27].t.y = (float)0 / 32;
+		m_rVertex[28].t.x = (float)8 / 64;	m_rVertex[28].t.y = (float)8 / 32;
+		m_rVertex[29].t.x = (float)8 / 64;	m_rVertex[29].t.y = (float)0 / 32;	 //À­¸é ¾Æ·§»ï°¢
+		//1,6,2
+
+		m_rVertex[30].t.x = (float)24 / 64;	m_rVertex[30].t.y = (float)0 / 32;
+		m_rVertex[31].t.x = (float)24 / 64;	m_rVertex[31].t.y = (float)8 / 32;
+		m_rVertex[32].t.x = (float)16 / 64;	m_rVertex[32].t.y = (float)8 / 32;	 //¾Æ·§¸é À­»ï°¢
+		//4,0,3
+
+		m_rVertex[33].t.x = (float)24 / 64;	m_rVertex[33].t.y = (float)0 / 32;
+		m_rVertex[34].t.x = (float)16 / 64;	m_rVertex[34].t.y = (float)8 / 32;
+		m_rVertex[35].t.x = (float)16 / 64;	m_rVertex[35].t.y = (float)0 / 32;	 //¾Æ·§¸é ¾Æ·§»ï°¢
+		//4,7,3
+	}
+	else if (partName == '¿ÞÆÈ')
+	{
+		m_rVertex[0].t.x = (float)44 / 64;	m_rVertex[0].t.y = (float)32 / 32;
+		m_rVertex[1].t.x = (float)44 / 64;	m_rVertex[1].t.y = (float)20 / 32;
+		m_rVertex[2].t.x = (float)48 / 64;	m_rVertex[2].t.y = (float)20 / 32;	 //¾Õ¸é À­»ï°¢ 
+		//0,1,2
+
+		m_rVertex[3].t.x = (float)44 / 64;	m_rVertex[3].t.y = (float)32 / 32;
+		m_rVertex[4].t.x = (float)48 / 64;	m_rVertex[4].t.y = (float)20 / 32;
+		m_rVertex[5].t.x = (float)48 / 64;	m_rVertex[5].t.y = (float)32 / 32;	 //¾Õ¸é ¾Æ·§»ï°¢
+		//0,2,3
+
+		m_rVertex[6].t.x = (float)56 / 64;	m_rVertex[6].t.y = (float)32 / 32;
+		m_rVertex[7].t.x = (float)52 / 64;	m_rVertex[7].t.y = (float)20 / 32;
+		m_rVertex[8].t.x = (float)56 / 64;	m_rVertex[8].t.y = (float)20 / 32;	 //µÞ¸é À­»ï°¢
+		//4,6,5
+
+		m_rVertex[9].t.x = (float)56 / 64;	m_rVertex[9].t.y = (float)32 / 32;
+		m_rVertex[10].t.x = (float)52 / 64;	m_rVertex[10].t.y = (float)32 / 32;
+		m_rVertex[11].t.x = (float)52 / 64;	m_rVertex[11].t.y = (float)20 / 32;	 //µÞ¸é ¾Æ·§»ï°¢
+		//4,7,6
+
+		m_rVertex[12].t.x = (float)40 / 64;	m_rVertex[12].t.y = (float)32 / 32;
+		m_rVertex[13].t.x = (float)40 / 64;	m_rVertex[13].t.y = (float)20 / 32;
+		m_rVertex[14].t.x = (float)44 / 64;	m_rVertex[14].t.y = (float)20 / 32;	 //¿ÞÂÊ¸é À­»ï°¢
+		//4,5,1
+
+		m_rVertex[15].t.x = (float)40 / 64;	m_rVertex[15].t.y = (float)32 / 32;
+		m_rVertex[16].t.x = (float)44 / 64;	m_rVertex[16].t.y = (float)20 / 32;
+		m_rVertex[17].t.x = (float)44 / 64;	m_rVertex[17].t.y = (float)32 / 32;	 //¿ÞÂÊ¸é ¾Æ·§»ï°¢
+		//4,1,0
+
+		m_rVertex[18].t.x = (float)48 / 64;	m_rVertex[18].t.y = (float)32 / 32;
+		m_rVertex[19].t.x = (float)48 / 64;	m_rVertex[19].t.y = (float)20 / 32;
+		m_rVertex[20].t.x = (float)52 / 64;	m_rVertex[20].t.y = (float)20 / 32;	 //¿À¸¥¸é À­»ï°¢
+		//3,2,6
+
+		m_rVertex[21].t.x = (float)48 / 64;	m_rVertex[21].t.y = (float)32 / 32;
+		m_rVertex[22].t.x = (float)52 / 64;	m_rVertex[22].t.y = (float)20 / 32;
+		m_rVertex[23].t.x = (float)52 / 64;	m_rVertex[23].t.y = (float)32 / 32;	 //¿À¸¥¸é ¾Æ·§»ï°¢
+		//3,6,7
+
+		m_rVertex[24].t.x = (float)44 / 64;	m_rVertex[24].t.y = (float)20 / 32;
+		m_rVertex[25].t.x = (float)44 / 64;	m_rVertex[25].t.y = (float)16 / 32;
+		m_rVertex[26].t.x = (float)48 / 64;	m_rVertex[26].t.y = (float)16 / 32;	 //À­¸é À­»ï°¢
+		//1,5,6
+
+		m_rVertex[27].t.x = (float)44 / 64;	m_rVertex[27].t.y = (float)20 / 32;
+		m_rVertex[28].t.x = (float)48 / 64;	m_rVertex[28].t.y = (float)16 / 32;
+		m_rVertex[29].t.x = (float)48 / 64;	m_rVertex[29].t.y = (float)20 / 32;	 //À­¸é ¾Æ·§»ï°¢
+		//1,6,2
+
+		m_rVertex[30].t.x = (float)48 / 64;	m_rVertex[30].t.y = (float)16 / 32;
+		m_rVertex[31].t.x = (float)48 / 64;	m_rVertex[31].t.y = (float)20 / 32;
+		m_rVertex[32].t.x = (float)52 / 64;	m_rVertex[32].t.y = (float)20 / 32;	 //¾Æ·§¸é À­»ï°¢
+		//4,0,3
+
+		m_rVertex[33].t.x = (float)48 / 64;	m_rVertex[33].t.y = (float)16 / 32;
+		m_rVertex[34].t.x = (float)52 / 64;	m_rVertex[34].t.y = (float)20 / 32;
+		m_rVertex[35].t.x = (float)52 / 64;	m_rVertex[35].t.y = (float)16 / 32;	 //¾Æ·§¸é ¾Æ·§»ï°¢
+		//4,3,7
+
+	}
+	else if (partName == '¿À¸¥ÆÈ')
+	{
+		m_rVertex[0].t.x = (float)48 / 64;	m_rVertex[0].t.y = (float)32 / 32;
+		m_rVertex[1].t.x = (float)48 / 64;	m_rVertex[1].t.y = (float)20 / 32;
+		m_rVertex[2].t.x = (float)44 / 64;	m_rVertex[2].t.y = (float)20 / 32;	 //¾Õ¸é À­»ï°¢ 
+		//0,1,2
+
+		m_rVertex[3].t.x = (float)48 / 64;	m_rVertex[3].t.y = (float)32 / 32;
+		m_rVertex[4].t.x = (float)44 / 64;	m_rVertex[4].t.y = (float)20 / 32;
+		m_rVertex[5].t.x = (float)44 / 64;	m_rVertex[5].t.y = (float)32 / 32;	 //¾Õ¸é ¾Æ·§»ï°¢
+		//0,2,3
+
+		m_rVertex[6].t.x = (float)52 / 64;	m_rVertex[6].t.y = (float)32 / 32;
+		m_rVertex[7].t.x = (float)56 / 64;	m_rVertex[7].t.y = (float)20 / 32;
+		m_rVertex[8].t.x = (float)52 / 64;	m_rVertex[8].t.y = (float)20 / 32;	 //µÞ¸é À­»ï°¢
+		//4,6,5
+
+		m_rVertex[9].t.x = (float)52 / 64;	m_rVertex[9].t.y = (float)32 / 32;
+		m_rVertex[10].t.x = (float)56 / 64;	m_rVertex[10].t.y = (float)32 / 32;
+		m_rVertex[11].t.x = (float)56 / 64;	m_rVertex[11].t.y = (float)20 / 32;	 //µÞ¸é ¾Æ·§»ï°¢
+		//4,7,6
+
+		m_rVertex[18].t.x = (float)44 / 64;	m_rVertex[12].t.y = (float)32 / 32;
+		m_rVertex[19].t.x = (float)44 / 64;	m_rVertex[13].t.y = (float)20 / 32;
+		m_rVertex[20].t.x = (float)40 / 64;	m_rVertex[14].t.y = (float)20 / 32;	 //¿ÞÂÊ¸é À­»ï°¢
+		//4,5,1
+
+		m_rVertex[21].t.x = (float)44 / 64;	m_rVertex[15].t.y = (float)32 / 32;
+		m_rVertex[22].t.x = (float)40 / 64;	m_rVertex[16].t.y = (float)20 / 32;
+		m_rVertex[23].t.x = (float)40 / 64;	m_rVertex[17].t.y = (float)32 / 32;	 //¿ÞÂÊ¸é ¾Æ·§»ï°¢
+		//4,1,0
+
+		m_rVertex[12].t.x = (float)52 / 64;	m_rVertex[18].t.y = (float)32 / 32;
+		m_rVertex[13].t.x = (float)52 / 64;	m_rVertex[19].t.y = (float)20 / 32;
+		m_rVertex[14].t.x = (float)48 / 64;	m_rVertex[20].t.y = (float)20 / 32;	 //¿À¸¥¸é À­»ï°¢
+		//3,2,6
+
+		m_rVertex[15].t.x = (float)52 / 64;	m_rVertex[21].t.y = (float)32 / 32;
+		m_rVertex[16].t.x = (float)48 / 64;	m_rVertex[22].t.y = (float)20 / 32;
+		m_rVertex[17].t.x = (float)48 / 64;	m_rVertex[23].t.y = (float)32 / 32;	 //¿À¸¥¸é ¾Æ·§»ï°¢
+		//3,6,7
+
+		m_rVertex[24].t.x = (float)48 / 64;	m_rVertex[24].t.y = (float)20 / 32;
+		m_rVertex[25].t.x = (float)48 / 64;	m_rVertex[25].t.y = (float)16 / 32;
+		m_rVertex[26].t.x = (float)44 / 64;	m_rVertex[26].t.y = (float)16 / 32;	 //À­¸é À­»ï°¢
+		//1,5,6
+
+		m_rVertex[27].t.x = (float)48 / 64;	m_rVertex[27].t.y = (float)20 / 32;
+		m_rVertex[28].t.x = (float)44 / 64;	m_rVertex[28].t.y = (float)16 / 32;
+		m_rVertex[29].t.x = (float)44 / 64;	m_rVertex[29].t.y = (float)20 / 32;	 //À­¸é ¾Æ·§»ï°¢
+		//1,6,2
+
+		m_rVertex[30].t.x = (float)52 / 64;	m_rVertex[30].t.y = (float)16 / 32;
+		m_rVertex[31].t.x = (float)52 / 64;	m_rVertex[31].t.y = (float)20 / 32;
+		m_rVertex[32].t.x = (float)48 / 64;	m_rVertex[32].t.y = (float)20 / 32;	 //¾Æ·§¸é À­»ï°¢
+		//4,0,3
+
+		m_rVertex[33].t.x = (float)52 / 64;	m_rVertex[33].t.y = (float)16 / 32;
+		m_rVertex[34].t.x = (float)48 / 64;	m_rVertex[34].t.y = (float)20 / 32;
+		m_rVertex[35].t.x = (float)48 / 64;	m_rVertex[35].t.y = (float)16 / 32;	 //¾Æ·§¸é ¾Æ·§»ï°¢
+		//4,3,7
+	}
+	else if (partName == '¿Þ´Ù¸®')
+	{
+		m_rVertex[0].t.x = (float)4 / 64;	m_rVertex[0].t.y = (float)32 / 32;
+		m_rVertex[1].t.x = (float)4 / 64;	m_rVertex[1].t.y = (float)20 / 32;
+		m_rVertex[2].t.x = (float)8 / 64;	m_rVertex[2].t.y = (float)20 / 32;	 //¾Õ¸é À­»ï°¢ 
+		//0,1,2
+
+		m_rVertex[3].t.x = (float)4 / 64;	m_rVertex[3].t.y = (float)32 / 32;
+		m_rVertex[4].t.x = (float)8 / 64;	m_rVertex[4].t.y = (float)20 / 32;
+		m_rVertex[5].t.x = (float)8 / 64;	m_rVertex[5].t.y = (float)32 / 32;	 //¾Õ¸é ¾Æ·§»ï°¢
+		//0,2,3
+
+		m_rVertex[6].t.x = (float)16 / 64;	m_rVertex[6].t.y = (float)32 / 32;
+		m_rVertex[7].t.x = (float)12 / 64;	m_rVertex[7].t.y = (float)20 / 32;
+		m_rVertex[8].t.x = (float)16 / 64;	m_rVertex[8].t.y = (float)20 / 32;	 //µÞ¸é À­»ï°¢
+		//4,6,5
+
+		m_rVertex[9].t.x = (float)16 / 64;	m_rVertex[9].t.y = (float)32 / 32;
+		m_rVertex[10].t.x = (float)12 / 64;	m_rVertex[10].t.y = (float)32 / 32;
+		m_rVertex[11].t.x = (float)12 / 64;	m_rVertex[11].t.y = (float)20 / 32;	 //µÞ¸é ¾Æ·§»ï°¢
+		//4,7,6
+
+		m_rVertex[12].t.x = (float)0 / 64;	m_rVertex[12].t.y = (float)32 / 32;
+		m_rVertex[13].t.x = (float)0 / 64;	m_rVertex[13].t.y = (float)20 / 32;
+		m_rVertex[14].t.x = (float)4 / 64;	m_rVertex[14].t.y = (float)20 / 32;	 //¿ÞÂÊ¸é À­»ï°¢
+		//4,5,1
+
+		m_rVertex[15].t.x = (float)0 / 64;	m_rVertex[15].t.y = (float)32 / 32;
+		m_rVertex[16].t.x = (float)4 / 64;	m_rVertex[16].t.y = (float)20 / 32;
+		m_rVertex[17].t.x = (float)4 / 64;	m_rVertex[17].t.y = (float)32 / 32;	 //¿ÞÂÊ¸é ¾Æ·§»ï°¢
+		//4,1,0
+
+		m_rVertex[18].t.x = (float)8 / 64;	m_rVertex[18].t.y = (float)32 / 32;
+		m_rVertex[19].t.x = (float)8 / 64;	m_rVertex[19].t.y = (float)20 / 32;
+		m_rVertex[20].t.x = (float)12 / 64;	m_rVertex[20].t.y = (float)20 / 32;	 //¿À¸¥¸é À­»ï°¢
+		//3,2,6
+
+		m_rVertex[21].t.x = (float)8 / 64;	m_rVertex[21].t.y = (float)32 / 32;
+		m_rVertex[22].t.x = (float)12 / 64;	m_rVertex[22].t.y = (float)20 / 32;
+		m_rVertex[23].t.x = (float)12 / 64;	m_rVertex[23].t.y = (float)32 / 32;	 //¿À¸¥¸é ¾Æ·§»ï°¢
+		//3,6,7
+
+		m_rVertex[24].t.x = (float)4 / 64;	m_rVertex[24].t.y = (float)20 / 32;
+		m_rVertex[25].t.x = (float)4 / 64;	m_rVertex[25].t.y = (float)16 / 32;
+		m_rVertex[26].t.x = (float)8 / 64;	m_rVertex[26].t.y = (float)16 / 32;	 //À­¸é À­»ï°¢
+		//1,5,6
+
+		m_rVertex[27].t.x = (float)4 / 64;	m_rVertex[27].t.y = (float)20 / 32;
+		m_rVertex[28].t.x = (float)8 / 64;	m_rVertex[28].t.y = (float)16 / 32;
+		m_rVertex[29].t.x = (float)8 / 64;	m_rVertex[29].t.y = (float)20 / 32;	 //À­¸é ¾Æ·§»ï°¢
+		//1,6,2
+
+		m_rVertex[30].t.x = (float)8 / 64;	m_rVertex[30].t.y = (float)16 / 32;
+		m_rVertex[31].t.x = (float)8 / 64;	m_rVertex[31].t.y = (float)20 / 32;
+		m_rVertex[32].t.x = (float)12 / 64;	m_rVertex[32].t.y = (float)20 / 32;	 //¾Æ·§¸é À­»ï°¢
+		//4,0,3
+
+		m_rVertex[33].t.x = (float)8 / 64;	m_rVertex[33].t.y = (float)16 / 32;
+		m_rVertex[34].t.x = (float)12 / 64;	m_rVertex[34].t.y = (float)20 / 32;
+		m_rVertex[35].t.x = (float)12 / 64;	m_rVertex[35].t.y = (float)16 / 32;	 //¾Æ·§¸é ¾Æ·§»ï°¢
+		//4,3,7
+	}
+	else if (partName == '¿À¸¥´Ù¸®')
+	{
+		m_rVertex[0].t.x = (float)8 / 64;	m_rVertex[0].t.y = (float)32 / 32;
+		m_rVertex[1].t.x = (float)8 / 64;	m_rVertex[1].t.y = (float)20 / 32;
+		m_rVertex[2].t.x = (float)4 / 64;	m_rVertex[2].t.y = (float)20 / 32;	 //¾Õ¸é À­»ï°¢ 
+		//0,1,2
+
+		m_rVertex[3].t.x = (float)8 / 64;	m_rVertex[3].t.y = (float)32 / 32;
+		m_rVertex[4].t.x = (float)4 / 64;	m_rVertex[4].t.y = (float)20 / 32;
+		m_rVertex[5].t.x = (float)4 / 64;	m_rVertex[5].t.y = (float)32 / 32;	 //¾Õ¸é ¾Æ·§»ï°¢
+		//0,2,3
+
+		m_rVertex[6].t.x = (float)12 / 64;	m_rVertex[6].t.y = (float)32 / 32;
+		m_rVertex[7].t.x = (float)16 / 64;	m_rVertex[7].t.y = (float)20 / 32;
+		m_rVertex[8].t.x = (float)12 / 64;	m_rVertex[8].t.y = (float)20 / 32;	 //µÞ¸é À­»ï°¢
+		//4,6,5
+
+		m_rVertex[9].t.x = (float)12 / 64;	m_rVertex[9].t.y = (float)32 / 32;
+		m_rVertex[10].t.x = (float)16 / 64;	m_rVertex[10].t.y = (float)32 / 32;
+		m_rVertex[11].t.x = (float)16 / 64;	m_rVertex[11].t.y = (float)20 / 32;	 //µÞ¸é ¾Æ·§»ï°¢
+		//4,7,6
+
+		m_rVertex[18].t.x = (float)4 / 64;	m_rVertex[12].t.y = (float)32 / 32;
+		m_rVertex[19].t.x = (float)4 / 64;	m_rVertex[13].t.y = (float)20 / 32;
+		m_rVertex[20].t.x = (float)0 / 64;	m_rVertex[14].t.y = (float)20 / 32;	 //¿ÞÂÊ¸é À­»ï°¢
+		//4,5,1
+
+		m_rVertex[21].t.x = (float)4 / 64;	m_rVertex[15].t.y = (float)32 / 32;
+		m_rVertex[22].t.x = (float)0 / 64;	m_rVertex[16].t.y = (float)20 / 32;
+		m_rVertex[23].t.x = (float)0 / 64;	m_rVertex[17].t.y = (float)32 / 32;	 //¿ÞÂÊ¸é ¾Æ·§»ï°¢
+		//4,1,0
+
+		m_rVertex[12].t.x = (float)12 / 64;	m_rVertex[18].t.y = (float)32 / 32;
+		m_rVertex[13].t.x = (float)12 / 64;	m_rVertex[19].t.y = (float)20 / 32;
+		m_rVertex[14].t.x = (float)8 / 64;	m_rVertex[20].t.y = (float)20 / 32;	 //¿À¸¥¸é À­»ï°¢
+		//3,2,6
+
+		m_rVertex[15].t.x = (float)12 / 64;	m_rVertex[21].t.y = (float)32 / 32;
+		m_rVertex[16].t.x = (float)8 / 64;	m_rVertex[22].t.y = (float)20 / 32;
+		m_rVertex[17].t.x = (float)8 / 64;	m_rVertex[23].t.y = (float)32 / 32;	 //¿À¸¥¸é ¾Æ·§»ï°¢
+		//3,6,7
+
+		m_rVertex[24].t.x = (float)8 / 64;	m_rVertex[24].t.y = (float)20 / 32;
+		m_rVertex[25].t.x = (float)8 / 64;	m_rVertex[25].t.y = (float)16 / 32;
+		m_rVertex[26].t.x = (float)4 / 64;	m_rVertex[26].t.y = (float)16 / 32;	 //À­¸é À­»ï°¢
+		//1,5,6
+
+		m_rVertex[27].t.x = (float)8 / 64;	m_rVertex[27].t.y = (float)20 / 32;
+		m_rVertex[28].t.x = (float)4 / 64;	m_rVertex[28].t.y = (float)16 / 32;
+		m_rVertex[29].t.x = (float)4 / 64;	m_rVertex[29].t.y = (float)20 / 32;	 //À­¸é ¾Æ·§»ï°¢
+		//1,6,2
+
+		m_rVertex[30].t.x = (float)12 / 64;	m_rVertex[30].t.y = (float)16 / 32;
+		m_rVertex[31].t.x = (float)12 / 64;	m_rVertex[31].t.y = (float)20 / 32;
+		m_rVertex[32].t.x = (float)8 / 64;	m_rVertex[32].t.y = (float)20 / 32;	 //¾Æ·§¸é À­»ï°¢
+		//4,0,3
+
+		m_rVertex[33].t.x = (float)12 / 64;	m_rVertex[33].t.y = (float)16 / 32;
+		m_rVertex[34].t.x = (float)8 / 64;	m_rVertex[34].t.y = (float)20 / 32;
+		m_rVertex[35].t.x = (float)8 / 64;	m_rVertex[35].t.y = (float)16 / 32;	 //¾Æ·§¸é ¾Æ·§»ï°¢
+		//4,3,7
+	}
