@@ -103,6 +103,7 @@
     <ClInclude Include="cGameObject.h" />
     <ClInclude Include="cGrid.h" />
     <ClInclude Include="cGroup.h" />
+    <ClInclude Include="cGun.h" />
     <ClInclude Include="cHead.h" />
     <ClInclude Include="cLArm.h" />
     <ClInclude Include="cLLeg.h" />
@@ -156,6 +157,7 @@
     <ClCompile Include="cGameObject.cpp" />
     <ClCompile Include="cGrid.cpp" />
     <ClCompile Include="cGroup.cpp" />
+    <ClCompile Include="cGun.cpp" />
     <ClCompile Include="cHead.cpp" />
     <ClCompile Include="cLArm.cpp" />
     <ClCompile Include="cLLeg.cpp" />

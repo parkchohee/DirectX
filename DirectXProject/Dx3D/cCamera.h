@@ -10,7 +10,9 @@ private:
 	POINT			m_ptPrevMouse;
 	bool			m_isLButtonDown;
 	float			m_fCameraDistance;
-	D3DXVECTOR3		m_vCamRotAngle;
+	//D3DXVECTOR3		m_vCamRotAngle;
+
+	SYNTHESIZE_PASS_BY_REF(D3DXVECTOR3, m_vCamRotAngle, CamRotAngle);
 
 public:
 	cCamera(void);
