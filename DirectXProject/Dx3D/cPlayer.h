@@ -1,12 +1,11 @@
 #pragma once
 
-class cSkinnedMesh;
-
+class cGun;
 class cPlayer : public cObject
 {
-	cSkinnedMesh*				m_pShotGun;
-
 	SYNTHESIZE_PASS_BY_REF(D3DXVECTOR3, m_vPosition, Position);
+
+	cGun*			m_pGun;
 
 public:
 	cPlayer();
@@ -16,6 +15,5 @@ public:
 	void Update();
 	void Render();
 
-	void GunSetting();
 };
 

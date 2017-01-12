@@ -1,31 +1,24 @@
 #include "stdafx.h"
 #include "cPlayer.h"
-#include "cSkinnedMesh.h"
+#include "cGun.h"
 
 
 cPlayer::cPlayer()
-	: m_pShotGun(NULL)
-	, m_vPosition(0, 0, 0)
+	: m_vPosition(0, 0, 0)
+	, m_pGun(NULL)
 {
 }
 
 
 cPlayer::~cPlayer()
 {
-	SAFE_DELETE(m_pShotGun);
 }
 
 void cPlayer::Setup()
 {
-	m_pShotGun = new cSkinnedMesh("Gun/", "ShotGun.X");
-	/*D3DXMATRIXA16 matS, matRX, matRY, matT, matSRT;
-	D3DXMatrixScaling(&matS, 0.03f, 0.03f, 0.03f);
-	D3DXMatrixRotationX(&matRX, D3DX_PI / 2);
-	D3DXMatrixRotationY(&matRY, D3DX_PI);
-	D3DXMatrixTranslation(&matT, 1, 0, 0);
+	m_pGun = new cGun;
+	m_pGun->Setup(&m_vPosition, "Gun/", "ShotGun.X");
 
-	matSRT = matS * matRY * matRX * matT;
-	m_pShotGun->SetSRT(matSRT);*/
 }
 
 void cPlayer::Update()
@@ -48,23 +41,13 @@ void cPlayer::Update()
 		m_vPosition.x += 0.1f;
 	}
 
-	GunSetting();
+	if (m_pGun)
+		m_pGun->Update();
 }
 
 void cPlayer::Render()
 {
-	if (m_pShotGun)
-		m_pShotGun->UpdateAndRender();
-}
-
-void cPlayer::GunSetting()
-{
-	D3DXMATRIXA16 matS, matRX, matRY, matR, matT, matSRT;
-	D3DXMatrixScaling(&matS, 0.03f, 0.03f, 0.03f);
-	D3DXMatrixRotationX(&matRX, D3DX_PI / 2);
-	D3DXMatrixRotationY(&matRY, D3DX_PI);
-	D3DXMatrixTranslation(&matT, m_vPosition.x + 1, m_vPosition.y, m_vPosition.z + 1.5);
-	matR = matRY * matRX;
-	matSRT = matS * matR * matT;
-	m_pShotGun->SetSRT(matSRT);
+	if (m_pGun)
+		m_pGun->Render();
+	
 }
