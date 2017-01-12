@@ -38,26 +38,7 @@ void cCamera::Setup( D3DXVECTOR3* pvTarget )
 
 void cCamera::Update()
 {
-	/*RECT rc;
-	GetClientRect(g_hWnd, &rc);
-
-	D3DXMATRIXA16 matR, matRX, matRY;
-	D3DXMatrixRotationX(&matRX, m_vCamRotAngle.x);
-	D3DXMatrixRotationY(&matRY, m_vCamRotAngle.y);
-	
-	matR = matRX * matRY;
-
-	m_vEye = D3DXVECTOR3(0, 0, -m_fCameraDistance);
-	D3DXVec3TransformCoord(&m_vEye, &m_vEye, &matR);
-
-	if(m_pvTarget)
-	{
-		m_vLookAt = *m_pvTarget;
-		m_vEye = m_vEye + *m_pvTarget;
-	}
-*/
-
-	m_vEye = D3DXVECTOR3(0, 1,0);
+	m_vEye = D3DXVECTOR3(0, 1, 0);
 	m_vLookAt = D3DXVECTOR3(0, 1, 5);
 
 	D3DXMATRIXA16 matR, matRX, matRY;
@@ -66,6 +47,12 @@ void cCamera::Update()
 
 	matR = matRX * matRY;
 	D3DXVec3TransformCoord(&m_vLookAt, &m_vLookAt, &matR);
+
+	if (m_pvTarget)
+	{
+		m_vEye = m_vEye + *m_pvTarget;
+		m_vLookAt = m_vLookAt + *m_pvTarget;
+	}
 
 	D3DXMATRIXA16 matView;
 	D3DXMatrixLookAtLH(&matView, &m_vEye, &m_vLookAt, &m_vUp);
