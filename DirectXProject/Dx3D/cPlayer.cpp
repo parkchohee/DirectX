@@ -17,7 +17,7 @@ cPlayer::~cPlayer()
 void cPlayer::Setup()
 {
 	m_pGun = new cGun;
-	m_pGun->Setup(&m_vPosition, "Gun/", "ShotGun.X");
+	m_pGun->Setup(&m_vPosition, "Gun/", "Pistol.X");
 
 }
 
