@@ -45,8 +45,8 @@ void cMainGame::Update()
 {
 	g_pTimeManager->Update();
 
-	if (m_pPlayer)
-		m_pPlayer->Update();
+	if (m_pPlayer && m_pCamera)
+		m_pPlayer->Update(m_pCamera->GetCamRotAngle());
 
 	if (m_pCamera)
 		m_pCamera->Update();

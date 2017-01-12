@@ -19,9 +19,9 @@ public:
 	~cGun();
 
 	void Setup(D3DXVECTOR3* pvTarget, char* szFolder, char* szFilename);
-	void Update();
+	void Update(D3DXVECTOR3& camAngle);
 	void Render();
 
-	void Setting();
+	void Setting(D3DXVECTOR3& camAngle);
 };
 
