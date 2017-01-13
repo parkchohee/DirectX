@@ -52,6 +52,13 @@ void cPlayer::Update(D3DXVECTOR3& camAngle)
 	{
 		m_vPosition -= (vDirection * 0.1f);
 	}
+	
+	if (GetKeyState(VK_SPACE) & 0x8000)		
+	{
+		/*if(m_pGun)
+			m_pGun->*/
+	}
+
 
 	if (m_pGun)
 		m_pGun->Update(camAngle);
