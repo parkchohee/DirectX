@@ -14,6 +14,7 @@ class cGun
 	int							m_nMaxAmmo;			// ÃÑ¾Ë ÃÖ´ë
 	int							m_nCurrentAmmo;		// ÇöÀç ÃÑ¾Ë ¼ö
 
+	int n;
 public:
 	cGun();
 	~cGun();
@@ -23,5 +24,6 @@ public:
 	void Render();
 
 	void Setting(D3DXVECTOR3& camAngle);
+	void Fire(D3DXVECTOR3& vDirection, D3DXVECTOR3& vPosition);
 };
 

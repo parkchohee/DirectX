@@ -12,6 +12,7 @@ cGun::cGun()
 	, m_nMaxAmmo(10)
 	, m_nCurrentAmmo(10)
 {
+	n = 0;
 }
 
 
@@ -43,7 +44,7 @@ void cGun::Setting(D3DXVECTOR3& camAngle)
 	D3DXMATRIXA16 matS, matRX, matRY, matR, matT, matSRT;
 	D3DXMatrixScaling(&matS, 0.1f, 0.1f, 0.1f);
 	
-	D3DXMatrixRotationY(&matR, -D3DX_PI / 2);
+	D3DXMatrixRotationY(&matR, -D3DX_PI / 2 - 0.15);
 
 	if (m_pvTarget)
 		D3DXMatrixTranslation(&matT, m_pvTarget->x + 1.0f, m_pvTarget->y, m_pvTarget->z + 3.0f);
@@ -63,4 +64,9 @@ void cGun::Setting(D3DXVECTOR3& camAngle)
 	matSRT = matS * matR * matT;
 
 	m_pGun->SetSRT(matSRT);
+}
+
+void cGun::Fire(D3DXVECTOR3 & vDirection, D3DXVECTOR3 & vPosition)
+{
+ 	m_pGun->SetAnimationIndex(n++);
 }

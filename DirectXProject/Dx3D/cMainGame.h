@@ -15,6 +15,10 @@ private:
 	
 	cPlayer*					m_pPlayer;
 
+
+	std::vector<ST_PC_VERTEX>	m_vecVertex;
+
+
 public:
 	cMainGame(void);
 	~cMainGame(void);
@@ -28,5 +32,13 @@ public:
 
 	//iButtonDelegate override
 	virtual void OnClick(cUIButton* pSender) override;
+
+
+
+	/// >> : particle
+	void Setup_Particle();
+	void Update_Particle();
+	void Render_Particle();
+	/// << : 
 };
 
