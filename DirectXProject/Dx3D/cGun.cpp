@@ -50,6 +50,7 @@ void cGun::Setting(D3DXVECTOR3& camAngle)
 	else
 		D3DXMatrixIdentity(&matT);
 	
+	// 중심 축 맞춰주기 위해 이동후 회전, 다시 원위치로
 	D3DXMATRIXA16 matTempT, matTempTInv;
 	D3DXMatrixTranslation(&matTempT, 1.0f, 0, 3.0f);
 	D3DXMatrixTranslation(&matTempTInv, -1.0f, 0, -3.0f);
