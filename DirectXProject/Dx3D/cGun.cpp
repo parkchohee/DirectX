@@ -41,20 +41,19 @@ void cGun::Render()
 void cGun::Setting(D3DXVECTOR3& camAngle)
 {
 	D3DXMATRIXA16 matS, matRX, matRY, matR, matT, matSRT;
-	D3DXMatrixScaling(&matS, 0.03f, 0.03f, 0.03f);
+	D3DXMatrixScaling(&matS, 0.1f, 0.1f, 0.1f);
 	
-	D3DXMatrixRotationX(&matRX, D3DX_PI / 2);
-	D3DXMatrixRotationY(&matRY, D3DX_PI);
-	matR = matRY *matRX;
+	D3DXMatrixRotationY(&matR, -D3DX_PI / 2);
 
 	if (m_pvTarget)
-		D3DXMatrixTranslation(&matT, m_pvTarget->x + 1.0f, m_pvTarget->y, m_pvTarget->z + 2.0f);
+		D3DXMatrixTranslation(&matT, m_pvTarget->x + 1.0f, m_pvTarget->y, m_pvTarget->z + 3.0f);
 	else
 		D3DXMatrixIdentity(&matT);
 	
+	// 중심 축 맞춰주기 위해 이동후 회전, 다시 원위치로
 	D3DXMATRIXA16 matTempT, matTempTInv;
-	D3DXMatrixTranslation(&matTempT, 1.0f, 0, 2.0f);
-	D3DXMatrixTranslation(&matTempTInv, -1.0f, 0, -2.0f);
+	D3DXMatrixTranslation(&matTempT, 1.0f, 0, 3.0f);
+	D3DXMatrixTranslation(&matTempTInv, -1.0f, 0, -3.0f);
 
 	D3DXMatrixRotationX(&matRX, camAngle.x);
 	D3DXMatrixRotationY(&matRY, camAngle.y);
