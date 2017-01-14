@@ -1,24 +1,25 @@
 #include "stdafx.h"
 #include "cGun.h"
 #include "cSkinnedMesh.h"
-
+#include "cBullet.h"
 
 cGun::cGun()
 	: m_pGun(NULL)
 	, m_pvTarget(NULL)
+	, m_pBullet(NULL)
 	, m_fAttackPower(1.f)
 	, m_fAttackRange(10.f)
 	, m_fAttackSpeed(1.f)
-	, m_nMaxAmmo(10)
-	, m_nCurrentAmmo(10)
+	, m_nMaxBullet(10)
+	, m_nCurrentBullet(10)
 {
-	n = 0;
 }
 
 
 cGun::~cGun()
 {
 	SAFE_DELETE(m_pGun);
+	SAFE_DELETE(m_pBullet);
 }
 
 void cGun::Setup(D3DXVECTOR3* pvTarget, char* szFolder, char* szFilename)
@@ -31,12 +32,19 @@ void cGun::Setup(D3DXVECTOR3* pvTarget, char* szFolder, char* szFilename)
 void cGun::Update(D3DXVECTOR3& camAngle)
 {
 	Setting(camAngle);
+
+	if (m_pBullet)
+		m_pBullet->Update();
 }
 
 void cGun::Render()
 {
 	if (m_pGun)
 		m_pGun->UpdateAndRender();
+
+
+	if (m_pBullet)
+		m_pBullet->Render();
 }
 
 void cGun::Setting(D3DXVECTOR3& camAngle)
@@ -68,5 +76,11 @@ void cGun::Setting(D3DXVECTOR3& camAngle)
 
 void cGun::Fire(D3DXVECTOR3 & vDirection, D3DXVECTOR3 & vPosition)
 {
- 	m_pGun->SetAnimationIndex(n++);
+ 	m_pGun->SetAnimationIndex(7);
+	
+	if (!m_pBullet)
+	{
+		m_pBullet = new cBullet;
+		m_pBullet->Setup(vDirection, vPosition);
+	}
 }

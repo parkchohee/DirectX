@@ -16,7 +16,6 @@ private:
 	cPlayer*					m_pPlayer;
 
 
-	std::vector<ST_PC_VERTEX>	m_vecVertex;
 
 
 public:
@@ -35,10 +34,5 @@ public:
 
 
 
-	/// >> : particle
-	void Setup_Particle();
-	void Update_Particle();
-	void Render_Particle();
-	/// << : 
 };
 
