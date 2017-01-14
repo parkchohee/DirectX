@@ -15,6 +15,9 @@ private:
 	
 	cPlayer*					m_pPlayer;
 
+
+
+
 public:
 	cMainGame(void);
 	~cMainGame(void);
@@ -28,5 +31,8 @@ public:
 
 	//iButtonDelegate override
 	virtual void OnClick(cUIButton* pSender) override;
+
+
+
 };
 
