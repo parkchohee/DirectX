@@ -93,6 +93,7 @@
     <ClInclude Include="cBullet.h" />
     <ClInclude Include="cCamera.h" />
     <ClInclude Include="cCharacter.h" />
+    <ClInclude Include="cController.h" />
     <ClInclude Include="cCubeMan.h" />
     <ClInclude Include="cCubeNode.h" />
     <ClInclude Include="cCubePC.h" />
@@ -116,6 +117,7 @@
     <ClInclude Include="cObjLoader.h" />
     <ClInclude Include="cObjMap.h" />
     <ClInclude Include="cPlayer.h" />
+    <ClInclude Include="cPlayerController.h" />
     <ClInclude Include="cPyramid.h" />
     <ClInclude Include="cRArm.h" />
     <ClInclude Include="cRay.h" />
@@ -148,6 +150,7 @@
     <ClCompile Include="cBullet.cpp" />
     <ClCompile Include="cCamera.cpp" />
     <ClCompile Include="cCharacter.cpp" />
+    <ClCompile Include="cController.cpp" />
     <ClCompile Include="cCubeMan.cpp" />
     <ClCompile Include="cCubeNode.cpp" />
     <ClCompile Include="cCubePC.cpp" />
@@ -171,6 +174,7 @@
     <ClCompile Include="cObjLoader.cpp" />
     <ClCompile Include="cObjMap.cpp" />
     <ClCompile Include="cPlayer.cpp" />
+    <ClCompile Include="cPlayerController.cpp" />
     <ClCompile Include="cPyramid.cpp" />
     <ClCompile Include="cRArm.cpp" />
     <ClCompile Include="cRay.cpp" />

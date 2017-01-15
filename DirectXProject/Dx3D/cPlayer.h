@@ -2,6 +2,7 @@
 
 class cGun;
 class cUIObject;
+class cController;
 
 class cPlayer : public cObject
 {
@@ -9,6 +10,7 @@ class cPlayer : public cObject
 	cGun*				m_pGun;
 
 	cUIObject*			m_pUIRoot;
+	cController*		m_pController;
 	LPD3DXSPRITE		m_pSprite;
 
 	D3DXVECTOR3			m_vCamAngle;
