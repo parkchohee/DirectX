@@ -8,8 +8,8 @@ DWORD FtoDw(float f)
 }
 
 cBullet::cBullet()
-	: m_vDirection(0, 0, 0)
-	, m_vPosition(0, 0, 0)
+	: m_fMoveDistance(0.0f)
+	, m_fBulletSpeed(0.5f)
 {
 }
 
@@ -22,6 +22,7 @@ void cBullet::Setup(D3DXVECTOR3 & vDirection, D3DXVECTOR3 & vPosition)
 {
 	m_vDirection = vDirection;
 	m_vPosition = vPosition;
+	m_fMoveDistance = 0.f;
 
 	Setup_Particle();
 
@@ -30,7 +31,7 @@ void cBullet::Setup(D3DXVECTOR3 & vDirection, D3DXVECTOR3 & vPosition)
 void cBullet::Update()
 {
 	Update_Particle(); 	/// >> : Particle Update
-
+	m_fMoveDistance += m_fBulletSpeed;
 }
 
 void cBullet::Render()
@@ -41,10 +42,8 @@ void cBullet::Render()
 
 void cBullet::Setup_Particle()
 {
-	//m_vecParticle.resize(1000);
-
 	/// >> : 파티클 랜덤하게 생성
-	m_vecVertex.resize(1000);
+	m_vecVertex.resize(100);
 	for (int i = 0; i < m_vecVertex.size(); ++i)
 	{
 		float fRadius = 0.01;// rand() % 10 / 10.0f;
@@ -98,7 +97,7 @@ void cBullet::Setup_Particle()
 
 void cBullet::Update_Particle()
 {
-	static int nAlpha = 0;
+	/*static int nAlpha = 0;
 	static int nDelta = 4;
 	nAlpha += nDelta;
 	if (nAlpha > 255)
@@ -110,13 +109,16 @@ void cBullet::Update_Particle()
 	{
 		nAlpha = 0;
 		nDelta *= -1;
-	}
+	}*/
 	for (int i = 0; i < m_vecVertex.size(); ++i)
 	{
 	/*	if (i % 2)
 			continue;*/
-		m_vecVertex[i].p = m_vecVertex[i].p + D3DXVECTOR3(0.1 * m_vDirection.x, 0.1 * m_vDirection.y, 0.1 * m_vDirection.z);
-		m_vecVertex[i].c = D3DCOLOR_ARGB(nAlpha, 180, 70, 20); /// : 알파값만 변경
+		m_vecVertex[i].p = m_vecVertex[i].p 
+			+ D3DXVECTOR3(m_fBulletSpeed * m_vDirection.x, 
+				m_fBulletSpeed * m_vDirection.y,
+				m_fBulletSpeed * m_vDirection.z);
+		//m_vecVertex[i].c = D3DCOLOR_ARGB(nAlpha, 180, 70, 20); /// : 알파값만 변경
 	}
 }
 

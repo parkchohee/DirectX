@@ -28,7 +28,7 @@ cMainGame::~cMainGame(void)
 
 void cMainGame::Setup()
 {
-	ShowCursor(FALSE);
+	//ShowCursor(FALSE);
 
 	m_pPlayer = new cPlayer;
 	m_pPlayer->Setup();

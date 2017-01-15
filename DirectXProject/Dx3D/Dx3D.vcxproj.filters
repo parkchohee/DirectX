@@ -34,6 +34,30 @@
     <Filter Include="헤더 파일\UI">
       <UniqueIdentifier>{1d494f49-b8d3-42dc-af69-2e89d28e4629}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Controller">
+      <UniqueIdentifier>{0423543a-1e9c-452f-a82f-5c4fe9743044}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\Controller">
+      <UniqueIdentifier>{a5733729-3cd1-4577-b299-76dbd90415fb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Character">
+      <UniqueIdentifier>{2eb6d9a9-4dab-4275-bfb1-0a63eb93d16a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\XFileLoad">
+      <UniqueIdentifier>{b2cf43e4-00d9-415e-ad26-370cecfce900}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Setting">
+      <UniqueIdentifier>{129830f2-cb8e-47d9-9089-0cbe1a1a78f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\Character">
+      <UniqueIdentifier>{38a53794-6648-465d-aa05-8c41eabe9565}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\Setting">
+      <UniqueIdentifier>{eb7343d1-57ab-42a7-9a79-ef02489a752a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\XFileLoad">
+      <UniqueIdentifier>{b3d67ca7-e75e-4682-abf6-c73b6b11e972}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />
@@ -60,16 +84,7 @@
     <ClInclude Include="cMainGame.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="cCamera.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="cCubePC.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="cGrid.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="cPyramid.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="cCubePNT.h">
@@ -135,15 +150,6 @@
     <ClInclude Include="cRay.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="cAllocateHierarchy.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="cSkinnedMesh.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="cFrustum.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="cZealot.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
@@ -198,20 +204,38 @@
     <ClInclude Include="cUIObject.h">
       <Filter>헤더 파일\UI</Filter>
     </ClInclude>
-    <ClInclude Include="cPlayer.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="cGun.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="cBullet.h">
-      <Filter>헤더 파일</Filter>
+    <ClInclude Include="cController.h">
+      <Filter>헤더 파일\Controller</Filter>
     </ClInclude>
     <ClInclude Include="cPlayerController.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>헤더 파일\Controller</Filter>
     </ClInclude>
-    <ClInclude Include="cController.h">
-      <Filter>헤더 파일</Filter>
+    <ClInclude Include="cSkinnedMesh.h">
+      <Filter>헤더 파일\XFileLoad</Filter>
+    </ClInclude>
+    <ClInclude Include="cAllocateHierarchy.h">
+      <Filter>헤더 파일\XFileLoad</Filter>
+    </ClInclude>
+    <ClInclude Include="cBullet.h">
+      <Filter>헤더 파일\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="cCamera.h">
+      <Filter>헤더 파일\Setting</Filter>
+    </ClInclude>
+    <ClInclude Include="cFrustum.h">
+      <Filter>헤더 파일\Setting</Filter>
+    </ClInclude>
+    <ClInclude Include="cGrid.h">
+      <Filter>헤더 파일\Setting</Filter>
+    </ClInclude>
+    <ClInclude Include="cPyramid.h">
+      <Filter>헤더 파일\Setting</Filter>
+    </ClInclude>
+    <ClInclude Include="cGun.h">
+      <Filter>헤더 파일\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="cPlayer.h">
+      <Filter>헤더 파일\Character</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -224,16 +248,7 @@
     <ClCompile Include="cMainGame.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="cCamera.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="cCubePC.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="cGrid.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="cPyramid.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="cCubePNT.cpp">
@@ -296,15 +311,6 @@
     <ClCompile Include="cRay.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="cAllocateHierarchy.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="cSkinnedMesh.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="cFrustum.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="cZealot.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -359,20 +365,38 @@
     <ClCompile Include="cUITextView.cpp">
       <Filter>소스 파일\UI</Filter>
     </ClCompile>
-    <ClCompile Include="cPlayer.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="cGun.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="cBullet.cpp">
-      <Filter>소스 파일</Filter>
+    <ClCompile Include="cController.cpp">
+      <Filter>소스 파일\Controller</Filter>
     </ClCompile>
     <ClCompile Include="cPlayerController.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>소스 파일\Controller</Filter>
     </ClCompile>
-    <ClCompile Include="cController.cpp">
-      <Filter>소스 파일</Filter>
+    <ClCompile Include="cAllocateHierarchy.cpp">
+      <Filter>소스 파일\XFileLoad</Filter>
+    </ClCompile>
+    <ClCompile Include="cSkinnedMesh.cpp">
+      <Filter>소스 파일\XFileLoad</Filter>
+    </ClCompile>
+    <ClCompile Include="cCamera.cpp">
+      <Filter>소스 파일\Setting</Filter>
+    </ClCompile>
+    <ClCompile Include="cGrid.cpp">
+      <Filter>소스 파일\Setting</Filter>
+    </ClCompile>
+    <ClCompile Include="cPlayer.cpp">
+      <Filter>소스 파일\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="cPyramid.cpp">
+      <Filter>소스 파일\Setting</Filter>
+    </ClCompile>
+    <ClCompile Include="cGun.cpp">
+      <Filter>소스 파일\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="cFrustum.cpp">
+      <Filter>소스 파일\Setting</Filter>
+    </ClCompile>
+    <ClCompile Include="cBullet.cpp">
+      <Filter>소스 파일\Character</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -16,8 +16,6 @@ private:
 	cPlayer*					m_pPlayer;
 
 
-
-
 public:
 	cMainGame(void);
 	~cMainGame(void);

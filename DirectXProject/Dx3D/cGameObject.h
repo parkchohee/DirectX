@@ -7,8 +7,8 @@ class cGameObject
 	, public iActionDelegate
 {
 protected:
-	SYNTHESIZE(D3DXVECTOR3, m_vDirection, Direction);
-	SYNTHESIZE(D3DXVECTOR3, m_vPosition, Position);
+	SYNTHESIZE_PASS_BY_REF(D3DXVECTOR3, m_vDirection, Direction);
+	SYNTHESIZE_PASS_BY_REF(D3DXVECTOR3, m_vPosition, Position);
 
 public:
 	cGameObject(void);
