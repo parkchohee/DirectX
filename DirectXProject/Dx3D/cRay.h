@@ -11,8 +11,10 @@ public:
 	};
 
 protected:
-	D3DXVECTOR3 m_vOrg;
-	D3DXVECTOR3 m_vDir;
+	//D3DXVECTOR3 m_vOrg;
+	//D3DXVECTOR3 m_vDir;
+	SYNTHESIZE_PASS_BY_REF(D3DXVECTOR3, m_vOrg, RayOrg);
+	SYNTHESIZE_PASS_BY_REF(D3DXVECTOR3, m_vDir, RayDir);
 	eRaySpace	m_eRaySpace;
 
 public:

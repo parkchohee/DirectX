@@ -19,6 +19,7 @@ cPlayScene::~cPlayScene()
 {
 	if (m_pUIRoot)
 		m_pUIRoot->Destroy();
+
 	SAFE_RELEASE(m_pSprite);
 
 	SAFE_DELETE(m_pCamera);

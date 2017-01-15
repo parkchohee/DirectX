@@ -6,9 +6,8 @@
 cGun::cGun()
 	: m_pGun(NULL)
 	, m_pvTarget(NULL)
-	, m_pBullet(NULL)
 	, m_fAttackPower(1.f)
-	, m_fAttackRange(20.f)
+	, m_fAttackRange(40.f)
 	, m_fAttackSpeed(1.f)
 	, m_nMaxBullet(10)
 	, m_nCurrentBullet(10)
@@ -18,8 +17,11 @@ cGun::cGun()
 
 cGun::~cGun()
 {
+	for each (auto p in m_pvBullet)
+		SAFE_RELEASE(p);
+
 	SAFE_DELETE(m_pGun);
-	SAFE_DELETE(m_pBullet);
+
 }
 
 void cGun::Setup(D3DXVECTOR3* pvTarget, char* szFolder, char* szFilename)

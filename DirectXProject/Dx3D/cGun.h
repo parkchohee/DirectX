@@ -3,11 +3,11 @@
 class cSkinnedMesh;
 class cBullet;
 
-class cGun
+class cGun : public cObject
 {
 	cSkinnedMesh*				m_pGun;				// GunÀÇ ¸Þ½¬
 	D3DXVECTOR3*				m_pvTarget;			// GunÀ» °¡Áö´Â object
-	cBullet*					m_pBullet;			// ÃÑ¾Ë °´Ã¼
+	//cBullet*					m_pBullet;			// ÃÑ¾Ë °´Ã¼
 	
 	
 	std::vector<cBullet*>		m_pvBullet;			// ÃÑ¾Ë ¿©·¯°³
