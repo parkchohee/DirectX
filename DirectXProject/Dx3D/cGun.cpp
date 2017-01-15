@@ -8,7 +8,7 @@ cGun::cGun()
 	, m_pvTarget(NULL)
 	, m_pBullet(NULL)
 	, m_fAttackPower(1.f)
-	, m_fAttackRange(10.f)
+	, m_fAttackRange(20.f)
 	, m_fAttackSpeed(1.f)
 	, m_nMaxBullet(10)
 	, m_nCurrentBullet(10)
@@ -33,18 +33,40 @@ void cGun::Update(D3DXVECTOR3& camAngle)
 {
 	Setting(camAngle);
 
-	if (m_pBullet)
+	for (size_t i = 0; i < m_pvBullet.size(); i++)
+	{
+		m_pvBullet[i]->Update();
+		if(m_pvBullet[i]->GetMoveDistance() > m_fAttackRange)
+		{
+
+			SAFE_RELEASE(m_pvBullet[i]);
+			m_pvBullet.erase(m_pvBullet.begin());
+			break;
+		}
+	}
+	/*if (m_pBullet)
+	{
 		m_pBullet->Update();
+		if (m_pBullet->GetMoveDistance() > m_fAttackRange)
+		{
+			SAFE_RELEASE(m_pBullet);
+			m_pBullet = NULL;
+		}
+	}*/
 }
 
 void cGun::Render()
 {
 	if (m_pGun)
 		m_pGun->UpdateAndRender();
+	
+	for (size_t i = 0; i < m_pvBullet.size(); i++)
+	{
+		m_pvBullet[i]->Render();
+	}
 
-
-	if (m_pBullet)
-		m_pBullet->Render();
+	/*if (m_pBullet)
+		m_pBullet->Render();*/
 }
 
 void cGun::Setting(D3DXVECTOR3& camAngle)
@@ -78,9 +100,16 @@ void cGun::Fire(D3DXVECTOR3 & vDirection, D3DXVECTOR3 & vPosition)
 {
  	m_pGun->SetAnimationIndex(7);
 	
-	if (!m_pBullet)
+	if (m_pvBullet.size() < m_nMaxBullet)
+	{
+		cBullet* bullet = new cBullet;
+		bullet->Setup(vDirection, vPosition);
+		m_pvBullet.push_back(bullet);
+	}
+
+	/*if (!m_pBullet)
 	{
 		m_pBullet = new cBullet;
 		m_pBullet->Setup(vDirection, vPosition);
-	}
+	}*/
 }

@@ -17,7 +17,7 @@ void cPlayerController::Setup()
 
 void cPlayerController::Update(D3DXVECTOR3 & camAngle, OUT D3DXVECTOR3 & vDirection, OUT D3DXVECTOR3 & vPosition)
 {
-		// angle을 이용해 direction을 구한다. 
+	// angle을 이용해 direction을 구한다. 
 	D3DXMATRIXA16 matR, matRX, matRY, matT;
 	D3DXMatrixRotationX(&matRX, camAngle.x);
 	D3DXMatrixRotationY(&matRY, camAngle.y);
