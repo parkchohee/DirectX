@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "cPlayer.h"
 #include "cGun.h"
+#include "cPlayerController.h"
 #include "cUIObject.h"
 #include "cUIImageView.h"
 
@@ -8,6 +9,7 @@ cPlayer::cPlayer()
 	: m_vPosition(0, 0, 0)
 	, m_pGun(NULL)
 	, m_pUIRoot(NULL)
+	, m_pController(NULL)
 	, m_vDirection(0,0,1)
 {
 }
@@ -18,6 +20,7 @@ cPlayer::~cPlayer()
 	if (m_pUIRoot)
 		m_pUIRoot->Destroy();
 
+	SAFE_RELEASE(m_pController);
 	SAFE_RELEASE(m_pSprite);
 
 }
@@ -27,7 +30,10 @@ void cPlayer::Setup()
 	m_pGun = new cGun;
 	m_pGun->Setup(&m_vPosition, "Gun/", "Pistol.X");
 
-	/// >> : cursor UI
+	m_pController = new cPlayerController;
+	m_pController->Setup();
+
+	/// >> : cursor UI, playScene으로 옮겨야 할 것 같음.
 	{
 		RECT rc;
 		GetClientRect(g_hWnd, &rc);
@@ -66,44 +72,47 @@ void cPlayer::Setup()
 
 void cPlayer::Update(D3DXVECTOR3& camAngle)
 {
-	// angle을 이용해 direction을 구한다. 
-	D3DXMATRIXA16 matR, matRX, matRY, matT;
-	D3DXMatrixRotationX(&matRX, camAngle.x);
-	D3DXMatrixRotationY(&matRY, camAngle.y);
-	D3DXVECTOR3 vDirection = D3DXVECTOR3(0, 0, 1);
+	if (m_pController)
+		m_pController->Update(camAngle, m_vDirection, m_vPosition);
 
-	// 이동하기위한 Direction, 
-	matR = matRY;
-	D3DXVec3TransformNormal(&vDirection, &vDirection, &matR);
+	//// angle을 이용해 direction을 구한다. 
+	//D3DXMATRIXA16 matR, matRX, matRY, matT;
+	//D3DXMatrixRotationX(&matRX, camAngle.x);
+	//D3DXMatrixRotationY(&matRY, camAngle.y);
+	//D3DXVECTOR3 vDirection = D3DXVECTOR3(0, 0, 1);
 
-	// 총알 발사하기위한 Direction Y값 필요
-	m_vDirection = D3DXVECTOR3(0, 0, 1);
-	matR = matRX * matRY;
-	D3DXVec3TransformNormal(&m_vDirection, &m_vDirection, &matR);
+	//// 이동하기위한 Direction, 
+	//matR = matRY;
+	//D3DXVec3TransformNormal(&vDirection, &vDirection, &matR);
 
-	// direction 방향으로 앞으로,
-	if (GetKeyState('W') & 0x8000)			// 앞으로 움직임
-	{
-		m_vPosition += (vDirection * 0.1f);
-	}
-	else if (GetKeyState('S') & 0x8000)		// 뒤로 움직임
-	{
-		m_vPosition -= (vDirection * 0.1f);
-	}
+	//// 총알 발사하기위한 Direction Y값 필요
+	//m_vDirection = D3DXVECTOR3(0, 0, 1);
+	//matR = matRX * matRY;
+	//D3DXVec3TransformNormal(&m_vDirection, &m_vDirection, &matR);
 
-	D3DXMatrixRotationY(&matR, camAngle.y - D3DX_PI / 2);
-	vDirection = D3DXVECTOR3(0, 0, 1);
-	D3DXVec3TransformNormal(&vDirection, &vDirection, &matR);
-	
-	if (GetKeyState('A') & 0x8000)			// 왼쪽으로 움직임
-	{
-		m_vPosition += (vDirection * 0.1f);
-	}
-	else if (GetKeyState('D') & 0x8000)		// 오른쪽으로 움직임
-	{
-		m_vPosition -= (vDirection * 0.1f);
-	}
-	
+	//// direction 방향으로 앞으로,
+	//if (GetKeyState('W') & 0x8000)			// 앞으로 움직임
+	//{
+	//	m_vPosition += (vDirection * 0.1f);
+	//}
+	//else if (GetKeyState('S') & 0x8000)		// 뒤로 움직임
+	//{
+	//	m_vPosition -= (vDirection * 0.1f);
+	//}
+
+	//D3DXMatrixRotationY(&matR, camAngle.y - D3DX_PI / 2);
+	//vDirection = D3DXVECTOR3(0, 0, 1);
+	//D3DXVec3TransformNormal(&vDirection, &vDirection, &matR);
+	//
+	//if (GetKeyState('A') & 0x8000)			// 왼쪽으로 움직임
+	//{
+	//	m_vPosition += (vDirection * 0.1f);
+	//}
+	//else if (GetKeyState('D') & 0x8000)		// 오른쪽으로 움직임
+	//{
+	//	m_vPosition -= (vDirection * 0.1f);
+	//}
+	//
 	if (m_pUIRoot)
 	{
 		m_pUIRoot->Update();
