@@ -118,6 +118,7 @@
     <ClInclude Include="cObjMap.h" />
     <ClInclude Include="cPlayer.h" />
     <ClInclude Include="cPlayerController.h" />
+    <ClInclude Include="cPlayScene.h" />
     <ClInclude Include="cPyramid.h" />
     <ClInclude Include="cRArm.h" />
     <ClInclude Include="cRay.h" />
@@ -175,6 +176,7 @@
     <ClCompile Include="cObjMap.cpp" />
     <ClCompile Include="cPlayer.cpp" />
     <ClCompile Include="cPlayerController.cpp" />
+    <ClCompile Include="cPlayScene.cpp" />
     <ClCompile Include="cPyramid.cpp" />
     <ClCompile Include="cRArm.cpp" />
     <ClCompile Include="cRay.cpp" />

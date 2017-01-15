@@ -1,20 +1,15 @@
 #pragma once
 
-class cCamera;
-class cGrid;
-class cPlayer;
 
+class cPlayScene;
 #include "cUIButton.h"
 
 class cMainGame
 	: public iButtonDelegate
 {
 private:
-	cCamera*					m_pCamera;
-	cGrid*						m_pGrid;
 	
-	cPlayer*					m_pPlayer;
-
+	cPlayScene*					m_pPlayScene;
 
 public:
 	cMainGame(void);

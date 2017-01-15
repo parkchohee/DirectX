@@ -1,23 +1,16 @@
 #include "StdAfx.h"
 #include "cMainGame.h"
-#include "cCamera.h"
-#include "cGrid.h"
-#include "cPlayer.h"
+#include "cPlayScene.h"
 
 cMainGame::cMainGame(void)
-	: m_pCamera(NULL)
-	, m_pGrid(NULL)
-	, m_pPlayer(NULL)
+	: m_pPlayScene(NULL)
 {
 }
 
 
 cMainGame::~cMainGame(void)
 {
-	SAFE_DELETE(m_pCamera);
-	SAFE_DELETE(m_pGrid);
-
-	SAFE_RELEASE(m_pPlayer);
+	SAFE_DELETE(m_pPlayScene);
 
 	g_pSkinnedMeshManager->Destroy();
 	g_pObjectManager->Destroy();
@@ -29,15 +22,9 @@ cMainGame::~cMainGame(void)
 void cMainGame::Setup()
 {
 	//ShowCursor(FALSE);
-
-	m_pPlayer = new cPlayer;
-	m_pPlayer->Setup();
 	
-	m_pCamera = new cCamera;
-	m_pCamera->Setup(&(m_pPlayer->GetPosition()));
-
-	m_pGrid = new cGrid;
-	m_pGrid->Setup();
+	m_pPlayScene = new cPlayScene;
+	m_pPlayScene->Setup();
 
 	SetLight();
 
@@ -47,11 +34,8 @@ void cMainGame::Update()
 {
 	g_pTimeManager->Update();
 
-	if (m_pPlayer && m_pCamera)
-		m_pPlayer->Update(m_pCamera->GetCamRotAngle());
-
-	if (m_pCamera)
-		m_pCamera->Update();
+	if(m_pPlayScene)
+		m_pPlayScene->Update();
 
 }
 
@@ -65,11 +49,8 @@ void cMainGame::Render()
 
 	g_pD3DDevice->BeginScene();
 
-	if(m_pGrid)
-		m_pGrid->Render();
-	
-	if (m_pPlayer)
-		m_pPlayer->Render();
+	if (m_pPlayScene)
+		m_pPlayScene->Render();
 
 
 	g_pD3DDevice->EndScene();
@@ -96,14 +77,11 @@ void cMainGame::SetLight()
 
 void cMainGame::WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
 {
-	if (m_pPlayer)
-	{
-		m_pPlayer->WndProc(hWnd, message, wParam, lParam);
-	}
 
-	if (m_pCamera)
+
+	if (m_pPlayScene)
 	{
-		m_pCamera->WndProc(hWnd, message, wParam, lParam);
+		m_pPlayScene->WndProc(hWnd, message, wParam, lParam);
 	}
 
 	switch(message)
