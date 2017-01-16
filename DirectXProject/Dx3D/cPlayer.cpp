@@ -66,8 +66,8 @@ void cPlayer::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 			if (m_pGun)
 				m_pGun->Fire(vDir, m_vPosition + vPosition * 0.5f);
+	
 
-			
 		}
 		break;
 	}
