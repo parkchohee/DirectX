@@ -30,6 +30,10 @@ public:
 	void SetAnimationIndex(int nIndex);
 
 	void SetSRT(D3DXMATRIXA16& matSRT);
+	D3DXMATRIXA16& GetSRT() 
+	{
+		return m_matWorldTM;
+	}
 
 	void SetRandomTrackPosition();
 	void SetTransform(D3DXMATRIXA16* pmat)

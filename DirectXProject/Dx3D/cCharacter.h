@@ -1,24 +1,29 @@
 #pragma once
 
 class iMap;
+class cSkinnedMesh;
+class cOBB;
+class cController;
 
-class cCharacter : public cObject
+class cCharacter : public cGameObject
 {
 protected:
-	float			m_fRotY;
-	D3DXVECTOR3		m_vDirection;
-	D3DXVECTOR3		m_vPosition;
-	D3DXMATRIXA16	m_matWorld;
-	iMap*			m_pMap;
+	cSkinnedMesh*		m_pSkinnedMesh;				// 캐릭터 몸체
+	cOBB*				m_pOBB;						// OBB Box
+	cController*		m_pController;		// 컨트롤러
 
+	D3DXMATRIXA16		m_matWorld;					// worldMatrix
+	iMap*				m_pMap;						// iMap
+
+	SYNTHESIZE(float, m_fCurrentHp, CurrentHp);
+	
 public:
 	cCharacter(void);
 	virtual ~cCharacter(void);
 
-	virtual void Setup();
+	virtual void Setup(char* szFolder, char* szFilename);
 	virtual void Update(iMap* pMap);
 	virtual void Render();
-	virtual D3DXVECTOR3& GetPosition();
 	virtual D3DXMATRIXA16* GetTransform()
 	{
 		return &m_matWorld;

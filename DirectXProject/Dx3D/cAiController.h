@@ -1,12 +1,12 @@
 #pragma once
 #include "cController.h"
 
-class cPlayerController 
+class cAIController
 	: public cController
 {
 public:
-	cPlayerController();
-	~cPlayerController();
+	cAIController();
+	~cAIController();
 
 	void Setup(float moveSpeed) override;
 	void Update(D3DXVECTOR3& camAngle, OUT D3DXVECTOR3& vDirection, OUT D3DXVECTOR3& vPosition) override;

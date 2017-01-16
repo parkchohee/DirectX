@@ -13,9 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="CubeMan">
-      <UniqueIdentifier>{55e61f8b-7910-4068-88df-e1969319085c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="소스 파일\Manager">
       <UniqueIdentifier>{019c8934-15c0-417e-9b94-24c3bbc204b2}</UniqueIdentifier>
     </Filter>
@@ -58,6 +55,9 @@
     <Filter Include="헤더 파일\XFileLoad">
       <UniqueIdentifier>{b3d67ca7-e75e-4682-abf6-c73b6b11e972}</UniqueIdentifier>
     </Filter>
+    <Filter Include="CubeMan">
+      <UniqueIdentifier>{55e61f8b-7910-4068-88df-e1969319085c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />
@@ -84,13 +84,7 @@
     <ClInclude Include="cMainGame.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="cCubePC.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="cCubePNT.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="cCharacter.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="cCubeNode.h">
@@ -113,9 +107,6 @@
     </ClInclude>
     <ClInclude Include="cLLeg.h">
       <Filter>CubeMan</Filter>
-    </ClInclude>
-    <ClInclude Include="cCubeMan.h">
-      <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="cObjLoader.h">
       <Filter>헤더 파일</Filter>
@@ -240,6 +231,18 @@
     <ClInclude Include="cPlayScene.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="cCharacter.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="cCharacter2.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="cAI.h">
+      <Filter>헤더 파일\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="cAiController.h">
+      <Filter>헤더 파일\Controller</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -251,13 +254,7 @@
     <ClCompile Include="cMainGame.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="cCubePC.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="cCubePNT.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="cCharacter.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="cCubeNode.cpp">
@@ -280,9 +277,6 @@
     </ClCompile>
     <ClCompile Include="cRLeg.cpp">
       <Filter>CubeMan</Filter>
-    </ClCompile>
-    <ClCompile Include="cCubeMan.cpp">
-      <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="cObjLoader.cpp">
       <Filter>소스 파일</Filter>
@@ -403,6 +397,18 @@
     </ClCompile>
     <ClCompile Include="cPlayScene.cpp">
       <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="cCharacter.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="cCharacter2.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="cAI.cpp">
+      <Filter>소스 파일\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="cAiController.cpp">
+      <Filter>소스 파일\Controller</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

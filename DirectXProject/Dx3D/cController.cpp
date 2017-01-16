@@ -3,6 +3,7 @@
 
 
 cController::cController()
+	: m_fMoveSpeed(0.1f)
 {
 }
 

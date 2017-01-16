@@ -1,6 +1,6 @@
 #pragma once
 
-#include "cCharacter.h"
+#include "cCharacter2.h"
 
 class cSkinnedMesh;
 class cOBB;
@@ -10,7 +10,7 @@ class cZealot
 private:
 	cSkinnedMesh*	m_pSkinnedMesh;
 	cOBB*			m_pOBB;	/// >> : OBB
-	SYNTHESIZE_ADD_REF(cCharacter*, m_pCharacterController, CharacterController);
+	SYNTHESIZE_ADD_REF(cCharacter2*, m_pCharacterController, CharacterController);
 	
 public:
 	cZealot(void);

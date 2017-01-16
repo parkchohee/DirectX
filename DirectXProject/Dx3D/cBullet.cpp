@@ -44,9 +44,9 @@ void cBullet::Setup_Particle()
 {
 	/// >> : 파티클 랜덤하게 생성
 	m_vecVertex.resize(100);
-	for (int i = 0; i < m_vecVertex.size(); ++i)
+	for (size_t i = 0; i < m_vecVertex.size(); ++i)
 	{
-		float fRadius = 0.015 * i;// rand() % 10 / 10.0f;
+		float fRadius = 0.015f * i;// rand() % 10 / 10.0f;
 
 		// 총알의 방향으로 늘어나게 보이는 효과
 		m_vecVertex[i].p = m_vDirection * fRadius;
@@ -91,7 +91,7 @@ void cBullet::Setup_Particle()
 
 void cBullet::Update_Particle()
 {
-	for (int i = 0; i < m_vecVertex.size(); ++i)
+	for (size_t i = 0; i < m_vecVertex.size(); ++i)
 	{
 		m_vecVertex[i].p = m_vecVertex[i].p 
 			+ D3DXVECTOR3(m_fBulletSpeed * m_vDirection.x, 
