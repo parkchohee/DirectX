@@ -7,6 +7,7 @@
 #include "cPlayer.h"
 #include "cAI.h"
 
+
 cPlayScene::cPlayScene()
 	: m_pCamera(NULL)
 	, m_pGrid(NULL)
@@ -29,6 +30,7 @@ cPlayScene::~cPlayScene()
 
 	SAFE_RELEASE(m_pPlayer);
 	SAFE_RELEASE(m_pAI);
+
 }
 
 void cPlayScene::Setup()
@@ -39,7 +41,9 @@ void cPlayScene::Setup()
 	m_pAI = new cAI;
 	m_pAI->Setup("AI/", "testMan.X");
 
+
 	m_pCamera = new cCamera;
+//	m_pCamera->Setup(NULL);
 	m_pCamera->Setup(&(m_pPlayer->GetPosition()));
 
 	m_pGrid = new cGrid;
@@ -99,7 +103,6 @@ void cPlayScene::Update()
 
 void cPlayScene::Render()
 {
-	
 	if (m_pPlayer)
 		m_pPlayer->Render();
 	

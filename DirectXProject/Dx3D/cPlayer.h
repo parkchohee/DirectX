@@ -1,5 +1,4 @@
 #pragma once
-#include "cCharacter.h"
 
 class cGun;
 class cController;
