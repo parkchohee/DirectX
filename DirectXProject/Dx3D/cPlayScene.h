@@ -19,6 +19,8 @@ class cPlayScene
 
 	cAI*						m_pAI;
 
+
+
 public:
 	cPlayScene();
 	~cPlayScene();

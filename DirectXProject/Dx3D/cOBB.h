@@ -20,5 +20,7 @@ public:
 	static bool IsCollision(cOBB* pOBB1, cOBB* pOBB2);
 
 	void OBBBox_Render(D3DCOLOR c); 
+
+	void SetCenter(D3DXMATRIXA16& matSRT);
 };
 

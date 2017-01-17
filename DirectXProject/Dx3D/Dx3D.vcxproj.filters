@@ -231,9 +231,6 @@
     <ClInclude Include="cPlayScene.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="cCharacter.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="cCharacter2.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
@@ -242,6 +239,9 @@
     </ClInclude>
     <ClInclude Include="cAiController.h">
       <Filter>헤더 파일\Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="cCharacter.h">
+      <Filter>헤더 파일\Character</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -398,9 +398,6 @@
     <ClCompile Include="cPlayScene.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="cCharacter.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="cCharacter2.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -409,6 +406,9 @@
     </ClCompile>
     <ClCompile Include="cAiController.cpp">
       <Filter>소스 파일\Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="cCharacter.cpp">
+      <Filter>소스 파일\Character</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

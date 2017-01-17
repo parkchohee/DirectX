@@ -1,6 +1,7 @@
 #include "StdAfx.h"
 #include "cSkinnedMesh.h"
 #include "cAllocateHierarchy.h"
+#include "cOBB.h"
 
 
 cSkinnedMesh::cSkinnedMesh(char* szFolder, char* szFilename)
@@ -9,6 +10,7 @@ cSkinnedMesh::cSkinnedMesh(char* szFolder, char* szFilename)
 	, m_dwWorkingPaletteSize(0)
 	, m_pmWorkingPalette(NULL)
 	, m_pEffect(NULL)
+	, m_pOBB(NULL)
 {
 	cSkinnedMesh* pSkinnedMesh =  g_pSkinnedMeshManager->GetSkinnedMesh(szFolder, szFilename);
 	
@@ -23,6 +25,9 @@ cSkinnedMesh::cSkinnedMesh(char* szFolder, char* szFilename)
 	{
 		m_vMin = pSkinnedMesh->m_vMin;
 		m_vMax = pSkinnedMesh->m_vMax;
+
+		m_pOBB = new cOBB;
+		m_pOBB->Setup(pSkinnedMesh);
 	}
 
 	pSkinnedMesh->m_pAnimController->CloneAnimationController(
@@ -102,6 +107,13 @@ void cSkinnedMesh::UpdateAndRender()
 	{
 		Update(m_pRootFrame, &m_matWorldTM);
 		Render(m_pRootFrame);
+
+		{
+			if (m_pOBB)
+				m_pOBB->Update(&m_matWorldTM);
+			if (m_pOBB)
+				m_pOBB->OBBBox_Render(D3DCOLOR_XRGB(255, 0, 0));
+		}
 	}
 }
 
@@ -293,6 +305,12 @@ void cSkinnedMesh::SetAnimationIndex( int nIndex )
 void cSkinnedMesh::SetSRT(D3DXMATRIXA16 & matSRT)
 {
 	m_matWorldTM = matSRT;
+	//m_pOBB->SetCenter(matSRT);
+}
+
+void cSkinnedMesh::SetOBBSRT(D3DXMATRIXA16 & matSRT)
+{
+	m_pOBB->SetCenter(matSRT);
 }
 
 void cSkinnedMesh::Destroy()

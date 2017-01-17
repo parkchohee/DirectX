@@ -49,9 +49,9 @@ void cPlayer::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	{
 	case WM_LBUTTONUP:
 		{
-			int centerX, centerY;
+			float centerX, centerY;
 			RECT rc;
-			GetClientRect(hWnd, &rc);
+			GetClientRect(g_hWnd, &rc);
 			centerX = (rc.left + rc.right) / 2;
 			centerY = (rc.top + rc.bottom) / 2;
 
