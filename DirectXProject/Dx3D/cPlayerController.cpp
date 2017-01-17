@@ -11,8 +11,9 @@ cPlayerController::~cPlayerController()
 {
 }
 
-void cPlayerController::Setup()
+void cPlayerController::Setup(float moveSpeed)
 {
+	m_fMoveSpeed = moveSpeed;
 }
 
 void cPlayerController::Update(D3DXVECTOR3 & camAngle, OUT D3DXVECTOR3 & vDirection, OUT D3DXVECTOR3 & vPosition)
@@ -35,11 +36,11 @@ void cPlayerController::Update(D3DXVECTOR3 & camAngle, OUT D3DXVECTOR3 & vDirect
 	// direction 방향으로 앞으로,
 	if (GetKeyState('W') & 0x8000)			// 앞으로 움직임
 	{
-		vPosition += (mvDirection * 0.1f);
+		vPosition += (mvDirection * m_fMoveSpeed);
 	}
 	else if (GetKeyState('S') & 0x8000)		// 뒤로 움직임
 	{
-		vPosition -= (mvDirection * 0.1f);
+		vPosition -= (mvDirection * m_fMoveSpeed);
 	}
 
 	D3DXMatrixRotationY(&matR, camAngle.y - D3DX_PI / 2);
@@ -48,11 +49,11 @@ void cPlayerController::Update(D3DXVECTOR3 & camAngle, OUT D3DXVECTOR3 & vDirect
 	
 	if (GetKeyState('A') & 0x8000)			// 왼쪽으로 움직임
 	{
-		vPosition += (mvDirection * 0.1f);
+		vPosition += (mvDirection * m_fMoveSpeed);
 	}
 	else if (GetKeyState('D') & 0x8000)		// 오른쪽으로 움직임
 	{
-		vPosition -= (mvDirection * 0.1f);
+		vPosition -= (mvDirection * m_fMoveSpeed);
 	}
 	
 }

@@ -1,11 +1,13 @@
 #include "StdAfx.h"
 #include "cCharacter.h"
+#include "cSkinnedMesh.h"
+#include "cOBB.h"
 
 cCharacter::cCharacter(void)
-	: m_fRotY(0.0f)
-	, m_pMap(NULL)
-	, m_vPosition(0, 0, 0)
-	, m_vDirection(0, 0, -1)
+	: m_pMap(NULL)
+	, m_pSkinnedMesh(NULL)
+	, m_pController(NULL)
+	, m_pOBB(NULL)
 {
 	D3DXMatrixIdentity(&m_matWorld);
 }
@@ -13,76 +15,45 @@ cCharacter::cCharacter(void)
 
 cCharacter::~cCharacter(void)
 {
+	SAFE_DELETE(m_pSkinnedMesh);
 }
 
-void cCharacter::Setup()
+void cCharacter::Setup(char* szFolder, char* szFilename)
 {
+	m_pSkinnedMesh = new cSkinnedMesh(szFolder, szFilename);
 
+	D3DXMATRIXA16 matS, matRX, matRY, matT, matSRT;
+	D3DXMatrixScaling(&matS, 0.03f, 0.03f, 0.03f);
+	D3DXMatrixRotationX(&matRX, - D3DX_PI / 2);
+	D3DXMatrixRotationY(&matRY, D3DX_PI);
+	D3DXMatrixIdentity(&matT);
+	matSRT = matS * matRX * matRY * matT;
+
+	m_pSkinnedMesh->SetSRT(matSRT);
+	
+
+	m_pOBB = new cOBB;
+	m_pOBB->Setup(m_pSkinnedMesh);
 }
 
 void cCharacter::Update(iMap* pMap)
 {
 	m_pMap = pMap;
 
-	if(GetKeyState('A') & 0x8000)
 	{
-		m_fRotY -= 0.1f;
-	}
-	if(GetKeyState('D') & 0x8000)
-	{
-		m_fRotY += 0.1f;
+		if (m_pOBB)
+			m_pOBB->Update(&m_pSkinnedMesh->GetSRT());
 	}
 
-	RECT rc;
-	GetClientRect(g_hWnd, &rc);
-
-	D3DXMATRIXA16 matR, matT;
-	D3DXMatrixRotationY(&matR, m_fRotY);
-	m_vDirection = D3DXVECTOR3(0, 0, -1);
-	
-// 	D3DXVec3Normalize(&m_vDirection, &m_vDirection);
-// 	D3DXVECTOR3 vUp(0, 1, 0);
-// 	D3DXVECTOR3 vRight;
-// 	D3DXVec3Cross(&vRight, &vUp, &m_vDirection);
-// 	D3DXVec3Normalize(&vRight, &vRight);
-// 	D3DXVec3Cross(&vUp, &m_vDirection, &vRight);
-// 	D3DXMatrixLookAtLH(&matR, &D3DXVECTOR3(0, 0, 0), &m_vDirection, &vUp);
-// 	D3DXMatrixTranspose(&matR, &matR);
-
- 	D3DXVec3TransformNormal(&m_vDirection, &m_vDirection, &matR);
-
-	D3DXVECTOR3 vPosition = m_vPosition;
-
-	if(GetKeyState('W') & 0x8000)
-	{
-		vPosition = m_vPosition + (m_vDirection * 0.1f);
-	}
-	if(GetKeyState('S') & 0x8000)
-	{
-		vPosition = m_vPosition - (m_vDirection * 0.1f);
-	}
-
-	m_vPosition = vPosition;
-// 	if(pMap)
-// 	{
-// 		if(pMap->GetHeight(vPosition.x, vPosition.y, vPosition.z))
-// 		{
-// 			
-// 		}
-// 	}
-
-	D3DXMatrixTranslation(&matT, m_vPosition.x, m_vPosition.y, m_vPosition.z);
-	m_matWorld = matR * matT;
 }
 
 void cCharacter::Render()
 {
+	if (m_pSkinnedMesh)
+		m_pSkinnedMesh->UpdateAndRender();
 
-}
-
-D3DXVECTOR3& cCharacter::GetPosition()
-{
-	return m_vPosition;
+	if (m_pOBB)
+		m_pOBB->OBBBox_Render(D3DCOLOR_XRGB(255, 0, 0));
 }
 
 void cCharacter::WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )

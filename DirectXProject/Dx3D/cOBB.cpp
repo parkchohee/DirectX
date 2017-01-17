@@ -188,6 +188,64 @@ bool cOBB::IsCollision( cOBB* pOBB1, cOBB* pOBB2 )
 /// >> : 박스 그리기.
 void cOBB::OBBBox_Render(D3DCOLOR c)
 {
+	D3DXVECTOR3 pos1(-m_fAxisHalfLen[0],
+		/*m_vCenterPos.y */- m_fAxisHalfLen[1],
+		-m_fAxisHalfLen[2]);
+	D3DXVECTOR3 pos2(-m_fAxisHalfLen[0],
+		/*m_vCenterPos.y */+ m_fAxisHalfLen[1],
+		-m_fAxisHalfLen[2]);
+	D3DXVECTOR3 pos3(m_fAxisHalfLen[0],
+		/*m_vCenterPos.y */+ m_fAxisHalfLen[1],
+		-m_fAxisHalfLen[2]);
+	D3DXVECTOR3 pos4(m_fAxisHalfLen[0],
+		/*m_vCenterPos.y */- m_fAxisHalfLen[1],
+		-m_fAxisHalfLen[2]);
 
+	D3DXVECTOR3 pos5(-m_fAxisHalfLen[0],
+		/*m_vCenterPos.y */- m_fAxisHalfLen[1],
+		m_fAxisHalfLen[2]);
+	D3DXVECTOR3 pos6(-m_fAxisHalfLen[0],
+		/*m_vCenterPos.y */+ m_fAxisHalfLen[1],
+		m_fAxisHalfLen[2]);
+	D3DXVECTOR3 pos7(m_fAxisHalfLen[0],
+		/*m_vCenterPos.y */+ m_fAxisHalfLen[1],
+		m_fAxisHalfLen[2]);
+	D3DXVECTOR3 pos8(m_fAxisHalfLen[0],
+		/*m_vCenterPos.y */- m_fAxisHalfLen[1],
+		m_fAxisHalfLen[2]);
+
+	std::vector<ST_PC_VERTEX> vecVertex;
+	vecVertex.push_back(ST_PC_VERTEX(pos1, c));
+	vecVertex.push_back(ST_PC_VERTEX(pos2, c));
+	vecVertex.push_back(ST_PC_VERTEX(pos2, c));
+	vecVertex.push_back(ST_PC_VERTEX(pos3, c));
+	vecVertex.push_back(ST_PC_VERTEX(pos3, c));
+	vecVertex.push_back(ST_PC_VERTEX(pos4, c));
+	vecVertex.push_back(ST_PC_VERTEX(pos4, c));
+	vecVertex.push_back(ST_PC_VERTEX(pos1, c));
+	vecVertex.push_back(ST_PC_VERTEX(pos1, c));
+	vecVertex.push_back(ST_PC_VERTEX(pos5, c));
+	vecVertex.push_back(ST_PC_VERTEX(pos2, c));
+	vecVertex.push_back(ST_PC_VERTEX(pos6, c));
+	vecVertex.push_back(ST_PC_VERTEX(pos3, c));
+	vecVertex.push_back(ST_PC_VERTEX(pos7, c));
+	vecVertex.push_back(ST_PC_VERTEX(pos4, c));
+	vecVertex.push_back(ST_PC_VERTEX(pos8, c));
+	vecVertex.push_back(ST_PC_VERTEX(pos5, c));
+	vecVertex.push_back(ST_PC_VERTEX(pos6, c));
+	vecVertex.push_back(ST_PC_VERTEX(pos6, c));
+	vecVertex.push_back(ST_PC_VERTEX(pos7, c));
+	vecVertex.push_back(ST_PC_VERTEX(pos7, c));
+	vecVertex.push_back(ST_PC_VERTEX(pos8, c));
+	vecVertex.push_back(ST_PC_VERTEX(pos8, c));
+	vecVertex.push_back(ST_PC_VERTEX(pos5, c));
+
+	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, false);
+	g_pD3DDevice->SetTransform(D3DTS_WORLD, &m_matWorldTM);
+	g_pD3DDevice->SetFVF(ST_PC_VERTEX::FVF);
+	g_pD3DDevice->DrawPrimitiveUP(D3DPT_LINELIST,
+		vecVertex.size() / 2,
+		&vecVertex[0],
+		sizeof(ST_PC_VERTEX));
 }
 

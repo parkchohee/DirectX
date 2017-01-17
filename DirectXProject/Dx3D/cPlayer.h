@@ -1,4 +1,5 @@
 #pragma once
+#include "cCharacter.h"
 
 class cGun;
 class cController;
@@ -15,7 +16,7 @@ public:
 	~cPlayer();
 
 	void Setup();
-	void Update(D3DXVECTOR3& camAngle);
+	void Update(D3DXVECTOR3& camAngle, iMap* pMap = NULL);
 	void Render();
 
 	void WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);

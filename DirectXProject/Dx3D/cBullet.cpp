@@ -44,23 +44,17 @@ void cBullet::Setup_Particle()
 {
 	/// >> : 파티클 랜덤하게 생성
 	m_vecVertex.resize(100);
-	for (int i = 0; i < m_vecVertex.size(); ++i)
+	for (size_t i = 0; i < m_vecVertex.size(); ++i)
 	{
-		float fRadius = 0.01;// rand() % 10 / 10.0f;
+		float fRadius = 0.015f * i;// rand() % 10 / 10.0f;
 
-		m_vecVertex[i].p = D3DXVECTOR3(0, 0, fRadius);
+		// 총알의 방향으로 늘어나게 보이는 효과
+		m_vecVertex[i].p = m_vDirection * fRadius;
 
-		D3DXVECTOR3 vAngle = D3DXVECTOR3(
-			D3DXToRadian(rand() % 3600 / 10.0f),
-			D3DXToRadian(rand() % 3600 / 10.0f),
-			D3DXToRadian(rand() % 3600 / 10.0f));
-		
-		D3DXMATRIX matT, matRX, matRY, matRZ, matWorld;
+		D3DXMATRIX matT, matWorld;
 		D3DXMatrixTranslation(&matT, m_vPosition.x, m_vPosition.y, m_vPosition.z);
-		D3DXMatrixRotationX(&matRX, vAngle.x);
-		D3DXMatrixRotationY(&matRY, vAngle.y);
-		D3DXMatrixRotationZ(&matRZ, vAngle.z);
-		matWorld = matRX * matRY * matRZ * matT;
+	
+		matWorld = matT;
 
 		D3DXVec3TransformCoord(
 			&m_vecVertex[i].p,
@@ -97,28 +91,12 @@ void cBullet::Setup_Particle()
 
 void cBullet::Update_Particle()
 {
-	/*static int nAlpha = 0;
-	static int nDelta = 4;
-	nAlpha += nDelta;
-	if (nAlpha > 255)
+	for (size_t i = 0; i < m_vecVertex.size(); ++i)
 	{
-		nAlpha = 255;
-		nDelta *= -1;
-	}
-	if (nAlpha < 0)
-	{
-		nAlpha = 0;
-		nDelta *= -1;
-	}*/
-	for (int i = 0; i < m_vecVertex.size(); ++i)
-	{
-	/*	if (i % 2)
-			continue;*/
 		m_vecVertex[i].p = m_vecVertex[i].p 
 			+ D3DXVECTOR3(m_fBulletSpeed * m_vDirection.x, 
 				m_fBulletSpeed * m_vDirection.y,
 				m_fBulletSpeed * m_vDirection.z);
-		//m_vecVertex[i].c = D3DCOLOR_ARGB(nAlpha, 180, 70, 20); /// : 알파값만 변경
 	}
 }
 

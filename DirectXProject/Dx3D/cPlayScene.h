@@ -5,6 +5,7 @@ class cGrid;
 class cUIObject;
 
 class cPlayer;
+class cAI;
 
 class cPlayScene
 {
@@ -15,6 +16,8 @@ class cPlayScene
 	LPD3DXSPRITE				m_pSprite;
 
 	cPlayer*					m_pPlayer;
+
+	cAI*						m_pAI;
 
 public:
 	cPlayScene();

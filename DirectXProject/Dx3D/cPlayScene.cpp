@@ -5,12 +5,14 @@
 #include "cUIObject.h"
 #include "cUIImageView.h"
 #include "cPlayer.h"
+#include "cAI.h"
 
 cPlayScene::cPlayScene()
 	: m_pCamera(NULL)
 	, m_pGrid(NULL)
 	, m_pUIRoot(NULL)
 	, m_pPlayer(NULL)
+	, m_pAI(NULL)
 {
 }
 
@@ -26,12 +28,16 @@ cPlayScene::~cPlayScene()
 	SAFE_DELETE(m_pGrid);
 
 	SAFE_RELEASE(m_pPlayer);
+	SAFE_RELEASE(m_pAI);
 }
 
 void cPlayScene::Setup()
 {
 	m_pPlayer = new cPlayer;
 	m_pPlayer->Setup();
+
+	m_pAI = new cAI;
+	m_pAI->Setup("AI/", "testMan.X");
 
 	m_pCamera = new cCamera;
 	m_pCamera->Setup(&(m_pPlayer->GetPosition()));
@@ -81,21 +87,27 @@ void cPlayScene::Update()
 	if (m_pPlayer && m_pCamera)
 		m_pPlayer->Update(m_pCamera->GetCamRotAngle());
 
+	if (m_pAI)
+		m_pAI->Update(NULL);
+
 	if (m_pCamera)
 		m_pCamera->Update();
 
 	if (m_pUIRoot)
 		m_pUIRoot->Update();
-
 }
 
 void cPlayScene::Render()
 {
-	if (m_pGrid)
-		m_pGrid->Render();
-
+	
 	if (m_pPlayer)
 		m_pPlayer->Render();
+	
+	if (m_pAI)
+		m_pAI->Render();
+	
+	if (m_pGrid)
+		m_pGrid->Render();
 
 	if (m_pUIRoot)
 		m_pUIRoot->Render(m_pSprite);

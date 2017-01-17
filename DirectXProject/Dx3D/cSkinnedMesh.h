@@ -11,10 +11,9 @@ private:
 	DWORD						m_dwWorkingPaletteSize;
 	D3DXMATRIX*					m_pmWorkingPalette;
 	LPD3DXEFFECT				m_pEffect;
-	
+
 	LPD3DXANIMATIONCONTROLLER	m_pAnimController;
 	D3DXMATRIXA16				m_matWorldTM;
-	D3DXMATRIXA16				m_matSaveWorldTM;
 
 	/// >> : OBB -
 	SYNTHESIZE(D3DXVECTOR3, m_vMin, Min);
@@ -30,6 +29,10 @@ public:
 	void SetAnimationIndex(int nIndex);
 
 	void SetSRT(D3DXMATRIXA16& matSRT);
+	D3DXMATRIXA16& GetSRT() 
+	{
+		return m_matWorldTM;
+	}
 
 	void SetRandomTrackPosition();
 	void SetTransform(D3DXMATRIXA16* pmat)

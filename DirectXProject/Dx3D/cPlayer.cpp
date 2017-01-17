@@ -23,11 +23,11 @@ void cPlayer::Setup()
 	m_pGun->Setup(&m_vPosition, "Gun/", "Pistol.X");
 
 	m_pController = new cPlayerController;
-	m_pController->Setup();
+	m_pController->Setup(0.1f);
 
 }
 
-void cPlayer::Update(D3DXVECTOR3& camAngle)
+void cPlayer::Update(D3DXVECTOR3 & camAngle, iMap * pMap)
 {
 	if (m_pController)
 		m_pController->Update(camAngle, m_vDirection, m_vPosition);
@@ -66,8 +66,8 @@ void cPlayer::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 			if (m_pGun)
 				m_pGun->Fire(vDir, m_vPosition + vPosition * 0.5f);
+	
 
-			
 		}
 		break;
 	}
