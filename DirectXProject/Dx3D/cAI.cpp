@@ -3,7 +3,7 @@
 #include "cAiController.h"
 #include "cGun.h"
 #include "cSkinnedMesh.h"
-
+#include "cOBB.h"
 
 cAI::cAI()
 	: m_pGun(NULL)

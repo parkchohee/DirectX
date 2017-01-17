@@ -2,7 +2,6 @@
 #include "cPlayScene.h"
 #include "cCamera.h"
 #include "cGrid.h"
-#include "cUIObject.h"
 #include "cUIImageView.h"
 #include "cPlayer.h"
 #include "cAI.h"
