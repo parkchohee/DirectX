@@ -81,7 +81,6 @@
     <None Include="small.ico" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Asciitok.h" />
     <ClInclude Include="cActionBezier.h" />
     <ClInclude Include="cActionJump.h" />
     <ClInclude Include="cActionMove.h" />
@@ -90,26 +89,17 @@
     <ClInclude Include="cAI.h" />
     <ClInclude Include="cAiController.h" />
     <ClInclude Include="cAllocateHierarchy.h" />
-    <ClInclude Include="cAseLoader.h" />
-    <ClInclude Include="cBody.h" />
     <ClInclude Include="cBullet.h" />
     <ClInclude Include="cCamera.h" />
     <ClInclude Include="cCharacter.h" />
-    <ClInclude Include="cCharacter2.h" />
     <ClInclude Include="cController.h" />
-    <ClInclude Include="cCubeNode.h" />
-    <ClInclude Include="cCubePNT.h" />
     <ClInclude Include="cDeviceManager.h" />
     <ClInclude Include="cFontManager.h" />
-    <ClInclude Include="cFrame.h" />
     <ClInclude Include="cFrustum.h" />
     <ClInclude Include="cGameObject.h" />
     <ClInclude Include="cGrid.h" />
     <ClInclude Include="cGroup.h" />
     <ClInclude Include="cGun.h" />
-    <ClInclude Include="cHead.h" />
-    <ClInclude Include="cLArm.h" />
-    <ClInclude Include="cLLeg.h" />
     <ClInclude Include="cMainGame.h" />
     <ClInclude Include="cMtlTex.h" />
     <ClInclude Include="cOBB.h" />
@@ -121,9 +111,7 @@
     <ClInclude Include="cPlayerController.h" />
     <ClInclude Include="cPlayScene.h" />
     <ClInclude Include="cPyramid.h" />
-    <ClInclude Include="cRArm.h" />
     <ClInclude Include="cRay.h" />
-    <ClInclude Include="cRLeg.h" />
     <ClInclude Include="cSkinnedMesh.h" />
     <ClInclude Include="cSkinnedMeshManager.h" />
     <ClInclude Include="cTextureManager.h" />
@@ -132,7 +120,6 @@
     <ClInclude Include="cUIImageView.h" />
     <ClInclude Include="cUIObject.h" />
     <ClInclude Include="cUITextView.h" />
-    <ClInclude Include="cZealot.h" />
     <ClInclude Include="Dx3D.h" />
     <ClInclude Include="cAction.h" />
     <ClInclude Include="iMap.h" />
@@ -149,26 +136,17 @@
     <ClCompile Include="cAI.cpp" />
     <ClCompile Include="cAiController.cpp" />
     <ClCompile Include="cAllocateHierarchy.cpp" />
-    <ClCompile Include="cAseLoader.cpp" />
-    <ClCompile Include="cBody.cpp" />
     <ClCompile Include="cBullet.cpp" />
     <ClCompile Include="cCamera.cpp" />
     <ClCompile Include="cCharacter.cpp" />
-    <ClCompile Include="cCharacter2.cpp" />
     <ClCompile Include="cController.cpp" />
-    <ClCompile Include="cCubeNode.cpp" />
-    <ClCompile Include="cCubePNT.cpp" />
     <ClCompile Include="cDeviceManager.cpp" />
     <ClCompile Include="cFontManager.cpp" />
-    <ClCompile Include="cFrame.cpp" />
     <ClCompile Include="cFrustum.cpp" />
     <ClCompile Include="cGameObject.cpp" />
     <ClCompile Include="cGrid.cpp" />
     <ClCompile Include="cGroup.cpp" />
     <ClCompile Include="cGun.cpp" />
-    <ClCompile Include="cHead.cpp" />
-    <ClCompile Include="cLArm.cpp" />
-    <ClCompile Include="cLLeg.cpp" />
     <ClCompile Include="cMainGame.cpp" />
     <ClCompile Include="cMtlTex.cpp" />
     <ClCompile Include="cOBB.cpp" />
@@ -180,9 +158,7 @@
     <ClCompile Include="cPlayerController.cpp" />
     <ClCompile Include="cPlayScene.cpp" />
     <ClCompile Include="cPyramid.cpp" />
-    <ClCompile Include="cRArm.cpp" />
     <ClCompile Include="cRay.cpp" />
-    <ClCompile Include="cRLeg.cpp" />
     <ClCompile Include="cSkinnedMesh.cpp" />
     <ClCompile Include="cSkinnedMeshManager.cpp" />
     <ClCompile Include="cTextureManager.cpp" />
@@ -191,7 +167,6 @@
     <ClCompile Include="cUIImageView.cpp" />
     <ClCompile Include="cUIObject.cpp" />
     <ClCompile Include="cUITextView.cpp" />
-    <ClCompile Include="cZealot.cpp" />
     <ClCompile Include="Dx3D.cpp" />
     <ClCompile Include="cAction.cpp" />
     <ClCompile Include="iMap.cpp" />

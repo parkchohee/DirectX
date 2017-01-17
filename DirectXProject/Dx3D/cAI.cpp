@@ -27,6 +27,7 @@ void cAI::Setup(char* szFolder, char* szFilename)
 	D3DXMatrixRotationX(&matRX, -D3DX_PI / 2);
 	D3DXMatrixRotationY(&matRY, D3DX_PI);
 	D3DXMatrixIdentity(&matT);
+	D3DXMatrixTranslation(&matT, 1, 1, (rand() % 10));
 	matSRT = matS * matRX * matRY *matT;
 	m_pSkinnedMesh->SetSRT(matSRT);
 	

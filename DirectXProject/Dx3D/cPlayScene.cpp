@@ -14,6 +14,7 @@ cPlayScene::cPlayScene()
 	, m_pUIRoot(NULL)
 	, m_pPlayer(NULL)
 	, m_pAI(NULL)
+	, test(NULL)
 {
 }
 
@@ -30,6 +31,7 @@ cPlayScene::~cPlayScene()
 
 	SAFE_RELEASE(m_pPlayer);
 	SAFE_RELEASE(m_pAI);
+	SAFE_RELEASE(test);
 
 }
 
@@ -41,6 +43,8 @@ void cPlayScene::Setup()
 	m_pAI = new cAI;
 	m_pAI->Setup("AI/", "testMan.X");
 
+	test = new cAI;
+	test->Setup("AI/", "testMan.X");
 
 	m_pCamera = new cCamera;
 //	m_pCamera->Setup(NULL);
@@ -94,6 +98,9 @@ void cPlayScene::Update()
 	if (m_pAI)
 		m_pAI->Update(NULL);
 
+	if (test)
+		test->Update(NULL);
+
 	if (m_pCamera)
 		m_pCamera->Update();
 
@@ -109,6 +116,10 @@ void cPlayScene::Render()
 	if (m_pAI)
 		m_pAI->Render();
 	
+	if (test)
+		test->Render();
+
+
 	if (m_pGrid)
 		m_pGrid->Render();
 
