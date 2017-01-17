@@ -13,23 +13,11 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="소스 파일\Manager">
-      <UniqueIdentifier>{019c8934-15c0-417e-9b94-24c3bbc204b2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="헤더 파일\Manager">
-      <UniqueIdentifier>{e54e8c04-7175-4c37-953f-827b58f1be0e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="소스 파일\Action">
       <UniqueIdentifier>{01920b74-77b7-4c2b-bb3d-9dce268b774f}</UniqueIdentifier>
     </Filter>
     <Filter Include="헤더 파일\Action">
       <UniqueIdentifier>{b82b5174-5e02-4a01-b7ea-b505a606471a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="소스 파일\UI">
-      <UniqueIdentifier>{b1e29c31-9cda-4d4f-bcfb-daf203872147}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="헤더 파일\UI">
-      <UniqueIdentifier>{1d494f49-b8d3-42dc-af69-2e89d28e4629}</UniqueIdentifier>
     </Filter>
     <Filter Include="소스 파일\Controller">
       <UniqueIdentifier>{0423543a-1e9c-452f-a82f-5c4fe9743044}</UniqueIdentifier>
@@ -40,23 +28,47 @@
     <Filter Include="소스 파일\Character">
       <UniqueIdentifier>{2eb6d9a9-4dab-4275-bfb1-0a63eb93d16a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="소스 파일\XFileLoad">
-      <UniqueIdentifier>{b2cf43e4-00d9-415e-ad26-370cecfce900}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="소스 파일\Setting">
-      <UniqueIdentifier>{129830f2-cb8e-47d9-9089-0cbe1a1a78f0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="헤더 파일\Character">
       <UniqueIdentifier>{38a53794-6648-465d-aa05-8c41eabe9565}</UniqueIdentifier>
     </Filter>
-    <Filter Include="헤더 파일\Setting">
+    <Filter Include="Setting_Manager">
+      <UniqueIdentifier>{a70fcf90-7a17-47ae-a8d7-d6b7e357d673}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Setting_Manager\header">
+      <UniqueIdentifier>{22157e60-5320-48fb-95be-c5dde69c3f3c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Setting_Manager\header\Setting">
+      <UniqueIdentifier>{129830f2-cb8e-47d9-9089-0cbe1a1a78f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Setting_Manager\header\UI">
+      <UniqueIdentifier>{b1e29c31-9cda-4d4f-bcfb-daf203872147}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Setting_Manager\header\XFileLoad">
+      <UniqueIdentifier>{b2cf43e4-00d9-415e-ad26-370cecfce900}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Setting_Manager\header\ObjLoad">
+      <UniqueIdentifier>{b527c52b-6a79-4768-ac35-ac3790dafe14}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Setting_Manager\header\Manager">
+      <UniqueIdentifier>{019c8934-15c0-417e-9b94-24c3bbc204b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Setting_Manager\cpp">
+      <UniqueIdentifier>{d8c4d1f6-e521-4fb0-9e52-9835ef9169cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Setting_Manager\cpp\Setting">
       <UniqueIdentifier>{eb7343d1-57ab-42a7-9a79-ef02489a752a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="헤더 파일\XFileLoad">
+    <Filter Include="Setting_Manager\cpp\UI">
+      <UniqueIdentifier>{1d494f49-b8d3-42dc-af69-2e89d28e4629}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Setting_Manager\cpp\XFileLoad">
       <UniqueIdentifier>{b3d67ca7-e75e-4682-abf6-c73b6b11e972}</UniqueIdentifier>
     </Filter>
-    <Filter Include="CubeMan">
-      <UniqueIdentifier>{55e61f8b-7910-4068-88df-e1969319085c}</UniqueIdentifier>
+    <Filter Include="Setting_Manager\cpp\Manager">
+      <UniqueIdentifier>{e54e8c04-7175-4c37-953f-827b58f1be0e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Setting_Manager\cpp\ObjLoad">
+      <UniqueIdentifier>{68267244-2647-4706-ba8e-20e47e3796c7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -84,43 +96,7 @@
     <ClInclude Include="cMainGame.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="cCubePNT.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="cCubeNode.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="cLArm.h">
-      <Filter>CubeMan</Filter>
-    </ClInclude>
-    <ClInclude Include="cHead.h">
-      <Filter>CubeMan</Filter>
-    </ClInclude>
-    <ClInclude Include="cBody.h">
-      <Filter>CubeMan</Filter>
-    </ClInclude>
-    <ClInclude Include="cRArm.h">
-      <Filter>CubeMan</Filter>
-    </ClInclude>
-    <ClInclude Include="cRLeg.h">
-      <Filter>CubeMan</Filter>
-    </ClInclude>
-    <ClInclude Include="cLLeg.h">
-      <Filter>CubeMan</Filter>
-    </ClInclude>
-    <ClInclude Include="cObjLoader.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="cMtlTex.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="cObject.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="cGroup.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="cObjMap.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="iMap.h">
@@ -129,41 +105,29 @@
     <ClInclude Include="cGameObject.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="cAseLoader.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="cFrame.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Asciitok.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="cRay.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="cZealot.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="cOBB.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="cTimeManager.h">
-      <Filter>헤더 파일\Manager</Filter>
+      <Filter>Setting_Manager\cpp\Manager</Filter>
     </ClInclude>
     <ClInclude Include="cTextureManager.h">
-      <Filter>헤더 파일\Manager</Filter>
+      <Filter>Setting_Manager\cpp\Manager</Filter>
     </ClInclude>
     <ClInclude Include="cSkinnedMeshManager.h">
-      <Filter>헤더 파일\Manager</Filter>
+      <Filter>Setting_Manager\cpp\Manager</Filter>
     </ClInclude>
     <ClInclude Include="cObjectManager.h">
-      <Filter>헤더 파일\Manager</Filter>
+      <Filter>Setting_Manager\cpp\Manager</Filter>
     </ClInclude>
     <ClInclude Include="cDeviceManager.h">
-      <Filter>헤더 파일\Manager</Filter>
+      <Filter>Setting_Manager\cpp\Manager</Filter>
     </ClInclude>
     <ClInclude Include="cFontManager.h">
-      <Filter>헤더 파일\Manager</Filter>
+      <Filter>Setting_Manager\cpp\Manager</Filter>
     </ClInclude>
     <ClInclude Include="cAction.h">
       <Filter>헤더 파일\Action</Filter>
@@ -184,16 +148,16 @@
       <Filter>헤더 파일\Action</Filter>
     </ClInclude>
     <ClInclude Include="cUITextView.h">
-      <Filter>헤더 파일\UI</Filter>
+      <Filter>Setting_Manager\cpp\UI</Filter>
     </ClInclude>
     <ClInclude Include="cUIButton.h">
-      <Filter>헤더 파일\UI</Filter>
+      <Filter>Setting_Manager\cpp\UI</Filter>
     </ClInclude>
     <ClInclude Include="cUIImageView.h">
-      <Filter>헤더 파일\UI</Filter>
+      <Filter>Setting_Manager\cpp\UI</Filter>
     </ClInclude>
     <ClInclude Include="cUIObject.h">
-      <Filter>헤더 파일\UI</Filter>
+      <Filter>Setting_Manager\cpp\UI</Filter>
     </ClInclude>
     <ClInclude Include="cController.h">
       <Filter>헤더 파일\Controller</Filter>
@@ -202,25 +166,25 @@
       <Filter>헤더 파일\Controller</Filter>
     </ClInclude>
     <ClInclude Include="cSkinnedMesh.h">
-      <Filter>헤더 파일\XFileLoad</Filter>
+      <Filter>Setting_Manager\cpp\XFileLoad</Filter>
     </ClInclude>
     <ClInclude Include="cAllocateHierarchy.h">
-      <Filter>헤더 파일\XFileLoad</Filter>
+      <Filter>Setting_Manager\cpp\XFileLoad</Filter>
     </ClInclude>
     <ClInclude Include="cBullet.h">
       <Filter>헤더 파일\Character</Filter>
     </ClInclude>
     <ClInclude Include="cCamera.h">
-      <Filter>헤더 파일\Setting</Filter>
+      <Filter>Setting_Manager\cpp\Setting</Filter>
     </ClInclude>
     <ClInclude Include="cFrustum.h">
-      <Filter>헤더 파일\Setting</Filter>
+      <Filter>Setting_Manager\cpp\Setting</Filter>
     </ClInclude>
     <ClInclude Include="cGrid.h">
-      <Filter>헤더 파일\Setting</Filter>
+      <Filter>Setting_Manager\cpp\Setting</Filter>
     </ClInclude>
     <ClInclude Include="cPyramid.h">
-      <Filter>헤더 파일\Setting</Filter>
+      <Filter>Setting_Manager\cpp\Setting</Filter>
     </ClInclude>
     <ClInclude Include="cGun.h">
       <Filter>헤더 파일\Character</Filter>
@@ -231,9 +195,6 @@
     <ClInclude Include="cPlayScene.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="cCharacter2.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="cAI.h">
       <Filter>헤더 파일\Character</Filter>
     </ClInclude>
@@ -242,6 +203,18 @@
     </ClInclude>
     <ClInclude Include="cCharacter.h">
       <Filter>헤더 파일\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="cGroup.h">
+      <Filter>Setting_Manager\cpp\ObjLoad</Filter>
+    </ClInclude>
+    <ClInclude Include="cMtlTex.h">
+      <Filter>Setting_Manager\cpp\ObjLoad</Filter>
+    </ClInclude>
+    <ClInclude Include="cObjLoader.h">
+      <Filter>Setting_Manager\cpp\ObjLoad</Filter>
+    </ClInclude>
+    <ClInclude Include="cObjMap.h">
+      <Filter>Setting_Manager\cpp\ObjLoad</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -254,43 +227,7 @@
     <ClCompile Include="cMainGame.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="cCubePNT.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="cCubeNode.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="cBody.cpp">
-      <Filter>CubeMan</Filter>
-    </ClCompile>
-    <ClCompile Include="cHead.cpp">
-      <Filter>CubeMan</Filter>
-    </ClCompile>
-    <ClCompile Include="cLArm.cpp">
-      <Filter>CubeMan</Filter>
-    </ClCompile>
-    <ClCompile Include="cLLeg.cpp">
-      <Filter>CubeMan</Filter>
-    </ClCompile>
-    <ClCompile Include="cRArm.cpp">
-      <Filter>CubeMan</Filter>
-    </ClCompile>
-    <ClCompile Include="cRLeg.cpp">
-      <Filter>CubeMan</Filter>
-    </ClCompile>
-    <ClCompile Include="cObjLoader.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="cMtlTex.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="cObject.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="cGroup.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="cObjMap.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="iMap.cpp">
@@ -299,38 +236,26 @@
     <ClCompile Include="cGameObject.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="cAseLoader.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="cFrame.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="cRay.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="cZealot.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="cOBB.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="cDeviceManager.cpp">
-      <Filter>소스 파일\Manager</Filter>
+      <Filter>Setting_Manager\header\Manager</Filter>
     </ClCompile>
     <ClCompile Include="cFontManager.cpp">
-      <Filter>소스 파일\Manager</Filter>
+      <Filter>Setting_Manager\header\Manager</Filter>
     </ClCompile>
     <ClCompile Include="cObjectManager.cpp">
-      <Filter>소스 파일\Manager</Filter>
+      <Filter>Setting_Manager\header\Manager</Filter>
     </ClCompile>
     <ClCompile Include="cSkinnedMeshManager.cpp">
-      <Filter>소스 파일\Manager</Filter>
+      <Filter>Setting_Manager\header\Manager</Filter>
     </ClCompile>
     <ClCompile Include="cTextureManager.cpp">
-      <Filter>소스 파일\Manager</Filter>
+      <Filter>Setting_Manager\header\Manager</Filter>
     </ClCompile>
     <ClCompile Include="cTimeManager.cpp">
-      <Filter>소스 파일\Manager</Filter>
+      <Filter>Setting_Manager\header\Manager</Filter>
     </ClCompile>
     <ClCompile Include="cAction.cpp">
       <Filter>소스 파일\Action</Filter>
@@ -351,16 +276,16 @@
       <Filter>소스 파일\Action</Filter>
     </ClCompile>
     <ClCompile Include="cUIButton.cpp">
-      <Filter>소스 파일\UI</Filter>
+      <Filter>Setting_Manager\header\UI</Filter>
     </ClCompile>
     <ClCompile Include="cUIImageView.cpp">
-      <Filter>소스 파일\UI</Filter>
+      <Filter>Setting_Manager\header\UI</Filter>
     </ClCompile>
     <ClCompile Include="cUIObject.cpp">
-      <Filter>소스 파일\UI</Filter>
+      <Filter>Setting_Manager\header\UI</Filter>
     </ClCompile>
     <ClCompile Include="cUITextView.cpp">
-      <Filter>소스 파일\UI</Filter>
+      <Filter>Setting_Manager\header\UI</Filter>
     </ClCompile>
     <ClCompile Include="cController.cpp">
       <Filter>소스 파일\Controller</Filter>
@@ -369,36 +294,33 @@
       <Filter>소스 파일\Controller</Filter>
     </ClCompile>
     <ClCompile Include="cAllocateHierarchy.cpp">
-      <Filter>소스 파일\XFileLoad</Filter>
+      <Filter>Setting_Manager\header\XFileLoad</Filter>
     </ClCompile>
     <ClCompile Include="cSkinnedMesh.cpp">
-      <Filter>소스 파일\XFileLoad</Filter>
+      <Filter>Setting_Manager\header\XFileLoad</Filter>
     </ClCompile>
     <ClCompile Include="cCamera.cpp">
-      <Filter>소스 파일\Setting</Filter>
+      <Filter>Setting_Manager\header\Setting</Filter>
     </ClCompile>
     <ClCompile Include="cGrid.cpp">
-      <Filter>소스 파일\Setting</Filter>
+      <Filter>Setting_Manager\header\Setting</Filter>
     </ClCompile>
     <ClCompile Include="cPlayer.cpp">
       <Filter>소스 파일\Character</Filter>
     </ClCompile>
     <ClCompile Include="cPyramid.cpp">
-      <Filter>소스 파일\Setting</Filter>
+      <Filter>Setting_Manager\header\Setting</Filter>
     </ClCompile>
     <ClCompile Include="cGun.cpp">
       <Filter>소스 파일\Character</Filter>
     </ClCompile>
     <ClCompile Include="cFrustum.cpp">
-      <Filter>소스 파일\Setting</Filter>
+      <Filter>Setting_Manager\header\Setting</Filter>
     </ClCompile>
     <ClCompile Include="cBullet.cpp">
       <Filter>소스 파일\Character</Filter>
     </ClCompile>
     <ClCompile Include="cPlayScene.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="cCharacter2.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="cAI.cpp">
@@ -409,6 +331,21 @@
     </ClCompile>
     <ClCompile Include="cCharacter.cpp">
       <Filter>소스 파일\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="cRay.cpp">
+      <Filter>Setting_Manager\header\Setting</Filter>
+    </ClCompile>
+    <ClCompile Include="cObjLoader.cpp">
+      <Filter>Setting_Manager\header\ObjLoad</Filter>
+    </ClCompile>
+    <ClCompile Include="cObjMap.cpp">
+      <Filter>Setting_Manager\header\ObjLoad</Filter>
+    </ClCompile>
+    <ClCompile Include="cMtlTex.cpp">
+      <Filter>Setting_Manager\header\ObjLoad</Filter>
+    </ClCompile>
+    <ClCompile Include="cGroup.cpp">
+      <Filter>Setting_Manager\header\ObjLoad</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

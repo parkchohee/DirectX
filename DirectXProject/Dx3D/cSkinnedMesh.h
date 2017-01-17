@@ -1,7 +1,6 @@
 #pragma once
 
 struct ST_BONE;
-class cOBB;
 
 class cSkinnedMesh
 {
@@ -16,11 +15,13 @@ private:
 	LPD3DXANIMATIONCONTROLLER	m_pAnimController;
 	D3DXMATRIXA16				m_matWorldTM;
 
+	SYNTHESIZE_PASS_BY_REF(D3DXVECTOR3, m_vPosition, Position);
+	SYNTHESIZE(float, m_fScale, Scale);
+	SYNTHESIZE_PASS_BY_REF(D3DXMATRIXA16, m_matR, Rotation);
+
 	/// >> : OBB -
 	SYNTHESIZE(D3DXVECTOR3, m_vMin, Min);
 	SYNTHESIZE(D3DXVECTOR3, m_vMax, Max);
-
-	cOBB*						m_pOBB;
 
 public:
 	cSkinnedMesh(char* szFolder, char* szFilename);
@@ -30,7 +31,6 @@ public:
 	void SetAnimationIndex(int nIndex);
 
 	void SetSRT(D3DXMATRIXA16& matSRT);
-	void SetOBBSRT(D3DXMATRIXA16& matSRT);
 
 	D3DXMATRIXA16& GetSRT() 
 	{
