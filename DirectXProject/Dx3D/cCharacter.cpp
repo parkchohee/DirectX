@@ -1,7 +1,6 @@
 #include "StdAfx.h"
 #include "cCharacter.h"
 #include "cSkinnedMesh.h"
-#include "cAiController.h"
 #include "cOBB.h"
 
 cCharacter::cCharacter(void)
@@ -16,7 +15,6 @@ cCharacter::cCharacter(void)
 
 cCharacter::~cCharacter(void)
 {
-	SAFE_RELEASE(m_pController);
 	SAFE_DELETE(m_pSkinnedMesh);
 }
 
@@ -33,8 +31,6 @@ void cCharacter::Setup(char* szFolder, char* szFilename)
 
 	m_pSkinnedMesh->SetSRT(matSRT);
 	
-	m_pController = new cAIController;
-	m_pController->Setup(0.1f);
 
 	m_pOBB = new cOBB;
 	m_pOBB->Setup(m_pSkinnedMesh);

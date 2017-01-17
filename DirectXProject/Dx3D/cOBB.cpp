@@ -189,29 +189,29 @@ bool cOBB::IsCollision( cOBB* pOBB1, cOBB* pOBB2 )
 void cOBB::OBBBox_Render(D3DCOLOR c)
 {
 	D3DXVECTOR3 pos1(-m_fAxisHalfLen[0],
-		m_vCenterPos.y - m_fAxisHalfLen[1],
+		/*m_vCenterPos.y */- m_fAxisHalfLen[1],
 		-m_fAxisHalfLen[2]);
 	D3DXVECTOR3 pos2(-m_fAxisHalfLen[0],
-		m_vCenterPos.y + m_fAxisHalfLen[1],
+		/*m_vCenterPos.y */+ m_fAxisHalfLen[1],
 		-m_fAxisHalfLen[2]);
 	D3DXVECTOR3 pos3(m_fAxisHalfLen[0],
-		m_vCenterPos.y + m_fAxisHalfLen[1],
+		/*m_vCenterPos.y */+ m_fAxisHalfLen[1],
 		-m_fAxisHalfLen[2]);
 	D3DXVECTOR3 pos4(m_fAxisHalfLen[0],
-		m_vCenterPos.y - m_fAxisHalfLen[1],
+		/*m_vCenterPos.y */- m_fAxisHalfLen[1],
 		-m_fAxisHalfLen[2]);
 
 	D3DXVECTOR3 pos5(-m_fAxisHalfLen[0],
-		m_vCenterPos.y - m_fAxisHalfLen[1],
+		/*m_vCenterPos.y */- m_fAxisHalfLen[1],
 		m_fAxisHalfLen[2]);
 	D3DXVECTOR3 pos6(-m_fAxisHalfLen[0],
-		m_vCenterPos.y + m_fAxisHalfLen[1],
+		/*m_vCenterPos.y */+ m_fAxisHalfLen[1],
 		m_fAxisHalfLen[2]);
 	D3DXVECTOR3 pos7(m_fAxisHalfLen[0],
-		m_vCenterPos.y + m_fAxisHalfLen[1],
+		/*m_vCenterPos.y */+ m_fAxisHalfLen[1],
 		m_fAxisHalfLen[2]);
 	D3DXVECTOR3 pos8(m_fAxisHalfLen[0],
-		m_vCenterPos.y - m_fAxisHalfLen[1],
+		/*m_vCenterPos.y */- m_fAxisHalfLen[1],
 		m_fAxisHalfLen[2]);
 
 	std::vector<ST_PC_VERTEX> vecVertex;

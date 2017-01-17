@@ -10,6 +10,7 @@ class cCharacter : public cGameObject
 protected:
 	cSkinnedMesh*		m_pSkinnedMesh;				// 캐릭터 몸체
 	cOBB*				m_pOBB;						// OBB Box
+
 	cController*		m_pController;		// 컨트롤러
 
 	D3DXMATRIXA16		m_matWorld;					// worldMatrix
