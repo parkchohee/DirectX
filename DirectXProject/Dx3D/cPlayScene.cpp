@@ -132,10 +132,10 @@ void cPlayScene::Render()
 
 void cPlayScene::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	if (m_pPlayer)
-	{
-		m_pPlayer->WndProc(hWnd, message, wParam, lParam);
-	}
+	//if (m_pPlayer)
+	//{
+	//	m_pPlayer->WndProc(hWnd, message, wParam, lParam);
+	//}
 
 	if (m_pCamera)
 	{

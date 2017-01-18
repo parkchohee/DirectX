@@ -29,7 +29,7 @@ void cCharacter::Setup(char* szFolder, char* szFilename)
 	D3DXMatrixIdentity(&matT);
 	matSRT = matS * matRX * matRY * matT;
 
-	m_pSkinnedMesh->SetSRT(matSRT);
+	m_pSkinnedMesh->SetTransform(&matSRT);
 	
 
 	m_pOBB = new cOBB;
@@ -42,7 +42,7 @@ void cCharacter::Update(iMap* pMap)
 
 	{
 		if (m_pOBB)
-			m_pOBB->Update(&m_pSkinnedMesh->GetSRT());
+			m_pOBB->Update(m_pSkinnedMesh->GetTransFrom());
 	}
 
 }

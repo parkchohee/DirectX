@@ -32,10 +32,11 @@ void cGun::Setup(D3DXVECTOR3* pvTarget, char* szFolder, char* szFilename)
 
 }
 
-void cGun::Update(D3DXVECTOR3& camAngle)
+void cGun::Update(/*D3DXVECTOR3& camAngle*/)
 {
-	Setting(camAngle);
-
+	/*if(camAngle)
+		Setting(camAngle);
+*/
 	for (size_t i = 0; i < m_pvBullet.size(); i++)
 	{
 		m_pvBullet[i]->Update();
@@ -59,6 +60,18 @@ void cGun::Render()
 		m_pvBullet[i]->Render();
 	}
 
+}
+
+void cGun::SetParentWorldMatrix(D3DXMATRIXA16 & matWorld)
+{
+	if (m_pGun)
+		m_pGun->SetParent(&matWorld);
+}
+
+void cGun::SetWorldMatrix(D3DXMATRIXA16 & matWorld)
+{
+	if (m_pGun)
+		m_pGun->SetTransform(&matWorld);
 }
 
 void cGun::Setting(D3DXVECTOR3& camAngle)
@@ -85,7 +98,7 @@ void cGun::Setting(D3DXVECTOR3& camAngle)
 
 	matSRT = matS * matR * matT;
 
-	m_pGun->SetSRT(matSRT);
+	m_pGun->SetTransform(&matSRT);
 }
 
 void cGun::Fire(D3DXVECTOR3 & vDirection, D3DXVECTOR3 & vPosition)

@@ -24,10 +24,12 @@ public:
 	~cGun();
 
 	void Setup(D3DXVECTOR3* pvTarget, char* szFolder, char* szFilename);
-	void Update(D3DXVECTOR3& camAngle);
+	void Update(/*D3DXVECTOR3& camAngle*/);
 	void Render();
 
 	std::vector<cBullet*> GetBullets() { return m_pvBullet; }
+	void SetParentWorldMatrix(D3DXMATRIXA16& matWorld);
+	void SetWorldMatrix(D3DXMATRIXA16& matWorld);
 
 	void Setting(D3DXVECTOR3& camAngle);
 	void Fire(D3DXVECTOR3& vDirection, D3DXVECTOR3& vPosition);
