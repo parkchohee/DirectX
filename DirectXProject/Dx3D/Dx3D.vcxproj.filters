@@ -217,7 +217,7 @@
       <Filter>Setting&amp;Manager\header\Setting</Filter>
     </ClInclude>
     <ClInclude Include="cKeyManager.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>Setting&amp;Manager\header\Manager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -351,7 +351,7 @@
       <Filter>Setting&amp;Manager\cpp\Setting</Filter>
     </ClCompile>
     <ClCompile Include="cKeyManager.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>Setting&amp;Manager\cpp\Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

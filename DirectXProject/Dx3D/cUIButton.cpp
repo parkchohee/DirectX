@@ -28,7 +28,7 @@ void cUIButton::Update()
 
 	if(PtInRect(&rc, pt))
 	{
-		if (GetKeyState(VK_LBUTTON) & 0x8000)
+		if (g_pKeyManager->IsStayKeyDown(VK_LBUTTON))
 		{
 			if (m_eButtonState == E_MOVER)
 			{
@@ -47,7 +47,7 @@ void cUIButton::Update()
 	}
 	else
 	{
-		if (GetKeyState(VK_LBUTTON) & 0x8000)
+		if (g_pKeyManager->IsStayKeyDown(VK_LBUTTON))
 		{
 		}
 		else

@@ -48,9 +48,6 @@ void cPlayer::Update(D3DXVECTOR3 & camAngle, iMap * pMap)
 	if (m_pController)
 		m_pController->Update(camAngle, m_vDirection, m_vPosition);
 
-	
-	// 한번만 눌리게 바꿔야함...
-	
 	if (g_pKeyManager->IsOnceKeyDown('1'))
 	{
 		m_nSelectGun++;

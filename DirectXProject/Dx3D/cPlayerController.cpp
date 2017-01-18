@@ -34,11 +34,11 @@ void cPlayerController::Update(D3DXVECTOR3 & camAngle, OUT D3DXVECTOR3 & vDirect
 	D3DXVec3TransformNormal(&vDirection, &vDirection, &matR);
 
 	// direction 방향으로 앞으로,
-	if (GetKeyState('W') & 0x8000)			// 앞으로 움직임
+	if (g_pKeyManager->IsStayKeyDown('W'))			// 앞으로 움직임
 	{
 		vPosition += (mvDirection * m_fMoveSpeed);
 	}
-	else if (GetKeyState('S') & 0x8000)		// 뒤로 움직임
+	else if (g_pKeyManager->IsStayKeyDown('S'))		// 뒤로 움직임
 	{
 		vPosition -= (mvDirection * m_fMoveSpeed);
 	}
@@ -47,11 +47,11 @@ void cPlayerController::Update(D3DXVECTOR3 & camAngle, OUT D3DXVECTOR3 & vDirect
 	mvDirection = D3DXVECTOR3(0, 0, 1);
 	D3DXVec3TransformNormal(&mvDirection, &mvDirection, &matR);
 	
-	if (GetKeyState('A') & 0x8000)			// 왼쪽으로 움직임
+	if (g_pKeyManager->IsStayKeyDown('A'))			// 왼쪽으로 움직임
 	{
 		vPosition += (mvDirection * m_fMoveSpeed);
 	}
-	else if (GetKeyState('D') & 0x8000)		// 오른쪽으로 움직임
+	else if (g_pKeyManager->IsStayKeyDown('D'))		// 오른쪽으로 움직임
 	{
 		vPosition -= (mvDirection * m_fMoveSpeed);
 	}
