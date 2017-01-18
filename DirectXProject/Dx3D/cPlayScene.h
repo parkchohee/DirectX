@@ -18,7 +18,6 @@ class cPlayScene
 	cPlayer*					m_pPlayer;
 
 	cAI*						m_pAI;
-	cAI*	test;
 
 
 public:

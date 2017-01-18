@@ -71,6 +71,7 @@ void cPlayer::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			D3DXVec3Cross(&vPosition, &vUp, &vDir);
 
 			D3DXVec3Normalize(&vPosition, &vPosition);
+			vPosition.y += 0.5f;
 
 			if (m_pGun)
 				m_pGun->Fire(vDir, m_vPosition + vPosition * 0.5f);
