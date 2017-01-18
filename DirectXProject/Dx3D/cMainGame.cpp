@@ -51,7 +51,22 @@ void cMainGame::Render()
 
 	if (m_pPlayScene)
 		m_pPlayScene->Render();
+	
 
+
+
+	char szTemp[1024];
+	sprintf(szTemp, "FPS : %d", g_pTimeManager->GetFPS());
+
+	LPD3DXFONT pFont = g_pFontManager->GetFont(cFontManager::E_DEFAULT);
+	RECT rc;
+	SetRect(&rc, 0, 0, 300, 300);
+	pFont->DrawText(NULL,
+		szTemp,
+		strlen(szTemp),
+		&rc,
+		DT_LEFT | DT_TOP | DT_WORDBREAK,
+		D3DCOLOR_XRGB(255, 255, 0));
 
 	g_pD3DDevice->EndScene();
 

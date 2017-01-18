@@ -20,6 +20,7 @@
 
 class cGun;
 class cController;
+class cOBB;
 
 class cAI : public cGameObject
 {
@@ -27,6 +28,7 @@ class cAI : public cGameObject
 	cController*		m_pController;
 
 	cSkinnedMesh*		m_pSkinnedMesh;				// 캐릭터 몸체
+	cOBB*				m_pOBB;						// OBB Box
 
 	iMap*				m_pMap;						// iMap
 
@@ -37,5 +39,7 @@ public:
 	void Setup(char* szFolder, char* szFilename);
 	void Update(iMap* pMap);
 	void Render();
+
+	cOBB* GetOBB() { return m_pOBB; }
 };
 

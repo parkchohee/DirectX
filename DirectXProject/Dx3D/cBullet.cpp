@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "cBullet.h"
 
-
 DWORD FtoDw(float f)
 {
 	return *((DWORD*)&f);
@@ -10,12 +9,14 @@ DWORD FtoDw(float f)
 cBullet::cBullet()
 	: m_fMoveDistance(0.0f)
 	, m_fBulletSpeed(0.5f)
+	, m_pBoundingSphereMesh(NULL)
 {
 }
 
 
 cBullet::~cBullet()
 {
+	SAFE_RELEASE(m_pBoundingSphereMesh);
 }
 
 void cBullet::Setup(D3DXVECTOR3 & vDirection, D3DXVECTOR3 & vPosition)
@@ -26,18 +27,41 @@ void cBullet::Setup(D3DXVECTOR3 & vDirection, D3DXVECTOR3 & vPosition)
 
 	Setup_Particle();
 
+	if (m_pBoundingSphereMesh == NULL)
+	{
+		D3DXCreateSphere(g_pD3DDevice,
+			0.1f,
+			20,
+			20,
+			&m_pBoundingSphereMesh,
+			NULL);
+	}
+
 }
 
 void cBullet::Update()
 {
 	Update_Particle(); 	/// >> : Particle Update
 	m_fMoveDistance += m_fBulletSpeed;
+	
 }
 
 void cBullet::Render()
 {
 	Render_Particle(); /// : particle
-
+	
+	if (m_pBoundingSphereMesh)
+	{
+		D3DXMATRIXA16 matT;
+		D3DXMatrixTranslation(&matT,
+			m_stBoundingSphere.vCenter.x,
+			m_stBoundingSphere.vCenter.y,
+			m_stBoundingSphere.vCenter.z);
+		g_pD3DDevice->SetTransform(D3DTS_WORLD, &matT);
+		g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+		m_pBoundingSphereMesh->DrawSubset(0);
+		g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+	}
 }
 
 void cBullet::Setup_Particle()
@@ -91,6 +115,10 @@ void cBullet::Setup_Particle()
 
 void cBullet::Update_Particle()
 {
+	if (m_vecVertex.empty()) return;
+	m_stBoundingSphere.vCenter = m_vecVertex.back().p;
+	m_stBoundingSphere.fRadius = 0.1f;
+
 	for (size_t i = 0; i < m_vecVertex.size(); ++i)
 	{
 		m_vecVertex[i].p = m_vecVertex[i].p 

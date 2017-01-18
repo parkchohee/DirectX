@@ -18,6 +18,8 @@ public:
 	void Update(D3DXVECTOR3& camAngle, iMap* pMap = NULL);
 	void Render();
 
+	cGun* GetGun();
+
 	void WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
 };

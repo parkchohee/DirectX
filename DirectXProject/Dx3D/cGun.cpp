@@ -29,6 +29,7 @@ void cGun::Setup(D3DXVECTOR3* pvTarget, char* szFolder, char* szFilename)
 	m_pvTarget = pvTarget;
 
 	m_pGun = new cSkinnedMesh(szFolder, szFilename);
+
 }
 
 void cGun::Update(D3DXVECTOR3& camAngle)

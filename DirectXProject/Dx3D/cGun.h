@@ -6,10 +6,9 @@ class cBullet;
 class cGun : public cObject
 {
 	cSkinnedMesh*				m_pGun;				// Gun의 메쉬
-	D3DXVECTOR3*				m_pvTarget;			// Gun을 가지는 object
+	D3DXVECTOR3*				m_pvTarget;			// Gun을 가지는 object의 위치
 	//cBullet*					m_pBullet;			// 총알 객체
-	
-	
+
 	std::vector<cBullet*>		m_pvBullet;			// 총알 여러개
 	
 
@@ -27,6 +26,8 @@ public:
 	void Setup(D3DXVECTOR3* pvTarget, char* szFolder, char* szFilename);
 	void Update(D3DXVECTOR3& camAngle);
 	void Render();
+
+	std::vector<cBullet*> GetBullets() { return m_pvBullet; }
 
 	void Setting(D3DXVECTOR3& camAngle);
 	void Fire(D3DXVECTOR3& vDirection, D3DXVECTOR3& vPosition);
