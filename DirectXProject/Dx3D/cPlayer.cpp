@@ -5,8 +5,9 @@
 #include "cRay.h"
 
 cPlayer::cPlayer()
-	: m_pGun(NULL)
-	, m_pController(NULL)
+	: m_pController(NULL)
+	, m_pGun(NULL)
+	, m_nSelectGun(0)
 {
 }
 
@@ -14,13 +15,28 @@ cPlayer::cPlayer()
 cPlayer::~cPlayer()
 {
 	SAFE_RELEASE(m_pController);
-	SAFE_RELEASE(m_pGun);
+
+	for each (auto p in m_vecGun)
+		SAFE_RELEASE(p);
 }
 
 void cPlayer::Setup()
 {
-	m_pGun = new cGun;
-	m_pGun->Setup(&m_vPosition, "Gun/", "Pistol.X");
+	m_vecGun.resize(GUNMAX);
+	
+	cGun* pGun1 = new cGun;
+	pGun1->Setup(&m_vPosition, "Gun/Pistol/", "Pistol.X");
+	m_vecGun[0] = pGun1;
+
+	cGun* pGun2 = new cGun;
+	pGun2->Setup(&m_vPosition, "Gun/Pistol2/", "Pistol2.X");
+	m_vecGun[1] = pGun2;
+
+	cGun* pGun3 = new cGun;
+	pGun3->Setup(&m_vPosition, "Gun/MG_42/", "MG_42.X");
+	m_vecGun[2] = pGun3;
+
+	m_pGun = m_vecGun[m_nSelectGun];
 
 	m_pController = new cPlayerController;
 	m_pController->Setup(0.1f);
@@ -32,6 +48,16 @@ void cPlayer::Update(D3DXVECTOR3 & camAngle, iMap * pMap)
 	if (m_pController)
 		m_pController->Update(camAngle, m_vDirection, m_vPosition);
 
+	
+	// 한번만 눌리게 바꿔야함...
+	
+	if (g_pKeyManager->IsOnceKeyDown('1'))
+	{
+		m_nSelectGun++;
+		m_nSelectGun %= 3;
+		m_pGun = m_vecGun[m_nSelectGun];
+	}
+
 	if (m_pGun)
 		m_pGun->Update(camAngle);
 }
@@ -40,7 +66,6 @@ void cPlayer::Render()
 {
 	if (m_pGun)
 		m_pGun->Render();
-
 }
 
 cGun * cPlayer::GetGun()
@@ -55,6 +80,10 @@ void cPlayer::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	switch (message)
 	{
+	/*case WM_MOUSEWHEEL:
+		m_nSelectGun = abs((int)(GET_WHEEL_DELTA_WPARAM(wParam) / 100.f) % 3);
+		m_pGun = m_vecGun[m_nSelectGun];
+		break;*/
 	case WM_LBUTTONUP:
 		{
 			float centerX, centerY;
@@ -72,6 +101,9 @@ void cPlayer::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 			D3DXVec3Normalize(&vPosition, &vPosition);
 			vPosition.y += 0.5f;
+
+			//if (m_vecGun[m_nSelectGun])
+			//	m_vecGun[m_nSelectGun]->Fire(vDir, m_vPosition + vPosition * 0.5f);
 
 			if (m_pGun)
 				m_pGun->Fire(vDir, m_vPosition + vPosition * 0.5f);

@@ -117,12 +117,12 @@ void cPlayScene::Update()
 
 void cPlayScene::Render()
 {
-	if (m_pPlayer)
-		m_pPlayer->Render();
-	
 	if (m_pAI)
 		m_pAI->Render();
 
+	if (m_pPlayer)
+		m_pPlayer->Render();
+	
 	if (m_pGrid)
 		m_pGrid->Render();
 

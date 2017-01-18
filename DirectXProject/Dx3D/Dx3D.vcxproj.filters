@@ -216,6 +216,9 @@
     <ClInclude Include="iMap.h">
       <Filter>Setting&amp;Manager\header\Setting</Filter>
     </ClInclude>
+    <ClInclude Include="cKeyManager.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -346,6 +349,9 @@
     </ClCompile>
     <ClCompile Include="iMap.cpp">
       <Filter>Setting&amp;Manager\cpp\Setting</Filter>
+    </ClCompile>
+    <ClCompile Include="cKeyManager.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
