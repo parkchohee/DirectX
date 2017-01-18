@@ -1,3 +1,5 @@
+#pragma once
+
 #include "stdafx.h"
 #include "cPlayScene.h"
 #include "cCamera.h"
@@ -5,6 +7,9 @@
 #include "cUIImageView.h"
 #include "cPlayer.h"
 #include "cAI.h"
+#include "cGun.h"
+#include "cBullet.h"
+#include "cOBB.h"
 
 
 cPlayScene::cPlayScene()
@@ -105,6 +110,17 @@ void cPlayScene::Update()
 
 	if (m_pUIRoot)
 		m_pUIRoot->Update();
+
+	if (m_pPlayer->GetGun())
+	{
+		cGun* gun = m_pPlayer->GetGun();
+
+		for (size_t i = 0; i < gun->GetBullets().size(); i++)
+		{
+		
+		}
+	}
+
 }
 
 void cPlayScene::Render()

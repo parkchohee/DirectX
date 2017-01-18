@@ -39,5 +39,7 @@ public:
 	void Setup(char* szFolder, char* szFilename);
 	void Update(iMap* pMap);
 	void Render();
+
+	cOBB* GetOBB() { return m_pOBB; }
 };
 

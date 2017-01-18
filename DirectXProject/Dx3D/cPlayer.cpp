@@ -43,6 +43,14 @@ void cPlayer::Render()
 
 }
 
+cGun * cPlayer::GetGun()
+{
+	if (m_pGun)
+		return m_pGun;
+	
+	return NULL;
+}
+
 void cPlayer::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	switch (message)
