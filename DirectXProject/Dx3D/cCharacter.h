@@ -1,23 +1,29 @@
 #pragma once
 
-class iMap;
-class cSkinnedMesh;
-class cOBB;
+class cGun;
 class cController;
+class cOBB;
 
 class cCharacter : public cGameObject
 {
 protected:
-	cSkinnedMesh*		m_pSkinnedMesh;				// 캐릭터 몸체
-	cOBB*				m_pOBB;						// OBB Box
+	cGun*					m_pGun;
+	cController*			m_pController;
 
-	cController*		m_pController;		// 컨트롤러
+	LPD3DXMESH				m_pBoundingSphereMesh;
+	ST_SPHERE				m_stBoundingSphere;
 
-	D3DXMATRIXA16		m_matWorld;					// worldMatrix
-	iMap*				m_pMap;						// iMap
+	iMap*					m_pMap;
 
+	D3DXMATRIXA16			m_matWorldTM;
+
+	// 적인지, 우리팀인지 확인하는 bool형 변수
+	SYNTHESIZE(bool, m_isEnemy, IsEnemy);
+
+	// HP
+	SYNTHESIZE(float, m_fMaxHp, MaxHp);
 	SYNTHESIZE(float, m_fCurrentHp, CurrentHp);
-	
+
 public:
 	cCharacter(void);
 	virtual ~cCharacter(void);
@@ -25,10 +31,6 @@ public:
 	virtual void Setup(char* szFolder, char* szFilename);
 	virtual void Update(iMap* pMap);
 	virtual void Render();
-	virtual D3DXMATRIXA16* GetTransform()
-	{
-		return &m_matWorld;
-	}
-	virtual void WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
+	
 };
 

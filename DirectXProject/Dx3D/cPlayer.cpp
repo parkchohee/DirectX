@@ -6,11 +6,8 @@
 
 
 cPlayer::cPlayer()
-	: m_pController(NULL)
-	, m_pGun(NULL)
-	, m_nSelectGun(0)
+	: m_nSelectGun(0)
 {
-	D3DXMatrixIdentity(&m_matWorldTM);
 }
 
 
@@ -31,7 +28,7 @@ void cPlayer::Setup()
 	m_vecGun[0] = pGun1;
 
 	cGun* pGun2 = new cGun;
-	pGun2->Setup(&m_vPosition, "Gun/", "Law.X");
+	pGun2->Setup(&m_vPosition, "Gun/", "winchester.X");
 	m_vecGun[1] = pGun2;
 	
 	cGun* pGun3 = new cGun;
@@ -69,7 +66,7 @@ void cPlayer::Update(D3DXVECTOR3 & camAngle, iMap * pMap)
 	if (g_pKeyManager->IsOnceKeyDown('1'))
 	{
 		m_nSelectGun++;
-		m_nSelectGun %= 3;
+		m_nSelectGun %= m_vecGun.size();
 		m_pGun = m_vecGun[m_nSelectGun];
 	}
 
