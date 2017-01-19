@@ -79,8 +79,8 @@ void cGun::SetWorldMatrixByBoneName(D3DXMATRIXA16 * matRot, char * name)
 
 void cGun::Fire(D3DXVECTOR3 & vDirection, D3DXVECTOR3 & vPosition)
 {
- 	m_pGun->SetAnimationIndex(7);
-
+ 	//m_pGun->SetAnimationIndex(7);
+	m_pGun->PlayOneShot(3,0,0);
 	if (m_pvBullet.size() < m_nMaxBullet)
 	{
 		cBullet* bullet = new cBullet;
