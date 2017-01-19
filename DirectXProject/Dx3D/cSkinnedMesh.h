@@ -14,8 +14,8 @@ private:
 
 	LPD3DXANIMATIONCONTROLLER	m_pAnimController;
 	
-	D3DXMATRIXA16*				m_matWorldTM;
-	D3DXMATRIXA16				m_matTran;
+	D3DXMATRIXA16				m_matWorldTM;
+	D3DXMATRIXA16				m_matLocalTM;
 
 	/// >> : OBB -
 	SYNTHESIZE(D3DXVECTOR3, m_vMin, Min);
@@ -34,17 +34,13 @@ public:
 	void SetRandomTrackPosition();
 	void SetTransform(D3DXMATRIXA16* pmat)
 	{
-		m_matWorldTM = pmat;
+		m_matWorldTM = *pmat;
 	}
 
-	D3DXMATRIXA16* GetTransForm() { return m_matWorldTM; }
+	D3DXMATRIXA16* GetTransForm() { return &m_matWorldTM; }
 
 	void ResetAndSetAnimationIndex(int nIndex);
-	//void SetPosition(D3DXVECTOR3* v)
-	//{
-	////	m_vPosition = *v;
-	//	m_stBoundingSphere.vCenter = *v;
-	//}
+	
 	ST_SPHERE* GetBoundingSphere()
 	{
 		return &m_stBoundingSphere;

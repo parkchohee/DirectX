@@ -17,7 +17,7 @@ class cGun : public cObject
 	int							m_nMaxBullet;			// 총알 최대
 	int							m_nCurrentBullet;		// 현재 남은 총알 수
 
-	D3DXMATRIXA16*				m_pWorldTM;
+	D3DXMATRIXA16				m_pWorldTM;
 
 public:
 	cGun();
@@ -30,7 +30,7 @@ public:
 	std::vector<cBullet*> GetBullets() { return m_pvBullet; }
 	void SetParentWorldMatrix(D3DXMATRIXA16* matWorld);
 	void SetWorldMatrix(D3DXMATRIXA16* matWorld);
-	void SetWorldMatrix(D3DXMATRIXA16* matWorld, char* name);
+	void SetWorldMatrixByBoneName(D3DXMATRIXA16* matRot, char* name);
 	
 	void Fire(D3DXVECTOR3& vDirection, D3DXVECTOR3& vPosition);
 };

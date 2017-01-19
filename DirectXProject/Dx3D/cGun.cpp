@@ -11,10 +11,7 @@ cGun::cGun()
 	, m_fAttackSpeed(1.f)
 	, m_nMaxBullet(10)
 	, m_nCurrentBullet(10)
-	, m_pWorldTM(NULL)
 {
-	//D3DXMatrixIdentity(&m_matParentWorldTM);
-	//D3DXMatrixIdentity(&m_matWorldTM);
 }
 
 
@@ -24,7 +21,6 @@ cGun::~cGun()
 		SAFE_RELEASE(p);
 
 	SAFE_DELETE(m_pGun);
-
 }
 
 void cGun::Setup(D3DXVECTOR3* pvTarget, char* szFolder, char* szFilename)
@@ -47,10 +43,6 @@ void cGun::Update()
 			break;
 		}
 	}
-
-	/*if (m_pWorldTM)
-		m_pGun->SetTransform(m_pWorldTM);
-*/
 }
 
 void cGun::Render()
@@ -75,12 +67,13 @@ void cGun::SetWorldMatrix(D3DXMATRIXA16* matWorld)
 	if (m_pGun)
 		m_pGun->SetTransform(matWorld);
 }
-void cGun::SetWorldMatrix(D3DXMATRIXA16 * matWorld, char * name)
+void cGun::SetWorldMatrixByBoneName(D3DXMATRIXA16 * matRot, char * name)
 {
 	if (m_pGun)
 	{
-		m_pWorldTM = m_pGun->getLocalMatrix(name);
-		m_pGun->SetTransform(m_pWorldTM);
+		D3DXMATRIXA16 matWorld = *matRot;
+		m_pWorldTM = matWorld * *m_pGun->getLocalMatrix(name);
+		m_pGun->SetTransform(&m_pWorldTM);
 	}
 }
 

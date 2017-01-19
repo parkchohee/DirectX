@@ -43,6 +43,7 @@ void cPlayScene::Setup()
 	m_pPlayer->Setup();
 
 	m_pAI = new cAI;
+	m_pAI->SetPosition(D3DXVECTOR3(3, 0, 0));
 	m_pAI->Setup("AI/", "testMan.X");
 
 	m_pCamera = new cCamera;
@@ -107,9 +108,34 @@ void cPlayScene::Update()
 	{
 		cGun* gun = m_pPlayer->GetGun();
 
-		for (size_t i = 0; i < gun->GetBullets().size(); i++)
+		for (size_t bulletIndex = 0; bulletIndex < gun->GetBullets().size(); bulletIndex++)
 		{
-		
+			D3DXVECTOR3 vBulletCenter, vAICenter;
+			vBulletCenter = gun->GetBullets()[bulletIndex]->GetBoundingSphere().vCenter;
+			vAICenter = m_pAI->GetBoundingSphere().vCenter;
+
+			if (IsCollision(vBulletCenter, BULLET_RADIUS, vAICenter, AI_BOUNDING_SPHERE_SIZE))
+			{
+				for (size_t sphereIndex = 0; sphereIndex < m_pAI->GetBoundingSphereDetail().size(); sphereIndex++)
+				{
+					if (IsCollision(vBulletCenter, BULLET_RADIUS, m_pAI->GetBoundingSphereDetail()[sphereIndex].vCenter, AI_BOUNDING_SPHERE_DETAIL_SIZE))
+					{
+						int a = 0;
+					}
+				}
+			}
+
+			/*for (size_t j = 0; j < m_pAI->GetBoundingSphere().size(); j++)
+			{
+				D3DXVECTOR3 BulletPos, CrushManPos;
+				BulletPos = gun->GetBullets()[i]->GetBoundingSphere().vCenter;
+				CrushManPos = m_pAI->GetBoundingSphere()[j].vCenter;
+
+				if (IsCollision(BulletPos, 0.1f, CrushManPos, 0.2f))
+				{
+					int a = 0;
+				}
+			}*/
 		}
 	}
 
@@ -142,4 +168,16 @@ void cPlayScene::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		m_pCamera->WndProc(hWnd, message, wParam, lParam);
 	}
 
+}
+
+float cPlayScene::GetDistance(D3DXVECTOR3 BulletPos, D3DXVECTOR3 CrushManPos)
+{
+	return ((CrushManPos.x - BulletPos.x)*(CrushManPos.x - BulletPos.x)) +
+		((CrushManPos.y - BulletPos.y)*(CrushManPos.y - BulletPos.y)) +
+		((CrushManPos.z - BulletPos.z)* (CrushManPos.z - BulletPos.z));
+}
+
+bool cPlayScene::IsCollision(D3DXVECTOR3 BulletPos, float BulletSphereRadius, D3DXVECTOR3 CrushManPos, float CrushManSphereRadius)
+{
+	return GetDistance(BulletPos, CrushManPos) < ((BulletSphereRadius + CrushManSphereRadius) * (BulletSphereRadius + CrushManSphereRadius));
 }

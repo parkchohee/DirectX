@@ -10,12 +10,11 @@ cSkinnedMesh::cSkinnedMesh(char* szFolder, char* szFilename)
 	, m_pmWorkingPalette(NULL)
 	, m_pEffect(NULL)
 	, m_pmatParent(NULL)
-	, m_matWorldTM(NULL)
 	
 {
 	cSkinnedMesh* pSkinnedMesh = g_pSkinnedMeshManager->GetSkinnedMesh(szFolder, szFilename);
 
-	//D3DXMatrixIdentity(&m_matWorldTM);
+	D3DXMatrixIdentity(&m_matWorldTM);
 	m_pRootFrame = pSkinnedMesh->m_pRootFrame;
 	m_dwWorkingPaletteSize = pSkinnedMesh->m_dwWorkingPaletteSize;
 	m_pmWorkingPalette = pSkinnedMesh->m_pmWorkingPalette;
@@ -67,9 +66,9 @@ D3DXMATRIXA16 * cSkinnedMesh::getLocalMatrix(char * name)
 		D3DXMATRIXA16 TransformationInv;
 		(D3DXMATRIXA16)pBone->TransformationMatrix;
 		D3DXMatrixInverse(&TransformationInv, 0, &(D3DXMATRIXA16)pBone->TransformationMatrix);
-		m_matTran = *cSkinnedMesh::getMatrix(name) * TransformationInv;
+		m_matLocalTM = *cSkinnedMesh::getMatrix(name) * TransformationInv;
 
-		return &m_matTran;
+		return &m_matLocalTM;
 	}
 
 	return NULL;
@@ -159,13 +158,9 @@ void cSkinnedMesh::UpdateAndRender()
 		D3DXMatrixIdentity(&matSRT);
 
 		if (m_pmatParent)
-			if (m_matWorldTM)
-				matSRT = *m_matWorldTM * (*m_pmatParent);
-			else
-				matSRT = (*m_pmatParent);
+			matSRT = m_matWorldTM * (*m_pmatParent);
 		else
-			if (m_matWorldTM)
-				matSRT = *m_matWorldTM;
+			matSRT = m_matWorldTM;
 	
 		Update(m_pRootFrame, &matSRT);
 		Render(m_pRootFrame);
@@ -362,11 +357,6 @@ void cSkinnedMesh::SetAnimationIndex(int nIndex)
 	SAFE_RELEASE(pAnimSet);
 
 }
-//
-//void cSkinnedMesh::SetSRT(D3DXMATRIXA16 & matSRT)
-//{
-//	m_matWorldTM = matSRT;
-//}
 
 void cSkinnedMesh::Destroy()
 {
