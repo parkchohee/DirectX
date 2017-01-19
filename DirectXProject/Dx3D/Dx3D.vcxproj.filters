@@ -219,6 +219,9 @@
     <ClInclude Include="cKeyManager.h">
       <Filter>Setting&amp;Manager\header\Manager</Filter>
     </ClInclude>
+    <ClInclude Include="cSoundManager.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -352,6 +355,9 @@
     </ClCompile>
     <ClCompile Include="cKeyManager.cpp">
       <Filter>Setting&amp;Manager\cpp\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="cSoundManager.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
