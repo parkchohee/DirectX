@@ -42,7 +42,7 @@ void cCharacter::Update(iMap* pMap)
 
 	{
 		if (m_pOBB)
-			m_pOBB->Update(m_pSkinnedMesh->GetTransFrom());
+			m_pOBB->Update(m_pSkinnedMesh->GetTransForm());
 	}
 
 }

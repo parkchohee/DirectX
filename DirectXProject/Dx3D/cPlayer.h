@@ -15,7 +15,8 @@ class cPlayer : public cGameObject
 	cController*		m_pController;
 
 	D3DXVECTOR3			m_vCamAngle;
-	
+	D3DXMATRIXA16		m_matWorldTM;
+
 public:
 	cPlayer();
 	~cPlayer();
@@ -26,7 +27,6 @@ public:
 
 	cGun* GetGun();
 	void GunSetting(D3DXVECTOR3 & camAngle);
-	//void WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
 private:
 	void BulletFire();

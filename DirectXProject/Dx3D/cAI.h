@@ -28,11 +28,16 @@ class cAI : public cGameObject
 
 	cSkinnedMesh*			m_pSkinnedMesh;				// Ä³¸¯ÅÍ ¸öÃ¼
 
+	LPD3DXMESH				m_pBoundingSphereDetailMesh;
 	LPD3DXMESH				m_pBoundingSphereMesh;
-	std::vector<ST_SPHERE>	m_vecSphere;
-
+	std::vector<ST_SPHERE>	m_vecBoundingSphereDetail;
+	ST_SPHERE				m_stBoundingSphere;
 
 	iMap*					m_pMap;						// iMap
+
+	D3DXMATRIXA16			m_matWorldTM;
+	D3DXMATRIXA16*			m_matParentWorldTM;
+
 public:
 	cAI();
 	~cAI();
@@ -42,5 +47,7 @@ public:
 	void Render();
 
 	void SetBoundingSphere();
+	ST_SPHERE GetBoundingSphere();
+	std::vector<ST_SPHERE> GetBoundingSphereDetail();
 };
 

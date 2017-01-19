@@ -10,9 +10,7 @@ cSkinnedMesh::cSkinnedMesh(char* szFolder, char* szFilename)
 	, m_pmWorkingPalette(NULL)
 	, m_pEffect(NULL)
 	, m_pmatParent(NULL)
-	, m_vPosition(0, 0, 0)
-	, m_vRotation(0.0f, 0.0f, 0.0f)
-	, m_vSale(1.f, 1.f, 1.f)
+	
 {
 	cSkinnedMesh* pSkinnedMesh = g_pSkinnedMeshManager->GetSkinnedMesh(szFolder, szFilename);
 
@@ -55,6 +53,23 @@ D3DXMATRIXA16 * cSkinnedMesh::getMatrix(char * name)
 
 	if (pBone != NULL)
 		return &pBone->CombinedTransformationMatrix;
+
+	return NULL;
+}
+
+D3DXMATRIXA16 * cSkinnedMesh::getLocalMatrix(char * name)
+{
+	ST_BONE * pBone = getBone(name, m_pRootFrame);
+
+	if (pBone != NULL)
+	{
+		D3DXMATRIXA16 TransformationInv;
+		(D3DXMATRIXA16)pBone->TransformationMatrix;
+		D3DXMatrixInverse(&TransformationInv, 0, &(D3DXMATRIXA16)pBone->TransformationMatrix);
+		m_matLocalTM = *cSkinnedMesh::getMatrix(name) * TransformationInv;
+
+		return &m_matLocalTM;
+	}
 
 	return NULL;
 }
@@ -139,19 +154,13 @@ void cSkinnedMesh::UpdateAndRender()
 
 	if (m_pRootFrame)
 	{
-		D3DXMATRIXA16 matS, matR, matRX, matRY, matRZ, matT, matSRT;
-		D3DXMatrixScaling(&matS, m_vSale.x, m_vSale.y, m_vSale.z);
-		D3DXMatrixRotationX(&matRX, m_vRotation.x);
-		D3DXMatrixRotationY(&matRY, m_vRotation.y);
-		D3DXMatrixRotationZ(&matRZ, m_vRotation.z);
-		D3DXMatrixTranslation(&matT, m_vPosition.x, m_vPosition.y, m_vPosition.z);
-
-		matR = matRX * matRY * matRZ;
+		D3DXMATRIXA16 matSRT;
+		D3DXMatrixIdentity(&matSRT);
 
 		if (m_pmatParent)
-			matSRT = matS * matR * matT * m_matWorldTM * (*m_pmatParent);
+			matSRT = m_matWorldTM * (*m_pmatParent);
 		else
-			matSRT = matS * matR * matT * m_matWorldTM;
+			matSRT = m_matWorldTM;
 	
 		Update(m_pRootFrame, &matSRT);
 		Render(m_pRootFrame);
@@ -348,11 +357,6 @@ void cSkinnedMesh::SetAnimationIndex(int nIndex)
 	SAFE_RELEASE(pAnimSet);
 
 }
-//
-//void cSkinnedMesh::SetSRT(D3DXMATRIXA16 & matSRT)
-//{
-//	m_matWorldTM = matSRT;
-//}
 
 void cSkinnedMesh::Destroy()
 {
