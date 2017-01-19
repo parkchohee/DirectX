@@ -11,7 +11,10 @@ cGun::cGun()
 	, m_fAttackSpeed(1.f)
 	, m_nMaxBullet(10)
 	, m_nCurrentBullet(10)
+	, m_pWorldTM(NULL)
 {
+	//D3DXMatrixIdentity(&m_matParentWorldTM);
+	//D3DXMatrixIdentity(&m_matWorldTM);
 }
 
 
@@ -32,11 +35,8 @@ void cGun::Setup(D3DXVECTOR3* pvTarget, char* szFolder, char* szFilename)
 
 }
 
-void cGun::Update(/*D3DXVECTOR3& camAngle*/)
+void cGun::Update()
 {
-	/*if(camAngle)
-		Setting(camAngle);
-*/
 	for (size_t i = 0; i < m_pvBullet.size(); i++)
 	{
 		m_pvBullet[i]->Update();
@@ -48,6 +48,9 @@ void cGun::Update(/*D3DXVECTOR3& camAngle*/)
 		}
 	}
 
+	/*if (m_pWorldTM)
+		m_pGun->SetTransform(m_pWorldTM);
+*/
 }
 
 void cGun::Render()
@@ -59,46 +62,26 @@ void cGun::Render()
 	{
 		m_pvBullet[i]->Render();
 	}
-
 }
 
-void cGun::SetParentWorldMatrix(D3DXMATRIXA16 & matWorld)
+void cGun::SetParentWorldMatrix(D3DXMATRIXA16* matWorld)
 {
 	if (m_pGun)
-		m_pGun->SetParent(&matWorld);
+		m_pGun->SetParent(matWorld);
 }
 
-void cGun::SetWorldMatrix(D3DXMATRIXA16 & matWorld)
+void cGun::SetWorldMatrix(D3DXMATRIXA16* matWorld)
 {
 	if (m_pGun)
-		m_pGun->SetTransform(&matWorld);
+		m_pGun->SetTransform(matWorld);
 }
-
-void cGun::Setting(D3DXVECTOR3& camAngle)
+void cGun::SetWorldMatrix(D3DXMATRIXA16 * matWorld, char * name)
 {
-	D3DXMATRIXA16 matS, matRX, matRY, matR, matT, matSRT;
-	D3DXMatrixScaling(&matS, 0.1f, 0.1f, 0.1f);
-	
-	D3DXMatrixRotationY(&matR, -D3DX_PI / 2 - 0.15);
-
-	if (m_pvTarget)
-		D3DXMatrixTranslation(&matT, m_pvTarget->x + 1.0f, m_pvTarget->y + 0.5f, m_pvTarget->z + 3.0f);
-	else
-		D3DXMatrixIdentity(&matT);
-	
-	// 중심 축 맞춰주기 위해 이동후 회전, 다시 원위치로
-	D3DXMATRIXA16 matTempT, matTempTInv;
-	D3DXMatrixTranslation(&matTempT, 1.0f, 0.5, 3.0f);
-	D3DXMatrixTranslation(&matTempTInv, -1.0f, -0.5, -3.0f);
-
-	D3DXMatrixRotationX(&matRX, camAngle.x);
-	D3DXMatrixRotationY(&matRY, camAngle.y);
-
-	matR = matR * matTempT * matRX * matRY * matTempTInv;
-
-	matSRT = matS * matR * matT;
-
-	m_pGun->SetTransform(&matSRT);
+	if (m_pGun)
+	{
+		m_pWorldTM = m_pGun->getLocalMatrix(name);
+		m_pGun->SetTransform(m_pWorldTM);
+	}
 }
 
 void cGun::Fire(D3DXVECTOR3 & vDirection, D3DXVECTOR3 & vPosition)

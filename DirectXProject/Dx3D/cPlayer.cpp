@@ -10,6 +10,7 @@ cPlayer::cPlayer()
 	, m_pGun(NULL)
 	, m_nSelectGun(0)
 {
+	D3DXMatrixIdentity(&m_matWorldTM);
 }
 
 
@@ -26,15 +27,15 @@ void cPlayer::Setup()
 	m_vecGun.resize(GUNMAX);
 	
 	cGun* pGun1 = new cGun;
-	pGun1->Setup(&m_vPosition, "Gun/Pistol/", "Pistol.X");
+	pGun1->Setup(&m_vPosition, "Gun/", "Shotgun.X");
 	m_vecGun[0] = pGun1;
 
 	cGun* pGun2 = new cGun;
-	pGun2->Setup(&m_vPosition, "Gun/Pistol2/", "Pistol2.X");
+	pGun2->Setup(&m_vPosition, "Gun/", "Law.X");
 	m_vecGun[1] = pGun2;
-
+	
 	cGun* pGun3 = new cGun;
-	pGun3->Setup(&m_vPosition, "Gun/MG_42/", "MG_42.X");
+	pGun3->Setup(&m_vPosition, "Gun/", "Bullpup.X");
 	m_vecGun[2] = pGun3;
 
 	m_pGun = m_vecGun[m_nSelectGun];
@@ -51,7 +52,6 @@ void cPlayer::Update(D3DXVECTOR3 & camAngle, iMap * pMap)
 
 	if (m_pGun)
 	{
-		//m_pGun->Update(camAngle);
 		GunSetting(camAngle);
 		m_pGun->Update();
 	}
@@ -110,25 +110,10 @@ void cPlayer::GunSetting(D3DXVECTOR3 & camAngle)
 
 	matSRT = matS * matR * matT;
 
-	m_pGun->SetWorldMatrix(matSRT);
-	//m_pGun->SetTransform(&matSRT);
+	m_matWorldTM = matSRT;
+
+	m_pGun->SetWorldMatrix(&m_matWorldTM);
 }
-//
-//void cPlayer::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
-//{
-//	switch (message)
-//	{
-//	case WM_LBUTTONUP:
-//	{
-//
-//	}
-//	break;
-//	case WM_RBUTTONDOWN:
-//	{
-//
-//	}
-//	}
-//}
 
 void cPlayer::BulletFire()
 {

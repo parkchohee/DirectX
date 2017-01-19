@@ -17,7 +17,6 @@
 //	virtual void Render() override;
 //};
 //
-
 class cGun;
 class cController;
 
@@ -30,9 +29,12 @@ class cAI : public cGameObject
 
 	LPD3DXMESH				m_pBoundingSphereMesh;
 	std::vector<ST_SPHERE>	m_vecSphere;
-
-
+	
 	iMap*					m_pMap;						// iMap
+
+	D3DXMATRIXA16			m_matWorldTM;
+	D3DXMATRIXA16*			m_matParentWorldTM;
+
 public:
 	cAI();
 	~cAI();

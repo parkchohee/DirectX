@@ -13,17 +13,15 @@ private:
 	LPD3DXEFFECT				m_pEffect;
 
 	LPD3DXANIMATIONCONTROLLER	m_pAnimController;
-	D3DXMATRIXA16				m_matWorldTM;
+	
+	D3DXMATRIXA16*				m_matWorldTM;
+	D3DXMATRIXA16				m_matTran;
 
 	/// >> : OBB -
 	SYNTHESIZE(D3DXVECTOR3, m_vMin, Min);
 	SYNTHESIZE(D3DXVECTOR3, m_vMax, Max);
 
-	SYNTHESIZE(D3DXVECTOR3, m_vSale, Scaling);
-	SYNTHESIZE_PASS_BY_REF(D3DXVECTOR3, m_vRotation, Rotation);
-
 	SYNTHESIZE(D3DXMATRIXA16*, m_pmatParent, Parent);
-	D3DXVECTOR3					m_vPosition;
 	ST_SPHERE					m_stBoundingSphere;
 
 public:
@@ -36,20 +34,24 @@ public:
 	void SetRandomTrackPosition();
 	void SetTransform(D3DXMATRIXA16* pmat)
 	{
-		m_matWorldTM = *pmat;
+		m_matWorldTM = pmat;
 	}
-	D3DXMATRIXA16* GetTransFrom() { return &m_matWorldTM; }
+
+	D3DXMATRIXA16* GetTransForm() { return m_matWorldTM; }
+
 	void ResetAndSetAnimationIndex(int nIndex);
-	void SetPosition(D3DXVECTOR3 v)
-	{
-		m_vPosition = v;
-		m_stBoundingSphere.vCenter = v;
-	}
+	//void SetPosition(D3DXVECTOR3* v)
+	//{
+	////	m_vPosition = *v;
+	//	m_stBoundingSphere.vCenter = *v;
+	//}
 	ST_SPHERE* GetBoundingSphere()
 	{
 		return &m_stBoundingSphere;
 	}
 	D3DXMATRIXA16* getMatrix(char * name);
+	D3DXMATRIXA16* getLocalMatrix(char * name);
+
 	ST_BONE* getBone(char * name, ST_BONE * pBone = NULL);
 
 private:
