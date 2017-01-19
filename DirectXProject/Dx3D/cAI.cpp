@@ -5,10 +5,7 @@
 #include "cSkinnedMesh.h"
 
 cAI::cAI()
-	: m_pGun(NULL)
-	, m_pController(NULL)
-	, m_pBoundingSphereMesh(NULL)
-	, m_pBoundingSphereDetailMesh(NULL)
+	: m_pBoundingSphereDetailMesh(NULL)
 {
 }
 
@@ -85,17 +82,17 @@ void cAI::Render()
 	if (m_pGun)
 		m_pGun->Render();
 
-	//D3DXMATRIXA16 matWorld;
-	//D3DXMatrixIdentity(&matWorld);
-	//matWorld._41 = m_stBoundingSphere.vCenter.x;
-	//matWorld._42 = m_stBoundingSphere.vCenter.y;
-	//matWorld._43 = m_stBoundingSphere.vCenter.z;
+	D3DXMATRIXA16 matWorld;
+	D3DXMatrixIdentity(&matWorld);
+	matWorld._41 = m_stBoundingSphere.vCenter.x;
+	matWorld._42 = m_stBoundingSphere.vCenter.y;
+	matWorld._43 = m_stBoundingSphere.vCenter.z;
 
-	//g_pD3DDevice->SetTransform(D3DTS_WORLD, &matWorld);
+	g_pD3DDevice->SetTransform(D3DTS_WORLD, &matWorld);
 
-	//m_pBoundingSphereMesh->DrawSubset(0);
+	m_pBoundingSphereMesh->DrawSubset(0);
 
-	/*for each(auto s in m_vecBoundingSphereDetail)
+	for each(auto s in m_vecBoundingSphereDetail)
 	{
 		D3DXMATRIXA16 matWorld;
 		D3DXMatrixIdentity(&matWorld);
@@ -105,8 +102,8 @@ void cAI::Render()
 		
 		g_pD3DDevice->SetTransform(D3DTS_WORLD, &matWorld);
 
-		m_pBoundingSphereMesh->DrawSubset(0);
-	}*/
+		m_pBoundingSphereDetailMesh->DrawSubset(0);
+	}
 }
 
 void cAI::SetBoundingSphere()

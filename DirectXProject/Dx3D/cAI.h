@@ -1,41 +1,17 @@
 #pragma once
-//#include "cCharacter.h"
-//
-//class cGun;
-//class cController;
-//
-//class cAI : public cCharacter
-//{
-//	cGun*				m_pGun;
-//
-//public:
-//	cAI();
-//	virtual ~cAI();
-//
-//	virtual void Setup(char* szFolder, char* szFilename) override;
-//	virtual void Update(iMap* pMap) override;
-//	virtual void Render() override;
-//};
-//
+
+#include "cCharacter.h"
 
 class cGun;
 class cController;
 
-class cAI : public cGameObject
+class cAI : public cCharacter
 {
-	cGun*					m_pGun;
-	cController*			m_pController;
-
 	cSkinnedMesh*			m_pSkinnedMesh;				// Ä³¸¯ÅÍ ¸öÃ¼
 
 	LPD3DXMESH				m_pBoundingSphereDetailMesh;
-	LPD3DXMESH				m_pBoundingSphereMesh;
 	std::vector<ST_SPHERE>	m_vecBoundingSphereDetail;
-	ST_SPHERE				m_stBoundingSphere;
 
-	iMap*					m_pMap;						// iMap
-
-	D3DXMATRIXA16			m_matWorldTM;
 	D3DXMATRIXA16*			m_matParentWorldTM;
 
 public:

@@ -2,20 +2,18 @@
 
 #define GUNMAX 3
 
+#include "cCharacter.h"
+
 class cGun;
 class cController;
 
-class cPlayer : public cGameObject
+class cPlayer : public cCharacter
 {
 	std::vector<cGun*>	m_vecGun;
 
 	int					m_nSelectGun;
 
-	cGun*				m_pGun;
-	cController*		m_pController;
-
 	D3DXVECTOR3			m_vCamAngle;
-	D3DXMATRIXA16		m_matWorldTM;
 
 public:
 	cPlayer();
