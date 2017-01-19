@@ -153,8 +153,6 @@ void cSkinnedMesh::UpdateAndRender()
 		else
 			matSRT = matS * matR * matT * m_matWorldTM;
 	
-		//matSRT = matSRT;
-
 		Update(m_pRootFrame, &matSRT);
 		Render(m_pRootFrame);
 	}
