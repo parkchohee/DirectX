@@ -216,6 +216,9 @@
     <ClInclude Include="iMap.h">
       <Filter>Setting&amp;Manager\header\Setting</Filter>
     </ClInclude>
+    <ClInclude Include="cKeyManager.h">
+      <Filter>Setting&amp;Manager\header\Manager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -346,6 +349,9 @@
     </ClCompile>
     <ClCompile Include="iMap.cpp">
       <Filter>Setting&amp;Manager\cpp\Setting</Filter>
+    </ClCompile>
+    <ClCompile Include="cKeyManager.cpp">
+      <Filter>Setting&amp;Manager\cpp\Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

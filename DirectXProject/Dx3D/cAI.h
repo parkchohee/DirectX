@@ -20,18 +20,19 @@
 
 class cGun;
 class cController;
-class cOBB;
 
 class cAI : public cGameObject
 {
-	cGun*				m_pGun;
-	cController*		m_pController;
+	cGun*					m_pGun;
+	cController*			m_pController;
 
-	cSkinnedMesh*		m_pSkinnedMesh;				// 캐릭터 몸체
-	cOBB*				m_pOBB;						// OBB Box
+	cSkinnedMesh*			m_pSkinnedMesh;				// 캐릭터 몸체
 
-	iMap*				m_pMap;						// iMap
+	LPD3DXMESH				m_pBoundingSphereMesh;
+	std::vector<ST_SPHERE>	m_vecSphere;
 
+
+	iMap*					m_pMap;						// iMap
 public:
 	cAI();
 	~cAI();
@@ -40,6 +41,6 @@ public:
 	void Update(iMap* pMap);
 	void Render();
 
-	cOBB* GetOBB() { return m_pOBB; }
+	void SetBoundingSphere();
 };
 

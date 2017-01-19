@@ -100,6 +100,7 @@
     <ClInclude Include="cGrid.h" />
     <ClInclude Include="cGroup.h" />
     <ClInclude Include="cGun.h" />
+    <ClInclude Include="cKeyManager.h" />
     <ClInclude Include="cMainGame.h" />
     <ClInclude Include="cMtlTex.h" />
     <ClInclude Include="cOBB.h" />
@@ -147,6 +148,7 @@
     <ClCompile Include="cGrid.cpp" />
     <ClCompile Include="cGroup.cpp" />
     <ClCompile Include="cGun.cpp" />
+    <ClCompile Include="cKeyManager.cpp" />
     <ClCompile Include="cMainGame.cpp" />
     <ClCompile Include="cMtlTex.cpp" />
     <ClCompile Include="cOBB.cpp" />

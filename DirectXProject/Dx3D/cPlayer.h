@@ -1,10 +1,16 @@
 #pragma once
 
+#define GUNMAX 3
+
 class cGun;
 class cController;
 
 class cPlayer : public cGameObject
 {
+	std::vector<cGun*>	m_vecGun;
+
+	int					m_nSelectGun;
+
 	cGun*				m_pGun;
 	cController*		m_pController;
 
@@ -19,8 +25,12 @@ public:
 	void Render();
 
 	cGun* GetGun();
+	void GunSetting(D3DXVECTOR3 & camAngle);
+	//void WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
-	void WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
+private:
+	void BulletFire();
+
 
 };
 
