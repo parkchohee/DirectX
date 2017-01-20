@@ -50,32 +50,26 @@ private:
 public:
 	cSkinnedMesh(char* szFolder, char* szFilename);
 	~cSkinnedMesh(void);
-
+	
+	void Update();
 	void UpdateAndRender();
 	void SetAnimationIndex(int nIndex);
 
 	void SetRandomTrackPosition();
-	void SetTransform(D3DXMATRIXA16* pmat)
-	{
-		m_matWorldTM = *pmat;
-	}
+	void SetTransform(D3DXMATRIXA16* pmat);
 
-	D3DXMATRIXA16* GetTransForm() { return &m_matWorldTM; }
+	D3DXMATRIXA16* GetTransForm();
 
 	void ResetAndSetAnimationIndex(int nIndex);
 	
-	ST_SPHERE* GetBoundingSphere()
-	{
-		return &m_stBoundingSphere;
-	}
+	ST_SPHERE* GetBoundingSphere();
+	
 	D3DXMATRIXA16* getMatrix(char * name);
 	D3DXMATRIXA16* getLocalMatrix(char * name);
 
 	ST_BONE* getBone(char * name, ST_BONE * pBone = NULL);
 
 
-
-	void Update();
 
 	void Play(std::string animName, float crossFadeTime = 0.0);
 	void Play(int animIndex, float crossFadeTime = 0.0);
@@ -84,14 +78,9 @@ public:
 	void PlayOneShot(int animIndex, float inCrossFadeTime = 0.0, float outCrossFadeTime = 0.0f);
 	void PlayOneShotAfterHold(std::string animName, float crossFadeTime = 0.0);
 
-
 	void Pause() { m_bPlay = false;	}
 	void Resume() { m_bPlay = true; }
-	bool IsPlay() {	return this->m_bPlay; }
-
-
-
-
+	bool IsPlay() {	return m_bPlay; }
 
 private:
 	cSkinnedMesh();

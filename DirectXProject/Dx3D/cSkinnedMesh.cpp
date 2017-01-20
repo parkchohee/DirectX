@@ -34,22 +34,18 @@ cSkinnedMesh::cSkinnedMesh(char* szFolder, char* szFilename)
 		pSkinnedMesh->m_pAnimController->GetMaxNumEvents(),
 		&m_pAnimController);
 
+	m_AnimNum = m_pAnimController->GetNumAnimationSets();
 
-
+	for (UINT i = 0; i < m_AnimNum; i++)
 	{
-		m_AnimNum = m_pAnimController->GetNumAnimationSets();
+		LPD3DXANIMATIONSET animSet;
+		m_pAnimController->GetAnimationSet(i, &animSet);
 
-		for (UINT i = 0; i < m_AnimNum; i++)
-		{
-			LPD3DXANIMATIONSET animSet;
-			m_pAnimController->GetAnimationSet(i, &animSet);
-
-			m_vecAnimSet.push_back(animSet);
-			m_mapAnimSet.insert(std::make_pair(animSet->GetName(), animSet));
-		}
-
-		Play(0);
+		m_vecAnimSet.push_back(animSet);
+		m_mapAnimSet.insert(std::make_pair(animSet->GetName(), animSet));
 	}
+
+	Play(0);
 }
 
 
@@ -63,6 +59,11 @@ void cSkinnedMesh::ResetAndSetAnimationIndex(int nIndex)
 	m_pAnimController->SetTrackPosition(0, 0.0f);
 
 	SAFE_RELEASE(pAnimSet);
+}
+
+ST_SPHERE * cSkinnedMesh::GetBoundingSphere()
+{
+	return &m_stBoundingSphere;
 }
 
 D3DXMATRIXA16 * cSkinnedMesh::getMatrix(char * name)
@@ -590,7 +591,6 @@ void cSkinnedMesh::SetAnimation(LPD3DXANIMATIONSET animSet)
 		animSet == this->m_pNowPlayAnimationSet)
 		return;
 
-	//크로스 페이드가 존재한다면..
 	if (this->m_fCrossFadeTime > 0.0f)
 	{
 
@@ -657,4 +657,14 @@ void cSkinnedMesh::SetAnimation(LPD3DXANIMATIONSET animSet)
 void cSkinnedMesh::SetRandomTrackPosition()
 {
 	m_pAnimController->SetTrackPosition(0, (rand() % 100) / 10.0f);
+}
+
+void cSkinnedMesh::SetTransform(D3DXMATRIXA16 * pmat)
+{
+	m_matWorldTM = *pmat;
+}
+
+D3DXMATRIXA16 * cSkinnedMesh::GetTransForm()
+{
+	return &m_matWorldTM;
 }
