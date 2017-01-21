@@ -18,6 +18,9 @@ class cGun : public cObject
 	int							m_nCurrentBullet;		// 현재 남은 총알 수
 
 	D3DXMATRIXA16				m_pWorldTM;
+	D3DXMATRIXA16				m_pTrans;
+	D3DXMATRIXA16				m_pTransInv;
+
 
 public:
 	cGun();

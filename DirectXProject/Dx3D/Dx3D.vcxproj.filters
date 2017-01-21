@@ -220,7 +220,7 @@
       <Filter>Setting&amp;Manager\header\Manager</Filter>
     </ClInclude>
     <ClInclude Include="cSoundManager.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>Setting&amp;Manager\header\Manager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -357,7 +357,7 @@
       <Filter>Setting&amp;Manager\cpp\Manager</Filter>
     </ClCompile>
     <ClCompile Include="cSoundManager.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>Setting&amp;Manager\cpp\Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

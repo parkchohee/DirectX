@@ -42,15 +42,12 @@ void cAI::Setup(char* szFolder, char* szFilename)
 	//m_pGun->SetParentWorldMatrix(m_pSkinnedMesh->getMatrix("RightHandThumb1"));
 	m_pGun->SetParentWorldMatrix(m_pSkinnedMesh->getMatrix("RightHandIndex1"));
 
-	D3DXMatrixRotationX(&matRX, 0/*1.378811*/);
-	D3DXMatrixRotationY(&matRY, 0/*-0.872665*/);
+	D3DXMatrixRotationX(&matRX, D3DX_PI / 2/*1.378811*/);
+	D3DXMatrixRotationY(&matRY, -D3DX_PI / 2 - 0.3f/*-0.872665*/);
 	D3DXMatrixRotationZ(&matRZ, 0/*2.827430*/);
 
 	matR = matRX * matRY * matRZ;
-
 	m_pGun->SetWorldMatrixByBoneName(&matR, "stock");
-
-
 
 
 	m_pController = new cAIController;
@@ -82,7 +79,7 @@ void cAI::Render()
 	if (m_pGun)
 		m_pGun->Render();
 
-	D3DXMATRIXA16 matWorld;
+	/*D3DXMATRIXA16 matWorld;
 	D3DXMatrixIdentity(&matWorld);
 	matWorld._41 = m_stBoundingSphere.vCenter.x;
 	matWorld._42 = m_stBoundingSphere.vCenter.y;
@@ -91,7 +88,6 @@ void cAI::Render()
 	g_pD3DDevice->SetTransform(D3DTS_WORLD, &matWorld);
 
 	m_pBoundingSphereMesh->DrawSubset(0);
-
 	for each(auto s in m_vecBoundingSphereDetail)
 	{
 		D3DXMATRIXA16 matWorld;
@@ -104,6 +100,7 @@ void cAI::Render()
 
 		m_pBoundingSphereDetailMesh->DrawSubset(0);
 	}
+	*/
 }
 
 void cAI::SetBoundingSphere()

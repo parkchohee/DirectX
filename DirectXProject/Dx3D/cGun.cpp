@@ -12,6 +12,7 @@ cGun::cGun()
 	, m_nMaxBullet(10)
 	, m_nCurrentBullet(10)
 {
+	D3DXMatrixIdentity(&m_pTrans);
 }
 
 
@@ -72,15 +73,18 @@ void cGun::SetWorldMatrixByBoneName(D3DXMATRIXA16 * matRot, char * name)
 	if (m_pGun)
 	{
 		D3DXMATRIXA16 matWorld = *matRot;
-		m_pWorldTM = matWorld * *m_pGun->getLocalMatrix(name);
+		m_pTrans = *m_pGun->getLocalMatrix(name);
+		D3DXMatrixInverse(&m_pTransInv, 0, &m_pTrans);
+		m_pWorldTM = m_pTrans * matWorld * m_pTransInv * *m_pGun->getLocalMatrix(name);
 		m_pGun->SetTransform(&m_pWorldTM);
 	}
 }
 
 void cGun::Fire(D3DXVECTOR3 & vDirection, D3DXVECTOR3 & vPosition)
 {
- 	//m_pGun->SetAnimationIndex(7);
+	// 공격 애니메이션 넘버로 설정
 	m_pGun->PlayOneShot(3,0,0);
+
 	if (m_pvBullet.size() < m_nMaxBullet)
 	{
 		cBullet* bullet = new cBullet;
