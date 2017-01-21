@@ -50,18 +50,18 @@ void cBullet::Render()
 {
 	Render_Particle(); /// : particle
 	
-	if (m_pBoundingSphereMesh)
-	{
-		D3DXMATRIXA16 matT;
-		D3DXMatrixTranslation(&matT,
-			m_stBoundingSphere.vCenter.x,
-			m_stBoundingSphere.vCenter.y,
-			m_stBoundingSphere.vCenter.z);
-		g_pD3DDevice->SetTransform(D3DTS_WORLD, &matT);
-		g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
-		m_pBoundingSphereMesh->DrawSubset(0);
-		g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
-	}
+	//if (m_pBoundingSphereMesh)
+	//{
+	//	D3DXMATRIXA16 matT;
+	//	D3DXMatrixTranslation(&matT,
+	//		m_stBoundingSphere.vCenter.x,
+	//		m_stBoundingSphere.vCenter.y,
+	//		m_stBoundingSphere.vCenter.z);
+	//	g_pD3DDevice->SetTransform(D3DTS_WORLD, &matT);
+	//	g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+	//	m_pBoundingSphereMesh->DrawSubset(0);
+	//	g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+	//}
 }
 
 void cBullet::Setup_Particle()
@@ -116,6 +116,7 @@ void cBullet::Setup_Particle()
 void cBullet::Update_Particle()
 {
 	if (m_vecVertex.empty()) return;
+
 	m_stBoundingSphere.vCenter = m_vecVertex.back().p;
 	m_stBoundingSphere.fRadius = 0.1f;
 
@@ -130,6 +131,7 @@ void cBullet::Update_Particle()
 
 void cBullet::Render_Particle()
 {
+	if (m_vecVertex.empty()) return;
 	D3DXMATRIXA16 matWorld;
 	D3DXMatrixIdentity(&matWorld);
 	g_pD3DDevice->SetTransform(D3DTS_WORLD, &matWorld);

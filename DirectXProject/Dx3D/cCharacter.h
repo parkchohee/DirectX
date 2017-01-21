@@ -32,5 +32,6 @@ public:
 	virtual void Update(iMap* pMap);
 	virtual void Render();
 	
+	virtual bool IsAttacked(float power);
 };
 
