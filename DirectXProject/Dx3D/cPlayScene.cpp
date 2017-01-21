@@ -124,18 +124,6 @@ void cPlayScene::Update()
 					}
 				}
 			}
-
-			/*for (size_t j = 0; j < m_pAI->GetBoundingSphere().size(); j++)
-			{
-				D3DXVECTOR3 BulletPos, CrushManPos;
-				BulletPos = gun->GetBullets()[i]->GetBoundingSphere().vCenter;
-				CrushManPos = m_pAI->GetBoundingSphere()[j].vCenter;
-
-				if (IsCollision(BulletPos, 0.1f, CrushManPos, 0.2f))
-				{
-					int a = 0;
-				}
-			}*/
 		}
 	}
 
@@ -154,6 +142,7 @@ void cPlayScene::Render()
 
 	if (m_pUIRoot)
 		m_pUIRoot->Render(m_pSprite);
+
 }
 
 void cPlayScene::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)

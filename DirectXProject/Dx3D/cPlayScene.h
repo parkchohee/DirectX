@@ -19,7 +19,6 @@ class cPlayScene
 
 	cAI*						m_pAI;
 
-
 public:
 	cPlayScene();
 	~cPlayScene();
@@ -32,7 +31,6 @@ public:
 
 	float GetDistance(D3DXVECTOR3 BulletPos, D3DXVECTOR3 CrushManPos);
 	bool IsCollision(D3DXVECTOR3 BulletPos, float BulletSphereRadius, D3DXVECTOR3 CrushManPos, float CrushManSphereRadius);
-
 
 };
 
