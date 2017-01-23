@@ -36,5 +36,7 @@ public:
 	void SetWorldMatrixByBoneName(D3DXMATRIXA16* matRot, char* name);
 	
 	void Fire(D3DXVECTOR3& vDirection, D3DXVECTOR3& vPosition);
+	void RemoveBullet(int bulletIndex);
+	float GetAttackPower();
 };
 

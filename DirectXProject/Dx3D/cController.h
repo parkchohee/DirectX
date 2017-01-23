@@ -9,6 +9,6 @@ public:
 	virtual ~cController();
 
 	virtual void Setup(float moveSpeed = 0.1f) PURE;
-	virtual void Update(D3DXVECTOR3& camAngle, OUT D3DXVECTOR3& vDirection, OUT D3DXVECTOR3& vPosition) PURE;
+	virtual void Update(OUT D3DXVECTOR3& camAngle, OUT D3DXVECTOR3& vDirection, OUT D3DXVECTOR3& vPosition) PURE;
 };
 

@@ -12,8 +12,6 @@ class cAI : public cCharacter
 	LPD3DXMESH				m_pBoundingSphereDetailMesh;
 	std::vector<ST_SPHERE>	m_vecBoundingSphereDetail;
 
-	D3DXMATRIXA16*			m_matParentWorldTM;
-
 public:
 	cAI();
 	~cAI();
@@ -25,5 +23,8 @@ public:
 	void SetBoundingSphere();
 	ST_SPHERE GetBoundingSphere();
 	std::vector<ST_SPHERE> GetBoundingSphereDetail();
+
+private:
+	void UpdateSkinnedMesh(D3DXVECTOR3 &vAngle);
 };
 

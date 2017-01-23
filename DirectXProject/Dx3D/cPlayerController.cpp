@@ -55,5 +55,4 @@ void cPlayerController::Update(D3DXVECTOR3 & camAngle, OUT D3DXVECTOR3 & vDirect
 	{
 		vPosition -= (mvDirection * m_fMoveSpeed);
 	}
-	
 }

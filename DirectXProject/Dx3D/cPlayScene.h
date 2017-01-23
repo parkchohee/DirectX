@@ -16,8 +16,8 @@ class cPlayScene
 	LPD3DXSPRITE				m_pSprite;
 
 	cPlayer*					m_pPlayer;
-
-	cAI*						m_pAI;
+	std::vector<cAI*>			m_pvAI;
+	//cAI*						m_pAI;
 
 public:
 	cPlayScene();
@@ -29,6 +29,7 @@ public:
 
 	void WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
+	void CollisionCheck();
 	float GetDistance(D3DXVECTOR3 BulletPos, D3DXVECTOR3 CrushManPos);
 	bool IsCollision(D3DXVECTOR3 BulletPos, float BulletSphereRadius, D3DXVECTOR3 CrushManPos, float CrushManSphereRadius);
 

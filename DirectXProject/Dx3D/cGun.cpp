@@ -93,3 +93,13 @@ void cGun::Fire(D3DXVECTOR3 & vDirection, D3DXVECTOR3 & vPosition)
 	}
 
 }
+
+void cGun::RemoveBullet(int bulletIndex)
+{
+	m_pvBullet.erase(m_pvBullet.begin() + bulletIndex);
+}
+
+float cGun::GetAttackPower()
+{
+	return m_fAttackPower;
+}
