@@ -49,6 +49,12 @@ void cPlayScene::Setup()
 	pAI->Setup("AI/", "testMan.X");
 	m_pvAI.push_back(pAI);
 
+	/*cAI* pAI2 = new cAI;
+	pAI2->SetPosition(D3DXVECTOR3(6, 0, 0));
+	pAI2->Setup("AI/", "testMan.X");
+	m_pvAI.push_back(pAI2);
+*/
+
 	m_pCamera = new cCamera;
 //	m_pCamera->Setup(NULL);
 	m_pCamera->Setup(&(m_pPlayer->GetPosition()));
@@ -129,50 +135,46 @@ void cPlayScene::Render()
 
 void cPlayScene::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	
 	if (m_pCamera)
 	{
 		m_pCamera->WndProc(hWnd, message, wParam, lParam);
 	}
-
 }
 
 void cPlayScene::CollisionCheck()
 {
-	if (m_pPlayer->GetGun())
+	if (m_pPlayer->GetGun() == NULL) return;
+	
+	cGun* gun = m_pPlayer->GetGun();
+	for (size_t aiIndex = 0; aiIndex < m_pvAI.size(); aiIndex++)
 	{
-		cGun* gun = m_pPlayer->GetGun();
-		for (size_t aiIndex = 0; aiIndex < m_pvAI.size(); aiIndex++)
+		for (size_t bulletIndex = 0; bulletIndex < gun->GetBullets().size(); bulletIndex++)
 		{
-			for (size_t bulletIndex = 0; bulletIndex < gun->GetBullets().size(); bulletIndex++)
+			D3DXVECTOR3 vBulletCenter, vAICenter;
+			vBulletCenter = gun->GetBullets()[bulletIndex]->GetBoundingSphere().vCenter;
+			vAICenter = m_pvAI[aiIndex]->GetBoundingSphere().vCenter;
+
+			if (IsCollision(vBulletCenter, BULLET_RADIUS, vAICenter, AI_BOUNDING_SPHERE_SIZE))
 			{
-				D3DXVECTOR3 vBulletCenter, vAICenter;
-				vBulletCenter = gun->GetBullets()[bulletIndex]->GetBoundingSphere().vCenter;
-				vAICenter = m_pvAI[aiIndex]->GetBoundingSphere().vCenter;
-
-				if (IsCollision(vBulletCenter, BULLET_RADIUS, vAICenter, AI_BOUNDING_SPHERE_SIZE))
+				for (size_t sphereIndex = 0; sphereIndex < m_pvAI[aiIndex]->GetBoundingSphereDetail().size(); sphereIndex++)
 				{
-					for (size_t sphereIndex = 0; sphereIndex < m_pvAI[aiIndex]->GetBoundingSphereDetail().size(); sphereIndex++)
+					if (IsCollision(vBulletCenter, BULLET_RADIUS, m_pvAI[aiIndex]->GetBoundingSphereDetail()[sphereIndex].vCenter, AI_BOUNDING_SPHERE_DETAIL_SIZE))
 					{
-						if (IsCollision(vBulletCenter, BULLET_RADIUS, m_pvAI[aiIndex]->GetBoundingSphereDetail()[sphereIndex].vCenter, AI_BOUNDING_SPHERE_DETAIL_SIZE))
-						{
-							// bullet 지워준다 
-							SAFE_RELEASE(gun->GetBullets()[bulletIndex]);
-							gun->RemoveBullet(bulletIndex);
+						SAFE_RELEASE(gun->GetBullets()[bulletIndex]);
+						gun->RemoveBullet(bulletIndex);
 
-							// ai 지워준다
-							if (m_pvAI[aiIndex]->IsAttacked(gun->GetAttackPower()))
-							{
-								SAFE_RELEASE(m_pvAI[aiIndex]);
-								m_pvAI.erase(m_pvAI.begin() + aiIndex);
-							}
-							return;
+						if (m_pvAI[aiIndex]->IsAttacked(gun->GetAttackPower()))
+						{
+							SAFE_RELEASE(m_pvAI[aiIndex]);
+							m_pvAI.erase(m_pvAI.begin() + aiIndex);
 						}
+						return;
 					}
 				}
 			}
 		}
 	}
+	
 
 }
 
