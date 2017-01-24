@@ -17,7 +17,6 @@ cPlayScene::cPlayScene()
 	, m_pGrid(NULL)
 	, m_pUIRoot(NULL)
 	, m_pPlayer(NULL)
-	/*, m_pAI(NULL)*/
 {
 }
 
@@ -49,11 +48,17 @@ void cPlayScene::Setup()
 	pAI->Setup("AI/", "testMan.X");
 	m_pvAI.push_back(pAI);
 
-	/*cAI* pAI2 = new cAI;
+	cAI* pAI2 = new cAI;
 	pAI2->SetPosition(D3DXVECTOR3(6, 0, 0));
 	pAI2->Setup("AI/", "testMan.X");
 	m_pvAI.push_back(pAI2);
-*/
+
+
+	//cAI* pAI3 = new cAI;
+	//pAI3->SetPosition(D3DXVECTOR3(-3, 0, 0));
+	//pAI3->Setup("AI/", "testMan.X");
+	//m_pvAI.push_back(pAI3);
+
 
 	m_pCamera = new cCamera;
 //	m_pCamera->Setup(NULL);
@@ -122,9 +127,9 @@ void cPlayScene::Render()
 	for each(auto p in m_pvAI)
 		p->Render();
 
-	if (m_pPlayer)
+	/*if (m_pPlayer)
 		m_pPlayer->Render();
-	
+	*/
 	if (m_pGrid)
 		m_pGrid->Render();
 
@@ -154,7 +159,7 @@ void cPlayScene::CollisionCheck()
 			vBulletCenter = gun->GetBullets()[bulletIndex]->GetBoundingSphere().vCenter;
 			vAICenter = m_pvAI[aiIndex]->GetBoundingSphere().vCenter;
 
-			if (IsCollision(vBulletCenter, BULLET_RADIUS, vAICenter, AI_BOUNDING_SPHERE_SIZE))
+			//if (IsCollision(vBulletCenter, BULLET_RADIUS, vAICenter, AI_BOUNDING_SPHERE_SIZE))
 			{
 				for (size_t sphereIndex = 0; sphereIndex < m_pvAI[aiIndex]->GetBoundingSphereDetail().size(); sphereIndex++)
 				{

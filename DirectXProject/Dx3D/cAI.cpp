@@ -22,7 +22,7 @@ void cAI::Setup(char* szFolder, char* szFilename)
 {
 	// SkinnedMesh
 	m_pSkinnedMesh = new cSkinnedMesh(szFolder, szFilename);
-	
+
 	// GUN
 	m_pGun = new cGun;
 	m_pGun->Setup(&m_vPosition, "Gun/MG_42/", "MG_42.X");
@@ -35,7 +35,7 @@ void cAI::Setup(char* szFolder, char* szFilename)
 	matR = matRX * matRY;
 	m_pGun->SetWorldMatrixByBoneName(&matR, "stock");
 
-
+	// Controller
 	m_pController = new cAIController;
 	m_pController->Setup(0.1f);
 	
@@ -53,15 +53,15 @@ void cAI::Update(iMap * pMap)
 	if (m_pGun)
 		m_pGun->Update();
 
-	D3DXVECTOR3 vAngle;
+	D3DXVECTOR3 vAngle = D3DXVECTOR3(0,0,0);
 	// angle을 컨트롤러에서 받아와서
 	if (m_pController)
 		m_pController->Update(vAngle, m_vDirection, m_vPosition);
 
 	UpdateSkinnedMesh(vAngle);
-
-
 	SetBoundingSphere();
+
+
 }
 
 void cAI::Render()
@@ -81,6 +81,7 @@ void cAI::Render()
 	g_pD3DDevice->SetTransform(D3DTS_WORLD, &matWorld);
 
 	m_pBoundingSphereMesh->DrawSubset(0);
+	*/
 	for each(auto s in m_vecBoundingSphereDetail)
 	{
 		D3DXMATRIXA16 matWorld;
@@ -92,59 +93,73 @@ void cAI::Render()
 		g_pD3DDevice->SetTransform(D3DTS_WORLD, &matWorld);
 
 		m_pBoundingSphereDetailMesh->DrawSubset(0);
-	}*/
+	}
 	
 }
 
 void cAI::SetBoundingSphere()
 {
-	D3DXMATRIXA16* matSphere;
+	D3DXMATRIXA16 matSphere, matT;
 	ST_SPHERE s;
 	s.fRadius = AI_BOUNDING_SPHERE_DETAIL_SIZE;
-
-	matSphere = m_pSkinnedMesh->getMatrix("Jaw");
-	s.vCenter = D3DXVECTOR3(matSphere->_41, matSphere->_42, matSphere->_43);
+	D3DXMatrixTranslation(&matT, 0, AI_BOUNDING_SPHERE_SIZE, 0);
+	
+	s.vCenter = D3DXVECTOR3(0, 0, 0);
+	matSphere = *m_pSkinnedMesh->getLocalMatrix("Jaw") * m_matWorldTM;
+	D3DXVec3TransformCoord(&s.vCenter, &s.vCenter, &matSphere);
 	m_vecBoundingSphereDetail[0] = s;
-
-	matSphere = m_pSkinnedMesh->getMatrix("Spine2");
-	s.vCenter = D3DXVECTOR3(matSphere->_41, matSphere->_42, matSphere->_43);
+	
+	s.vCenter = D3DXVECTOR3(0, 0, 0);
+	matSphere = *m_pSkinnedMesh->getLocalMatrix("Spine2") * m_matWorldTM;// *matT;
+	D3DXVec3TransformCoord(&s.vCenter, &s.vCenter, &matSphere);
 	m_vecBoundingSphereDetail[1] = s;
-
-	matSphere = m_pSkinnedMesh->getMatrix("Hips");
-	s.vCenter = D3DXVECTOR3(matSphere->_41, matSphere->_42, matSphere->_43);
+	
+	s.vCenter = D3DXVECTOR3(0, 0, 0);
+	matSphere = *m_pSkinnedMesh->getLocalMatrix("Hips") * m_matWorldTM;// *matT;
+	D3DXVec3TransformCoord(&s.vCenter, &s.vCenter, &matSphere);
 	m_vecBoundingSphereDetail[2] = s;
 
-	matSphere = m_pSkinnedMesh->getMatrix("LeftUpLeg");
-	s.vCenter = D3DXVECTOR3(matSphere->_41, matSphere->_42, matSphere->_43);
+	s.vCenter = D3DXVECTOR3(0, 0, 0);
+	matSphere = *m_pSkinnedMesh->getLocalMatrix("LeftUpLeg") * m_matWorldTM;// *matT;
+	D3DXVec3TransformCoord(&s.vCenter, &s.vCenter, &matSphere);
 	m_vecBoundingSphereDetail[3] = s;
 
-	matSphere = m_pSkinnedMesh->getMatrix("LeftLeg");
-	s.vCenter = D3DXVECTOR3(matSphere->_41, matSphere->_42, matSphere->_43);
+	s.vCenter = D3DXVECTOR3(0, 0, 0);
+	matSphere = *m_pSkinnedMesh->getLocalMatrix("LeftLeg") * m_matWorldTM;// *matT;
+	D3DXVec3TransformCoord(&s.vCenter, &s.vCenter, &matSphere);
 	m_vecBoundingSphereDetail[4] = s;
 
-	matSphere = m_pSkinnedMesh->getMatrix("LeftFoot");
-	s.vCenter = D3DXVECTOR3(matSphere->_41, matSphere->_42, matSphere->_43);
+	s.vCenter = D3DXVECTOR3(0, 0, 0);
+	matSphere = *m_pSkinnedMesh->getLocalMatrix("LeftFoot") * m_matWorldTM;// *matT;
+	D3DXVec3TransformCoord(&s.vCenter, &s.vCenter, &matSphere);
 	m_vecBoundingSphereDetail[5] = s;
 
-	matSphere = m_pSkinnedMesh->getMatrix("RightUpLeg");
-	s.vCenter = D3DXVECTOR3(matSphere->_41, matSphere->_42, matSphere->_43);
+	s.vCenter = D3DXVECTOR3(0, 0, 0);
+	matSphere = *m_pSkinnedMesh->getLocalMatrix("RightUpLeg") * m_matWorldTM;// *matT;
+	D3DXVec3TransformCoord(&s.vCenter, &s.vCenter, &matSphere);
 	m_vecBoundingSphereDetail[6] = s;
 
-	matSphere = m_pSkinnedMesh->getMatrix("RightLeg");
-	s.vCenter = D3DXVECTOR3(matSphere->_41, matSphere->_42, matSphere->_43);
+	s.vCenter = D3DXVECTOR3(0, 0, 0);
+	matSphere = *m_pSkinnedMesh->getLocalMatrix("RightLeg") * m_matWorldTM;// *matT;
+	D3DXVec3TransformCoord(&s.vCenter, &s.vCenter, &matSphere);
 	m_vecBoundingSphereDetail[7] = s;
 
-	matSphere = m_pSkinnedMesh->getMatrix("RightFoot");
-	s.vCenter = D3DXVECTOR3(matSphere->_41, matSphere->_42, matSphere->_43);
+	s.vCenter = D3DXVECTOR3(0, 0, 0);
+	matSphere = *m_pSkinnedMesh->getLocalMatrix("RightFoot") * m_matWorldTM;// *matT;
+	D3DXVec3TransformCoord(&s.vCenter, &s.vCenter, &matSphere);
 	m_vecBoundingSphereDetail[8] = s;
 
-	matSphere = m_pSkinnedMesh->getMatrix("RightForeArm");
-	s.vCenter = D3DXVECTOR3(matSphere->_41, matSphere->_42, matSphere->_43);
+	s.vCenter = D3DXVECTOR3(0, 0, 0);
+	matSphere = *m_pSkinnedMesh->getLocalMatrix("RightForeArm") * m_matWorldTM;// *matT;
+	D3DXVec3TransformCoord(&s.vCenter, &s.vCenter, &matSphere);
 	m_vecBoundingSphereDetail[9] = s;
 
-	matSphere = m_pSkinnedMesh->getMatrix("LeftForeArm");
-	s.vCenter = D3DXVECTOR3(matSphere->_41, matSphere->_42, matSphere->_43);
+	s.vCenter = D3DXVECTOR3(0, 0, 0);
+	matSphere = *m_pSkinnedMesh->getLocalMatrix("LeftForeArm") * m_matWorldTM;// *matT;
+	D3DXVec3TransformCoord(&s.vCenter, &s.vCenter, &matSphere);
 	m_vecBoundingSphereDetail[10] = s;
+
+	
 }
 
 ST_SPHERE cAI::GetBoundingSphere()
