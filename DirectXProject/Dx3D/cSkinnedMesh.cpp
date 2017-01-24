@@ -16,6 +16,8 @@ cSkinnedMesh::cSkinnedMesh(char* szFolder, char* szFilename)
 	cSkinnedMesh* pSkinnedMesh = g_pSkinnedMeshManager->GetSkinnedMesh(szFolder, szFilename);
 
 	D3DXMatrixIdentity(&m_matWorldTM);
+	D3DXMatrixIdentity(&m_matLocalTM);
+
 	m_pRootFrame = pSkinnedMesh->m_pRootFrame;
 	m_dwWorkingPaletteSize = pSkinnedMesh->m_dwWorkingPaletteSize;
 	m_pmWorkingPalette = pSkinnedMesh->m_pmWorkingPalette;
@@ -76,22 +78,44 @@ D3DXMATRIXA16 * cSkinnedMesh::getMatrix(char * name)
 	return NULL;
 }
 
-D3DXMATRIXA16 * cSkinnedMesh::getLocalMatrix(char * name)
+D3DXMATRIXA16 * cSkinnedMesh::getTransformationMatrix(char * name)
+{
+	ST_BONE * pBone = getBone(name, m_pRootFrame);
+
+	if (pBone != NULL)
+		return &(D3DXMATRIXA16)pBone->TransformationMatrix;
+
+	return NULL;
+}
+
+D3DXMATRIXA16 * cSkinnedMesh::getWorldMatrix(char * name)
 {
 	ST_BONE * pBone = getBone(name, m_pRootFrame);
 
 	if (pBone != NULL)
 	{
 		D3DXMATRIXA16 TransformationInv;
-		(D3DXMATRIXA16)pBone->TransformationMatrix;
 		D3DXMatrixInverse(&TransformationInv, 0, &(D3DXMATRIXA16)pBone->TransformationMatrix);
-		m_matLocalTM = *cSkinnedMesh::getMatrix(name) * TransformationInv;
+		m_matBoneWorldTM = *cSkinnedMesh::getMatrix(name) * TransformationInv;
 
-		return &m_matLocalTM;
+		return &m_matBoneWorldTM;
 	}
 
 	return NULL;
 }
+
+D3DXMATRIXA16 * cSkinnedMesh::getLocalMatrix(char * name)
+{
+	ST_BONE * pBone = getBone(name, m_pRootFrame);
+
+	if (pBone != NULL)
+		return &pBone->LocalTransformationMatrix;
+
+	return NULL;
+	
+}
+
+
 
 ST_BONE * cSkinnedMesh::getBone(char * name, ST_BONE * pBone)
 {
@@ -374,6 +398,7 @@ void cSkinnedMesh::UpdateAndRender()
 	{
 		D3DXMATRIXA16 matSRT;
 		D3DXMatrixIdentity(&matSRT);
+		UpdateLocal(m_pRootFrame, &matSRT);
 
 		if (m_pmatParent)
 			matSRT = m_matWorldTM * (*m_pmatParent);
@@ -528,6 +553,27 @@ void cSkinnedMesh::Update(ST_BONE* pCurrent, D3DXMATRIXA16* pmatParent)
 	}
 
 
+
+}
+
+void cSkinnedMesh::UpdateLocal(ST_BONE * pCurrent, D3DXMATRIXA16 * pmatParent)
+{
+	pCurrent->LocalTransformationMatrix = pCurrent->TransformationMatrix;
+	if (pmatParent)
+	{
+		pCurrent->LocalTransformationMatrix =
+			pCurrent->LocalTransformationMatrix * (*pmatParent);
+	}
+
+	if (pCurrent->pFrameSibling)
+	{
+		UpdateLocal((ST_BONE*)pCurrent->pFrameSibling, pmatParent);
+	}
+
+	if (pCurrent->pFrameFirstChild)
+	{
+		UpdateLocal((ST_BONE*)pCurrent->pFrameFirstChild, &(pCurrent->LocalTransformationMatrix));
+	}
 
 }
 

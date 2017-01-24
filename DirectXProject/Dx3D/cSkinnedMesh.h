@@ -15,6 +15,7 @@ private:
 	LPD3DXANIMATIONCONTROLLER	m_pAnimController;
 	
 	D3DXMATRIXA16				m_matWorldTM;
+	D3DXMATRIXA16				m_matBoneWorldTM;
 	D3DXMATRIXA16				m_matLocalTM;
 
 	/// >> : OBB -
@@ -65,6 +66,8 @@ public:
 	ST_SPHERE* GetBoundingSphere();
 	
 	D3DXMATRIXA16* getMatrix(char * name);
+	D3DXMATRIXA16* getTransformationMatrix(char * name);
+	D3DXMATRIXA16* getWorldMatrix(char * name);
 	D3DXMATRIXA16* getLocalMatrix(char * name);
 
 	ST_BONE* getBone(char * name, ST_BONE * pBone = NULL);
@@ -88,6 +91,7 @@ private:
 	void Load(char* szFolder, char* szFilename);
 	LPD3DXEFFECT LoadEffect(char* szFilename);
 	void Update(ST_BONE* pCurrent, D3DXMATRIXA16* pmatParent);
+	void UpdateLocal(ST_BONE* pCurrent, D3DXMATRIXA16* pmatParent);
 	void Render(ST_BONE* pBone = NULL);
 	void SetupBoneMatrixPtrs(ST_BONE* pBone);
 	void Destroy();

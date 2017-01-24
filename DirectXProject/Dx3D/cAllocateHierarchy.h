@@ -3,6 +3,7 @@
 struct ST_BONE : public D3DXFRAME
 {
 	D3DXMATRIXA16 CombinedTransformationMatrix;
+	D3DXMATRIXA16 LocalTransformationMatrix;
 };
 
 struct ST_BONE_MESH : public D3DXMESHCONTAINER

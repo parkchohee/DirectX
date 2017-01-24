@@ -73,9 +73,9 @@ void cGun::SetWorldMatrixByBoneName(D3DXMATRIXA16 * matRot, char * name)
 	if (m_pGun)
 	{
 		D3DXMATRIXA16 matWorld = *matRot;
-		m_pTrans = *m_pGun->getLocalMatrix(name);
+		m_pTrans = *m_pGun->getWorldMatrix(name);
 		D3DXMatrixInverse(&m_pTransInv, 0, &m_pTrans);
-		m_pWorldTM = m_pTrans * matWorld * m_pTransInv * *m_pGun->getLocalMatrix(name);
+		m_pWorldTM = m_pTrans * matWorld * m_pTransInv * *m_pGun->getWorldMatrix(name);
 		m_pGun->SetTransform(&m_pWorldTM);
 	}
 }
