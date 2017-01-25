@@ -128,7 +128,7 @@ void cPlayer::BulletFire()
 	D3DXVec3Cross(&vPosition, &vUp, &vDir);
 
 	D3DXVec3Normalize(&vPosition, &vPosition);
-	vPosition.y += 0.5f;
+	vPosition.y += 1.0f;
 
 	if (m_pGun)
 		m_pGun->Fire(vDir, m_vPosition + vPosition * 0.5f);
