@@ -29,7 +29,9 @@ public:
 
 	void WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
-	void CollisionCheck();
+	void BulletCollisionCheck();
+	D3DXVECTOR3 BulletDirectionSetting();
+
 	float GetDistance(D3DXVECTOR3 BulletPos, D3DXVECTOR3 CrushManPos);
 	bool IsCollision(D3DXVECTOR3 BulletPos, float BulletSphereRadius, D3DXVECTOR3 CrushManPos, float CrushManSphereRadius);
 

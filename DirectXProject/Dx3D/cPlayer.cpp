@@ -24,15 +24,15 @@ void cPlayer::Setup()
 	m_vecGun.resize(GUNMAX);
 	
 	cGun* pGun1 = new cGun;
-	pGun1->Setup(&m_vPosition, "Gun/", "Shotgun.X");
+	pGun1->Setup(&m_vPosition, "Gun/shotgun/", "shotgun.X");
 	m_vecGun[0] = pGun1;
 
 	cGun* pGun2 = new cGun;
-	pGun2->Setup(&m_vPosition, "Gun/", "winchester.X");
+	pGun2->Setup(&m_vPosition, "Gun/winc/", "winchester.X");
 	m_vecGun[1] = pGun2;
 	
 	cGun* pGun3 = new cGun;
-	pGun3->Setup(&m_vPosition, "Gun/", "Bullpup.X");
+	pGun3->Setup(&m_vPosition, "Gun/bullpop/", "bullpop.X");
 	m_vecGun[2] = pGun3;
 
 	m_pGun = m_vecGun[m_nSelectGun];
@@ -51,11 +51,6 @@ void cPlayer::Update(D3DXVECTOR3 & camAngle, iMap * pMap)
 	{
 		GunSetting(camAngle);
 		m_pGun->Update();
-	}
-
-	if (g_pKeyManager->IsOnceKeyDown(VK_LBUTTON))
-	{
-		BulletFire();
 	}
 
 	if (g_pKeyManager->IsOnceKeyDown(VK_RBUTTON))
@@ -112,17 +107,10 @@ void cPlayer::GunSetting(D3DXVECTOR3 & camAngle)
 	m_pGun->SetWorldMatrix(&m_matWorldTM);
 }
 
-void cPlayer::BulletFire()
+void cPlayer::BulletFire(D3DXVECTOR3& bulletDir)
 {
-	float centerX, centerY;
-	RECT rc;
-	GetClientRect(g_hWnd, &rc);
-	centerX = (rc.left + rc.right) / 2;
-	centerY = (rc.top + rc.bottom) / 2;
-
-	cRay r = cRay::RayAtWorldSpace(centerX, centerY);
-
-	D3DXVECTOR3 vDir = r.GetRayDir();
+	
+	D3DXVECTOR3 vDir = bulletDir;
 	D3DXVECTOR3 vUp = D3DXVECTOR3(0, 1, 0);
 	D3DXVECTOR3 vPosition;
 	D3DXVec3Cross(&vPosition, &vUp, &vDir);
@@ -130,6 +118,7 @@ void cPlayer::BulletFire()
 	D3DXVec3Normalize(&vPosition, &vPosition);
 	vPosition.y += 1.0f;
 
+
 	if (m_pGun)
-		m_pGun->Fire(vDir, m_vPosition + vPosition * 0.5f);
+		m_pGun->Fire(vDir, m_matWorldTM);
 }
