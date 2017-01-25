@@ -80,15 +80,20 @@ void cGun::SetWorldMatrixByBoneName(D3DXMATRIXA16 * matRot, char * name)
 	}
 }
 
-void cGun::Fire(D3DXVECTOR3 & vDirection, D3DXVECTOR3 & vPosition)
+void cGun::Fire(D3DXVECTOR3 & vDirection, D3DXMATRIXA16 & matWorld)
 {
 	// 공격 애니메이션 넘버로 설정
-	m_pGun->PlayOneShot(3,0,0);
+	m_pGun->PlayOneShot(1,0,0);
+
+	// 총구에서 나가도록 설정
+	D3DXMATRIXA16 matPos = *m_pGun->getLocalMatrix("tip") * matWorld;
+	D3DXVECTOR3 vecPos(0,0,0);
+	D3DXVec3TransformCoord(&vecPos, &vecPos, &matPos);
 
 	if (m_pvBullet.size() < m_nMaxBullet)
 	{
 		cBullet* bullet = new cBullet;
-		bullet->Setup(vDirection, vPosition);
+		bullet->Setup(vDirection, vecPos);
 		m_pvBullet.push_back(bullet);
 	}
 

@@ -24,10 +24,9 @@ public:
 	void Render();
 
 	cGun* GetGun();
-	void GunSetting(D3DXVECTOR3 & camAngle);
+	void GunSetting(D3DXVECTOR3& camAngle);
 
-private:
-	void BulletFire();
+	void BulletFire(D3DXVECTOR3& bulletDir);
 
 
 };

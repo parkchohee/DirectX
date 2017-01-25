@@ -8,7 +8,6 @@ class cBullet : public cGameObject
 	float						m_fBulletSpeed;				// 총알의 이동 속도
 
 	ST_SPHERE					m_stBoundingSphere;
-	LPD3DXMESH					m_pBoundingSphereMesh;
 
 	SYNTHESIZE(float, m_fMoveDistance, MoveDistance);		// 총알이 이동한 거리
 

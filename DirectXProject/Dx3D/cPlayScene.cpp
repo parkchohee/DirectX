@@ -10,6 +10,7 @@
 #include "cGun.h"
 #include "cBullet.h"
 #include "cOBB.h"
+#include "cRay.h"
 
 
 cPlayScene::cPlayScene()
@@ -85,7 +86,13 @@ void cPlayScene::Update()
 	if (m_pUIPlayerInfoRoot)
 		m_pUIPlayerInfoRoot->Update();
 
-	CollisionCheck();
+	if (g_pKeyManager->IsOnceKeyDown(VK_LBUTTON))
+	{
+		if (m_pPlayer)
+			m_pPlayer->BulletFire(BulletDirectionSetting());
+	}
+
+	BulletCollisionCheck();
 
 }
 
@@ -116,7 +123,7 @@ void cPlayScene::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	}
 }
 
-void cPlayScene::CollisionCheck()
+void cPlayScene::BulletCollisionCheck()
 {
 	if (m_pPlayer->GetGun() == NULL) return;
 	
@@ -151,6 +158,31 @@ void cPlayScene::CollisionCheck()
 	}
 	
 
+}
+
+D3DXVECTOR3 cPlayScene::BulletDirectionSetting()
+{
+	float centerX, centerY;
+	RECT rc;
+	GetClientRect(g_hWnd, &rc);
+	centerX = (rc.left + rc.right) / 2;
+	centerY = (rc.top + rc.bottom) / 2;
+
+	cRay r = cRay::RayAtWorldSpace(centerX, centerY);
+
+	D3DXVECTOR3 Dir = r.GetRayDir();
+
+	//for (size_t aiIndex = 0; aiIndex < m_pvAI.size(); aiIndex++)
+	//{
+	//	if (r.IsPicked(&m_pvAI[aiIndex]->GetBoundingSphere()))
+	//	{
+	//		Dir2 = r.GetRayOrg();
+	//		Dir = r.GetRayDir();
+	//		int a = 0;
+	//	}
+	//}
+
+	return Dir;
 }
 
 float cPlayScene::GetDistance(D3DXVECTOR3 BulletPos, D3DXVECTOR3 CrushManPos)
