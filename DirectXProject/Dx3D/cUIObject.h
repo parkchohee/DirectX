@@ -6,12 +6,13 @@ protected:
 	std::vector<cUIObject*> m_vecChild;
 	D3DXMATRIXA16			m_matWorld;
 	bool					m_isHidden;
+	SYNTHESIZE(float, m_fAngle, Angle);
+
 	SYNTHESIZE(D3DXVECTOR3, m_vPosition, Position);
 	SYNTHESIZE(cUIObject*, m_pParent, Parent);
 	SYNTHESIZE(ST_SIZEN, m_stSize, Size);
 	SYNTHESIZE(int, m_nTag, Tag);
 	SYNTHESIZE(bool, m_isDrawBounding, DrawBounding);
-	//SYNTHESIZE(bool, m_isHidden, Hidden);
 
 public:
 	cUIObject(void);

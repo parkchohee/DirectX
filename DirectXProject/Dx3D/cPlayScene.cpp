@@ -10,7 +10,6 @@
 #include "cGun.h"
 #include "cBullet.h"
 #include "cOBB.h"
-#include "cRay.h"
 
 
 cPlayScene::cPlayScene()
@@ -106,6 +105,8 @@ void cPlayScene::Render()
 	if (m_pUIPlayerInfoRoot)
 		m_pUIPlayerInfoRoot->Render(m_pSprite);
 
+	if (m_pCompassFront)
+		m_pCompassFront->SetAngle(m_pCamera->GetCamRotAngle().y);
 }
 
 void cPlayScene::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
@@ -177,23 +178,23 @@ void cPlayScene::SettingCursorUI()
 	D3DXCreateSprite(g_pD3DDevice, &m_pSprite);
 
 	m_pUICursorRoot = new cUIObject;
-	m_pUICursorRoot->SetPosition(centerX, centerY);
+	m_pUICursorRoot->SetPosition(0, 0);
 
 	cUIImageView* pImageCursorL = new cUIImageView;
 	pImageCursorL->SetTexture("PlayerUI/cursor_h.tga");
-	pImageCursorL->SetPosition(-16, 7);
+	pImageCursorL->SetPosition(centerX - 25, centerY + 10);
 
 	cUIImageView* pImageCursorR = new cUIImageView;
 	pImageCursorR->SetTexture("PlayerUI/cursor_h.tga");
-	pImageCursorR->SetPosition(16, 7);
+	pImageCursorR->SetPosition(centerX + 35, centerY + 10);
 
 	cUIImageView* pImageCursorT = new cUIImageView;
 	pImageCursorT->SetTexture("PlayerUI/cursor_v.tga");
-	pImageCursorT->SetPosition(7, -16);
+	pImageCursorT->SetPosition(centerX + 7, centerY - 20);
 
 	cUIImageView* pImageCursorB = new cUIImageView;
 	pImageCursorB->SetTexture("PlayerUI/cursor_v.tga");
-	pImageCursorB->SetPosition(7, 16);
+	pImageCursorB->SetPosition(centerX + 7, centerY + 40);
 
 	m_pUICursorRoot->AddChild(pImageCursorL);
 	m_pUICursorRoot->AddChild(pImageCursorR);
@@ -209,30 +210,26 @@ void cPlayScene::SettingPlayerInfoUI()
 	m_pUIPlayerInfoRoot = new cUIObject;
 	m_pUIPlayerInfoRoot->SetPosition(0, 0);
 
-	cUIImageView* pHpBarBackground = new cUIImageView;
-	pHpBarBackground->SetTexture("PlayerUI/hp_background.png");
-	pHpBarBackground->SetPosition(rc.left + 20, rc.bottom - pHpBarBackground->GetSize().nHeight - 3);
+	cUIImageView* pHpBack = new cUIImageView;
+	pHpBack->SetTexture("PlayerUI/HpBack.png");
+	pHpBack->SetPosition(rc.left + pHpBack->GetSize().nWidth / 2 + 20, rc.bottom - pHpBack->GetSize().nHeight / 2);
 
 	cUIImageView* pAmmoBackground = new cUIImageView;
 	pAmmoBackground->SetTexture("PlayerUI/Ammo_background.png");
-	pAmmoBackground->SetPosition(rc.right - pAmmoBackground->GetSize().nWidth - 3, rc.bottom - pAmmoBackground->GetSize().nHeight - 3);
+	pAmmoBackground->SetPosition(rc.right - pAmmoBackground->GetSize().nWidth / 2 - 3, rc.bottom - pAmmoBackground->GetSize().nHeight / 2 - 3);
 
-	cUIImageView* pHpObject = new cUIImageView;
-	pHpObject->SetTexture("PlayerUI/hp_object.png");
-	pHpObject->SetPosition(pHpBarBackground->GetPosition().x + 35, rc.bottom - pHpObject->GetSize().nHeight - 8);
+	cUIImageView* pCompassBack = new cUIImageView;
+	pCompassBack->SetTexture("PlayerUI/compass_back.png");
+	pCompassBack->SetPosition(rc.left + pCompassBack->GetSize().nWidth / 2 + 60, rc.bottom - pHpBack->GetSize().nHeight - pCompassBack->GetSize().nHeight / 2 - 10);
 
-	cUIImageView* pHpBarBack = new cUIImageView;
-	pHpBarBack->SetTexture("PlayerUI/hp_bar_back.png");
-	pHpBarBack->SetPosition(pHpObject->GetPosition().x + pHpObject->GetSize().nWidth + 20, rc.bottom - pHpBarBack->GetSize().nHeight - 12);
-
-	cUIImageView* pHpBarFront = new cUIImageView;
-	pHpBarFront->SetTexture("PlayerUI/hp_bar_front.png");
-	pHpBarFront->SetPosition(pHpBarBack->GetPosition().x + 1, pHpBarBack->GetPosition().y + 1);
-
-	m_pUIPlayerInfoRoot->AddChild(pHpBarBackground);
+	m_pUIPlayerInfoRoot->AddChild(pHpBack);
 	m_pUIPlayerInfoRoot->AddChild(pAmmoBackground);
-	m_pUIPlayerInfoRoot->AddChild(pHpObject);
-	m_pUIPlayerInfoRoot->AddChild(pHpBarBack);
-	m_pUIPlayerInfoRoot->AddChild(pHpBarFront);
+	m_pUIPlayerInfoRoot->AddChild(pCompassBack);
 
+	// 움직이는 UI
+	m_pCompassFront = new cUIImageView;
+	m_pCompassFront->SetTexture("PlayerUI/compass_front.png");
+	m_pCompassFront->SetPosition(pCompassBack->GetPosition().x, pCompassBack->GetPosition().y);
+
+	m_pUIPlayerInfoRoot->AddChild(m_pCompassFront);
 }

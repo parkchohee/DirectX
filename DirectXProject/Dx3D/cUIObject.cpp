@@ -3,7 +3,8 @@
 
 
 cUIObject::cUIObject(void)
-	: m_vPosition(0, 0, 0)
+	: m_fAngle(0.0f)
+	, m_vPosition(0, 0, 0)
 	, m_pParent(NULL)
 	, m_stSize(0, 0)
 	, m_nTag(0)
