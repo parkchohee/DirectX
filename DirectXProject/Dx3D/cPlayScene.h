@@ -3,6 +3,7 @@
 class cCamera;
 class cGrid;
 class cUIObject;
+class cUIImageView;
 
 class cPlayer;
 class cAI;
@@ -14,6 +15,7 @@ class cPlayScene
 
 	cUIObject*					m_pUICursorRoot;
 	cUIObject*					m_pUIPlayerInfoRoot;
+	cUIImageView*				m_pCompassFront;
 	LPD3DXSPRITE				m_pSprite;
 
 	cPlayer*					m_pPlayer;

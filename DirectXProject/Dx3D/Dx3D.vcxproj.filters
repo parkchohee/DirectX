@@ -70,6 +70,12 @@
     <Filter Include="Setting&amp;Manager\header\XFileLoad">
       <UniqueIdentifier>{b3d67ca7-e75e-4682-abf6-c73b6b11e972}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Setting&amp;Manager\cpp\Object">
+      <UniqueIdentifier>{762b43d2-c93c-4b75-b6b3-09a579e301c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Setting&amp;Manager\header\Object">
+      <UniqueIdentifier>{e9bcd0b2-de1f-4475-b1db-97514b00e44f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />
@@ -94,12 +100,6 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="cMainGame.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="cObject.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="cGameObject.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="cOBB.h">
@@ -222,6 +222,12 @@
     <ClInclude Include="cSoundManager.h">
       <Filter>Setting&amp;Manager\header\Manager</Filter>
     </ClInclude>
+    <ClInclude Include="cGameObject.h">
+      <Filter>Setting&amp;Manager\header\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="cObject.h">
+      <Filter>Setting&amp;Manager\header\Object</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -231,12 +237,6 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="cMainGame.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="cObject.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="cGameObject.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="cOBB.cpp">
@@ -358,6 +358,12 @@
     </ClCompile>
     <ClCompile Include="cSoundManager.cpp">
       <Filter>Setting&amp;Manager\cpp\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="cObject.cpp">
+      <Filter>Setting&amp;Manager\cpp\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="cGameObject.cpp">
+      <Filter>Setting&amp;Manager\cpp\Object</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
