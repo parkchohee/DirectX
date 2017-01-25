@@ -12,12 +12,12 @@ class cPlayScene
 	cCamera*					m_pCamera;
 	cGrid*						m_pGrid;
 
-	cUIObject*					m_pUIRoot;
+	cUIObject*					m_pUICursorRoot;
+	cUIObject*					m_pUIPlayerInfoRoot;
 	LPD3DXSPRITE				m_pSprite;
 
 	cPlayer*					m_pPlayer;
 	std::vector<cAI*>			m_pvAI;
-	//cAI*						m_pAI;
 
 public:
 	cPlayScene();
@@ -33,5 +33,7 @@ public:
 	float GetDistance(D3DXVECTOR3 BulletPos, D3DXVECTOR3 CrushManPos);
 	bool IsCollision(D3DXVECTOR3 BulletPos, float BulletSphereRadius, D3DXVECTOR3 CrushManPos, float CrushManSphereRadius);
 
+	void SettingCursorUI();
+	void SettingPlayerInfoUI();
 };
 

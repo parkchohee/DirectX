@@ -18,7 +18,6 @@ public:
 	void Setup(cSkinnedMesh* pSkinnedMesh);
 	void Update(D3DXMATRIXA16* pmatWorld);
 	static bool IsCollision(cOBB* pOBB1, cOBB* pOBB2);
-	static bool IsCollision(cOBB* pOBB1, ST_SPHERE* pSphere);
 
 	void OBBBox_Render(D3DCOLOR c); 
 

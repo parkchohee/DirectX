@@ -15,7 +15,8 @@
 cPlayScene::cPlayScene()
 	: m_pCamera(NULL)
 	, m_pGrid(NULL)
-	, m_pUIRoot(NULL)
+	, m_pUICursorRoot(NULL)
+	, m_pUIPlayerInfoRoot(NULL)
 	, m_pPlayer(NULL)
 {
 }
@@ -23,8 +24,11 @@ cPlayScene::cPlayScene()
 
 cPlayScene::~cPlayScene()
 {
-	if (m_pUIRoot)
-		m_pUIRoot->Destroy();
+	if (m_pUICursorRoot)
+		m_pUICursorRoot->Destroy();
+
+	if (m_pUIPlayerInfoRoot)
+		m_pUIPlayerInfoRoot->Destroy();
 
 	SAFE_RELEASE(m_pSprite);
 
@@ -44,64 +48,24 @@ void cPlayScene::Setup()
 	m_pPlayer->Setup();
 
 	cAI* pAI = new cAI;
-	pAI->SetPosition(D3DXVECTOR3(3, 0, 0));
 	pAI->Setup("AI/", "testMan.X");
+	pAI->SetPosition(D3DXVECTOR3(3, 0, 0));
 	m_pvAI.push_back(pAI);
 
 	cAI* pAI2 = new cAI;
-	pAI2->SetPosition(D3DXVECTOR3(6, 0, 0));
 	pAI2->Setup("AI/", "testMan.X");
+	pAI2->SetPosition(D3DXVECTOR3(6, 0, 0));
 	m_pvAI.push_back(pAI2);
 
 
-	//cAI* pAI3 = new cAI;
-	//pAI3->SetPosition(D3DXVECTOR3(-3, 0, 0));
-	//pAI3->Setup("AI/", "testMan.X");
-	//m_pvAI.push_back(pAI3);
-
-
 	m_pCamera = new cCamera;
-//	m_pCamera->Setup(NULL);
 	m_pCamera->Setup(&(m_pPlayer->GetPosition()));
 
 	m_pGrid = new cGrid;
 	m_pGrid->Setup();
 
-	/// >> : cursor UI
-	{
-		RECT rc;
-		GetClientRect(g_hWnd, &rc);
-
-		float centerX, centerY;
-		centerX = (rc.left + rc.right) / 2;
-		centerY = (rc.top + rc.bottom) / 2;
-
-		D3DXCreateSprite(g_pD3DDevice, &m_pSprite);
-
-		m_pUIRoot = new cUIObject;
-		m_pUIRoot->SetPosition(centerX, centerY);
-
-		cUIImageView* pImageCursorL = new cUIImageView;
-		pImageCursorL->SetTexture("PlayerUI/cursor_h.tga");
-		pImageCursorL->SetPosition(-16, 7);
-
-		cUIImageView* pImageCursorR = new cUIImageView;
-		pImageCursorR->SetTexture("PlayerUI/cursor_h.tga");
-		pImageCursorR->SetPosition(16, 7);
-
-		cUIImageView* pImageCursorT = new cUIImageView;
-		pImageCursorT->SetTexture("PlayerUI/cursor_v.tga");
-		pImageCursorT->SetPosition(7, -16);
-
-		cUIImageView* pImageCursorB = new cUIImageView;
-		pImageCursorB->SetTexture("PlayerUI/cursor_v.tga");
-		pImageCursorB->SetPosition(7, 16);
-
-		m_pUIRoot->AddChild(pImageCursorL);
-		m_pUIRoot->AddChild(pImageCursorR);
-		m_pUIRoot->AddChild(pImageCursorT);
-		m_pUIRoot->AddChild(pImageCursorB);
-	}
+	SettingCursorUI();
+	SettingPlayerInfoUI();
 }
 
 void cPlayScene::Update()
@@ -115,8 +79,11 @@ void cPlayScene::Update()
 	if (m_pCamera)
 		m_pCamera->Update();
 
-	if (m_pUIRoot)
-		m_pUIRoot->Update();
+	if (m_pUICursorRoot)
+		m_pUICursorRoot->Update();
+
+	if (m_pUIPlayerInfoRoot)
+		m_pUIPlayerInfoRoot->Update();
 
 	CollisionCheck();
 
@@ -127,14 +94,17 @@ void cPlayScene::Render()
 	for each(auto p in m_pvAI)
 		p->Render();
 
-	/*if (m_pPlayer)
+	if (m_pPlayer)
 		m_pPlayer->Render();
-	*/
+	
 	if (m_pGrid)
 		m_pGrid->Render();
 
-	if (m_pUIRoot)
-		m_pUIRoot->Render(m_pSprite);
+	if (m_pUICursorRoot)
+		m_pUICursorRoot->Render(m_pSprite);
+
+	if (m_pUIPlayerInfoRoot)
+		m_pUIPlayerInfoRoot->Render(m_pSprite);
 
 }
 
@@ -159,7 +129,7 @@ void cPlayScene::CollisionCheck()
 			vBulletCenter = gun->GetBullets()[bulletIndex]->GetBoundingSphere().vCenter;
 			vAICenter = m_pvAI[aiIndex]->GetBoundingSphere().vCenter;
 
-			//if (IsCollision(vBulletCenter, BULLET_RADIUS, vAICenter, AI_BOUNDING_SPHERE_SIZE))
+			if (IsCollision(vBulletCenter, BULLET_RADIUS, vAICenter, AI_BOUNDING_SPHERE_SIZE))
 			{
 				for (size_t sphereIndex = 0; sphereIndex < m_pvAI[aiIndex]->GetBoundingSphereDetail().size(); sphereIndex++)
 				{
@@ -193,4 +163,76 @@ float cPlayScene::GetDistance(D3DXVECTOR3 BulletPos, D3DXVECTOR3 CrushManPos)
 bool cPlayScene::IsCollision(D3DXVECTOR3 BulletPos, float BulletSphereRadius, D3DXVECTOR3 CrushManPos, float CrushManSphereRadius)
 {
 	return GetDistance(BulletPos, CrushManPos) < ((BulletSphereRadius + CrushManSphereRadius) * (BulletSphereRadius + CrushManSphereRadius));
+}
+
+void cPlayScene::SettingCursorUI()
+{
+	RECT rc;
+	GetClientRect(g_hWnd, &rc);
+
+	float centerX, centerY;
+	centerX = (rc.left + rc.right) / 2;
+	centerY = (rc.top + rc.bottom) / 2;
+
+	D3DXCreateSprite(g_pD3DDevice, &m_pSprite);
+
+	m_pUICursorRoot = new cUIObject;
+	m_pUICursorRoot->SetPosition(centerX, centerY);
+
+	cUIImageView* pImageCursorL = new cUIImageView;
+	pImageCursorL->SetTexture("PlayerUI/cursor_h.tga");
+	pImageCursorL->SetPosition(-16, 7);
+
+	cUIImageView* pImageCursorR = new cUIImageView;
+	pImageCursorR->SetTexture("PlayerUI/cursor_h.tga");
+	pImageCursorR->SetPosition(16, 7);
+
+	cUIImageView* pImageCursorT = new cUIImageView;
+	pImageCursorT->SetTexture("PlayerUI/cursor_v.tga");
+	pImageCursorT->SetPosition(7, -16);
+
+	cUIImageView* pImageCursorB = new cUIImageView;
+	pImageCursorB->SetTexture("PlayerUI/cursor_v.tga");
+	pImageCursorB->SetPosition(7, 16);
+
+	m_pUICursorRoot->AddChild(pImageCursorL);
+	m_pUICursorRoot->AddChild(pImageCursorR);
+	m_pUICursorRoot->AddChild(pImageCursorT);
+	m_pUICursorRoot->AddChild(pImageCursorB);
+}
+
+void cPlayScene::SettingPlayerInfoUI()
+{
+	RECT rc;
+	GetClientRect(g_hWnd, &rc);
+
+	m_pUIPlayerInfoRoot = new cUIObject;
+	m_pUIPlayerInfoRoot->SetPosition(0, 0);
+
+	cUIImageView* pHpBarBackground = new cUIImageView;
+	pHpBarBackground->SetTexture("PlayerUI/hp_background.png");
+	pHpBarBackground->SetPosition(rc.left + 20, rc.bottom - pHpBarBackground->GetSize().nHeight - 3);
+
+	cUIImageView* pAmmoBackground = new cUIImageView;
+	pAmmoBackground->SetTexture("PlayerUI/Ammo_background.png");
+	pAmmoBackground->SetPosition(rc.right - pAmmoBackground->GetSize().nWidth - 3, rc.bottom - pAmmoBackground->GetSize().nHeight - 3);
+
+	cUIImageView* pHpObject = new cUIImageView;
+	pHpObject->SetTexture("PlayerUI/hp_object.png");
+	pHpObject->SetPosition(pHpBarBackground->GetPosition().x + 35, rc.bottom - pHpObject->GetSize().nHeight - 8);
+
+	cUIImageView* pHpBarBack = new cUIImageView;
+	pHpBarBack->SetTexture("PlayerUI/hp_bar_back.png");
+	pHpBarBack->SetPosition(pHpObject->GetPosition().x + pHpObject->GetSize().nWidth + 20, rc.bottom - pHpBarBack->GetSize().nHeight - 12);
+
+	cUIImageView* pHpBarFront = new cUIImageView;
+	pHpBarFront->SetTexture("PlayerUI/hp_bar_front.png");
+	pHpBarFront->SetPosition(pHpBarBack->GetPosition().x + 1, pHpBarBack->GetPosition().y + 1);
+
+	m_pUIPlayerInfoRoot->AddChild(pHpBarBackground);
+	m_pUIPlayerInfoRoot->AddChild(pAmmoBackground);
+	m_pUIPlayerInfoRoot->AddChild(pHpObject);
+	m_pUIPlayerInfoRoot->AddChild(pHpBarBack);
+	m_pUIPlayerInfoRoot->AddChild(pHpBarFront);
+
 }
