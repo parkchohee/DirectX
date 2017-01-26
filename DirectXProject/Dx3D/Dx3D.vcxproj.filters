@@ -228,6 +228,9 @@
     <ClInclude Include="cObject.h">
       <Filter>Setting&amp;Manager\header\Object</Filter>
     </ClInclude>
+    <ClInclude Include="cScene.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -364,6 +367,9 @@
     </ClCompile>
     <ClCompile Include="cGameObject.cpp">
       <Filter>Setting&amp;Manager\cpp\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="cScene.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

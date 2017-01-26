@@ -1,7 +1,7 @@
 #pragma once
 
 
-class cPlayScene;
+class cScene;
 #include "cUIButton.h"
 
 class cMainGame
@@ -9,7 +9,7 @@ class cMainGame
 {
 private:
 	
-	cPlayScene*					m_pPlayScene;
+	cScene*					m_pPlayScene;
 
 public:
 	cMainGame(void);

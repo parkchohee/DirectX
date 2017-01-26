@@ -1,5 +1,7 @@
 #pragma once
 
+#include "cScene.h"
+
 class cCamera;
 class cGrid;
 class cUIObject;
@@ -8,7 +10,7 @@ class cUIImageView;
 class cPlayer;
 class cAI;
 
-class cPlayScene
+class cPlayScene : public cScene
 {
 	cCamera*					m_pCamera;
 	cGrid*						m_pGrid;
@@ -23,13 +25,13 @@ class cPlayScene
 
 public:
 	cPlayScene();
-	~cPlayScene();
+	virtual ~cPlayScene();
 
-	void Setup();
-	void Update();
-	void Render();
+	virtual void Setup();
+	virtual void Update();
+	virtual void Render();
 
-	void WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
+	virtual void WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
 	void BulletCollisionCheck();
 

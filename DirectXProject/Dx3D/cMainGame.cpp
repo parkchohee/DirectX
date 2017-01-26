@@ -1,5 +1,6 @@
 #include "StdAfx.h"
 #include "cMainGame.h"
+#include "cScene.h"
 #include "cPlayScene.h"
 
 cMainGame::cMainGame(void)
