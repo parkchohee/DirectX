@@ -1,16 +1,24 @@
 #include "StdAfx.h"
 #include "cMainGame.h"
+#include "cScene.h"
+#include "cFirstScene.h"
 #include "cPlayScene.h"
+#include "cMapToolScene.h"
 
 cMainGame::cMainGame(void)
-	: m_pPlayScene(NULL)
+	: m_pFirstScene(NULL)
+	, m_pPlayScene(NULL)
+	, m_pMapTool(NULL)
+	, m_nSceneState(MAP_TOOL_SCENE)
 {
 }
 
 
 cMainGame::~cMainGame(void)
 {
+	SAFE_DELETE(m_pMapTool);
 	SAFE_DELETE(m_pPlayScene);
+	SAFE_DELETE(m_pFirstScene);
 
 	g_pSkinnedMeshManager->Destroy();
 	g_pObjectManager->Destroy();
@@ -23,8 +31,14 @@ void cMainGame::Setup()
 {
 	//ShowCursor(FALSE);
 	
+	m_pFirstScene = new cFirstScene;
+	m_pFirstScene->Setup();
+
 	m_pPlayScene = new cPlayScene;
 	m_pPlayScene->Setup();
+
+	m_pMapTool = new cMapToolScene;
+	m_pMapTool->Setup();
 
 	SetLight();
 
@@ -34,8 +48,27 @@ void cMainGame::Update()
 {
 	g_pTimeManager->Update();
 
-	if(m_pPlayScene)
-		m_pPlayScene->Update();
+	switch (m_nSceneState)
+	{
+	case FIRST_SCENE:
+		if (m_pFirstScene)
+			m_pFirstScene->Update();
+		break;
+	case PLAY_SCENE:
+		if (m_pPlayScene)
+			m_pPlayScene->Update();
+		break;
+	case MAP_TOOL_SCENE:
+		if (m_pMapTool)
+			m_pMapTool->Update();
+		break;
+	default:
+		break;
+	}
+	
+	if(g_pKeyManager->IsOnceKeyDown(VK_RETURN))
+		m_nSceneState = PLAY_SCENE;
+
 
 }
 
@@ -50,9 +83,23 @@ void cMainGame::Render()
 
 	g_pD3DDevice->BeginScene();
 
-	if (m_pPlayScene)
-		m_pPlayScene->Render();
-	
+	switch (m_nSceneState)
+	{
+	case FIRST_SCENE:
+		if (m_pFirstScene)
+			m_pFirstScene->Render();
+		break;
+	case PLAY_SCENE:
+		if (m_pPlayScene)
+			m_pPlayScene->Render();
+		break;
+	case MAP_TOOL_SCENE:
+		if (m_pMapTool)
+			m_pMapTool->Render();
+		break;
+	default:
+		break;
+	}
 
 
 
@@ -97,6 +144,7 @@ void cMainGame::WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
 
 	if (m_pPlayScene)
 	{
+
 		m_pPlayScene->WndProc(hWnd, message, wParam, lParam);
 	}
 
@@ -113,6 +161,7 @@ void cMainGame::WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
 		
 		break;
 	}
+
 }
 
 void cMainGame::OnClick( cUIButton* pSender )
