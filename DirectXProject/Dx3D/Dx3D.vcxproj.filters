@@ -76,6 +76,12 @@
     <Filter Include="Setting&amp;Manager\header\Object">
       <UniqueIdentifier>{e9bcd0b2-de1f-4475-b1db-97514b00e44f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Scene">
+      <UniqueIdentifier>{2e67e42b-e0a7-4440-a672-6d5f8e773676}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\Scene">
+      <UniqueIdentifier>{7570c60a-0def-4e96-9e76-5754d7ec3fdf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />
@@ -186,9 +192,6 @@
     <ClInclude Include="cPlayer.h">
       <Filter>헤더 파일\Character</Filter>
     </ClInclude>
-    <ClInclude Include="cPlayScene.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="cAI.h">
       <Filter>헤더 파일\Character</Filter>
     </ClInclude>
@@ -228,7 +231,19 @@
     <ClInclude Include="cObject.h">
       <Filter>Setting&amp;Manager\header\Object</Filter>
     </ClInclude>
+    <ClInclude Include="cFirstScene.h">
+      <Filter>헤더 파일\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="cPlayScene.h">
+      <Filter>헤더 파일\Scene</Filter>
+    </ClInclude>
     <ClInclude Include="cScene.h">
+      <Filter>헤더 파일\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="cMapToolScene.h">
+      <Filter>헤더 파일\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="cStaticMesh.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
@@ -326,9 +341,6 @@
     <ClCompile Include="cBullet.cpp">
       <Filter>소스 파일\Character</Filter>
     </ClCompile>
-    <ClCompile Include="cPlayScene.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="cAI.cpp">
       <Filter>소스 파일\Character</Filter>
     </ClCompile>
@@ -368,7 +380,19 @@
     <ClCompile Include="cGameObject.cpp">
       <Filter>Setting&amp;Manager\cpp\Object</Filter>
     </ClCompile>
+    <ClCompile Include="cFirstScene.cpp">
+      <Filter>소스 파일\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="cPlayScene.cpp">
+      <Filter>소스 파일\Scene</Filter>
+    </ClCompile>
     <ClCompile Include="cScene.cpp">
+      <Filter>소스 파일\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="cMapToolScene.cpp">
+      <Filter>소스 파일\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="cStaticMesh.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

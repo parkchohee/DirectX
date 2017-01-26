@@ -4,12 +4,22 @@
 class cScene;
 #include "cUIButton.h"
 
+enum SCENE_STATE
+{
+	FIRST_SCENE,
+	PLAY_SCENE,
+	MAP_TOOL_SCENE
+};
+
 class cMainGame
 	: public iButtonDelegate
 {
 private:
-	
+	cScene*					m_pFirstScene;
 	cScene*					m_pPlayScene;
+	cScene*					m_pMapTool;
+
+	SCENE_STATE				m_nSceneState;
 
 public:
 	cMainGame(void);
