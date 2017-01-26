@@ -3,12 +3,13 @@
 
 class cStaticMesh;
 class cGrid;
+class cCamera;
 
 class cMapToolScene : public cScene
 {
-	cStaticMesh* test;
+	//cStaticMesh* test;
 
-
+	cCamera*	m_pCamera;
 	cGrid*		m_pGrid;
 
 public:

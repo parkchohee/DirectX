@@ -7,7 +7,7 @@ cCamera::cCamera(void)
 	, m_vLookAt(0, 1.5, 5)
 	, m_vUp(0, 1, 0)
 	, m_pvTarget(NULL)
-	, m_fCameraDistance(5.0f)
+	, m_fCameraDistance(50)
 	, m_isLButtonDown(false)
 	, m_vCamRotAngle(0, 0, 0)
 {

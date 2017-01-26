@@ -103,6 +103,7 @@
     <ClInclude Include="cGun.h" />
     <ClInclude Include="cKeyManager.h" />
     <ClInclude Include="cMainGame.h" />
+    <ClInclude Include="cMapCamera.h" />
     <ClInclude Include="cMapToolScene.h" />
     <ClInclude Include="cMtlTex.h" />
     <ClInclude Include="cOBB.h" />
@@ -156,6 +157,7 @@
     <ClCompile Include="cGun.cpp" />
     <ClCompile Include="cKeyManager.cpp" />
     <ClCompile Include="cMainGame.cpp" />
+    <ClCompile Include="cMapCamera.cpp" />
     <ClCompile Include="cMapToolScene.cpp" />
     <ClCompile Include="cMtlTex.cpp" />
     <ClCompile Include="cOBB.cpp" />

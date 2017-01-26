@@ -140,13 +140,24 @@ void cMainGame::SetLight()
 
 void cMainGame::WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
 {
-
-
-	if (m_pPlayScene)
+	switch (m_nSceneState)
 	{
-
-		m_pPlayScene->WndProc(hWnd, message, wParam, lParam);
+	case FIRST_SCENE:
+		if (m_pFirstScene)
+			m_pFirstScene->WndProc(hWnd, message, wParam, lParam);
+		break;
+	case PLAY_SCENE:
+		if (m_pPlayScene)
+			m_pPlayScene->WndProc(hWnd, message, wParam, lParam);
+		break;
+	case MAP_TOOL_SCENE:
+		if (m_pMapTool)
+			m_pMapTool->WndProc(hWnd, message, wParam, lParam);
+		break;
+	default:
+		break;
 	}
+
 
 	switch(message)
 	{

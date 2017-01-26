@@ -1,11 +1,13 @@
 #include "stdafx.h"
 #include "cMapToolScene.h"
 #include "cGrid.h"
+#include "cMapCamera.h"
 #include "cStaticMesh.h"
 
 
 cMapToolScene::cMapToolScene()
-	: test(NULL)
+	: /*test(NULL)
+	,*/ m_pCamera(NULL)
 	, m_pGrid(NULL)
 {
 }
@@ -13,29 +15,37 @@ cMapToolScene::cMapToolScene()
 
 cMapToolScene::~cMapToolScene()
 {
+	SAFE_DELETE(m_pCamera);
 	SAFE_DELETE(m_pGrid);
-	SAFE_DELETE(test);
+	//SAFE_DELETE(test);
 
 }
 
 void cMapToolScene::Setup()
 {
-	test = new cStaticMesh;
+	/*test = new cStaticMesh;
 	test->Setup("Map/", "test.X");
-
+	D3DXMATRIXA16 matS;
+	D3DXMatrixScaling(&matS, 0.01, 0.01, 0.01);
+	test->SetWolrd(matS);
+*/
 	m_pGrid = new cGrid;
 	m_pGrid->Setup();
+
+	m_pCamera = new cMapCamera;
+	m_pCamera->Setup(NULL);
 }
 
 void cMapToolScene::Update()
 {
+	if (m_pCamera)
+		m_pCamera->Update();
 }
 
 void cMapToolScene::Render()
 {
-
-	if (test)
-		test->Render();
+	//if (test)
+	//	test->Render();
 
 	if (m_pGrid)
 		m_pGrid->Render();
@@ -57,4 +67,8 @@ void cMapToolScene::Render()
 
 void cMapToolScene::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
+	if (m_pCamera)
+	{
+		m_pCamera->WndProc(hWnd, message, wParam, lParam);
+	}
 }
