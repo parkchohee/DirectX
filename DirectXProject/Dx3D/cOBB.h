@@ -1,4 +1,5 @@
 #pragma once
+class cStaticMesh;
 class cOBB
 {
 private:
@@ -16,6 +17,7 @@ public:
 	~cOBB(void);
 
 	void Setup(cSkinnedMesh* pSkinnedMesh);
+	void Setup(cStaticMesh* pStaticMesh);
 	void Update(D3DXMATRIXA16* pmatWorld);
 	static bool IsCollision(cOBB* pOBB1, cOBB* pOBB2);
 

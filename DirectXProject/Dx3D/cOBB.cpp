@@ -1,6 +1,7 @@
 #include "StdAfx.h"
 #include "cOBB.h"
 #include "cSkinnedMesh.h"
+#include "cStaticMesh.h"
 
 cOBB::cOBB(void)
 {
@@ -16,6 +17,27 @@ void cOBB::Setup( cSkinnedMesh* pSkinnedMesh )
 {
 	D3DXVECTOR3 vMin = pSkinnedMesh->GetMin();
 	D3DXVECTOR3 vMax = pSkinnedMesh->GetMax();
+	m_vOrgCenterPos = (vMin + vMax) / 2.f;
+
+	m_vOrgAxisDir[0] = D3DXVECTOR3(1, 0, 0);
+	m_vOrgAxisDir[1] = D3DXVECTOR3(0, 1, 0);
+	m_vOrgAxisDir[2] = D3DXVECTOR3(0, 0, 1);
+
+	m_fAxisLen[0] = fabs(vMax.x - vMin.x);
+	m_fAxisLen[1] = fabs(vMax.y - vMin.y);
+	m_fAxisLen[2] = fabs(vMax.z - vMin.z);
+
+	m_fAxisHalfLen[0] = m_fAxisLen[0] / 2.0f;
+	m_fAxisHalfLen[1] = m_fAxisLen[1] / 2.0f;
+	m_fAxisHalfLen[2] = m_fAxisLen[2] / 2.0f;
+
+	D3DXMatrixIdentity(&m_matWorldTM);
+}
+
+void cOBB::Setup(cStaticMesh * pStaticMesh)
+{
+	D3DXVECTOR3 vMin = pStaticMesh->GetMin();
+	D3DXVECTOR3 vMax = pStaticMesh->GetMax();
 	m_vOrgCenterPos = (vMin + vMax) / 2.f;
 
 	m_vOrgAxisDir[0] = D3DXVECTOR3(1, 0, 0);
@@ -239,6 +261,7 @@ void cOBB::OBBBox_Render(D3DCOLOR c)
 	vecVertex.push_back(ST_PC_VERTEX(pos8, c));
 	vecVertex.push_back(ST_PC_VERTEX(pos5, c));
 
+	g_pD3DDevice->SetTexture(NULL,NULL);
 	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, false);
 	g_pD3DDevice->SetTransform(D3DTS_WORLD, &m_matWorldTM);
 	g_pD3DDevice->SetFVF(ST_PC_VERTEX::FVF);

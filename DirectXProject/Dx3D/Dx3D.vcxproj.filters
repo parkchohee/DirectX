@@ -82,6 +82,12 @@
     <Filter Include="헤더 파일\Scene">
       <UniqueIdentifier>{7570c60a-0def-4e96-9e76-5754d7ec3fdf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\MapTool">
+      <UniqueIdentifier>{a72fd75d-3cc8-4bee-b647-aa49715020fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\MapTool">
+      <UniqueIdentifier>{ff5b6015-d9c4-4775-b8a0-a87d4da05c3f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />
@@ -246,8 +252,11 @@
     <ClInclude Include="cStaticMesh.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="cBuilding.h">
+      <Filter>헤더 파일\MapTool</Filter>
+    </ClInclude>
     <ClInclude Include="cMapCamera.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>헤더 파일\MapTool</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -398,8 +407,11 @@
     <ClCompile Include="cStaticMesh.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="cBuilding.cpp">
+      <Filter>소스 파일\MapTool</Filter>
+    </ClCompile>
     <ClCompile Include="cMapCamera.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>소스 파일\MapTool</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
