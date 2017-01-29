@@ -21,6 +21,8 @@ public:
 	void Update();
 	void Render();
 
+	void Init();
+
 	std::string GetFolderName() { return m_sFolderName; }
 	std::string GetFileName() { return m_sFileName; }
 };

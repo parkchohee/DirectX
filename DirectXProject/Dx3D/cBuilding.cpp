@@ -52,3 +52,10 @@ void cBuilding::Render()
 	if (m_pOBB)
 		m_pOBB->OBBBox_Render(D3DCOLOR_XRGB(255, 255, 255));
 }
+
+void cBuilding::Init()
+{
+	m_vPosition = D3DXVECTOR3(0, 0, 0);
+	m_fAngle = 0.f;
+	m_fScale = 0.007f;
+}

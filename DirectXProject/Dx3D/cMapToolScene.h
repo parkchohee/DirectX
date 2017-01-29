@@ -32,7 +32,11 @@ class cMapToolScene : public cScene,
 	LPD3DXSPRITE				m_pSprite;
 	cUIObject*					m_pUIRoot;
 
-	std::vector<cBuilding*>		m_vpBuildings;
+	std::vector<cBuilding*>		m_vpAllBuildings;
+	std::vector<cBuilding*>		m_vpSettingBuildings;
+
+	std::vector<char*>			m_pName;
+	int							m_nBuildingNum;
 
 public:
 	cMapToolScene();
@@ -47,6 +51,8 @@ public:
 	
 	void SettingUI();
 	void PositionSettingController();
+
+	void AddBuilding();
 	void SaveMapFile();
 };
 
