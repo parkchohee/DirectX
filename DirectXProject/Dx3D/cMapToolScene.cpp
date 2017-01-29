@@ -24,7 +24,7 @@ cMapToolScene::~cMapToolScene()
 		SAFE_RELEASE(p)
 
 	SAFE_RELEASE(m_pSprite);
-	SAFE_RELEASE(m_pBuilding);
+//	SAFE_RELEASE(m_pBuilding);
 
 	SAFE_DELETE(m_pCamera);
 	SAFE_DELETE(m_pGrid);
@@ -278,7 +278,9 @@ void cMapToolScene::SaveMapFile()
 		FILE_ATTRIBUTE_NORMAL, NULL);
 	for (size_t i = 0; i < m_vpBuildings.size(); i++)
 	{
-		strcat_s(str, "{\nName : ");
+		strcat_s(str, "{\nDirectoryName : ");
+		strcat_s(str, m_vpBuildings[i]->GetFolderName().c_str());	
+		strcat_s(str, "\nFileName : ");
 		strcat_s(str, m_vpBuildings[i]->GetFileName().c_str());
 		strcat_s(str, "\nS : ");
 		strcat_s(str, std::to_string(m_vpBuildings[i]->GetScale()).c_str());

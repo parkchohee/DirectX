@@ -26,7 +26,8 @@ void cBuilding::Setup(char* szFolder, char* szFilename)
 	m_pOBB = new cOBB;
 	m_pOBB->Setup(m_pBuilding);
 
-	m_sFileName = std::string(szFolder) + std::string(szFilename);
+	m_sFolderName = std::string(szFolder);
+	m_sFileName = std::string(szFilename);
 }
 
 void cBuilding::Update()

@@ -5,6 +5,7 @@ class cOBB;
 class cBuilding : public cObject
 {
 	cStaticMesh*			m_pBuilding;
+	std::string			m_sFolderName;
 	std::string			m_sFileName;
 	cOBB*			m_pOBB;	/// >> : OBB
 
@@ -20,6 +21,7 @@ public:
 	void Update();
 	void Render();
 
+	std::string GetFolderName() { return m_sFolderName; }
 	std::string GetFileName() { return m_sFileName; }
 };
 

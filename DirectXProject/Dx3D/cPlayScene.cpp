@@ -10,11 +10,13 @@
 #include "cGun.h"
 #include "cBullet.h"
 #include "cOBB.h"
+#include "cTextMap.h"
 
 
 cPlayScene::cPlayScene()
 	: m_pCamera(NULL)
 	, m_pGrid(NULL)
+	, m_pTextMap(NULL)
 	, m_pUICursorRoot(NULL)
 	, m_pUIPlayerInfoRoot(NULL)
 	, m_pPlayer(NULL)
@@ -34,6 +36,7 @@ cPlayScene::~cPlayScene()
 
 	SAFE_DELETE(m_pCamera);
 	SAFE_DELETE(m_pGrid);
+	SAFE_DELETE(m_pTextMap);
 
 	SAFE_RELEASE(m_pPlayer);
 	
@@ -64,6 +67,10 @@ void cPlayScene::Setup()
 	m_pGrid = new cGrid;
 	m_pGrid->Setup();
 
+
+	m_pTextMap = new cTextMap;
+	m_pTextMap->Setup("mapFile.txt");
+
 	SettingCursorUI();
 	SettingPlayerInfoUI();
 }
@@ -75,6 +82,9 @@ void cPlayScene::Update()
 
 	for each(auto p in m_pvAI)
 		p->Update(NULL);
+
+	if (m_pTextMap)
+		m_pTextMap->Update();
 
 	if (m_pCamera)
 		m_pCamera->Update();
@@ -95,6 +105,9 @@ void cPlayScene::Render()
 
 	if (m_pPlayer)
 		m_pPlayer->Render();
+
+	if (m_pTextMap)
+		m_pTextMap->Render();
 	
 	if (m_pGrid)
 		m_pGrid->Render();
