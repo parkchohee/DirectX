@@ -4,6 +4,8 @@
 
 class cCamera;
 class cGrid;
+class cTextMap;
+
 class cUIObject;
 class cUIImageView;
 
@@ -14,6 +16,8 @@ class cPlayScene : public cScene
 {
 	cCamera*					m_pCamera;
 	cGrid*						m_pGrid;
+
+	cTextMap*					m_pTextMap;
 
 	cUIObject*					m_pUICursorRoot;
 	cUIObject*					m_pUIPlayerInfoRoot;

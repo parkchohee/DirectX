@@ -1,7 +1,7 @@
 #pragma once
 class cCamera
 {
-private:
+protected:
 	D3DXVECTOR3		m_vEye;
 	D3DXVECTOR3		m_vLookAt;
 	D3DXVECTOR3		m_vUp;
@@ -10,17 +10,16 @@ private:
 	POINT			m_ptPrevMouse;
 	bool			m_isLButtonDown;
 	float			m_fCameraDistance;
-	//D3DXVECTOR3		m_vCamRotAngle;
 
 	SYNTHESIZE_PASS_BY_REF(D3DXVECTOR3, m_vCamRotAngle, CamRotAngle);
 
 public:
 	cCamera(void);
-	~cCamera(void);
+	virtual ~cCamera(void);
 
-	void Setup(D3DXVECTOR3* pvTarget);
-	void Update();
+	virtual void Setup(D3DXVECTOR3* pvTarget = NULL);
+	virtual void Update();
 
-	void WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
+	virtual void WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 };
 

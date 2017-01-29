@@ -51,6 +51,8 @@ void cGun::Render()
 	if (m_pGun)
 		m_pGun->UpdateAndRender();
 	
+	g_pD3DDevice->SetRenderState(D3DRS_ZENABLE, true);
+
 	for (size_t i = 0; i < m_pvBullet.size(); i++)
 	{
 		m_pvBullet[i]->Render();

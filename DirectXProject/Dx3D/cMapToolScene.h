@@ -1,15 +1,38 @@
 #pragma once
 #include "cScene.h"
 
-class cStaticMesh;
-class cGrid;
+#define MAPMAXSIZE 4096
 
-class cMapToolScene : public cScene
+enum BUTTON_TYPE
 {
-	cStaticMesh* test;
+	PREV_TITLE,
+	NEXT_TITLE,
+	DOWN_SCALE,
+	UP_SCALE,
+	DOWN_ANGLE,
+	UP_ANGLE,
+	SAVE,
+	EXIT
+};
 
+class cBuilding;
+class cGrid;
+class cCamera;
+class cUIObject;
 
-	cGrid*		m_pGrid;
+#include "cUIButton.h"
+class cMapToolScene : public cScene,
+	public iButtonDelegate
+{
+	cBuilding*					m_pBuilding;
+
+	cCamera*					m_pCamera;
+	cGrid*						m_pGrid;
+
+	LPD3DXSPRITE				m_pSprite;
+	cUIObject*					m_pUIRoot;
+
+	std::vector<cBuilding*>		m_vpBuildings;
 
 public:
 	cMapToolScene();
@@ -20,6 +43,10 @@ public:
 	virtual void Render();
 
 	virtual void WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
-
+	void OnClick(cUIButton* pSender);
+	
+	void SettingUI();
+	void PositionSettingController();
+	void SaveMapFile();
 };
 

@@ -89,6 +89,7 @@
     <ClInclude Include="cAI.h" />
     <ClInclude Include="cAiController.h" />
     <ClInclude Include="cAllocateHierarchy.h" />
+    <ClInclude Include="cBuilding.h" />
     <ClInclude Include="cBullet.h" />
     <ClInclude Include="cCamera.h" />
     <ClInclude Include="cCharacter.h" />
@@ -103,6 +104,7 @@
     <ClInclude Include="cGun.h" />
     <ClInclude Include="cKeyManager.h" />
     <ClInclude Include="cMainGame.h" />
+    <ClInclude Include="cMapCamera.h" />
     <ClInclude Include="cMapToolScene.h" />
     <ClInclude Include="cMtlTex.h" />
     <ClInclude Include="cOBB.h" />
@@ -120,6 +122,8 @@
     <ClInclude Include="cSkinnedMeshManager.h" />
     <ClInclude Include="cSoundManager.h" />
     <ClInclude Include="cStaticMesh.h" />
+    <ClInclude Include="cStaticMeshManager.h" />
+    <ClInclude Include="cTextMap.h" />
     <ClInclude Include="cTextureManager.h" />
     <ClInclude Include="cTimeManager.h" />
     <ClInclude Include="cUIButton.h" />
@@ -142,6 +146,7 @@
     <ClCompile Include="cAI.cpp" />
     <ClCompile Include="cAiController.cpp" />
     <ClCompile Include="cAllocateHierarchy.cpp" />
+    <ClCompile Include="cBuilding.cpp" />
     <ClCompile Include="cBullet.cpp" />
     <ClCompile Include="cCamera.cpp" />
     <ClCompile Include="cCharacter.cpp" />
@@ -156,6 +161,7 @@
     <ClCompile Include="cGun.cpp" />
     <ClCompile Include="cKeyManager.cpp" />
     <ClCompile Include="cMainGame.cpp" />
+    <ClCompile Include="cMapCamera.cpp" />
     <ClCompile Include="cMapToolScene.cpp" />
     <ClCompile Include="cMtlTex.cpp" />
     <ClCompile Include="cOBB.cpp" />
@@ -173,6 +179,8 @@
     <ClCompile Include="cSkinnedMeshManager.cpp" />
     <ClCompile Include="cSoundManager.cpp" />
     <ClCompile Include="cStaticMesh.cpp" />
+    <ClCompile Include="cStaticMeshManager.cpp" />
+    <ClCompile Include="cTextMap.cpp" />
     <ClCompile Include="cTextureManager.cpp" />
     <ClCompile Include="cTimeManager.cpp" />
     <ClCompile Include="cUIButton.cpp" />

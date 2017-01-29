@@ -173,5 +173,6 @@ struct ST_SPHERE
 #include "cTimeManager.h"
 #include "cFontManager.h"
 #include "cSkinnedMeshManager.h"
+#include "cStaticMeshManager.h"
 #include "cKeyManager.h"
 #include "cSoundManager.h"
