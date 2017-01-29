@@ -37,7 +37,7 @@ void cBuilding::Update()
 	D3DXMatrixTranslation(&matT, m_vPosition.x, m_vPosition.y, m_vPosition.z);
 
 	matSRT = matS * matR * matT;
-	m_pBuilding->SetWolrd(matSRT);
+	m_pBuilding->SetWorld(matSRT);
 
 	if (m_pOBB)
 		m_pOBB->Update(&matSRT);

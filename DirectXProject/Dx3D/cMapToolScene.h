@@ -11,7 +11,8 @@ enum BUTTON_TYPE
 	UP_SCALE,
 	DOWN_ANGLE,
 	UP_ANGLE,
-	SAVE
+	SAVE,
+	EXIT
 };
 
 class cBuilding;

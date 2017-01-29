@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "cStaticMesh.h"
 
-cStaticMesh::cStaticMesh(char* szDirectory, char* szFilename)
+cStaticMesh::cStaticMesh()
 	: m_pStaticMesh(NULL)
 	, m_vMtrls(0)
 	, m_vTexture(0)
@@ -9,7 +9,22 @@ cStaticMesh::cStaticMesh(char* szDirectory, char* szFilename)
 	, m_vMax(0, 0, 0)
 {
 	D3DXMatrixIdentity(&m_pmatWorld);
-	Setup(szDirectory, szFilename);
+}
+
+cStaticMesh::cStaticMesh(char* szDirectory, char* szFilename)
+	: m_pStaticMesh(NULL)
+	, m_vMtrls(0)
+	, m_vTexture(0)
+	, m_vMin(0, 0, 0)
+	, m_vMax(0, 0, 0)
+{
+	cStaticMesh* pStaticMesh = g_pStaticMeshManager->GetStaticMesh(szDirectory, szFilename);
+
+	D3DXMatrixIdentity(&m_pmatWorld);
+
+	m_pStaticMesh = pStaticMesh->m_pStaticMesh;
+	m_vMtrls = pStaticMesh->m_vMtrls;
+	m_vTexture = pStaticMesh->m_vTexture;
 }
 
 cStaticMesh::~cStaticMesh()
@@ -126,4 +141,8 @@ void cStaticMesh::Render()
 		g_pD3DDevice->SetTexture(0, m_vTexture[i]);
 		m_pStaticMesh->DrawSubset(i);
 	}
+}
+
+void cStaticMesh::Destroy()
+{
 }

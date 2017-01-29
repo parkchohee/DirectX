@@ -258,6 +258,9 @@
     <ClInclude Include="cMapCamera.h">
       <Filter>헤더 파일\MapTool</Filter>
     </ClInclude>
+    <ClInclude Include="cStaticMeshManager.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -412,6 +415,9 @@
     </ClCompile>
     <ClCompile Include="cMapCamera.cpp">
       <Filter>소스 파일\MapTool</Filter>
+    </ClCompile>
+    <ClCompile Include="cStaticMeshManager.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

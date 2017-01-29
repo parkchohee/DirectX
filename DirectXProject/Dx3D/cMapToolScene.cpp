@@ -20,6 +20,9 @@ cMapToolScene::~cMapToolScene()
 	if (m_pUIRoot)
 		m_pUIRoot->Destroy();
 
+	for each (auto p in m_vpBuildings)
+		SAFE_RELEASE(p)
+
 	SAFE_RELEASE(m_pSprite);
 	SAFE_RELEASE(m_pBuilding);
 
@@ -33,6 +36,11 @@ void cMapToolScene::Setup()
 {
 	m_pBuilding = new cBuilding("Map/building/", "barrel.X");
 	m_vpBuildings.push_back(m_pBuilding);
+
+	cBuilding* a = new cBuilding("Map/building/", "barrel.X");
+
+	a->SetPosition(D3DXVECTOR3(3, 0, 0));
+	m_vpBuildings.push_back(a);
 
 	m_pGrid = new cGrid;
 	m_pGrid->Setup();
@@ -53,8 +61,12 @@ void cMapToolScene::Update()
 
 	PositionSettingController();
 
-	if (m_pBuilding)
-		m_pBuilding->Update();
+	/*if (m_pBuilding)
+		m_pBuilding->Update();*/
+	for (size_t i = 0; i < m_vpBuildings.size(); i++)
+	{
+		m_vpBuildings[i]->Update();
+	}
 }
 
 void cMapToolScene::Render()
@@ -65,8 +77,13 @@ void cMapToolScene::Render()
 	if (m_pUIRoot)
 		m_pUIRoot->Render(m_pSprite);
 
-	if (m_pBuilding)
-		m_pBuilding->Render();
+	//if (m_pBuilding)
+	//	m_pBuilding->Render();
+
+	for (size_t i = 0; i < m_vpBuildings.size(); i++)
+	{
+		m_vpBuildings[i]->Render();
+	}
 
 	char szTemp[1024];
 	sprintf(szTemp, "¸ÊÅø");
@@ -193,7 +210,7 @@ void cMapToolScene::SettingUI()
 	/// >> : Save
 	cUIButton* pSaveBtn = new cUIButton;
 	pSaveBtn->SetTexture("Map/UI/btn-med-down.png", "Map/UI/btn-med-over.png", "Map/UI/btn-med-up.png");
-	pSaveBtn->SetPosition(pImageBackground->GetPosition().x - pImageBackground->GetSize().nWidth / 2 + 25, rc.bottom - pSaveBtn->GetSize().nHeight - 15);
+	pSaveBtn->SetPosition(pImageBackground->GetPosition().x - pImageBackground->GetSize().nWidth / 2 + 25, rc.bottom - pSaveBtn->GetSize().nHeight * 2 - 15);
 	pSaveBtn->SetTag(SAVE);
 	pSaveBtn->SetDelegate(this);
 
@@ -201,6 +218,19 @@ void cMapToolScene::SettingUI()
 	pSaveText->SetText("Save");
 	pSaveText->SetSize(ST_SIZEN(pImageBackground->GetSize().nWidth - 50, 100));
 	pSaveText->SetPosition(pSaveBtn->GetPosition().x, pSaveBtn->GetPosition().y);
+	/// << :
+
+	/// >> : Exit
+	cUIButton* pExitBtn = new cUIButton;
+	pExitBtn->SetTexture("Map/UI/btn-med-down.png", "Map/UI/btn-med-over.png", "Map/UI/btn-med-up.png");
+	pExitBtn->SetPosition(pImageBackground->GetPosition().x - pImageBackground->GetSize().nWidth / 2 + 25, rc.bottom - pSaveBtn->GetSize().nHeight - 15);
+	pExitBtn->SetTag(EXIT);
+	pExitBtn->SetDelegate(this);
+
+	cUITextView* pExitText = new cUITextView;
+	pExitText->SetText("Exit");
+	pExitText->SetSize(ST_SIZEN(pImageBackground->GetSize().nWidth - 50, 100));
+	pExitText->SetPosition(pExitBtn->GetPosition().x, pExitBtn->GetPosition().y);
 	/// << :
 
 	m_pUIRoot->AddChild(pImageBackground);
@@ -215,6 +245,8 @@ void cMapToolScene::SettingUI()
 	m_pUIRoot->AddChild(pAngleText);
 	m_pUIRoot->AddChild(pSaveBtn);
 	m_pUIRoot->AddChild(pSaveText);
+	m_pUIRoot->AddChild(pExitBtn);
+	m_pUIRoot->AddChild(pExitText);
 }
 
 void cMapToolScene::PositionSettingController()
