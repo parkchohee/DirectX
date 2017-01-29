@@ -11,6 +11,7 @@ cMapToolScene::cMapToolScene()
 	: m_pBuilding(NULL)
 	, m_pCamera(NULL)
 	, m_pGrid(NULL)
+	, m_nBuildingNum(0)
 {
 }
 
@@ -20,11 +21,13 @@ cMapToolScene::~cMapToolScene()
 	if (m_pUIRoot)
 		m_pUIRoot->Destroy();
 
-	for each (auto p in m_vpBuildings)
+	for each (auto p in m_vpAllBuildings)
+		SAFE_RELEASE(p)
+
+	for each (auto p in m_vpSettingBuildings)
 		SAFE_RELEASE(p)
 
 	SAFE_RELEASE(m_pSprite);
-//	SAFE_RELEASE(m_pBuilding);
 
 	SAFE_DELETE(m_pCamera);
 	SAFE_DELETE(m_pGrid);
@@ -34,13 +37,26 @@ cMapToolScene::~cMapToolScene()
 
 void cMapToolScene::Setup()
 {
-	m_pBuilding = new cBuilding("Map/building/", "barrel.X");
-	m_vpBuildings.push_back(m_pBuilding);
+	m_pName.push_back("barrel.X");
+	m_pName.push_back("box.X");
+	m_pName.push_back("box2.X");
+	m_pName.push_back("building01.X");
+	m_pName.push_back("building02.X");
+	m_pName.push_back("building03.X");
+	m_pName.push_back("building04.X");
+	m_pName.push_back("building05.X");
+	m_pName.push_back("building06.X");
+	m_pName.push_back("church.X");
+	
 
-	cBuilding* a = new cBuilding("Map/building/", "barrel.X");
+	for (size_t i = 0; i < m_pName.size(); i++)
+	{
+		m_vpAllBuildings.push_back(new cBuilding("Map/building/", m_pName[i]));
+	}
 
-	a->SetPosition(D3DXVECTOR3(3, 0, 0));
-	m_vpBuildings.push_back(a);
+	m_pBuilding = m_vpAllBuildings[m_nBuildingNum];
+	/*m_pBuilding = new cBuilding("Map/building/", m_pName[0]);
+	m_vpSettingBuildings.push_back(m_pBuilding);*/
 
 	m_pGrid = new cGrid;
 	m_pGrid->Setup();
@@ -61,11 +77,12 @@ void cMapToolScene::Update()
 
 	PositionSettingController();
 
-	/*if (m_pBuilding)
-		m_pBuilding->Update();*/
-	for (size_t i = 0; i < m_vpBuildings.size(); i++)
+	if (m_pBuilding)
+		m_pBuilding->Update();
+
+	for (size_t i = 0; i < m_vpSettingBuildings.size(); i++)
 	{
-		m_vpBuildings[i]->Update();
+		m_vpSettingBuildings[i]->Update();
 	}
 }
 
@@ -77,15 +94,15 @@ void cMapToolScene::Render()
 	if (m_pUIRoot)
 		m_pUIRoot->Render(m_pSprite);
 
-	//if (m_pBuilding)
-	//	m_pBuilding->Render();
+	if (m_pBuilding)
+		m_pBuilding->Render();
 
-	for (size_t i = 0; i < m_vpBuildings.size(); i++)
+	for (size_t i = 0; i < m_vpSettingBuildings.size(); i++)
 	{
-		m_vpBuildings[i]->Render();
+		m_vpSettingBuildings[i]->Render();
 	}
 
-	char szTemp[1024];
+	/*char szTemp[1024];
 	sprintf(szTemp, "¸ÊÅø");
 
 	LPD3DXFONT pFont = g_pFontManager->GetFont(cFontManager::E_DEFAULT);
@@ -96,7 +113,7 @@ void cMapToolScene::Render()
 		strlen(szTemp),
 		&rc,
 		DT_LEFT | DT_TOP | DT_WORDBREAK,
-		D3DCOLOR_XRGB(255, 255, 0));
+		D3DCOLOR_XRGB(255, 255, 0));*/
 
 }
 
@@ -113,14 +130,22 @@ void cMapToolScene::OnClick(cUIButton * pSender)
 	switch (pSender->GetTag())
 	{
 	case PREV_TITLE:
+		m_nBuildingNum = (--m_nBuildingNum + m_vpAllBuildings.size()) % m_pName.size();
+		m_pBuilding = m_vpAllBuildings[m_nBuildingNum];
+		m_pBuilding->Init();
 		break;
 	case NEXT_TITLE:
+		m_nBuildingNum = (++m_nBuildingNum) % m_pName.size();
+		m_pBuilding = m_vpAllBuildings[m_nBuildingNum];
+		m_pBuilding->Init();
 		break;
 	case DOWN_SCALE:
-		m_pBuilding->SetScale(m_pBuilding->GetScale() - 0.001f);
+		if(m_pBuilding->GetScale() > 0.002)
+			m_pBuilding->SetScale(m_pBuilding->GetScale() - 0.001f);
 		break;
 	case UP_SCALE:
-		m_pBuilding->SetScale(m_pBuilding->GetScale() + 0.001f);
+		if (m_pBuilding->GetScale() < 0.02)
+			m_pBuilding->SetScale(m_pBuilding->GetScale() + 0.001f);
 		break;
 	case DOWN_ANGLE:
 		m_pBuilding->SetAngle(m_pBuilding->GetAngle() - 0.03f);
@@ -130,6 +155,9 @@ void cMapToolScene::OnClick(cUIButton * pSender)
 		break;
 	case SAVE:
 		SaveMapFile();
+		break;
+	case EXIT:
+		AddBuilding();
 		break;
 	default:
 		break;
@@ -267,6 +295,16 @@ void cMapToolScene::PositionSettingController()
 
 }
 
+void cMapToolScene::AddBuilding()
+{
+	cBuilding* pBuilding = new cBuilding("Map/Building/", (char*)m_vpAllBuildings[m_nBuildingNum]->GetFileName().c_str());
+	pBuilding->SetScale(m_pBuilding->GetScale());
+	pBuilding->SetAngle(m_pBuilding->GetAngle());
+	pBuilding->SetPosition(m_pBuilding->GetPosition());
+	m_vpSettingBuildings.push_back(pBuilding);
+
+}
+
 void cMapToolScene::SaveMapFile()
 {
 	HANDLE file;
@@ -276,22 +314,22 @@ void cMapToolScene::SaveMapFile()
 
 	file = CreateFile("mapFile.txt", GENERIC_WRITE, 0, NULL, CREATE_ALWAYS,
 		FILE_ATTRIBUTE_NORMAL, NULL);
-	for (size_t i = 0; i < m_vpBuildings.size(); i++)
+	for (size_t i = 0; i < m_vpSettingBuildings.size(); i++)
 	{
 		strcat_s(str, "{\nDirectoryName : ");
-		strcat_s(str, m_vpBuildings[i]->GetFolderName().c_str());	
+		strcat_s(str, m_vpSettingBuildings[i]->GetFolderName().c_str());	
 		strcat_s(str, "\nFileName : ");
-		strcat_s(str, m_vpBuildings[i]->GetFileName().c_str());
+		strcat_s(str, m_vpSettingBuildings[i]->GetFileName().c_str());
 		strcat_s(str, "\nS : ");
-		strcat_s(str, std::to_string(m_vpBuildings[i]->GetScale()).c_str());
+		strcat_s(str, std::to_string(m_vpSettingBuildings[i]->GetScale()).c_str());
 		strcat_s(str, "\nA : ");
-		strcat_s(str, std::to_string(m_vpBuildings[i]->GetAngle()).c_str());
+		strcat_s(str, std::to_string(m_vpSettingBuildings[i]->GetAngle()).c_str());
 		strcat_s(str, "\nP : ");
-		strcat_s(str, std::to_string(m_vpBuildings[i]->GetPosition().x).c_str());
+		strcat_s(str, std::to_string(m_vpSettingBuildings[i]->GetPosition().x).c_str());
 		strcat_s(str, ", ");
-		strcat_s(str, std::to_string(m_vpBuildings[i]->GetPosition().y).c_str());
+		strcat_s(str, std::to_string(m_vpSettingBuildings[i]->GetPosition().y).c_str());
 		strcat_s(str, ", ");
-		strcat_s(str, std::to_string(m_vpBuildings[i]->GetPosition().z).c_str());
+		strcat_s(str, std::to_string(m_vpSettingBuildings[i]->GetPosition().z).c_str());
 		strcat_s(str, "\n}\n");
 
 	}
