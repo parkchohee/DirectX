@@ -110,56 +110,55 @@ void cAI::SetBoundingSphere()
 	m_vecBoundingSphereDetail[0] = s;
 	
 	s.vCenter = D3DXVECTOR3(0, 0, 0);
-	matSphere = *m_pSkinnedMesh->getLocalMatrix("Spine2") * m_matWorldTM;// *matT;
+	matSphere = *m_pSkinnedMesh->getLocalMatrix("Spine2") * m_matWorldTM;
 	D3DXVec3TransformCoord(&s.vCenter, &s.vCenter, &matSphere);
 	m_vecBoundingSphereDetail[1] = s;
 	
 	s.vCenter = D3DXVECTOR3(0, 0, 0);
-	matSphere = *m_pSkinnedMesh->getLocalMatrix("Hips") * m_matWorldTM;// *matT;
+	matSphere = *m_pSkinnedMesh->getLocalMatrix("Hips") * m_matWorldTM;
 	D3DXVec3TransformCoord(&s.vCenter, &s.vCenter, &matSphere);
 	m_vecBoundingSphereDetail[2] = s;
 
 	s.vCenter = D3DXVECTOR3(0, 0, 0);
-	matSphere = *m_pSkinnedMesh->getLocalMatrix("LeftUpLeg") * m_matWorldTM;// *matT;
+	matSphere = *m_pSkinnedMesh->getLocalMatrix("LeftUpLeg") * m_matWorldTM;
 	D3DXVec3TransformCoord(&s.vCenter, &s.vCenter, &matSphere);
 	m_vecBoundingSphereDetail[3] = s;
 
 	s.vCenter = D3DXVECTOR3(0, 0, 0);
-	matSphere = *m_pSkinnedMesh->getLocalMatrix("LeftLeg") * m_matWorldTM;// *matT;
+	matSphere = *m_pSkinnedMesh->getLocalMatrix("LeftLeg") * m_matWorldTM;
 	D3DXVec3TransformCoord(&s.vCenter, &s.vCenter, &matSphere);
 	m_vecBoundingSphereDetail[4] = s;
 
 	s.vCenter = D3DXVECTOR3(0, 0, 0);
-	matSphere = *m_pSkinnedMesh->getLocalMatrix("LeftFoot") * m_matWorldTM;// *matT;
+	matSphere = *m_pSkinnedMesh->getLocalMatrix("LeftFoot") * m_matWorldTM;
 	D3DXVec3TransformCoord(&s.vCenter, &s.vCenter, &matSphere);
 	m_vecBoundingSphereDetail[5] = s;
 
 	s.vCenter = D3DXVECTOR3(0, 0, 0);
-	matSphere = *m_pSkinnedMesh->getLocalMatrix("RightUpLeg") * m_matWorldTM;// *matT;
+	matSphere = *m_pSkinnedMesh->getLocalMatrix("RightUpLeg") * m_matWorldTM;
 	D3DXVec3TransformCoord(&s.vCenter, &s.vCenter, &matSphere);
 	m_vecBoundingSphereDetail[6] = s;
 
 	s.vCenter = D3DXVECTOR3(0, 0, 0);
-	matSphere = *m_pSkinnedMesh->getLocalMatrix("RightLeg") * m_matWorldTM;// *matT;
+	matSphere = *m_pSkinnedMesh->getLocalMatrix("RightLeg") * m_matWorldTM;
 	D3DXVec3TransformCoord(&s.vCenter, &s.vCenter, &matSphere);
 	m_vecBoundingSphereDetail[7] = s;
 
 	s.vCenter = D3DXVECTOR3(0, 0, 0);
-	matSphere = *m_pSkinnedMesh->getLocalMatrix("RightFoot") * m_matWorldTM;// *matT;
+	matSphere = *m_pSkinnedMesh->getLocalMatrix("RightFoot") * m_matWorldTM;
 	D3DXVec3TransformCoord(&s.vCenter, &s.vCenter, &matSphere);
 	m_vecBoundingSphereDetail[8] = s;
 
 	s.vCenter = D3DXVECTOR3(0, 0, 0);
-	matSphere = *m_pSkinnedMesh->getLocalMatrix("RightForeArm") * m_matWorldTM;// *matT;
+	matSphere = *m_pSkinnedMesh->getLocalMatrix("RightForeArm") * m_matWorldTM;
 	D3DXVec3TransformCoord(&s.vCenter, &s.vCenter, &matSphere);
 	m_vecBoundingSphereDetail[9] = s;
 
 	s.vCenter = D3DXVECTOR3(0, 0, 0);
-	matSphere = *m_pSkinnedMesh->getLocalMatrix("LeftForeArm") * m_matWorldTM;// *matT;
+	matSphere = *m_pSkinnedMesh->getLocalMatrix("LeftForeArm") * m_matWorldTM;
 	D3DXVec3TransformCoord(&s.vCenter, &s.vCenter, &matSphere);
 	m_vecBoundingSphereDetail[10] = s;
 
-	
 }
 
 ST_SPHERE cAI::GetBoundingSphere()

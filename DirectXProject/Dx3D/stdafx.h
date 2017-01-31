@@ -176,3 +176,4 @@ struct ST_SPHERE
 #include "cStaticMeshManager.h"
 #include "cKeyManager.h"
 #include "cSoundManager.h"
+#include "cSceneManager.h"
