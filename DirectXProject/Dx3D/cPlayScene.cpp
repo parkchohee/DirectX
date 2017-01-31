@@ -67,7 +67,6 @@ void cPlayScene::Setup()
 	m_pGrid = new cGrid;
 	m_pGrid->Setup();
 
-
 	m_pTextMap = new cTextMap;
 	m_pTextMap->Setup("mapFile.txt");
 
@@ -103,14 +102,14 @@ void cPlayScene::Render()
 	for each(auto p in m_pvAI)
 		p->Render();
 
-	if (m_pPlayer)
-		m_pPlayer->Render();
-
 	if (m_pTextMap)
 		m_pTextMap->Render();
 	
 	if (m_pGrid)
 		m_pGrid->Render();
+
+	if (m_pPlayer)
+		m_pPlayer->Render();
 
 	if (m_pUICursorRoot)
 		m_pUICursorRoot->Render(m_pSprite);

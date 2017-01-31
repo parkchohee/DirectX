@@ -1,5 +1,5 @@
 #pragma once
-class cScene
+class cScene : public cObject
 {
 public:
 	cScene();

@@ -33,10 +33,9 @@ void cSceneManager::Destroy()
 {
 	MAP_SCENE::iterator iter;
 
-	//물려있는 로딩씬 삭제
-	for (iter = this->m_LoadingScenes.begin(); iter != this->m_LoadingScenes.end(); ++iter) {
-		/*	iter->second->Release();
-		SAFE_DELETE(iter->second)*/
+	for (iter = this->m_LoadingScenes.begin(); iter != this->m_LoadingScenes.end(); ) 
+	{
+		iter->second->Release();
 
 		if (iter->second == m_pNowScene)
 		{
@@ -44,26 +43,28 @@ void cSceneManager::Destroy()
 		}
 
 		SAFE_DELETE(iter->second);
+		m_LoadingScenes.erase(iter);
 	}
 
+	//if (this->m_pNowScene != NULL) {
+	//	this->m_pNowScene->Release();
+	//}
 
-	//물려있는 씬이 있다면..
-	if (this->m_pNowScene != NULL) {
-		SAFE_DELETE(m_pNowScene);
-		//this->m_pNowScene->Release();
-	}
-
-	//물려있는 씬 삭제
-	for (iter = this->m_Scenes.begin(); iter != this->m_Scenes.end(); ++iter)
+	for (iter = this->m_Scenes.begin(); iter != this->m_Scenes.end(); )
+	{
+		iter->second->Release();
 		SAFE_DELETE(iter->second);
+		m_Scenes.erase(iter);
+	}
 
+	
 
 }
 
 void cSceneManager::Update(float timeDelta)
 {
 	if (m_pReleaseScene != NULL) {
-		SAFE_DELETE(m_pReleaseScene);
+		SAFE_RELEASE(m_pReleaseScene);
 		m_pReleaseScene = NULL;
 	}
 
@@ -83,6 +84,7 @@ void cSceneManager::AddScene(std::string sceneName, cScene * pScene)
 	MAP_SCENE::iterator  iter = m_Scenes.find(sceneName);
 
 	if (iter == m_Scenes.end()) {
+		pScene->Setup();
 		m_Scenes.insert(std::make_pair(sceneName, pScene));
 	}
 }

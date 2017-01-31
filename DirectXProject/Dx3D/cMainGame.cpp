@@ -44,6 +44,7 @@ void cMainGame::Setup()
 */
 	g_pSceneManager->AddScene("mapTool", new cMapToolScene);
 	g_pSceneManager->AddScene("playScene", new cPlayScene);
+	g_pSceneManager->AddScene("firstScene", new cFirstScene);
 
 	g_pSceneManager->ChangeScene("mapTool");
 
@@ -79,6 +80,9 @@ void cMainGame::Update()
 		m_nSceneState = PLAY_SCENE;
 */
 	if (g_pKeyManager->IsOnceKeyDown(VK_RETURN))
+		g_pSceneManager->ChangeScene("firstScene");
+
+	if (g_pKeyManager->IsOnceKeyDown(VK_SPACE))
 		g_pSceneManager->ChangeScene("playScene");
 }
 
