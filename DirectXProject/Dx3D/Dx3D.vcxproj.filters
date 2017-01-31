@@ -114,9 +114,6 @@
     <ClInclude Include="cMainGame.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="cOBB.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="cTimeManager.h">
       <Filter>Setting&amp;Manager\header\Manager</Filter>
     </ClInclude>
@@ -249,19 +246,25 @@
     <ClInclude Include="cMapToolScene.h">
       <Filter>헤더 파일\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="cStaticMesh.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="cBuilding.h">
       <Filter>헤더 파일\MapTool</Filter>
     </ClInclude>
     <ClInclude Include="cMapCamera.h">
       <Filter>헤더 파일\MapTool</Filter>
     </ClInclude>
-    <ClInclude Include="cStaticMeshManager.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="cTextMap.h">
+      <Filter>헤더 파일\MapTool</Filter>
+    </ClInclude>
+    <ClInclude Include="cStaticMeshManager.h">
+      <Filter>Setting&amp;Manager\header\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="cStaticMesh.h">
+      <Filter>Setting&amp;Manager\header\XFileLoad</Filter>
+    </ClInclude>
+    <ClInclude Include="cOBB.h">
+      <Filter>Setting&amp;Manager\header\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="cSceneManager.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
@@ -273,9 +276,6 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="cMainGame.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="cOBB.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="cDeviceManager.cpp">
@@ -410,19 +410,25 @@
     <ClCompile Include="cMapToolScene.cpp">
       <Filter>소스 파일\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="cStaticMesh.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="cBuilding.cpp">
       <Filter>소스 파일\MapTool</Filter>
     </ClCompile>
     <ClCompile Include="cMapCamera.cpp">
       <Filter>소스 파일\MapTool</Filter>
     </ClCompile>
-    <ClCompile Include="cStaticMeshManager.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="cTextMap.cpp">
+      <Filter>소스 파일\MapTool</Filter>
+    </ClCompile>
+    <ClCompile Include="cStaticMeshManager.cpp">
+      <Filter>Setting&amp;Manager\cpp\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="cStaticMesh.cpp">
+      <Filter>Setting&amp;Manager\cpp\XFileLoad</Filter>
+    </ClCompile>
+    <ClCompile Include="cOBB.cpp">
+      <Filter>Setting&amp;Manager\cpp\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="cSceneManager.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

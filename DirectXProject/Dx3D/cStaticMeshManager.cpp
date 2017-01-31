@@ -26,7 +26,7 @@ cStaticMesh * cStaticMeshManager::GetStaticMesh(char * szFolder, char * szFilena
 	return m_mapStaticMesh[sFullPath];
 }
 
-void cStaticMeshManager::Destory()
+void cStaticMeshManager::Destroy()
 {
 	for each(auto it in m_mapStaticMesh)
 	{
