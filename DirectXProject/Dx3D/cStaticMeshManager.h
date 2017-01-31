@@ -14,6 +14,6 @@ public:
 
 	cStaticMesh* GetStaticMesh(char* szFolder, char* szFilename);
 	
-	void Destory();
+	void Destroy();
 };
 

@@ -20,6 +20,8 @@ cMainGame::~cMainGame(void)
 	SAFE_DELETE(m_pPlayScene);
 	SAFE_DELETE(m_pFirstScene);
 
+	g_pSceneManager->Destroy();
+	g_pStaticMeshManager->Destroy();
 	g_pSkinnedMeshManager->Destroy();
 	g_pObjectManager->Destroy();
 	g_pFontManager->Destroy();
@@ -31,7 +33,7 @@ void cMainGame::Setup()
 {
 	//ShowCursor(FALSE);
 	
-	m_pFirstScene = new cFirstScene;
+	/*m_pFirstScene = new cFirstScene;
 	m_pFirstScene->Setup();
 
 	m_pPlayScene = new cPlayScene;
@@ -39,6 +41,11 @@ void cMainGame::Setup()
 
 	m_pMapTool = new cMapToolScene;
 	m_pMapTool->Setup();
+*/
+	g_pSceneManager->AddScene("mapTool", new cMapToolScene);
+	g_pSceneManager->AddScene("playScene", new cPlayScene);
+
+	g_pSceneManager->ChangeScene("mapTool");
 
 	SetLight();
 
@@ -48,7 +55,9 @@ void cMainGame::Update()
 {
 	g_pTimeManager->Update();
 
-	switch (m_nSceneState)
+	g_pSceneManager->Update(g_pTimeManager->GetElapsedTime());
+	
+	/*switch (m_nSceneState)
 	{
 	case FIRST_SCENE:
 		if (m_pFirstScene)
@@ -68,8 +77,9 @@ void cMainGame::Update()
 	
 	if(g_pKeyManager->IsOnceKeyDown(VK_RETURN))
 		m_nSceneState = PLAY_SCENE;
-
-
+*/
+	if (g_pKeyManager->IsOnceKeyDown(VK_RETURN))
+		g_pSceneManager->ChangeScene("playScene");
 }
 
 void cMainGame::Render()
@@ -83,23 +93,25 @@ void cMainGame::Render()
 
 	g_pD3DDevice->BeginScene();
 
-	switch (m_nSceneState)
-	{
-	case FIRST_SCENE:
-		if (m_pFirstScene)
-			m_pFirstScene->Render();
-		break;
-	case PLAY_SCENE:
-		if (m_pPlayScene)
-			m_pPlayScene->Render();
-		break;
-	case MAP_TOOL_SCENE:
-		if (m_pMapTool)
-			m_pMapTool->Render();
-		break;
-	default:
-		break;
-	}
+	g_pSceneManager->Render();
+
+	//switch (m_nSceneState)
+	//{
+	//case FIRST_SCENE:
+	//	if (m_pFirstScene)
+	//		m_pFirstScene->Render();
+	//	break;
+	//case PLAY_SCENE:
+	//	if (m_pPlayScene)
+	//		m_pPlayScene->Render();
+	//	break;
+	//case MAP_TOOL_SCENE:
+	//	if (m_pMapTool)
+	//		m_pMapTool->Render();
+	//	break;
+	//default:
+	//	break;
+	//}
 
 
 
@@ -140,7 +152,9 @@ void cMainGame::SetLight()
 
 void cMainGame::WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
 {
-	switch (m_nSceneState)
+	g_pSceneManager->WndProc(hWnd, message, wParam, lParam);
+
+	/*switch (m_nSceneState)
 	{
 	case FIRST_SCENE:
 		if (m_pFirstScene)
@@ -156,7 +170,7 @@ void cMainGame::WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
 		break;
 	default:
 		break;
-	}
+	}*/
 
 
 	switch(message)
