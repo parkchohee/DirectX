@@ -33,7 +33,7 @@ void cSceneManager::Destroy()
 {
 	MAP_SCENE::iterator iter;
 
-	for (iter = this->m_LoadingScenes.begin(); iter != this->m_LoadingScenes.end(); ) 
+	for (iter = m_LoadingScenes.begin(); iter != m_LoadingScenes.end(); ) 
 	{
 		iter->second->Release();
 
@@ -46,13 +46,14 @@ void cSceneManager::Destroy()
 		m_LoadingScenes.erase(iter);
 	}
 
-	//if (this->m_pNowScene != NULL) {
-	//	this->m_pNowScene->Release();
-	//}
+	if (m_pNowScene != NULL) {
+		m_pNowScene->Release();
+		SAFE_DELETE(m_pNowScene);
+	}
 
-	for (iter = this->m_Scenes.begin(); iter != this->m_Scenes.end(); )
+	for (iter = m_Scenes.begin(); iter != m_Scenes.end(); )
 	{
-		iter->second->Release();
+	//	iter->second->Release();
 		SAFE_DELETE(iter->second);
 		m_Scenes.erase(iter);
 	}
@@ -63,10 +64,12 @@ void cSceneManager::Destroy()
 
 void cSceneManager::Update(float timeDelta)
 {
-	if (m_pReleaseScene != NULL) {
-		SAFE_RELEASE(m_pReleaseScene);
-		m_pReleaseScene = NULL;
-	}
+	//if (m_pReleaseScene != NULL)
+	//{
+	//	//SAFE_RELEASE(m_pReleaseScene);
+	////	m_pReleaseScene->Release();
+	//	m_pReleaseScene = NULL;
+	//}
 
 	if (m_pNowScene != NULL)
 		m_pNowScene->Update();
@@ -74,9 +77,8 @@ void cSceneManager::Update(float timeDelta)
 
 void cSceneManager::Render()
 {
-	if (m_pNowScene != NULL) {
+	if (m_pNowScene != NULL) 
 		m_pNowScene->Render();
-	}
 }
 
 void cSceneManager::AddScene(std::string sceneName, cScene * pScene)
@@ -84,7 +86,7 @@ void cSceneManager::AddScene(std::string sceneName, cScene * pScene)
 	MAP_SCENE::iterator  iter = m_Scenes.find(sceneName);
 
 	if (iter == m_Scenes.end()) {
-		pScene->Setup();
+		//pScene->Setup();
 		m_Scenes.insert(std::make_pair(sceneName, pScene));
 	}
 }
@@ -101,15 +103,18 @@ void cSceneManager::AddLoadingScene(std::string sceneName, cScene * pScene)
 
 void cSceneManager::ChangeScene(std::string sceneName)
 {
-	MAP_SCENE::iterator  iter = m_Scenes.find(sceneName);
+	MAP_SCENE::iterator iter = m_Scenes.find(sceneName);
 
 	if (iter == m_Scenes.end())
 		return;
 
-	iter->second->Setup();
+	//m_pReleaseScene = m_pNowScene;
+	
+	m_pNowScene = iter->second;
+	m_pNowScene->Setup();
 
-	this->m_pReleaseScene = m_pNowScene;
-	this->m_pNowScene = iter->second;
+
+	int a = 0;
 }
 
 void cSceneManager::ChangeSceneWithLoading(std::string sceneName, std::string loadingSceneName)
