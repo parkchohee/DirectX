@@ -8,6 +8,7 @@ class cTextMap;
 
 class cUIObject;
 class cUIImageView;
+class cStaticMesh;
 
 class cPlayer;
 class cAI;
@@ -17,6 +18,7 @@ class cPlayScene : public cScene
 	cCamera*					m_pCamera;
 	cGrid*						m_pGrid;
 
+	cStaticMesh*				m_pSkyView;
 	cTextMap*					m_pTextMap;
 
 	cUIObject*					m_pUICursorRoot;

@@ -33,10 +33,9 @@ void cSceneManager::Destroy()
 {
 	MAP_SCENE::iterator iter;
 
-	//물려있는 로딩씬 삭제
-	for (iter = this->m_LoadingScenes.begin(); iter != this->m_LoadingScenes.end(); ++iter) {
-		/*	iter->second->Release();
-		SAFE_DELETE(iter->second)*/
+	for (iter = m_LoadingScenes.begin(); iter != m_LoadingScenes.end(); ) 
+	{
+		iter->second->Release();
 
 		if (iter->second == m_pNowScene)
 		{
@@ -44,28 +43,33 @@ void cSceneManager::Destroy()
 		}
 
 		SAFE_DELETE(iter->second);
+		m_LoadingScenes.erase(iter);
 	}
 
-
-	//물려있는 씬이 있다면..
-	if (this->m_pNowScene != NULL) {
+	if (m_pNowScene != NULL) {
+		m_pNowScene->Release();
 		SAFE_DELETE(m_pNowScene);
-		//this->m_pNowScene->Release();
 	}
 
-	//물려있는 씬 삭제
-	for (iter = this->m_Scenes.begin(); iter != this->m_Scenes.end(); ++iter)
+	for (iter = m_Scenes.begin(); iter != m_Scenes.end(); )
+	{
+	//	iter->second->Release();
 		SAFE_DELETE(iter->second);
+		m_Scenes.erase(iter);
+	}
 
+	
 
 }
 
 void cSceneManager::Update(float timeDelta)
 {
-	if (m_pReleaseScene != NULL) {
-		SAFE_DELETE(m_pReleaseScene);
-		m_pReleaseScene = NULL;
-	}
+	//if (m_pReleaseScene != NULL)
+	//{
+	//	//SAFE_RELEASE(m_pReleaseScene);
+	////	m_pReleaseScene->Release();
+	//	m_pReleaseScene = NULL;
+	//}
 
 	if (m_pNowScene != NULL)
 		m_pNowScene->Update();
@@ -73,9 +77,8 @@ void cSceneManager::Update(float timeDelta)
 
 void cSceneManager::Render()
 {
-	if (m_pNowScene != NULL) {
+	if (m_pNowScene != NULL) 
 		m_pNowScene->Render();
-	}
 }
 
 void cSceneManager::AddScene(std::string sceneName, cScene * pScene)
@@ -83,6 +86,7 @@ void cSceneManager::AddScene(std::string sceneName, cScene * pScene)
 	MAP_SCENE::iterator  iter = m_Scenes.find(sceneName);
 
 	if (iter == m_Scenes.end()) {
+		//pScene->Setup();
 		m_Scenes.insert(std::make_pair(sceneName, pScene));
 	}
 }
@@ -99,15 +103,15 @@ void cSceneManager::AddLoadingScene(std::string sceneName, cScene * pScene)
 
 void cSceneManager::ChangeScene(std::string sceneName)
 {
-	MAP_SCENE::iterator  iter = m_Scenes.find(sceneName);
+	MAP_SCENE::iterator iter = m_Scenes.find(sceneName);
 
 	if (iter == m_Scenes.end())
 		return;
 
-	iter->second->Setup();
-
-	this->m_pReleaseScene = m_pNowScene;
-	this->m_pNowScene = iter->second;
+	//m_pReleaseScene = m_pNowScene;
+	
+	m_pNowScene = iter->second;
+	m_pNowScene->Setup();
 }
 
 void cSceneManager::ChangeSceneWithLoading(std::string sceneName, std::string loadingSceneName)

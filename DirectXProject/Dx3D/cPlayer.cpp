@@ -49,7 +49,6 @@ void cPlayer::Update(D3DXVECTOR3 & camAngle, iMap * pMap)
 
 	if (m_pGun)
 	{
-		GunSetting(camAngle);
 		m_pGun->Update();
 	}
 
@@ -58,9 +57,13 @@ void cPlayer::Update(D3DXVECTOR3 & camAngle, iMap * pMap)
 		BulletFire();
 	}
 
-	if (g_pKeyManager->IsOnceKeyDown(VK_RBUTTON))
+	if (g_pKeyManager->IsStayKeyDown(VK_RBUTTON))
 	{
-		
+		GunSettingZoom(camAngle);
+	}
+	else
+	{
+		GunSetting(camAngle);
 	}
 
 	if (g_pKeyManager->IsOnceKeyDown('1'))
@@ -74,12 +77,12 @@ void cPlayer::Update(D3DXVECTOR3 & camAngle, iMap * pMap)
 
 void cPlayer::Render()
 {
-	g_pD3DDevice->SetRenderState(D3DRS_ZENABLE, false);
+	//g_pD3DDevice->SetRenderState(D3DRS_ZENABLE, false);
 	
 	if (m_pGun)
 		m_pGun->Render();
 
-	g_pD3DDevice->SetRenderState(D3DRS_ZENABLE, true);
+	//g_pD3DDevice->SetRenderState(D3DRS_ZENABLE, true);
 }
 
 cGun * cPlayer::GetGun()
@@ -101,6 +104,29 @@ void cPlayer::GunSetting(D3DXVECTOR3 & camAngle)
 	D3DXMATRIXA16 matTempT, matTempTInv;
 	D3DXMatrixTranslation(&matTempT, 1.0f, 0.5, 3.0f);
 	D3DXMatrixTranslation(&matTempTInv, -1.0f, -0.5, -3.0f);
+
+	D3DXMatrixRotationX(&matRX, camAngle.x);
+	D3DXMatrixRotationY(&matRY, camAngle.y);
+
+	matR = matR * matTempT * matRX * matRY * matTempTInv;
+	matSRT = matS * matR * matT;
+
+	m_matWorldTM = matSRT;
+
+	m_pGun->SetWorldMatrix(&m_matWorldTM);
+}
+
+void cPlayer::GunSettingZoom(D3DXVECTOR3 & camAngle)
+{
+	D3DXMATRIXA16 matS, matRX, matRY, matR, matT, matSRT;
+	D3DXMatrixScaling(&matS, 0.1f, 0.1f, 0.1f);
+	D3DXMatrixRotationY(&matR, -D3DX_PI / 2);
+	D3DXMatrixTranslation(&matT, m_vPosition.x, m_vPosition.y + 0.5f, m_vPosition.z + 3.0f);
+
+	// 중심 축 맞춰주기 위해 이동후 회전, 다시 원위치로
+	D3DXMATRIXA16 matTempT, matTempTInv;
+	D3DXMatrixTranslation(&matTempT, 0.f, 0.5, 3.0f);
+	D3DXMatrixTranslation(&matTempTInv, 0.f, -0.5, -3.0f);
 
 	D3DXMatrixRotationX(&matRX, camAngle.x);
 	D3DXMatrixRotationY(&matRY, camAngle.y);
