@@ -49,7 +49,6 @@ void cPlayer::Update(D3DXVECTOR3 & camAngle, iMap * pMap)
 
 	if (m_pGun)
 	{
-		GunSetting(camAngle);
 		m_pGun->Update();
 	}
 
@@ -61,6 +60,10 @@ void cPlayer::Update(D3DXVECTOR3 & camAngle, iMap * pMap)
 	if (g_pKeyManager->IsStayKeyDown(VK_RBUTTON))
 	{
 		GunSettingZoom(camAngle);
+	}
+	else
+	{
+		GunSetting(camAngle);
 	}
 
 	if (g_pKeyManager->IsOnceKeyDown('1'))
@@ -74,12 +77,12 @@ void cPlayer::Update(D3DXVECTOR3 & camAngle, iMap * pMap)
 
 void cPlayer::Render()
 {
-	g_pD3DDevice->SetRenderState(D3DRS_ZENABLE, false);
+	//g_pD3DDevice->SetRenderState(D3DRS_ZENABLE, false);
 	
 	if (m_pGun)
 		m_pGun->Render();
 
-	g_pD3DDevice->SetRenderState(D3DRS_ZENABLE, true);
+	//g_pD3DDevice->SetRenderState(D3DRS_ZENABLE, true);
 }
 
 cGun * cPlayer::GetGun()

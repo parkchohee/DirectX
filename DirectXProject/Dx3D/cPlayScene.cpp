@@ -11,6 +11,7 @@
 #include "cBullet.h"
 #include "cOBB.h"
 #include "cTextMap.h"
+#include "cStaticMesh.h"
 
 
 cPlayScene::cPlayScene()
@@ -20,6 +21,7 @@ cPlayScene::cPlayScene()
 	, m_pUICursorRoot(NULL)
 	, m_pUIPlayerInfoRoot(NULL)
 	, m_pPlayer(NULL)
+	, m_pSkyView(NULL)
 {
 }
 
@@ -33,6 +35,7 @@ cPlayScene::~cPlayScene()
 		m_pUIPlayerInfoRoot->Destroy();
 
 	SAFE_RELEASE(m_pSprite);
+	SAFE_DELETE(m_pSkyView);
 
 	SAFE_DELETE(m_pCamera);
 	SAFE_DELETE(m_pGrid);
@@ -70,6 +73,12 @@ void cPlayScene::Setup()
 	m_pTextMap = new cTextMap;
 	m_pTextMap->Setup("mapFile.txt");
 
+
+	m_pSkyView = g_pStaticMeshManager->GetStaticMesh("Map/Sky/", "sky.X");
+	D3DXMATRIXA16 matS;
+	D3DXMatrixScaling(&matS, 0.05f, 0.05f, 0.05f);
+	m_pSkyView->SetWorld(matS);
+
 	SettingCursorUI();
 	SettingPlayerInfoUI();
 }
@@ -99,6 +108,9 @@ void cPlayScene::Update()
 
 void cPlayScene::Render()
 {
+	if (m_pSkyView)
+		m_pSkyView->Render();
+
 	for each(auto p in m_pvAI)
 		p->Render();
 
@@ -110,7 +122,8 @@ void cPlayScene::Render()
 
 	if (m_pPlayer)
 		m_pPlayer->Render();
-
+	
+	
 	if (m_pUICursorRoot)
 		m_pUICursorRoot->Render(m_pSprite);
 

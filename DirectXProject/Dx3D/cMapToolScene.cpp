@@ -46,8 +46,9 @@ void cMapToolScene::Setup()
 	m_pName.push_back("building04.X");
 	m_pName.push_back("building05.X");
 	m_pName.push_back("building06.X");
-	m_pName.push_back("church.X");
-	
+	m_pName.push_back("church.X");	
+	m_pName.push_back("wall01.X");
+	m_pName.push_back("truck01.X");
 
 	for (size_t i = 0; i < m_pName.size(); i++)
 	{

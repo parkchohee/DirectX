@@ -112,9 +112,6 @@ void cSceneManager::ChangeScene(std::string sceneName)
 	
 	m_pNowScene = iter->second;
 	m_pNowScene->Setup();
-
-
-	int a = 0;
 }
 
 void cSceneManager::ChangeSceneWithLoading(std::string sceneName, std::string loadingSceneName)
