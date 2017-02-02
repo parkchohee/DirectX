@@ -46,19 +46,25 @@ void cSceneManager::Destroy()
 		m_LoadingScenes.erase(iter);
 	}
 
-	if (m_pNowScene != NULL) {
+	/*if (m_pNowScene != NULL) {
 		m_pNowScene->Release();
 		SAFE_DELETE(m_pNowScene);
-	}
+	}*/
 
 	for (iter = m_Scenes.begin(); iter != m_Scenes.end(); )
 	{
-	//	iter->second->Release();
+		if (iter->second == m_pNowScene)
+		{
+			m_pNowScene = NULL;
+		}
+
+		iter->second->Release();
 		SAFE_DELETE(iter->second);
 		m_Scenes.erase(iter);
 	}
 
-	
+	SAFE_DELETE(m_pNowScene);
+	SAFE_DELETE(m_pReleaseScene);
 
 }
 

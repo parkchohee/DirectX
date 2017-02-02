@@ -54,12 +54,12 @@ void cPlayScene::Setup()
 	m_pPlayer->Setup();
 
 	cAI* pAI = new cAI;
-	pAI->Setup("AI/", "testMan.X");
+	pAI->Setup("AI/", "AI.X");
 	pAI->SetPosition(D3DXVECTOR3(3, 0, 0));
 	m_pvAI.push_back(pAI);
 
 	cAI* pAI2 = new cAI;
-	pAI2->Setup("AI/", "testMan.X");
+	pAI2->Setup("AI/", "AI.X");
 	pAI2->SetPosition(D3DXVECTOR3(6, 0, 0));
 	m_pvAI.push_back(pAI2);
 
@@ -86,7 +86,7 @@ void cPlayScene::Setup()
 void cPlayScene::Update()
 {
 	if (m_pPlayer && m_pCamera)
-		m_pPlayer->Update(m_pCamera->GetCamRotAngle());
+		m_pPlayer->Update(m_pCamera->GetCamRotAngle()/*, m_pTextMap*/);
 
 	for each(auto p in m_pvAI)
 		p->Update(NULL);
@@ -102,7 +102,7 @@ void cPlayScene::Update()
 
 	if (m_pUIPlayerInfoRoot)
 		m_pUIPlayerInfoRoot->Update();
-	
+
 	BulletCollisionCheck();
 }
 

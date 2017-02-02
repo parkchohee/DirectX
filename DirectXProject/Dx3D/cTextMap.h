@@ -15,5 +15,7 @@ public:
 
 	// iMap override
 	virtual bool GetHeight(IN float x, OUT float& y, IN float z) override;
+
+	std::vector<cBuilding*> GetBuildings() { return m_vpBuildings; }
 };
 

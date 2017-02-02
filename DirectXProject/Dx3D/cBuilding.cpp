@@ -50,7 +50,7 @@ void cBuilding::Render()
 		m_pBuilding->Render();
 
 	if (m_pOBB)
-		m_pOBB->OBBBox_Render(D3DCOLOR_XRGB(255, 255, 255));
+		m_pOBB->OBBBox_Render(D3DCOLOR_XRGB(255, 0, 255));
 }
 
 void cBuilding::Init()

@@ -2,10 +2,12 @@
 #include "cAI.h"
 #include "cAiController.h"
 #include "cGun.h"
+#include "cOBB.h"
 #include "cSkinnedMesh.h"
 
 cAI::cAI()
 	: m_pBoundingSphereDetailMesh(NULL)
+	, m_pAIOBB(NULL)
 {
 }
 
@@ -22,6 +24,12 @@ void cAI::Setup(char* szFolder, char* szFilename)
 {
 	// SkinnedMesh
 	m_pSkinnedMesh = new cSkinnedMesh(szFolder, szFilename);
+
+	// obb
+	m_pAIOBB = new cOBB;
+	m_pAIOBB->Setup(m_pSkinnedMesh);
+
+	/*m_pAIOBB->SetScale();*/
 
 	// GUN
 	m_pGun = new cGun;
@@ -61,11 +69,15 @@ void cAI::Update(iMap * pMap)
 	UpdateSkinnedMesh(vAngle);
 	SetBoundingSphere();
 
-
+	if (m_pAIOBB)
+		m_pAIOBB->Update(&m_matWorldTM);
 }
 
 void cAI::Render()
 {
+	if (m_pAIOBB)
+		m_pAIOBB->OBBBox_Render(D3DCOLOR_XRGB(0, 0, 255));
+
 	if (m_pSkinnedMesh)
 		m_pSkinnedMesh->UpdateAndRender();
 
@@ -82,7 +94,7 @@ void cAI::Render()
 
 	m_pBoundingSphereMesh->DrawSubset(0);
 	*/
-	for each(auto s in m_vecBoundingSphereDetail)
+	/*for each(auto s in m_vecBoundingSphereDetail)
 	{
 		D3DXMATRIXA16 matWorld;
 		D3DXMatrixIdentity(&matWorld);
@@ -94,7 +106,7 @@ void cAI::Render()
 
 		m_pBoundingSphereDetailMesh->DrawSubset(0);
 	}
-	
+	*/
 }
 
 void cAI::SetBoundingSphere()

@@ -6,14 +6,17 @@
 
 class cGun;
 class cController;
+class cOBB;
 
 class cPlayer : public cCharacter
 {
 	std::vector<cGun*>	m_vecGun;
-
 	int					m_nSelectGun;
 
 	D3DXVECTOR3			m_vCamAngle;
+
+	cOBB*               m_pPlayerOBB;
+
 
 public:
 	cPlayer();

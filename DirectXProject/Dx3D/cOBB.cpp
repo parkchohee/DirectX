@@ -55,6 +55,27 @@ void cOBB::Setup(cStaticMesh * pStaticMesh)
 	D3DXMatrixIdentity(&m_matWorldTM);
 }
 
+void cOBB::Setup(D3DXVECTOR3 vMin, D3DXVECTOR3 vMax)
+{
+	m_vOrgCenterPos = (vMin + vMax) / 2.f;
+
+	m_vOrgAxisDir[0] = D3DXVECTOR3(1, 0, 0);
+	m_vOrgAxisDir[1] = D3DXVECTOR3(0, 1, 0);
+	m_vOrgAxisDir[2] = D3DXVECTOR3(0, 0, 1);
+
+	m_fAxisLen[0] = fabs(vMax.x - vMin.x);
+	m_fAxisLen[1] = fabs(vMax.y - vMin.y);
+	m_fAxisLen[2] = fabs(vMax.z - vMin.z);
+
+	m_fAxisHalfLen[0] = m_fAxisLen[0] / 2.0f;
+	m_fAxisHalfLen[1] = m_fAxisLen[1] / 2.0f;
+	m_fAxisHalfLen[2] = m_fAxisLen[2] / 2.0f;
+
+	m_vOrgAxisLenVec = D3DXVECTOR3(m_fAxisLen[0], m_fAxisLen[1], m_fAxisLen[2]);
+
+	D3DXMatrixIdentity(&m_matWorldTM);
+}
+
 void cOBB::Update( D3DXMATRIXA16* pmatWorld )
 {
 	if(pmatWorld)
@@ -72,6 +93,7 @@ void cOBB::Update( D3DXMATRIXA16* pmatWorld )
 		&m_vCenterPos,
 		&m_vOrgCenterPos,
 		&m_matWorldTM);
+
 }
 
 bool cOBB::IsCollision( cOBB* pOBB1, cOBB* pOBB2 )
@@ -275,4 +297,19 @@ void cOBB::SetCenter(D3DXMATRIXA16 & matSRT)
 {
 	D3DXMatrixInverse(&matSRT, 0, &matSRT);
 	D3DXVec3TransformCoord(&m_vOrgCenterPos, &m_vOrgCenterPos, &matSRT);
+}
+
+void cOBB::SetScale(D3DXMATRIXA16 & matScale)
+{
+
+	D3DXVec3TransformCoord(
+		&m_vAxisLenVec,
+		&m_vOrgAxisLenVec,
+		&m_matWorldTM);
+
+	m_fAxisHalfLen[0] = m_vAxisLenVec.x / 2.0f;
+	m_fAxisHalfLen[1] = m_vAxisLenVec.y / 2.0f;
+	m_fAxisHalfLen[2] = m_vAxisLenVec.z / 2.0f;
+
+
 }
