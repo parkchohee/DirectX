@@ -27,9 +27,7 @@ void cAI::Setup(char* szFolder, char* szFilename)
 
 	// obb
 	m_pAIOBB = new cOBB;
-	m_pAIOBB->Setup(m_pSkinnedMesh);
-
-	/*m_pAIOBB->SetScale();*/
+	m_pAIOBB->Setup(m_pSkinnedMesh, 0.01f);
 
 	// GUN
 	m_pGun = new cGun;
@@ -69,8 +67,8 @@ void cAI::Update(iMap * pMap)
 	UpdateSkinnedMesh(vAngle);
 	SetBoundingSphere();
 
-	if (m_pAIOBB)
-		m_pAIOBB->Update(&m_matWorldTM);
+	/*if (m_pAIOBB)
+		m_pAIOBB->Update(&m_matWorldTM);*/
 }
 
 void cAI::Render()
@@ -195,6 +193,11 @@ void cAI::UpdateSkinnedMesh(D3DXVECTOR3 &vAngle)
 
 	m_matWorldTM = matS * matR * matT;
 	m_pSkinnedMesh->SetTransform(&m_matWorldTM);
+
+	D3DXMATRIXA16 obbWorld;
+	obbWorld = matR * matT;
+	if (m_pAIOBB)
+		m_pAIOBB->Update(&obbWorld);
 
 	m_stBoundingSphere.vCenter = m_vPosition;
 	m_stBoundingSphere.vCenter.y = AI_BOUNDING_SPHERE_SIZE;
