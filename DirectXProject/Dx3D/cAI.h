@@ -4,6 +4,7 @@
 
 class cGun;
 class cController;
+class cOBB;
 
 class cAI : public cCharacter
 {
@@ -11,6 +12,8 @@ class cAI : public cCharacter
 
 	LPD3DXMESH				m_pBoundingSphereDetailMesh;
 	std::vector<ST_SPHERE>	m_vecBoundingSphereDetail;
+
+	cOBB*					m_pAIOBB;
 
 public:
 	cAI();

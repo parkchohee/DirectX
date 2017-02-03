@@ -40,17 +40,23 @@ void cBuilding::Update()
 	matSRT = matS * matR * matT;
 	m_pBuilding->SetWorld(matSRT);
 
+	matSRT = matR * matT;
+
 	if (m_pOBB)
 		m_pOBB->Update(&matSRT);
 }
 
 void cBuilding::Render()
 {
+	D3DXMATRIXA16 matWorld;
+	D3DXMatrixIdentity(&matWorld);
+	g_pD3DDevice->SetTransform(D3DTS_WORLD, &matWorld);
+
 	if (m_pBuilding)
 		m_pBuilding->Render();
 
 	if (m_pOBB)
-		m_pOBB->OBBBox_Render(D3DCOLOR_XRGB(255, 255, 255));
+		m_pOBB->OBBBox_Render(D3DCOLOR_XRGB(255, 0, 255));
 }
 
 void cBuilding::Init()
@@ -58,4 +64,11 @@ void cBuilding::Init()
 	m_vPosition = D3DXVECTOR3(0, 0, 0);
 	m_fAngle = 0.f;
 	m_fScale = 0.007f;
+}
+
+void cBuilding::SetScale(float scale)
+{
+	m_fScale = scale; 
+	if(m_pOBB)
+		m_pOBB->SetScale(scale);
 }

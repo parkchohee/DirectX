@@ -16,15 +16,15 @@ public:
 	cOBB(void);
 	~cOBB(void);
 
-	void Setup(cSkinnedMesh* pSkinnedMesh);
-	void Setup(cStaticMesh* pStaticMesh);
+	void Setup(cSkinnedMesh* pSkinnedMesh, float scale = 1.0f);
+	void Setup(cStaticMesh* pStaticMesh, float scale = 1.0f);
+	void Setup(D3DXVECTOR3 vMin, D3DXVECTOR3 vMax, float scale = 1.0f);
 	void Update(D3DXMATRIXA16* pmatWorld);
 	static bool IsCollision(cOBB* pOBB1, cOBB* pOBB2);
 
 	void OBBBox_Render(D3DCOLOR c); 
 
 	D3DXMATRIXA16* GetWorldTM() { return &m_matWorldTM; }
-
-	void SetCenter(D3DXMATRIXA16& matSRT);
+	void SetScale(float scale);
 };
 

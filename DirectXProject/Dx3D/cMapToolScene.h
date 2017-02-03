@@ -19,6 +19,7 @@ class cBuilding;
 class cGrid;
 class cCamera;
 class cUIObject;
+class cStaticMesh;
 
 #include "cUIButton.h"
 class cMapToolScene : public cScene,
@@ -28,6 +29,7 @@ class cMapToolScene : public cScene,
 
 	cCamera*					m_pCamera;
 	cGrid*						m_pGrid;
+	cStaticMesh*				m_pSkyView;
 
 	LPD3DXSPRITE				m_pSprite;
 	cUIObject*					m_pUIRoot;

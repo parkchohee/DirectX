@@ -5,6 +5,7 @@
 #include "cBuilding.h"
 #include "cUIImageView.h"
 #include "cUITextView.h"
+#include "cStaticMesh.h"
 
 
 cMapToolScene::cMapToolScene()
@@ -12,6 +13,7 @@ cMapToolScene::cMapToolScene()
 	, m_pCamera(NULL)
 	, m_pGrid(NULL)
 	, m_nBuildingNum(0)
+	, m_pSkyView(NULL)
 {
 }
 
@@ -28,6 +30,7 @@ cMapToolScene::~cMapToolScene()
 		SAFE_RELEASE(p)
 
 	SAFE_RELEASE(m_pSprite);
+	SAFE_DELETE(m_pSkyView);
 
 	SAFE_DELETE(m_pCamera);
 	SAFE_DELETE(m_pGrid);
@@ -37,6 +40,11 @@ cMapToolScene::~cMapToolScene()
 
 void cMapToolScene::Setup()
 {
+	m_pSkyView = g_pStaticMeshManager->GetStaticMesh("Map/Sky/", "sky.X");
+	D3DXMATRIXA16 matS;
+	D3DXMatrixScaling(&matS, 0.05f, 0.05f, 0.05f);
+	m_pSkyView->SetWorld(matS);
+
 	m_pName.push_back("barrel.X");
 	m_pName.push_back("box.X");
 	m_pName.push_back("box2.X");
@@ -52,12 +60,12 @@ void cMapToolScene::Setup()
 
 	for (size_t i = 0; i < m_pName.size(); i++)
 	{
-		m_vpAllBuildings.push_back(new cBuilding("Map/building/", m_pName[i]));
+		cBuilding* pBuilding = new cBuilding("Map/building/", m_pName[i]);
+		pBuilding->SetScale(0.007);
+		m_vpAllBuildings.push_back(pBuilding);
 	}
 
 	m_pBuilding = m_vpAllBuildings[m_nBuildingNum];
-	/*m_pBuilding = new cBuilding("Map/building/", m_pName[0]);
-	m_vpSettingBuildings.push_back(m_pBuilding);*/
 
 	m_pGrid = new cGrid;
 	m_pGrid->Setup();
@@ -89,6 +97,9 @@ void cMapToolScene::Update()
 
 void cMapToolScene::Render()
 {
+	if (m_pSkyView)
+		m_pSkyView->Render();
+
 	if (m_pGrid)
 		m_pGrid->Render();
 
@@ -102,19 +113,6 @@ void cMapToolScene::Render()
 	{
 		m_vpSettingBuildings[i]->Render();
 	}
-
-	/*char szTemp[1024];
-	sprintf(szTemp, "¸ÊÅø");
-
-	LPD3DXFONT pFont = g_pFontManager->GetFont(cFontManager::E_DEFAULT);
-	RECT rc;
-	SetRect(&rc, 0, 100, 300, 300);
-	pFont->DrawText(NULL,
-		szTemp,
-		strlen(szTemp),
-		&rc,
-		DT_LEFT | DT_TOP | DT_WORDBREAK,
-		D3DCOLOR_XRGB(255, 255, 0));*/
 
 }
 

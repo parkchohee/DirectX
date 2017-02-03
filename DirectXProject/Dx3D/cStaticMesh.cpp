@@ -25,6 +25,9 @@ cStaticMesh::cStaticMesh(char* szDirectory, char* szFilename)
 	m_pStaticMesh = pStaticMesh->m_pStaticMesh;
 	m_vMtrls = pStaticMesh->m_vMtrls;
 	m_vTexture = pStaticMesh->m_vTexture;
+
+	m_vMin = pStaticMesh->m_vMin;
+	m_vMax = pStaticMesh->m_vMax;
 }
 
 cStaticMesh::~cStaticMesh()
@@ -88,48 +91,29 @@ bool cStaticMesh::Setup(char* szDirectory, char* szFilename)
 	}
 
 	// 메시에서 vertex를 가져온다. 
+	LPDIRECT3DVERTEXBUFFER9 vb = 0;
+	m_pStaticMesh->GetVertexBuffer(&vb);
+	ST_PNT_VERTEX * vertices = new ST_PNT_VERTEX[m_pStaticMesh->GetNumVertices()];
+	
+	VOID* pVertices;
+	vb->Lock(0, sizeof(vertices), (void**)&pVertices, 0);
+	memcpy(vertices, pVertices, sizeof(ST_PNT_VERTEX)*m_pStaticMesh->GetNumVertices());
+	vb->Unlock();
 
-	//LPDIRECT3DVERTEXBUFFER9 vb = 0;
-	//m_pStaticMesh->GetVertexBuffer(&vb);
-	//ST_PNT_VERTEX * vertices = new ST_PNT_VERTEX[m_pStaticMesh->GetNumVertices()];
-	//
-	//
-	//VOID* pVertices;
-	//vb->Lock(0, sizeof(vertices), (void**)&pVertices, 0);
-	//memcpy(vertices, pVertices, sizeof(m_pStaticMesh->GetFVF())*m_pStaticMesh->GetNumVertices());
-	//{
-	//	D3DXVECTOR3 vMin(0, 0, 0), vMax(0, 0, 0);
-
-	//	D3DXComputeBoundingBox((D3DXVECTOR3*)pVertices,
-	//		m_pStaticMesh->GetNumVertices(),
-	//		D3DXGetFVFVertexSize(m_pStaticMesh->GetFVF()),
-	//		&vMin,
-	//		&vMax);
-
-	//	D3DXVec3Minimize(&m_vMin, &m_vMin, &vMin);
-	//	D3DXVec3Maximize(&m_vMax, &m_vMax, &vMax);
-	//}
-	//vb->Unlock();
-
-	//SAFE_RELEASE(vb);
+	SAFE_RELEASE(vb);
 
 	// vertex중에서 max와 min을 셋팅..
-	// D3DXVec3Maximize(1,2,3);	// 2 3중 큰걸 1에저장해줌
-	/*for (int i = 0; i < m_pStaticMesh->GetNumVertices(); i++)
+	for (int i = 0; i < m_pStaticMesh->GetNumVertices(); i++)
 	{
 		D3DXVec3Minimize(&m_vMin, &m_vMin, &vertices[i].p);
 		D3DXVec3Maximize(&m_vMax, &m_vMax, &vertices[i].p);
-	}*/
-
-	int a = 0;
-
+	}
 
 	return true;
 }
 
 void cStaticMesh::Render()
 {
-	int a = 0;
 	g_pD3DDevice->SetTransform(D3DTS_WORLD, &m_pmatWorld);
 
 	for (int i = 0; i < m_vMtrls.size(); i++)

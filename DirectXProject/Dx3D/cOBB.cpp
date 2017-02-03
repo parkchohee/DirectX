@@ -5,6 +5,7 @@
 
 cOBB::cOBB(void)
 {
+	D3DXMatrixIdentity(&m_matWorldTM);
 }
 
 
@@ -13,10 +14,10 @@ cOBB::~cOBB(void)
 }
 
 /// : 함수 인자로 넘겨주는 경우와 인자가 없는 경우 둘다 고려해 볼것
-void cOBB::Setup( cSkinnedMesh* pSkinnedMesh )
+void cOBB::Setup( cSkinnedMesh* pSkinnedMesh, float scale)
 {
-	D3DXVECTOR3 vMin = pSkinnedMesh->GetMin();
-	D3DXVECTOR3 vMax = pSkinnedMesh->GetMax();
+	D3DXVECTOR3 vMin = pSkinnedMesh->GetMin() * scale;
+	D3DXVECTOR3 vMax = pSkinnedMesh->GetMax() * scale;
 	m_vOrgCenterPos = (vMin + vMax) / 2.f;
 
 	m_vOrgAxisDir[0] = D3DXVECTOR3(1, 0, 0);
@@ -30,14 +31,12 @@ void cOBB::Setup( cSkinnedMesh* pSkinnedMesh )
 	m_fAxisHalfLen[0] = m_fAxisLen[0] / 2.0f;
 	m_fAxisHalfLen[1] = m_fAxisLen[1] / 2.0f;
 	m_fAxisHalfLen[2] = m_fAxisLen[2] / 2.0f;
-
-	D3DXMatrixIdentity(&m_matWorldTM);
 }
 
-void cOBB::Setup(cStaticMesh * pStaticMesh)
+void cOBB::Setup(cStaticMesh * pStaticMesh, float scale)
 {
-	D3DXVECTOR3 vMin = pStaticMesh->GetMin();
-	D3DXVECTOR3 vMax = pStaticMesh->GetMax();
+	D3DXVECTOR3 vMin = pStaticMesh->GetMin() * scale;
+	D3DXVECTOR3 vMax = pStaticMesh->GetMax() * scale;
 	m_vOrgCenterPos = (vMin + vMax) / 2.f;
 
 	m_vOrgAxisDir[0] = D3DXVECTOR3(1, 0, 0);
@@ -51,8 +50,23 @@ void cOBB::Setup(cStaticMesh * pStaticMesh)
 	m_fAxisHalfLen[0] = m_fAxisLen[0] / 2.0f;
 	m_fAxisHalfLen[1] = m_fAxisLen[1] / 2.0f;
 	m_fAxisHalfLen[2] = m_fAxisLen[2] / 2.0f;
+}
 
-	D3DXMatrixIdentity(&m_matWorldTM);
+void cOBB::Setup(D3DXVECTOR3 vMin, D3DXVECTOR3 vMax, float scale)
+{
+	m_vOrgCenterPos = (vMin + vMax) / 2.f * scale;
+
+	m_vOrgAxisDir[0] = D3DXVECTOR3(1, 0, 0);
+	m_vOrgAxisDir[1] = D3DXVECTOR3(0, 1, 0);
+	m_vOrgAxisDir[2] = D3DXVECTOR3(0, 0, 1);
+
+	m_fAxisLen[0] = fabs(vMax.x - vMin.x);
+	m_fAxisLen[1] = fabs(vMax.y - vMin.y);
+	m_fAxisLen[2] = fabs(vMax.z - vMin.z);
+
+	m_fAxisHalfLen[0] = m_fAxisLen[0] / 2.0f;
+	m_fAxisHalfLen[1] = m_fAxisLen[1] / 2.0f;
+	m_fAxisHalfLen[2] = m_fAxisLen[2] / 2.0f;
 }
 
 void cOBB::Update( D3DXMATRIXA16* pmatWorld )
@@ -72,6 +86,7 @@ void cOBB::Update( D3DXMATRIXA16* pmatWorld )
 		&m_vCenterPos,
 		&m_vOrgCenterPos,
 		&m_matWorldTM);
+
 }
 
 bool cOBB::IsCollision( cOBB* pOBB1, cOBB* pOBB2 )
@@ -271,8 +286,15 @@ void cOBB::OBBBox_Render(D3DCOLOR c)
 		sizeof(ST_PC_VERTEX));
 }
 
-void cOBB::SetCenter(D3DXMATRIXA16 & matSRT)
+void cOBB::SetScale(float scale)
 {
-	D3DXMatrixInverse(&matSRT, 0, &matSRT);
-	D3DXVec3TransformCoord(&m_vOrgCenterPos, &m_vOrgCenterPos, &matSRT);
+	m_vOrgCenterPos *= scale;
+
+	m_fAxisLen[0] *= scale;
+	m_fAxisLen[1] *= scale;
+	m_fAxisLen[2] *= scale;
+
+	m_fAxisHalfLen[0] = m_fAxisLen[0] / 2.0f;
+	m_fAxisHalfLen[1] = m_fAxisLen[1] / 2.0f;
+	m_fAxisHalfLen[2] = m_fAxisLen[2] / 2.0f;
 }

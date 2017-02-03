@@ -3,10 +3,12 @@
 #include "cGun.h"
 #include "cPlayerController.h"
 #include "cRay.h"
+#include "cOBB.h"
 
 
 cPlayer::cPlayer()
 	: m_nSelectGun(0)
+	, m_pPlayerOBB(NULL)
 {
 }
 
@@ -14,6 +16,7 @@ cPlayer::cPlayer()
 cPlayer::~cPlayer()
 {
 	SAFE_RELEASE(m_pController);
+	SAFE_DELETE(m_pPlayerOBB);
 
 	for each (auto p in m_vecGun)
 		SAFE_RELEASE(p);
@@ -39,6 +42,10 @@ void cPlayer::Setup()
 
 	m_pController = new cPlayerController;
 	m_pController->Setup(0.1f);
+
+	m_pPlayerOBB = new cOBB;
+	m_pPlayerOBB->Setup(D3DXVECTOR3(-3.f, -0.f, -20.f),
+		D3DXVECTOR3(3.f, 10.f, 3.f));
 
 }
 
@@ -73,6 +80,9 @@ void cPlayer::Update(D3DXVECTOR3 & camAngle, iMap * pMap)
 		m_pGun = m_vecGun[m_nSelectGun];
 	}
 
+	if(m_pPlayerOBB)
+		m_pPlayerOBB->Update(&m_matWorldTM);
+
 }
 
 void cPlayer::Render()
@@ -82,6 +92,9 @@ void cPlayer::Render()
 	if (m_pGun)
 		m_pGun->Render();
 
+	g_pD3DDevice->SetTransform(D3DTS_WORLD, &m_matWorldTM);
+	if (m_pPlayerOBB)
+		m_pPlayerOBB->OBBBox_Render(D3DCOLOR_XRGB(0, 0, 255));
 	//g_pD3DDevice->SetRenderState(D3DRS_ZENABLE, true);
 }
 

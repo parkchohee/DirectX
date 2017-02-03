@@ -8,7 +8,7 @@ DWORD FtoDw(float f)
 
 cBullet::cBullet()
 	: m_fMoveDistance(0.0f)
-	, m_fBulletSpeed(0.5f)
+	, m_fBulletSpeed(1.0f)
 {
 }
 
