@@ -11,6 +11,7 @@
 #include "cBullet.h"
 #include "cOBB.h"
 #include "cTextMap.h"
+#include "cHeightMap.h"
 #include "cStaticMesh.h"
 
 
@@ -18,6 +19,7 @@ cPlayScene::cPlayScene()
 	: m_pCamera(NULL)
 	, m_pGrid(NULL)
 	, m_pTextMap(NULL)
+	, m_pHeightMap(NULL)
 	, m_pUICursorRoot(NULL)
 	, m_pUIPlayerInfoRoot(NULL)
 	, m_pPlayer(NULL)
@@ -40,6 +42,7 @@ cPlayScene::~cPlayScene()
 	SAFE_DELETE(m_pCamera);
 	SAFE_DELETE(m_pGrid);
 	SAFE_DELETE(m_pTextMap);
+	SAFE_DELETE(m_pHeightMap);
 
 	SAFE_RELEASE(m_pPlayer);
 	
@@ -73,6 +76,8 @@ void cPlayScene::Setup()
 	m_pTextMap = new cTextMap;
 	m_pTextMap->Setup("mapFile.txt");
 
+	m_pHeightMap = new cHeightMap;
+	m_pHeightMap->SetupText("Map/","heightMap.txt","Layerstone_512_B_CM.tga");
 
 	m_pSkyView = g_pStaticMeshManager->GetStaticMesh("Map/Sky/", "sky.X");
 	D3DXMATRIXA16 matS;
@@ -117,6 +122,9 @@ void cPlayScene::Render()
 	if (m_pTextMap)
 		m_pTextMap->Render();
 	
+	if (m_pHeightMap)
+		m_pHeightMap->Render();
+
 	if (m_pGrid)
 		m_pGrid->Render();
 

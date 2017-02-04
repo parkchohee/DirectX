@@ -5,6 +5,7 @@
 class cCamera;
 class cGrid;
 class cTextMap;
+class cHeightMap;
 
 class cUIObject;
 class cUIImageView;
@@ -20,6 +21,7 @@ class cPlayScene : public cScene
 
 	cStaticMesh*				m_pSkyView;
 	cTextMap*					m_pTextMap;
+	cHeightMap*					m_pHeightMap;
 
 	cUIObject*					m_pUICursorRoot;
 	cUIObject*					m_pUIPlayerInfoRoot;
