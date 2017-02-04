@@ -62,7 +62,7 @@ void cAI::Update(iMap * pHeightMap)
 	D3DXVECTOR3 vAngle = D3DXVECTOR3(0,0,0);
 	// angle을 컨트롤러에서 받아와서
 	if (m_pController)
-		m_pController->Update(vAngle, m_vDirection, m_vPosition);
+		m_pController->Update(vAngle, m_vDirection, m_vPosition, pHeightMap);
 
 	UpdateSkinnedMesh(vAngle);
 	SetBoundingSphere();

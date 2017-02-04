@@ -61,14 +61,15 @@ void cPlayScene::Setup()
 	pAI->SetPosition(D3DXVECTOR3(3, 0, 0));
 	m_pvAI.push_back(pAI);
 
-	cAI* pAI2 = new cAI;
+	/*cAI* pAI2 = new cAI;
 	pAI2->Setup("AI/", "AI.X");
 	pAI2->SetPosition(D3DXVECTOR3(6, 0, 0));
 	m_pvAI.push_back(pAI2);
-
+*/
 
 	m_pCamera = new cCamera;
 	m_pCamera->Setup(&(m_pPlayer->GetPosition()));
+	//m_pCamera->Setup(NULL);
 
 	m_pGrid = new cGrid;
 	m_pGrid->Setup();
@@ -94,7 +95,7 @@ void cPlayScene::Update()
 		m_pPlayer->Update(m_pCamera->GetCamRotAngle()/*, m_pTextMap*/);
 
 	for each(auto p in m_pvAI)
-		p->Update(NULL);
+		p->Update(m_pHeightMap);
 
 	if (m_pTextMap)
 		m_pTextMap->Update();

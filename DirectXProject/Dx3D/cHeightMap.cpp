@@ -5,6 +5,7 @@
 cHeightMap::cHeightMap(void)
 	: m_pTexture(NULL)
 	, m_pMesh(NULL)
+	, m_nMapSize(0)
 {
 }
 
@@ -37,6 +38,7 @@ void cHeightMap::Setup(char* szFolder,
 	int nCol = nRow;
 	int nTileN = nRow - 1; // : 256
 
+	m_nMapSize = nRow;
 	m_nTileN = nTileN;
 
 	fseek(fp, 0, SEEK_SET);
@@ -151,11 +153,11 @@ void cHeightMap::SetupText(char * szFolder, char * szTxt, char * szTex, DWORD dw
 	fopen_s(&fp, sTxt.c_str(), "r");
 
 	int nNumVertex = 100 * 100;
-
 	int nRow = 100;
 	int nCol = 100;
 	int nTileN = nRow - 1;
 
+	m_nMapSize = 100;
 	m_nTileN = nTileN;
 
 	std::vector<ST_PNT_VERTEX>	vecVertex(nNumVertex);		/// : ST_PNT_VERTEX 정의 해놓은거 없으면 새로 정의 한다.. 물어볼것..
@@ -264,21 +266,22 @@ void cHeightMap::Render()
 
 bool cHeightMap::GetHeight(IN float x, OUT float& y, IN float z)
 {
+
+	// 소수점 이하 버리기
+	int nX = x + m_nMapSize / 2;
+	int nZ = z + m_nMapSize / 2;
+
 	// : 맵 밖으로 나가지 말도록...
-	if (x < 0.f || z < 0.f || x >= m_nTileN || z >= m_nTileN)
+	if (nX < 0.f || nZ / 2 < 0.f || nX >= m_nTileN || nZ >= m_nTileN)
 	{
 		y = 0;
 		return false;
 	}
 
 
-	// 소수점 이하 버리기
-	int nX = x;
-	int nZ = z;
-
 	// 소수 이하값만 구하기
-	float fDeltaX = x - nX;
-	float fDeltaZ = z - nZ;
+	float fDeltaX = x - nX + m_nMapSize / 2;
+	float fDeltaZ = z - nZ + m_nMapSize / 2;
 
 	int _0 = (nZ + 0) * (m_nTileN + 1) + nX + 0;
 	int _1 = (nZ + 1) * (m_nTileN + 1) + nX + 0;

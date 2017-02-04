@@ -7,6 +7,7 @@ private:
 	D3DMATERIAL9				m_stMtl;
 	LPDIRECT3DTEXTURE9			m_pTexture;
 	int							m_nTileN;
+	int							m_nMapSize;
 
 public:
 	cHeightMap(void);
