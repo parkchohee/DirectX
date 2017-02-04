@@ -44,12 +44,12 @@ void cPlayer::Setup()
 	m_pController->Setup(0.1f);
 
 	m_pPlayerOBB = new cOBB;
-	m_pPlayerOBB->Setup(D3DXVECTOR3(-3.f, -0.f, -20.f),
-		D3DXVECTOR3(3.f, 10.f, 3.f));
+	m_pPlayerOBB->Setup(D3DXVECTOR3(-0.5f, 0.0f, -0.5f),
+		D3DXVECTOR3(0.5f, 2.0f, 0.5f));
 
 }
 
-void cPlayer::Update(D3DXVECTOR3 & camAngle, iMap * pMap)
+void cPlayer::Update(D3DXVECTOR3 & camAngle, iMap * pHeightMap, iMap * pTextMap)
 {
 	if (m_pController)
 		m_pController->Update(camAngle, m_vDirection, m_vPosition);
@@ -80,8 +80,15 @@ void cPlayer::Update(D3DXVECTOR3 & camAngle, iMap * pMap)
 		m_pGun = m_vecGun[m_nSelectGun];
 	}
 
+	D3DXMATRIXA16 matOBBWorld, matT, matRX, matRY;
+	D3DXMatrixTranslation(&matT, m_vPosition.x, m_vPosition.y, m_vPosition.z);
+	D3DXMatrixRotationX(&matRX, camAngle.x);
+	D3DXMatrixRotationY(&matRY, camAngle.y);
+
+	matOBBWorld = matRX * matRY * matT;
+
 	if(m_pPlayerOBB)
-		m_pPlayerOBB->Update(&m_matWorldTM);
+		m_pPlayerOBB->Update(&matOBBWorld);
 
 }
 
