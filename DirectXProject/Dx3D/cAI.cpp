@@ -54,7 +54,7 @@ void cAI::Setup(char* szFolder, char* szFilename)
 	m_vecBoundingSphereDetail.resize(11);
 }
 
-void cAI::Update(iMap * pMap)
+void cAI::Update(iMap * pHeightMap)
 {
 	if (m_pGun)
 		m_pGun->Update();

@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "cPlayerController.h"
+#include "iMap.h"
 
 
 cPlayerController::cPlayerController()
@@ -16,7 +17,7 @@ void cPlayerController::Setup(float moveSpeed)
 	m_fMoveSpeed = moveSpeed;
 }
 
-void cPlayerController::Update(D3DXVECTOR3 & camAngle, OUT D3DXVECTOR3 & vDirection, OUT D3DXVECTOR3 & vPosition)
+void cPlayerController::Update(D3DXVECTOR3 & camAngle, OUT D3DXVECTOR3 & vDirection, OUT D3DXVECTOR3 & vPosition, iMap* pHeightMap, iMap* pTextMap)
 {
 	// angle을 이용해 direction을 구한다. 
 	D3DXMATRIXA16 matR, matRX, matRY, matT;
