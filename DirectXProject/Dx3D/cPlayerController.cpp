@@ -2,6 +2,8 @@
 #include "cPlayerController.h"
 #include "cHeightMap.h"
 #include "cTextMap.h"
+#include "cOBB.h"
+#include "cBuilding.h"
 
 
 cPlayerController::cPlayerController()
@@ -59,6 +61,17 @@ void cPlayerController::Update(D3DXVECTOR3 & camAngle, OUT D3DXVECTOR3 & vDirect
 	else if (g_pKeyManager->IsStayKeyDown('D'))		// 오른쪽으로 움직임
 	{
 		_vPosition = vPosition - (mvDirection * m_fMoveSpeed);
+	}
+
+	if (m_pTextMap)
+	{
+		// 맵의 건물들의 obb를 불러와 obb 충돌체크
+		for (size_t i = 0; i < m_pTextMap->GetBuildings().size(); i++)
+		{
+			// 충돌하면 그냥 리턴
+			if (cOBB::IsCollision(m_pTextMap->GetBuildings()[i]->GetOBB(), m_pOBB))
+				return;
+		}
 	}
 
 	if (m_pHeightMap)
