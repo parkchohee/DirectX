@@ -32,7 +32,8 @@
 
 extern HWND	g_hWnd;
 
-
+#define WINSIZEX 1200
+#define WINSIZEY 800
 #define AI_BOUNDING_SPHERE_SIZE 1.0f
 #define AI_BOUNDING_SPHERE_DETAIL_SIZE 0.2f
 #define BULLET_RADIUS 0.1f

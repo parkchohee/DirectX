@@ -264,17 +264,17 @@
     <ClInclude Include="cOBB.h">
       <Filter>Setting&amp;Manager\header\Object</Filter>
     </ClInclude>
-    <ClInclude Include="cSceneManager.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="cHeightMap.h">
-      <Filter>헤더 파일</Filter>
+    <ClInclude Include="cMakeBuildings.h">
+      <Filter>헤더 파일\MapTool</Filter>
     </ClInclude>
     <ClInclude Include="cMakeGround.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>헤더 파일\MapTool</Filter>
     </ClInclude>
-    <ClInclude Include="cMakeBuildings.h">
-      <Filter>헤더 파일</Filter>
+    <ClInclude Include="cSceneManager.h">
+      <Filter>Setting&amp;Manager\header\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="cHeightMap.h">
+      <Filter>Setting&amp;Manager\header\Setting</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -437,17 +437,17 @@
     <ClCompile Include="cOBB.cpp">
       <Filter>Setting&amp;Manager\cpp\Object</Filter>
     </ClCompile>
-    <ClCompile Include="cSceneManager.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="cHeightMap.cpp">
-      <Filter>소스 파일</Filter>
+    <ClCompile Include="cMakeBuildings.cpp">
+      <Filter>소스 파일\MapTool</Filter>
     </ClCompile>
     <ClCompile Include="cMakeGround.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>소스 파일\MapTool</Filter>
     </ClCompile>
-    <ClCompile Include="cMakeBuildings.cpp">
-      <Filter>소스 파일</Filter>
+    <ClCompile Include="cSceneManager.cpp">
+      <Filter>Setting&amp;Manager\cpp\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="cHeightMap.cpp">
+      <Filter>Setting&amp;Manager\cpp\Setting</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

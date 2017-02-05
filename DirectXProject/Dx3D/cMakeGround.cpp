@@ -28,11 +28,11 @@ void cMakeGround::Setup()
 	m_nTileN = MAPSIZE - 1;
 	int nNumVertex = MAPSIZE * MAPSIZE;
 
-	std::vector<ST_PNT_VERTEX>	vecVertex(nNumVertex);
+	//std::vector<ST_PNT_VERTEX>	vecVertex(nNumVertex);
 	m_vecVertex.resize(nNumVertex);
 
-	std::vector<DWORD>			vecIndex;
-	vecIndex.reserve(m_nTileN * m_nTileN * 2 * 3);
+	/*std::vector<DWORD>			vecIndex;*/
+	m_vecIndex.reserve(m_nTileN * m_nTileN * 2 * 3);
 
 	for (int i = 0; i < nNumVertex; ++i)
 	{
@@ -40,8 +40,8 @@ void cMakeGround::Setup()
 		v.p = D3DXVECTOR3(i % MAPSIZE - (MAPSIZE / 2), 0, i / MAPSIZE - (MAPSIZE / 2));
 		v.n = D3DXVECTOR3(0, 1, 0);
 		v.t = D3DXVECTOR2((i % MAPSIZE) / (float)MAPSIZE, (i / MAPSIZE) / (float)MAPSIZE);
-		vecVertex[i] = v;
-		m_vecVertex[i] = v.p;
+		m_vecVertex[i] = v;
+		//m_vecVertex[i] = v.p;
 	}
 
 	for (int x = 1; x < m_nTileN; ++x)
@@ -53,14 +53,14 @@ void cMakeGround::Setup()
 			int up = (z + 1) * MAPSIZE + x + 0;
 			int down = (z - 1) * MAPSIZE + x + 0;
 
-			D3DXVECTOR3 leftToRight = m_vecVertex[right] - m_vecVertex[left];
-			D3DXVECTOR3 downToUp = m_vecVertex[up] - m_vecVertex[down];
+			D3DXVECTOR3 leftToRight = m_vecVertex[right].p - m_vecVertex[left].p;
+			D3DXVECTOR3 downToUp = m_vecVertex[up].p - m_vecVertex[down].p;
 			D3DXVECTOR3 normal;
 			D3DXVec3Cross(&normal, &downToUp, &leftToRight);
 			D3DXVec3Normalize(&normal, &normal);
 
 			int nIndex = z * MAPSIZE + x;
-			vecVertex[nIndex].n = normal;
+			m_vecVertex[nIndex].n = normal;
 		}
 	}
 
@@ -73,15 +73,15 @@ void cMakeGround::Setup()
 			int _2 = (z + 0) * MAPSIZE + x + 1;
 			int _3 = (z + 1) * MAPSIZE + x + 1;
 
-			vecIndex.push_back(_0); vecIndex.push_back(_1); vecIndex.push_back(_2);
-			vecIndex.push_back(_3); vecIndex.push_back(_2); vecIndex.push_back(_1);
+			m_vecIndex.push_back(_0); m_vecIndex.push_back(_1); m_vecIndex.push_back(_2);
+			m_vecIndex.push_back(_3); m_vecIndex.push_back(_2); m_vecIndex.push_back(_1);
 		}
 	}
 
 	///>> : 
 	D3DXCreateMeshFVF(
-		vecIndex.size() / 3,
-		vecVertex.size(),
+		m_vecIndex.size() / 3,
+		m_vecVertex.size(),
 		D3DXMESH_MANAGED | D3DXMESH_32BIT,
 		ST_PNT_VERTEX::FVF,
 		g_pD3DDevice,
@@ -89,20 +89,20 @@ void cMakeGround::Setup()
 
 	ST_PNT_VERTEX* pV = NULL;
 	m_pMesh->LockVertexBuffer(0, (LPVOID*)&pV);
-	memcpy(pV, &vecVertex[0], vecVertex.size() * sizeof(ST_PNT_VERTEX));
+	memcpy(pV, &m_vecVertex[0], m_vecVertex.size() * sizeof(ST_PNT_VERTEX));
 	m_pMesh->UnlockVertexBuffer();
 
 	DWORD* pI = NULL;
 	m_pMesh->LockIndexBuffer(0, (LPVOID*)&pI);
-	memcpy(pI, &vecIndex[0], vecIndex.size() * sizeof(DWORD));
+	memcpy(pI, &m_vecIndex[0], m_vecIndex.size() * sizeof(DWORD));
 	m_pMesh->UnlockIndexBuffer();
 
 	DWORD* pA = NULL;
 	m_pMesh->LockAttributeBuffer(0, &pA);
-	ZeroMemory(pA, (vecIndex.size() / 3) * sizeof(DWORD));
+	ZeroMemory(pA, (m_vecIndex.size() / 3) * sizeof(DWORD));
 	m_pMesh->UnlockAttributeBuffer();
 
-	std::vector<DWORD> vecAdj(vecIndex.size());
+	std::vector<DWORD> vecAdj(m_vecIndex.size());
 	m_pMesh->GenerateAdjacency(0.0f, &vecAdj[0]);
 
 	m_pMesh->OptimizeInplace(
@@ -143,12 +143,8 @@ void cMakeGround::Update(POINT mouse)
 		if (isPicked)
 		{
 			// x z 값 구하고
-			
-			int nX = PickedPosition.x + MAPSIZE / 2;
-			int nZ = PickedPosition.z + MAPSIZE / 2;
-
-			float fDeltaX = PickedPosition.x - nX;
-			float fDeltaZ = PickedPosition.z - nZ;
+			int nX = PickedPosition.x + MAPSIZE / 2-1;
+			int nZ = PickedPosition.z + MAPSIZE / 2-1;
 
 			// 삼각형 위치의 인덱스를 구해서 
 			int _0 = (nZ + 0) * (m_nTileN + 1) + nX + 0;
@@ -157,12 +153,20 @@ void cMakeGround::Update(POINT mouse)
 			int _3 = (nZ + 1) * (m_nTileN + 1) + nX + 1;
 			
 			// y값 증가시킨다. 
-			m_vecVertex[_0].y++;
-			m_vecVertex[_1].y++;
-			m_vecVertex[_2].y++;
-			m_vecVertex[_3].y++;
+			m_vecVertex[_0].p.y++;
+			m_vecVertex[_1].p.y++;
+			m_vecVertex[_2].p.y++;
+			m_vecVertex[_3].p.y++;
 
-			int a = 0;
+			ST_PNT_VERTEX* pV = NULL;
+			m_pMesh->LockVertexBuffer(0, (LPVOID*)&pV);
+			memcpy(pV, &m_vecVertex[0], m_vecVertex.size() * sizeof(ST_PNT_VERTEX));
+			m_pMesh->UnlockVertexBuffer();
+
+			DWORD* pI = NULL;
+			m_pMesh->LockIndexBuffer(0, (LPVOID*)&pI);
+			memcpy(pI, &m_vecIndex[0], m_vecIndex.size() * sizeof(DWORD));
+			m_pMesh->UnlockIndexBuffer();
 		}
 
 	}
@@ -182,6 +186,9 @@ void cMakeGround::Render()
 	g_pD3DDevice->SetMaterial(&m_stMtl);
 	g_pD3DDevice->SetTexture(0, m_pTexture);
 	m_pMesh->DrawSubset(0);
+
+
+
 }
 
 void cMakeGround::SaveMapFile()
@@ -196,7 +203,7 @@ void cMakeGround::SaveMapFile()
 
 	for (size_t i = 0; i < m_vecVertex.size(); i++)
 	{
-		strcat_s(str, std::to_string((int)m_vecVertex[i].y).c_str());
+		strcat_s(str, std::to_string((int)m_vecVertex[i].p.y).c_str());
 		strcat_s(str, " ");
 	}
 
