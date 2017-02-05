@@ -34,22 +34,23 @@ void cPlayerController::Update(D3DXVECTOR3 & camAngle, OUT D3DXVECTOR3 & vDirect
 	matR = matRX * matRY;
 	D3DXVec3TransformNormal(&vDirection, &vDirection, &matR);
 
+
+	D3DXVECTOR3 _vPosition = vPosition;
+
 	// direction 방향으로 앞으로,
 	if (g_pKeyManager->IsStayKeyDown('W'))			// 앞으로 움직임
 	{
-		vPosition += (mvDirection * m_fMoveSpeed);
+		_vPosition = vPosition + (mvDirection * m_fMoveSpeed);
 	}
 	else if (g_pKeyManager->IsStayKeyDown('S'))		// 뒤로 움직임
 	{
-		vPosition -= (mvDirection * m_fMoveSpeed);
+		_vPosition = vPosition - (mvDirection * m_fMoveSpeed);
 	}
 
 	D3DXMatrixRotationY(&matR, camAngle.y - D3DX_PI / 2);
 	mvDirection = D3DXVECTOR3(0, 0, 1);
 	D3DXVec3TransformNormal(&mvDirection, &mvDirection, &matR);
 	
-	D3DXVECTOR3 _vPosition = vPosition;
-
 	if (g_pKeyManager->IsStayKeyDown('A'))			// 왼쪽으로 움직임
 	{
 		_vPosition = vPosition + (mvDirection * m_fMoveSpeed);

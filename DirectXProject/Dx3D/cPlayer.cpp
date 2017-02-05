@@ -94,7 +94,7 @@ void cPlayer::Update(D3DXVECTOR3 & camAngle, iMap * pHeightMap, iMap * pTextMap)
 
 void cPlayer::Render()
 {
-	//g_pD3DDevice->SetRenderState(D3DRS_ZENABLE, false);
+	g_pD3DDevice->SetRenderState(D3DRS_ZENABLE, false);
 	
 	if (m_pGun)
 		m_pGun->Render();
@@ -102,7 +102,7 @@ void cPlayer::Render()
 	g_pD3DDevice->SetTransform(D3DTS_WORLD, &m_matWorldTM);
 	if (m_pPlayerOBB)
 		m_pPlayerOBB->OBBBox_Render(D3DCOLOR_XRGB(0, 0, 255));
-	//g_pD3DDevice->SetRenderState(D3DRS_ZENABLE, true);
+	g_pD3DDevice->SetRenderState(D3DRS_ZENABLE, true);
 }
 
 cGun * cPlayer::GetGun()

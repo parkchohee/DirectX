@@ -51,6 +51,7 @@ void cMapToolScene::Setup()
 	m_pBuildingMode = new cMakeBuildings;
 	m_pBuildingMode->Setup();
 
+
 }
 
 void cMapToolScene::Update()

@@ -272,12 +272,11 @@ bool cHeightMap::GetHeight(IN float x, OUT float& y, IN float z)
 	int nZ = z + m_nMapSize / 2;
 
 	// : 맵 밖으로 나가지 말도록...
-	if (nX < 0.f || nZ / 2 < 0.f || nX >= m_nTileN || nZ >= m_nTileN)
+	if (nX < 0.f || nZ < 0.f || nX >= m_nTileN || nZ >= m_nTileN)
 	{
 		y = 0;
 		return false;
 	}
-
 
 	// 소수 이하값만 구하기
 	float fDeltaX = x - nX + m_nMapSize / 2;
