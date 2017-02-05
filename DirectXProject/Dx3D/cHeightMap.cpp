@@ -266,7 +266,6 @@ void cHeightMap::Render()
 
 bool cHeightMap::GetHeight(IN float x, OUT float& y, IN float z)
 {
-
 	// 소수점 이하 버리기
 	int nX = x + m_nMapSize / 2;
 	int nZ = z + m_nMapSize / 2;

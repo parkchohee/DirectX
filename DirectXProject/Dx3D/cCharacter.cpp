@@ -5,8 +5,7 @@
 #include "cOBB.h"
 
 cCharacter::cCharacter(void)
-	: m_pMap(NULL)
-	, m_pGun(NULL)
+	: m_pGun(NULL)
 	, m_pController(NULL)
 	, m_pBoundingSphereMesh(NULL)
 {
@@ -20,10 +19,9 @@ cCharacter::~cCharacter(void)
 
 void cCharacter::Setup(char* szFolder, char* szFilename)
 {
-	
 }
 
-void cCharacter::Update(iMap* pMap)
+void cCharacter::Update()
 {
 	if (m_pGun)
 		m_pGun->Update();

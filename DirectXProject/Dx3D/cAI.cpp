@@ -4,6 +4,7 @@
 #include "cGun.h"
 #include "cOBB.h"
 #include "cSkinnedMesh.h"
+#include "cTextMap.h"
 
 cAI::cAI()
 	: m_pBoundingSphereDetailMesh(NULL)
@@ -14,6 +15,7 @@ cAI::cAI()
 
 cAI::~cAI()
 {
+	SAFE_DELETE(m_pAIOBB);
 	SAFE_RELEASE(m_pBoundingSphereDetailMesh);
 	SAFE_RELEASE(m_pBoundingSphereMesh);
 	SAFE_RELEASE(m_pController);
@@ -44,6 +46,7 @@ void cAI::Setup(char* szFolder, char* szFilename)
 	// Controller
 	m_pController = new cAIController;
 	m_pController->Setup(0.1f);
+	m_pController->SetOBB(m_pAIOBB);
 	
 	// bounding Sphere
 	D3DXCreateSphere(g_pD3DDevice, AI_BOUNDING_SPHERE_DETAIL_SIZE, 20, 20, &m_pBoundingSphereDetailMesh, NULL);
@@ -54,7 +57,7 @@ void cAI::Setup(char* szFolder, char* szFilename)
 	m_vecBoundingSphereDetail.resize(11);
 }
 
-void cAI::Update(iMap * pHeightMap)
+void cAI::Update()
 {
 	if (m_pGun)
 		m_pGun->Update();
@@ -62,13 +65,13 @@ void cAI::Update(iMap * pHeightMap)
 	D3DXVECTOR3 vAngle = D3DXVECTOR3(0,0,0);
 	// angle을 컨트롤러에서 받아와서
 	if (m_pController)
-		m_pController->Update(vAngle, m_vDirection, m_vPosition, pHeightMap);
+		m_pController->Update(vAngle, m_vDirection, m_vPosition);
 
 	UpdateSkinnedMesh(vAngle);
 	SetBoundingSphere();
 
-	/*if (m_pAIOBB)
-		m_pAIOBB->Update(&m_matWorldTM);*/
+	//if (m_pAIOBB)
+	//	m_pAIOBB->Update(&m_matWorldTM);
 }
 
 void cAI::Render()
@@ -105,6 +108,16 @@ void cAI::Render()
 		m_pBoundingSphereDetailMesh->DrawSubset(0);
 	}
 	*/
+}
+
+void cAI::SetHeightMap(cHeightMap * hMap)
+{
+	m_pController->SetHeightMap(hMap);
+}
+
+void cAI::SetTextMap(cTextMap * tMap)
+{
+	m_pController->SetTextMap(tMap);
 }
 
 void cAI::SetBoundingSphere()

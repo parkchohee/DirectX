@@ -4,10 +4,6 @@
 
 #include "cCharacter.h"
 
-class cGun;
-class cController;
-class cOBB;
-
 class cPlayer : public cCharacter
 {
 	std::vector<cGun*>	m_vecGun;
@@ -23,8 +19,11 @@ public:
 	~cPlayer();
 
 	void Setup();
-	void Update(D3DXVECTOR3& camAngle, iMap* pHeightMap = NULL, iMap* pTextMap = NULL);
+	void Update(D3DXVECTOR3& camAngle);
 	void Render();
+
+	void SetHeightMap(cHeightMap* hMap);
+	void SetTextMap(cTextMap* tMap);
 
 	cGun* GetGun();
 	void GunSetting(D3DXVECTOR3& camAngle);
