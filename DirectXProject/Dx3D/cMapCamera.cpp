@@ -17,11 +17,15 @@ void cMapCamera::Setup(D3DXVECTOR3 * pvTarget)
 	m_vLookAt = D3DXVECTOR3(0, 0, 0);
 	m_vCamRotAngle = D3DXVECTOR3(D3DX_PI / 4, 0, 0);
 
+	m_vPosition = D3DXVECTOR3(0, 0, 0);
+
 	cCamera::Setup(pvTarget);
 }
 
 void cMapCamera::Update()
 {
+	CameraController();
+
 	RECT rc;
 	GetClientRect(g_hWnd, &rc);
 
@@ -39,7 +43,12 @@ void cMapCamera::Update()
 		m_vLookAt = *m_pvTarget;
 		m_vEye = m_vEye + *m_pvTarget;
 	}
-
+	else
+	{
+		m_vLookAt = m_vPosition;
+		m_vEye = m_vEye + m_vPosition;
+	}
+	
 	D3DXMATRIXA16 matView;
 	D3DXMatrixLookAtLH(&matView, &m_vEye, &m_vLookAt, &m_vUp);
 
@@ -50,16 +59,19 @@ void cMapCamera::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	switch (message)
 	{
-	case WM_LBUTTONDOWN:
+	case WM_RBUTTONDOWN:
 		m_ptPrevMouse.x = LOWORD(lParam);
 		m_ptPrevMouse.y = HIWORD(lParam);
 		m_isLButtonDown = true;
 		break;
-	case WM_LBUTTONUP:
+	case WM_RBUTTONUP:
 		m_isLButtonDown = false;
 		break;
 	case WM_MOUSEMOVE:
 	{
+		m_ptMouse.x = LOWORD(lParam);
+		m_ptMouse.y = HIWORD(lParam);
+
 		if (m_isLButtonDown)
 		{
 			POINT ptCurrMouse;
@@ -83,4 +95,30 @@ void cMapCamera::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			m_fCameraDistance = 0.0001f;
 		break;
 	}
+}
+
+void cMapCamera::CameraController()
+{
+	if (g_pKeyManager->IsStayKeyDown('W'))
+	{
+		m_vPosition.z++;
+	}
+	else if (g_pKeyManager->IsStayKeyDown('S'))
+	{
+		m_vPosition.z--;
+	}
+
+	if (g_pKeyManager->IsStayKeyDown('A'))
+	{
+		m_vPosition.x--;
+	}
+	else if (g_pKeyManager->IsStayKeyDown('D'))
+	{
+		m_vPosition.x++;
+	}
+}
+
+POINT cMapCamera::GetMousePosition()
+{
+	return m_ptMouse;
 }

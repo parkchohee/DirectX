@@ -1,44 +1,36 @@
 #pragma once
 #include "cScene.h"
+#include "cUIButton.h"
 
-#define MAPMAXSIZE 4096
-
-enum BUTTON_TYPE
-{
-	PREV_TITLE,
-	NEXT_TITLE,
-	DOWN_SCALE,
-	UP_SCALE,
-	DOWN_ANGLE,
-	UP_ANGLE,
-	SAVE,
-	EXIT
-};
 
 class cBuilding;
 class cGrid;
-class cCamera;
-class cUIObject;
+class cMapCamera;
 class cStaticMesh;
+class cMakeGround;
+class cMakeBuildings;
 
-#include "cUIButton.h"
-class cMapToolScene : public cScene,
-	public iButtonDelegate
+enum MAP_MODE
 {
-	cBuilding*					m_pBuilding;
+	MAKE_GROUND,
+	MAKE_BUILDINGS
+};
 
-	cCamera*					m_pCamera;
+class cMapToolScene : public cScene
+	, public iButtonDelegate
+{
+
+	cMapCamera*					m_pCamera;
 	cGrid*						m_pGrid;
 	cStaticMesh*				m_pSkyView;
 
+	MAP_MODE					m_mapMode;
+	
 	LPD3DXSPRITE				m_pSprite;
-	cUIObject*					m_pUIRoot;
+	cUIButton*					m_pBtnNext;
 
-	std::vector<cBuilding*>		m_vpAllBuildings;
-	std::vector<cBuilding*>		m_vpSettingBuildings;
-
-	std::vector<char*>			m_pName;
-	int							m_nBuildingNum;
+	cMakeGround*				m_pGroundMode;
+	cMakeBuildings*				m_pBuildingMode;
 
 public:
 	cMapToolScene();
@@ -49,12 +41,7 @@ public:
 	virtual void Render();
 
 	virtual void WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
-	void OnClick(cUIButton* pSender);
-	
-	void SettingUI();
-	void PositionSettingController();
 
-	void AddBuilding();
-	void SaveMapFile();
+	void OnClick(cUIButton* pSender);
 };
 

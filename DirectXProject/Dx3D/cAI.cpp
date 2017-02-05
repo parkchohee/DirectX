@@ -54,7 +54,7 @@ void cAI::Setup(char* szFolder, char* szFilename)
 	m_vecBoundingSphereDetail.resize(11);
 }
 
-void cAI::Update(iMap * pMap)
+void cAI::Update(iMap * pHeightMap)
 {
 	if (m_pGun)
 		m_pGun->Update();
@@ -62,7 +62,7 @@ void cAI::Update(iMap * pMap)
 	D3DXVECTOR3 vAngle = D3DXVECTOR3(0,0,0);
 	// angle을 컨트롤러에서 받아와서
 	if (m_pController)
-		m_pController->Update(vAngle, m_vDirection, m_vPosition);
+		m_pController->Update(vAngle, m_vDirection, m_vPosition, pHeightMap);
 
 	UpdateSkinnedMesh(vAngle);
 	SetBoundingSphere();

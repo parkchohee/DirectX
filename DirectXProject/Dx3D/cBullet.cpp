@@ -35,6 +35,7 @@ void cBullet::Update()
 
 void cBullet::Render()
 {
+	if(m_fMoveDistance < 1)
 	Render_Particle(); /// : particle
 }
 

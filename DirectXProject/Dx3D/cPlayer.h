@@ -23,7 +23,7 @@ public:
 	~cPlayer();
 
 	void Setup();
-	void Update(D3DXVECTOR3& camAngle, iMap* pMap = NULL);
+	void Update(D3DXVECTOR3& camAngle, iMap* pHeightMap = NULL, iMap* pTextMap = NULL);
 	void Render();
 
 	cGun* GetGun();

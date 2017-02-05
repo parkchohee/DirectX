@@ -11,6 +11,7 @@
 #include "cBullet.h"
 #include "cOBB.h"
 #include "cTextMap.h"
+#include "cHeightMap.h"
 #include "cStaticMesh.h"
 
 
@@ -18,6 +19,7 @@ cPlayScene::cPlayScene()
 	: m_pCamera(NULL)
 	, m_pGrid(NULL)
 	, m_pTextMap(NULL)
+	, m_pHeightMap(NULL)
 	, m_pUICursorRoot(NULL)
 	, m_pUIPlayerInfoRoot(NULL)
 	, m_pPlayer(NULL)
@@ -40,6 +42,7 @@ cPlayScene::~cPlayScene()
 	SAFE_DELETE(m_pCamera);
 	SAFE_DELETE(m_pGrid);
 	SAFE_DELETE(m_pTextMap);
+	SAFE_DELETE(m_pHeightMap);
 
 	SAFE_RELEASE(m_pPlayer);
 	
@@ -58,14 +61,15 @@ void cPlayScene::Setup()
 	pAI->SetPosition(D3DXVECTOR3(3, 0, 0));
 	m_pvAI.push_back(pAI);
 
-	cAI* pAI2 = new cAI;
+	/*cAI* pAI2 = new cAI;
 	pAI2->Setup("AI/", "AI.X");
 	pAI2->SetPosition(D3DXVECTOR3(6, 0, 0));
 	m_pvAI.push_back(pAI2);
-
+*/
 
 	m_pCamera = new cCamera;
 	m_pCamera->Setup(&(m_pPlayer->GetPosition()));
+	//m_pCamera->Setup(NULL);
 
 	m_pGrid = new cGrid;
 	m_pGrid->Setup();
@@ -73,6 +77,8 @@ void cPlayScene::Setup()
 	m_pTextMap = new cTextMap;
 	m_pTextMap->Setup("mapFile.txt");
 
+	m_pHeightMap = new cHeightMap;
+	m_pHeightMap->SetupText("Map/","heightMap.txt","Layerstone_512_B_CM.tga");
 
 	m_pSkyView = g_pStaticMeshManager->GetStaticMesh("Map/Sky/", "sky.X");
 	D3DXMATRIXA16 matS;
@@ -86,10 +92,10 @@ void cPlayScene::Setup()
 void cPlayScene::Update()
 {
 	if (m_pPlayer && m_pCamera)
-		m_pPlayer->Update(m_pCamera->GetCamRotAngle()/*, m_pTextMap*/);
+		m_pPlayer->Update(m_pCamera->GetCamRotAngle(), m_pHeightMap/*, m_pTextMap*/);
 
 	for each(auto p in m_pvAI)
-		p->Update(NULL);
+		p->Update(m_pHeightMap);
 
 	if (m_pTextMap)
 		m_pTextMap->Update();
@@ -117,6 +123,9 @@ void cPlayScene::Render()
 	if (m_pTextMap)
 		m_pTextMap->Render();
 	
+	if (m_pHeightMap)
+		m_pHeightMap->Render();
+
 	if (m_pGrid)
 		m_pGrid->Render();
 
