@@ -92,7 +92,7 @@ void cPlayScene::Setup()
 void cPlayScene::Update()
 {
 	if (m_pPlayer && m_pCamera)
-		m_pPlayer->Update(m_pCamera->GetCamRotAngle()/*, m_pTextMap*/);
+		m_pPlayer->Update(m_pCamera->GetCamRotAngle(), m_pHeightMap/*, m_pTextMap*/);
 
 	for each(auto p in m_pvAI)
 		p->Update(m_pHeightMap);

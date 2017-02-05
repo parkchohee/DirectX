@@ -52,7 +52,7 @@ void cPlayer::Setup()
 void cPlayer::Update(D3DXVECTOR3 & camAngle, iMap * pHeightMap, iMap * pTextMap)
 {
 	if (m_pController)
-		m_pController->Update(camAngle, m_vDirection, m_vPosition);
+		m_pController->Update(camAngle, m_vDirection, m_vPosition, pHeightMap);
 
 	if (m_pGun)
 	{

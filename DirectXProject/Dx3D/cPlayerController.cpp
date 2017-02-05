@@ -48,12 +48,23 @@ void cPlayerController::Update(D3DXVECTOR3 & camAngle, OUT D3DXVECTOR3 & vDirect
 	mvDirection = D3DXVECTOR3(0, 0, 1);
 	D3DXVec3TransformNormal(&mvDirection, &mvDirection, &matR);
 	
+	D3DXVECTOR3 _vPosition = vPosition;
+
 	if (g_pKeyManager->IsStayKeyDown('A'))			// 왼쪽으로 움직임
 	{
-		vPosition += (mvDirection * m_fMoveSpeed);
+		_vPosition = vPosition + (mvDirection * m_fMoveSpeed);
 	}
 	else if (g_pKeyManager->IsStayKeyDown('D'))		// 오른쪽으로 움직임
 	{
-		vPosition -= (mvDirection * m_fMoveSpeed);
+		_vPosition = vPosition - (mvDirection * m_fMoveSpeed);
 	}
+
+	if (pHeightMap)
+	{
+		if (pHeightMap->GetHeight(_vPosition.x, _vPosition.y, _vPosition.z))
+		{
+			vPosition = _vPosition;
+		}
+	}
+
 }

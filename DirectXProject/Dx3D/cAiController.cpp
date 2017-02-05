@@ -39,20 +39,20 @@ void cAIController::Update(OUT D3DXVECTOR3 & rotateAngle, OUT D3DXVECTOR3 & vDir
 	D3DXVECTOR3 _vPosition = vPosition;
 
 	if (g_pKeyManager->IsStayKeyDown(VK_UP))
+	{
 		_vPosition = vPosition + (mvDirection * m_fMoveSpeed);
-	if (g_pKeyManager->IsStayKeyDown(VK_DOWN))
+	}
+	else if (g_pKeyManager->IsStayKeyDown(VK_DOWN))
+	{
 		_vPosition = vPosition - (mvDirection * m_fMoveSpeed);
+	}
 
 	if (pHeightMap)
 	{
 		if (pHeightMap->GetHeight(_vPosition.x, _vPosition.y, _vPosition.z))
 		{
 			vPosition = _vPosition;
-			int a = 0;
 		}
 	}
-	//else
-	//{
-	//	vPosition = _vPosition;
-	//}
+	
 }
