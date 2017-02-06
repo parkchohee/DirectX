@@ -29,5 +29,6 @@ public:
 
 	std::string GetFolderName() { return m_sFolderName; }
 	std::string GetFileName() { return m_sFileName; }
+	cOBB* GetOBB() { return m_pOBB; }
 };
 

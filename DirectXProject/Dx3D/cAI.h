@@ -2,10 +2,6 @@
 
 #include "cCharacter.h"
 
-class cGun;
-class cController;
-class cOBB;
-
 class cAI : public cCharacter
 {
 	cSkinnedMesh*			m_pSkinnedMesh;				// Ä³¸¯ÅÍ ¸öÃ¼
@@ -20,14 +16,17 @@ public:
 	~cAI();
 
 	void Setup(char* szFolder, char* szFilename);
-	void Update(iMap* pMap);
+	void Update();
 	void Render();
 
-	void SetBoundingSphere();
+	void SetHeightMap(cHeightMap* hMap);
+	void SetTextMap(cTextMap* tMap);
+
 	ST_SPHERE GetBoundingSphere();
 	std::vector<ST_SPHERE> GetBoundingSphereDetail();
 
 private:
+	void SetBoundingSphere();
 	void UpdateSkinnedMesh(D3DXVECTOR3 &vAngle);
 };
 

@@ -1,6 +1,9 @@
 #include "stdafx.h"
 #include "cAIController.h"
-
+#include "cTextMap.h"
+#include "cHeightMap.h"
+#include "cBuilding.h"
+#include "cOBB.h"
 
 cAIController::cAIController()
 	: m_fAngleX(0.0f)
@@ -18,7 +21,7 @@ void cAIController::Setup(float moveSpeed)
 	m_fMoveSpeed = moveSpeed;
 }
 
-void cAIController::Update(OUT D3DXVECTOR3 & rotateAngle, OUT D3DXVECTOR3 & vDirection, OUT D3DXVECTOR3 & vPosition, iMap* pHeightMap, iMap* pTextMap)
+void cAIController::Update(OUT D3DXVECTOR3 & rotateAngle, OUT D3DXVECTOR3 & vDirection, OUT D3DXVECTOR3 & vPosition)
 {
 	if (g_pKeyManager->IsStayKeyDown(VK_LEFT))
 		m_fAngleY -= 0.1f;
@@ -47,9 +50,20 @@ void cAIController::Update(OUT D3DXVECTOR3 & rotateAngle, OUT D3DXVECTOR3 & vDir
 		_vPosition = vPosition - (mvDirection * m_fMoveSpeed);
 	}
 
-	if (pHeightMap)
+	if (m_pTextMap)
 	{
-		if (pHeightMap->GetHeight(_vPosition.x, _vPosition.y, _vPosition.z))
+		// 맵의 건물들의 obb를 불러와 obb 충돌체크
+		for (size_t i = 0; i < m_pTextMap->GetBuildings().size(); i++)
+		{
+			// 충돌하면 그냥 리턴
+			if (cOBB::IsCollision(m_pTextMap->GetBuildings()[i]->GetOBB(), m_pOBB))
+				return;
+		}
+	}
+
+	if (m_pHeightMap)
+	{
+		if (m_pHeightMap->GetHeight(_vPosition.x, _vPosition.y, _vPosition.z))
 		{
 			vPosition = _vPosition;
 		}

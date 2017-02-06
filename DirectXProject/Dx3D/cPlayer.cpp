@@ -4,6 +4,8 @@
 #include "cPlayerController.h"
 #include "cRay.h"
 #include "cOBB.h"
+#include "cHeightMap.h"
+#include "cTextMap.h"
 
 
 cPlayer::cPlayer()
@@ -40,19 +42,20 @@ void cPlayer::Setup()
 
 	m_pGun = m_vecGun[m_nSelectGun];
 
-	m_pController = new cPlayerController;
-	m_pController->Setup(0.1f);
-
 	m_pPlayerOBB = new cOBB;
 	m_pPlayerOBB->Setup(D3DXVECTOR3(-0.5f, 0.0f, -0.5f),
 		D3DXVECTOR3(0.5f, 2.0f, 0.5f));
 
+	m_pController = new cPlayerController;
+	m_pController->Setup(0.1f);
+	m_pController->SetOBB(m_pPlayerOBB);
+
 }
 
-void cPlayer::Update(D3DXVECTOR3 & camAngle, iMap * pHeightMap, iMap * pTextMap)
+void cPlayer::Update(D3DXVECTOR3 & camAngle)
 {
 	if (m_pController)
-		m_pController->Update(camAngle, m_vDirection, m_vPosition, pHeightMap);
+		m_pController->Update(camAngle, m_vDirection, m_vPosition);
 
 	if (m_pGun)
 	{
@@ -103,6 +106,16 @@ void cPlayer::Render()
 	if (m_pPlayerOBB)
 		m_pPlayerOBB->OBBBox_Render(D3DCOLOR_XRGB(0, 0, 255));
 	g_pD3DDevice->SetRenderState(D3DRS_ZENABLE, true);
+}
+
+void cPlayer::SetHeightMap(cHeightMap * hMap)
+{
+	m_pController->SetHeightMap(hMap);
+}
+
+void cPlayer::SetTextMap(cTextMap * tMap)
+{
+	m_pController->SetTextMap(tMap);
 }
 
 cGun * cPlayer::GetGun()

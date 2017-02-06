@@ -53,12 +53,22 @@ cPlayScene::~cPlayScene()
 
 void cPlayScene::Setup()
 {
+	m_pTextMap = new cTextMap;
+	m_pTextMap->Setup("mapFile.txt");
+
+	m_pHeightMap = new cHeightMap;
+	m_pHeightMap->SetupText("Map/", "heightMap.txt", "Layerstone_512_B_CM.tga");
+
 	m_pPlayer = new cPlayer;
 	m_pPlayer->Setup();
+	m_pPlayer->SetHeightMap(m_pHeightMap);
+	m_pPlayer->SetTextMap(m_pTextMap);
 
 	cAI* pAI = new cAI;
 	pAI->Setup("AI/", "AI.X");
 	pAI->SetPosition(D3DXVECTOR3(3, 0, 0));
+	pAI->SetHeightMap(m_pHeightMap);
+	pAI->SetTextMap(m_pTextMap);
 	m_pvAI.push_back(pAI);
 
 	/*cAI* pAI2 = new cAI;
@@ -74,12 +84,7 @@ void cPlayScene::Setup()
 	m_pGrid = new cGrid;
 	m_pGrid->Setup();
 
-	m_pTextMap = new cTextMap;
-	m_pTextMap->Setup("mapFile.txt");
-
-	m_pHeightMap = new cHeightMap;
-	m_pHeightMap->SetupText("Map/","heightMap.txt","Layerstone_512_B_CM.tga");
-
+	
 	m_pSkyView = g_pStaticMeshManager->GetStaticMesh("Map/Sky/", "sky.X");
 	D3DXMATRIXA16 matS;
 	D3DXMatrixScaling(&matS, 0.05f, 0.05f, 0.05f);
@@ -92,10 +97,10 @@ void cPlayScene::Setup()
 void cPlayScene::Update()
 {
 	if (m_pPlayer && m_pCamera)
-		m_pPlayer->Update(m_pCamera->GetCamRotAngle(), m_pHeightMap/*, m_pTextMap*/);
+		m_pPlayer->Update(m_pCamera->GetCamRotAngle());
 
 	for each(auto p in m_pvAI)
-		p->Update(m_pHeightMap);
+		p->Update();
 
 	if (m_pTextMap)
 		m_pTextMap->Update();
@@ -132,7 +137,6 @@ void cPlayScene::Render()
 	if (m_pPlayer)
 		m_pPlayer->Render();
 	
-	
 	if (m_pUICursorRoot)
 		m_pUICursorRoot->Render(m_pSprite);
 
@@ -156,6 +160,7 @@ void cPlayScene::BulletCollisionCheck()
 	if (m_pPlayer->GetGun() == NULL) return;
 	
 	cGun* gun = m_pPlayer->GetGun();
+
 	for (size_t aiIndex = 0; aiIndex < m_pvAI.size(); aiIndex++)
 	{
 		for (size_t bulletIndex = 0; bulletIndex < gun->GetBullets().size(); bulletIndex++)

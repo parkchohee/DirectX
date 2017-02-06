@@ -1,6 +1,9 @@
 #include "stdafx.h"
 #include "cPlayerController.h"
-#include "iMap.h"
+#include "cHeightMap.h"
+#include "cTextMap.h"
+#include "cOBB.h"
+#include "cBuilding.h"
 
 
 cPlayerController::cPlayerController()
@@ -17,7 +20,7 @@ void cPlayerController::Setup(float moveSpeed)
 	m_fMoveSpeed = moveSpeed;
 }
 
-void cPlayerController::Update(D3DXVECTOR3 & camAngle, OUT D3DXVECTOR3 & vDirection, OUT D3DXVECTOR3 & vPosition, iMap* pHeightMap, iMap* pTextMap)
+void cPlayerController::Update(D3DXVECTOR3 & camAngle, OUT D3DXVECTOR3 & vDirection, OUT D3DXVECTOR3 & vPosition)
 {
 	// angle을 이용해 direction을 구한다. 
 	D3DXMATRIXA16 matR, matRX, matRY, matT;
@@ -60,9 +63,20 @@ void cPlayerController::Update(D3DXVECTOR3 & camAngle, OUT D3DXVECTOR3 & vDirect
 		_vPosition = vPosition - (mvDirection * m_fMoveSpeed);
 	}
 
-	if (pHeightMap)
+	if (m_pTextMap)
 	{
-		if (pHeightMap->GetHeight(_vPosition.x, _vPosition.y, _vPosition.z))
+		// 맵의 건물들의 obb를 불러와 obb 충돌체크
+		for (size_t i = 0; i < m_pTextMap->GetBuildings().size(); i++)
+		{
+			// 충돌하면 그냥 리턴
+			if (cOBB::IsCollision(m_pTextMap->GetBuildings()[i]->GetOBB(), m_pOBB))
+				return;
+		}
+	}
+
+	if (m_pHeightMap)
+	{
+		if (m_pHeightMap->GetHeight(_vPosition.x, _vPosition.y, _vPosition.z))
 		{
 			vPosition = _vPosition;
 		}

@@ -4,6 +4,9 @@ class cGun;
 class cController;
 class cOBB;
 
+class cHeightMap;
+class cTextMap;
+
 class cCharacter : public cGameObject
 {
 protected:
@@ -12,8 +15,6 @@ protected:
 
 	LPD3DXMESH				m_pBoundingSphereMesh;
 	ST_SPHERE				m_stBoundingSphere;
-
-	iMap*					m_pMap;
 
 	D3DXMATRIXA16			m_matWorldTM;
 
@@ -29,7 +30,7 @@ public:
 	virtual ~cCharacter(void);
 
 	virtual void Setup(char* szFolder, char* szFilename);
-	virtual void Update(iMap* pMap);
+	virtual void Update();
 	virtual void Render();
 	
 	virtual bool IsAttacked(float power);
