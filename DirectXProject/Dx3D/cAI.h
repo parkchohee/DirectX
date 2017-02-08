@@ -25,6 +25,9 @@ public:
 	ST_SPHERE GetBoundingSphere();
 	std::vector<ST_SPHERE> GetBoundingSphereDetail();
 
+	void Destroy();
+	bool IsDeath();
+
 private:
 	void SetBoundingSphere();
 	void UpdateSkinnedMesh(D3DXVECTOR3 &vAngle);

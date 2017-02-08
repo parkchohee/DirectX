@@ -41,11 +41,11 @@ void cMainGame::Update()
 
 	g_pSceneManager->Update(g_pTimeManager->GetElapsedTime());
 
-	if (g_pKeyManager->IsOnceKeyDown(VK_RETURN))
-		g_pSceneManager->ChangeScene("firstScene");
+	//if (g_pKeyManager->IsOnceKeyDown(VK_RETURN))
+	//	g_pSceneManager->ChangeScene("firstScene");
 
-	if (g_pKeyManager->IsOnceKeyDown(VK_SPACE))
-		g_pSceneManager->ChangeScene("playScene");
+	//if (g_pKeyManager->IsOnceKeyDown(VK_SPACE))
+	//	g_pSceneManager->ChangeScene("playScene");
 }
 
 void cMainGame::Render()

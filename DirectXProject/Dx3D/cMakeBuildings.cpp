@@ -30,18 +30,25 @@ cMakeBuildings::~cMakeBuildings()
 void cMakeBuildings::Setup()
 {
 
-	m_pName.push_back("barrel.X");
-	m_pName.push_back("box.X");
-	m_pName.push_back("box2.X");
-	m_pName.push_back("building01.X");
-	m_pName.push_back("building02.X");
-	m_pName.push_back("building03.X");
-	m_pName.push_back("building04.X");
-	m_pName.push_back("building05.X");
-	m_pName.push_back("building06.X");
-	m_pName.push_back("church.X");
-	m_pName.push_back("wall01.X");
-	m_pName.push_back("truck01.X");
+	//m_pName.push_back("barrel.X");
+	//m_pName.push_back("box.X");
+	//m_pName.push_back("box2.X");
+	//m_pName.push_back("building01.X");
+	//m_pName.push_back("building02.X");
+	//m_pName.push_back("building03.X");
+	//m_pName.push_back("building04.X");
+	//m_pName.push_back("building05.X");
+	//m_pName.push_back("building06.X");
+	//m_pName.push_back("church.X");
+	//m_pName.push_back("wall01.X");
+	//m_pName.push_back("truck01.X");
+
+	m_pName.push_back("building1.X");
+	m_pName.push_back("building2.X");
+	m_pName.push_back("building3.X");
+	m_pName.push_back("building4.X");
+	m_pName.push_back("building5.X");
+	m_pName.push_back("building6.X");
 
 	for (size_t i = 0; i < m_pName.size(); i++)
 	{

@@ -85,29 +85,30 @@ void cAI::Render()
 	if (m_pGun)
 		m_pGun->Render();
 
-	/*D3DXMATRIXA16 matWorld;
-	D3DXMatrixIdentity(&matWorld);
-	matWorld._41 = m_stBoundingSphere.vCenter.x;
-	matWorld._42 = m_stBoundingSphere.vCenter.y;
-	matWorld._43 = m_stBoundingSphere.vCenter.z;
+	//D3DXMATRIXA16 matWorld;
+	//D3DXMatrixIdentity(&matWorld);
+	//matWorld._41 = m_stBoundingSphere.vCenter.x;
+	//matWorld._42 = m_stBoundingSphere.vCenter.y;
+	//matWorld._43 = m_stBoundingSphere.vCenter.z;
 
-	g_pD3DDevice->SetTransform(D3DTS_WORLD, &matWorld);
+	//g_pD3DDevice->SetTransform(D3DTS_WORLD, &matWorld);
 
-	m_pBoundingSphereMesh->DrawSubset(0);
-	*/
-	/*for each(auto s in m_vecBoundingSphereDetail)
-	{
-		D3DXMATRIXA16 matWorld;
-		D3DXMatrixIdentity(&matWorld);
-		matWorld._41 = s.vCenter.x;
-		matWorld._42 = s.vCenter.y;
-		matWorld._43 = s.vCenter.z;
-		
-		g_pD3DDevice->SetTransform(D3DTS_WORLD, &matWorld);
+	//m_pBoundingSphereMesh->DrawSubset(0);
+	//
+	//for each(auto s in m_vecBoundingSphereDetail)
+	//{
+	//	D3DXMATRIXA16 matWorld;
+	//	D3DXMatrixIdentity(&matWorld);
+	//	matWorld._41 = s.vCenter.x;
+	//	matWorld._42 = s.vCenter.y;
+	//	matWorld._43 = s.vCenter.z;
+	//	
+	//	g_pD3DDevice->SetTransform(D3DTS_WORLD, &matWorld);
 
-		m_pBoundingSphereDetailMesh->DrawSubset(0);
-	}
-	*/
+	//	m_pBoundingSphereDetailMesh->DrawSubset(0);
+	//}
+	//
+
 }
 
 void cAI::SetHeightMap(cHeightMap * hMap)
@@ -194,6 +195,16 @@ std::vector<ST_SPHERE> cAI::GetBoundingSphereDetail()
 	return m_vecBoundingSphereDetail;
 }
 
+void cAI::Destroy()
+{
+	m_pSkinnedMesh->PlayOneShotAfterHold(8);
+}
+
+bool cAI::IsDeath()
+{
+	return !m_pSkinnedMesh->IsPlay();
+}
+
 void cAI::UpdateSkinnedMesh(D3DXVECTOR3 &vAngle)
 {
 	D3DXMATRIXA16 matS, matRX, matRY, matR, matT;
@@ -213,5 +224,5 @@ void cAI::UpdateSkinnedMesh(D3DXVECTOR3 &vAngle)
 		m_pAIOBB->Update(&obbWorld);
 
 	m_stBoundingSphere.vCenter = m_vPosition;
-	m_stBoundingSphere.vCenter.y = AI_BOUNDING_SPHERE_SIZE;
+	m_stBoundingSphere.vCenter.y += AI_BOUNDING_SPHERE_SIZE;
 }

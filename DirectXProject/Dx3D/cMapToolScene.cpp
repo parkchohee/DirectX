@@ -86,6 +86,17 @@ void cMapToolScene::Render()
 		break;
 	}
 
+
+	if (g_pKeyManager->IsOnceKeyDown('L'))
+	{
+		if (m_pGroundMode)
+		{
+			m_pGroundMode->SaveMapFile();
+			m_mapMode = MAKE_BUILDINGS;
+		}
+	}
+
+
 	if (m_pSkyView)
 		m_pSkyView->Render();
 

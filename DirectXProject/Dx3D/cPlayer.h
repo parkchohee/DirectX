@@ -29,7 +29,7 @@ public:
 	void GunSetting(D3DXVECTOR3& camAngle);
 	void GunSettingZoom(D3DXVECTOR3& camAngle);
 
-	void BulletFire();
+	void BulletFire(D3DXVECTOR3 dir);
 
 };
 

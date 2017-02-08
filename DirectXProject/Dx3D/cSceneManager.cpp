@@ -59,7 +59,8 @@ void cSceneManager::Destroy()
 		}
 
 		iter->second->Release();
-		SAFE_DELETE(iter->second);
+		if(iter->second != NULL)
+			SAFE_DELETE(iter->second);
 		m_Scenes.erase(iter);
 	}
 

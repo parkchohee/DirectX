@@ -80,6 +80,8 @@ public:
 	void PlayOneShot(std::string animName, float inCrossFadeTime = 0.0, float outCrossFadeTime = 0.0f);
 	void PlayOneShot(int animIndex, float inCrossFadeTime = 0.0, float outCrossFadeTime = 0.0f);
 	void PlayOneShotAfterHold(std::string animName, float crossFadeTime = 0.0);
+	void PlayOneShotAfterHold(int animIndex, float crossFadeTime = 0.0);
+
 
 	void Pause() { m_bPlay = false;	}
 	void Resume() { m_bPlay = true; }

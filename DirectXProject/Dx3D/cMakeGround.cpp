@@ -153,10 +153,10 @@ void cMakeGround::Update(POINT mouse)
 			int _3 = (nZ + 1) * (m_nTileN + 1) + nX + 1;
 			
 			// y값 증가시킨다. 
-			m_vecVertex[_0].p.y++;
-			m_vecVertex[_1].p.y++;
-			m_vecVertex[_2].p.y++;
-			m_vecVertex[_3].p.y++;
+			m_vecVertex[_0].p.y += 0.1f;
+			m_vecVertex[_1].p.y += 0.1f;
+			m_vecVertex[_2].p.y += 0.1f;
+			m_vecVertex[_3].p.y += 0.1f;
 
 			ST_PNT_VERTEX* pV = NULL;
 			m_pMesh->LockVertexBuffer(0, (LPVOID*)&pV);
@@ -172,9 +172,8 @@ void cMakeGround::Update(POINT mouse)
 	}
 	
 
-	if (g_pKeyManager->IsOnceKeyDown('L'))
-		SaveMapFile();
-
+	if (g_pKeyManager->IsOnceKeyDown(VK_SPACE))
+		g_pSceneManager->ChangeScene("playScene");
 
 }
 
@@ -203,7 +202,7 @@ void cMakeGround::SaveMapFile()
 
 	for (size_t i = 0; i < m_vecVertex.size(); i++)
 	{
-		strcat_s(str, std::to_string((int)m_vecVertex[i].p.y).c_str());
+		strcat_s(str, std::to_string((int)((float)m_vecVertex[i].p.y * 10)).c_str());
 		strcat_s(str, " ");
 	}
 
