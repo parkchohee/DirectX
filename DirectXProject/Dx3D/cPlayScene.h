@@ -30,6 +30,7 @@ class cPlayScene : public cScene
 
 	cPlayer*					m_pPlayer;
 	std::vector<cAI*>			m_pvAI;
+	std::vector<cAI*>			m_pvDeathAI;
 
 public:
 	cPlayScene();
@@ -41,7 +42,7 @@ public:
 
 	virtual void WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
-	void BulletCollisionCheck();
+	void PlayerBulletFire();
 
 	float GetDistance(D3DXVECTOR3 BulletPos, D3DXVECTOR3 CrushManPos);
 	bool IsCollision(D3DXVECTOR3 BulletPos, float BulletSphereRadius, D3DXVECTOR3 CrushManPos, float CrushManSphereRadius);

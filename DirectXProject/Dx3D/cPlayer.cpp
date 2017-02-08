@@ -62,10 +62,10 @@ void cPlayer::Update(D3DXVECTOR3 & camAngle)
 		m_pGun->Update();
 	}
 
-	if (g_pKeyManager->IsOnceKeyDown(VK_LBUTTON))
+	/*if (g_pKeyManager->IsOnceKeyDown(VK_LBUTTON))
 	{
 		BulletFire();
-	}
+	}*/
 
 	if (g_pKeyManager->IsStayKeyDown(VK_RBUTTON))
 	{
@@ -172,17 +172,17 @@ void cPlayer::GunSettingZoom(D3DXVECTOR3 & camAngle)
 	m_pGun->SetWorldMatrix(&m_matWorldTM);
 }
 
-void cPlayer::BulletFire()
+void cPlayer::BulletFire(D3DXVECTOR3 dir)
 {
-	float centerX, centerY;
+	/*float centerX, centerY;
 	RECT rc;
 	GetClientRect(g_hWnd, &rc);
 	centerX = (rc.left + rc.right) / 2;
 	centerY = (rc.top + rc.bottom) / 2;
 
 	cRay r = cRay::RayAtWorldSpace(centerX, centerY);
-
-	D3DXVECTOR3 Dir = r.GetRayDir();
+*/
+	D3DXVECTOR3 Dir = dir;// = r.GetRayDir();
 
 	if (m_pGun)
 		m_pGun->Fire(Dir, m_matWorldTM);

@@ -13,6 +13,7 @@
 #include "cTextMap.h"
 #include "cHeightMap.h"
 #include "cStaticMesh.h"
+#include "cRay.h"
 
 
 cPlayScene::cPlayScene()
@@ -48,7 +49,9 @@ cPlayScene::~cPlayScene()
 	
 	for each(auto p in m_pvAI)
 		SAFE_RELEASE(p);
-
+	
+	for each(auto p in m_pvDeathAI)
+		SAFE_RELEASE(p);
 }
 
 void cPlayScene::Setup()
@@ -64,13 +67,16 @@ void cPlayScene::Setup()
 	m_pPlayer->SetHeightMap(m_pHeightMap);
 	m_pPlayer->SetTextMap(m_pTextMap);
 
-	cAI* pAI = new cAI;
-	pAI->Setup("AI/", "AI.X");
-	pAI->SetPosition(D3DXVECTOR3(3, 0, 0));
-	pAI->SetHeightMap(m_pHeightMap);
-	pAI->SetTextMap(m_pTextMap);
-	m_pvAI.push_back(pAI);
-
+	for (int i = 0; i < 10; i++)
+	{
+		cAI* pAI = new cAI;
+		pAI->Setup("AI/", "AI.X");
+		pAI->SetPosition(D3DXVECTOR3(3 + i, 0, 0));
+		pAI->SetHeightMap(m_pHeightMap);
+		pAI->SetTextMap(m_pTextMap);
+		pAI->SetIsEnemy(true);		// true이면 적
+		m_pvAI.push_back(pAI);
+	}
 	/*cAI* pAI2 = new cAI;
 	pAI2->Setup("AI/", "AI.X");
 	pAI2->SetPosition(D3DXVECTOR3(6, 0, 0));
@@ -102,6 +108,18 @@ void cPlayScene::Update()
 	for each(auto p in m_pvAI)
 		p->Update();
 
+	for (size_t i = 0; i < m_pvDeathAI.size(); )
+	{
+		if (m_pvDeathAI[i]->IsDeath())
+		{
+			SAFE_RELEASE(m_pvDeathAI[i]);
+			m_pvDeathAI.erase(m_pvDeathAI.begin() + i);
+			continue;
+		}
+		
+		i++;
+	}
+
 	if (m_pTextMap)
 		m_pTextMap->Update();
 
@@ -114,7 +132,9 @@ void cPlayScene::Update()
 	if (m_pUIPlayerInfoRoot)
 		m_pUIPlayerInfoRoot->Update();
 
-	BulletCollisionCheck();
+	if (g_pKeyManager->IsOnceKeyDown(VK_LBUTTON))
+		PlayerBulletFire();
+
 }
 
 void cPlayScene::Render()
@@ -123,6 +143,9 @@ void cPlayScene::Render()
 		m_pSkyView->Render();
 
 	for each(auto p in m_pvAI)
+		p->Render();
+	
+	for each(auto p in m_pvDeathAI)
 		p->Render();
 
 	if (m_pTextMap)
@@ -145,6 +168,7 @@ void cPlayScene::Render()
 
 	if (m_pCompassFront)
 		m_pCompassFront->SetAngle(m_pCamera->GetCamRotAngle().y);
+
 }
 
 void cPlayScene::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
@@ -155,15 +179,47 @@ void cPlayScene::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	}
 }
 
-void cPlayScene::BulletCollisionCheck()
+void cPlayScene::PlayerBulletFire()
 {
 	if (m_pPlayer->GetGun() == NULL) return;
 	
-	cGun* gun = m_pPlayer->GetGun();
+	float centerX, centerY;
+	RECT rc;
+	GetClientRect(g_hWnd, &rc);
+	centerX = (rc.left + rc.right) / 2;
+	centerY = (rc.top + rc.bottom) / 2;
+
+	cRay r = cRay::RayAtWorldSpace(centerX, centerY);
+	
+	m_pPlayer->BulletFire(r.GetRayDir());
 
 	for (size_t aiIndex = 0; aiIndex < m_pvAI.size(); aiIndex++)
 	{
-		for (size_t bulletIndex = 0; bulletIndex < gun->GetBullets().size(); bulletIndex++)
+		// 우리팀은 건너뛴다.
+		if (!m_pvAI[aiIndex]->GetIsEnemy()) continue;
+
+		// 상대팀이면 충돌체크
+		if (!r.IsPicked(&m_pvAI[aiIndex]->GetBoundingSphere()))
+			continue;
+
+		for (size_t sphereIndex = 0; sphereIndex < m_pvAI[aiIndex]->GetBoundingSphereDetail().size(); sphereIndex++)
+		{
+			if (r.IsPicked(&m_pvAI[aiIndex]->GetBoundingSphereDetail()[sphereIndex]))
+			{
+				cGun* gun = m_pPlayer->GetGun();
+
+				if (m_pvAI[aiIndex]->IsAttacked(gun->GetAttackPower()))
+				{
+					m_pvAI[aiIndex]->Destroy();
+					//SAFE_RELEASE(m_pvAI[aiIndex]);
+					m_pvDeathAI.push_back(m_pvAI[aiIndex]);
+					m_pvAI.erase(m_pvAI.begin() + aiIndex);
+				}
+				return;
+			}
+		}
+
+		/*for (size_t bulletIndex = 0; bulletIndex < gun->GetBullets().size(); bulletIndex++)
 		{
 			D3DXVECTOR3 vBulletCenter, vAICenter;
 			vBulletCenter = gun->GetBullets()[bulletIndex]->GetBoundingSphere().vCenter;
@@ -187,7 +243,7 @@ void cPlayScene::BulletCollisionCheck()
 					}
 				}
 			}
-		}
+		}*/
 	}
 	
 

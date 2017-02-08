@@ -17,7 +17,9 @@ cSkinnedMesh::cSkinnedMesh(char* szFolder, char* szFilename)
 
 	D3DXMatrixIdentity(&m_matWorldTM);
 	D3DXMatrixIdentity(&m_matLocalTM);
-
+	
+	/*m_pRootFrame = new ST_BONE;
+	memcpy(m_pRootFrame, pSkinnedMesh->m_pRootFrame, sizeof(ST_BONE));*/
 	m_pRootFrame = pSkinnedMesh->m_pRootFrame;
 	m_dwWorkingPaletteSize = pSkinnedMesh->m_dwWorkingPaletteSize;
 	m_pmWorkingPalette = pSkinnedMesh->m_pmWorkingPalette;
@@ -323,6 +325,21 @@ void cSkinnedMesh::PlayOneShotAfterHold(std::string animName, float crossFadeTim
 
 		this->SetAnimation(find->second);
 	}
+}
+
+void cSkinnedMesh::PlayOneShotAfterHold(int animIndex, float crossFadeTime)
+{
+	m_bPlay = true;
+	m_bLoop = false;
+
+	//돌아갈 Animation 은 존재하지 않는다.
+	this->m_pPrevPlayAnimationSet = NULL;
+
+	//크로스 페이드 타임 기억
+	m_fCrossFadeTime = crossFadeTime;
+	m_fLeftCrossFadeTime = crossFadeTime;
+
+	this->SetAnimation(m_vecAnimSet[animIndex]);
 }
 
 cSkinnedMesh::cSkinnedMesh()
