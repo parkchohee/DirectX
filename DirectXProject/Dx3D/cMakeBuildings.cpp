@@ -34,12 +34,12 @@ void cMakeBuildings::Setup()
 	m_pName.push_back("opel");
 	for (size_t i = 0; i < m_pName.size(); i++)
 	{
-		std::string xFileName(m_pName[i]);
-		std::string objFileName(m_pName[i]);
-		//xFileName += ".X";
-		objFileName += ".obj";
-		cBuilding* pBuilding = new cBuilding("Map/building/", (char*)xFileName.c_str());
-		pBuilding->SetOBB("Map/building/", (char*)objFileName.c_str());
+		//std::string xFileName(m_pName[i]);
+		//std::string objFileName(m_pName[i]);
+		////xFileName += ".X";
+		//objFileName += ".obj";
+		cBuilding* pBuilding = new cBuilding("Map/building/", m_pName[i]);
+		pBuilding->SetOBB("Map/building/", m_pName[i]);
 		pBuilding->SetScale(0.007);
 		m_vpAllBuildings.push_back(pBuilding);
 	}

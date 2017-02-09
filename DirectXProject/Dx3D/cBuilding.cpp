@@ -72,9 +72,12 @@ void cBuilding::Init()
 
 void cBuilding::SetOBB(char * szFolder, char * szFilename)
 {
+	std::string objFileName(szFilename);
+	objFileName += ".obj";
+
 	cObjLoader* objLoader = new cObjLoader;
 	std::vector<cGroup*>	vecGroup;
-	objLoader->Load(vecGroup, szFolder, szFilename);
+	objLoader->Load(vecGroup, szFolder, (char*)objFileName.c_str());
 	if (vecGroup.size() <= 0)
 		//°æ°íÃ¢;
 		;

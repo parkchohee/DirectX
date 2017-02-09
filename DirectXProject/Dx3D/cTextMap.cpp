@@ -42,12 +42,12 @@ void cTextMap::Setup(IN char * szFilename, IN D3DXMATRIXA16 * pmat)
 		else if (szTemp[0] == 'F')
 		{
 			sscanf_s(szTemp, "%*s : %s", szTempFileName, 128);
-			std::string xFileName(szTempFileName);
-			std::string objFileName(szTempFileName);
-		//	xFileName += ".X";
-			objFileName += ".obj";
-			pBuiling = new cBuilding(szTempFolderName, (char*)xFileName.c_str());
-			pBuiling->SetOBB(szTempFolderName, (char*)objFileName.c_str());
+		//	std::string xFileName(szTempFileName);
+		//	std::string objFileName(szTempFileName);
+		////	xFileName += ".X";
+		//	objFileName += ".obj";
+			pBuiling = new cBuilding(szTempFolderName, szTempFileName);
+			pBuiling->SetOBB(szTempFolderName, szTempFileName);
 		}
 		else if (szTemp[0] == 'S')
 		{
