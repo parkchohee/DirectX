@@ -91,31 +91,42 @@ void cMapCamera::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	break;
 	case WM_MOUSEWHEEL:
 		m_fCameraDistance -= (GET_WHEEL_DELTA_WPARAM(wParam) / 30.f);
-		if (m_fCameraDistance < 0.0001f)
-			m_fCameraDistance = 0.0001f;
+		if (m_fCameraDistance < 1.f)
+			m_fCameraDistance = 1.f;
+		if (m_fCameraDistance > 70.f)
+			m_fCameraDistance = 70.f;
 		break;
 	}
 }
 
 void cMapCamera::CameraController()
 {
+	D3DXVECTOR3 dir(0, 0, 1);
+	D3DXMATRIXA16 matR;
+	D3DXMatrixRotationY(&matR, m_vCamRotAngle.y);
+	D3DXVec3TransformCoord(&dir, &dir, &matR);
+
 	if (g_pKeyManager->IsStayKeyDown('W'))
 	{
-		m_vPosition.z++;
+		m_vPosition += dir * 0.5f;
 	}
 	else if (g_pKeyManager->IsStayKeyDown('S'))
 	{
-		m_vPosition.z--;
+		m_vPosition -= dir * 0.5f;
 	}
+	
+	D3DXVECTOR3 vUp(0, 1, 0);
+	D3DXVec3Cross(&dir, &dir, &vUp);
 
 	if (g_pKeyManager->IsStayKeyDown('A'))
 	{
-		m_vPosition.x--;
+		m_vPosition += dir * 0.5f;
 	}
 	else if (g_pKeyManager->IsStayKeyDown('D'))
 	{
-		m_vPosition.x++;
+		m_vPosition -= dir * 0.5f;
 	}
+
 }
 
 POINT cMapCamera::GetMousePosition()

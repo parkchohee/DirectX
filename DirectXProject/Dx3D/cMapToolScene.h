@@ -4,6 +4,7 @@
 
 
 class cBuilding;
+class cUIObject;
 class cGrid;
 class cMapCamera;
 class cStaticMesh;
@@ -27,6 +28,7 @@ class cMapToolScene : public cScene
 	MAP_MODE					m_mapMode;
 	
 	LPD3DXSPRITE				m_pSprite;
+	cUIObject*					m_pUIRoot;
 	cUIButton*					m_pBtnNext;
 
 	cMakeGround*				m_pGroundMode;
@@ -43,5 +45,6 @@ public:
 	virtual void WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
 	void OnClick(cUIButton* pSender);
+	void SettingUI();
 };
 

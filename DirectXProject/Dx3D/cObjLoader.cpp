@@ -20,8 +20,11 @@ void cObjLoader::Load( OUT std::vector<cGroup*>& vecGroup,
 	std::vector<D3DXVECTOR3> vecVN;
 	std::vector<ST_PNT_VERTEX> vecVertex;
 
+	D3DXVECTOR3 vMin(0,0,0), vMax(0,0,0);
+
 	std::string sFullPath(szFolder);
-	sFullPath += (std::string("/") + std::string(szFile));
+//	sFullPath += (std::string("/") + std::string(szFile));
+	sFullPath += (std::string(szFile));
 
 	FILE* fp;
 	fopen_s(&fp, sFullPath.c_str(), "r");
@@ -30,8 +33,22 @@ void cObjLoader::Load( OUT std::vector<cGroup*>& vecGroup,
 
 	while(true)
 	{
-		if(feof(fp))
+		if (feof(fp))
+		{
+			if (!vecVertex.empty())
+			{
+				cGroup* pGroup = new cGroup;
+				pGroup->SetVertex(vecVertex);
+				pGroup->SetMtlTex(m_mapMtlTex[sMtlName]);
+				pGroup->SetMax(vMax);
+				pGroup->SetMin(vMin);
+				vecGroup.push_back(pGroup);
+				vecVertex.clear();
+				vMax = D3DXVECTOR3(0, 0, 0);
+				vMin = D3DXVECTOR3(0, 0, 0);
+			}
 			break;
+		}
 
 		char szTemp[1024];
 		fgets(szTemp, 1024, fp);
@@ -52,8 +69,12 @@ void cObjLoader::Load( OUT std::vector<cGroup*>& vecGroup,
 				cGroup* pGroup = new cGroup;
 				pGroup->SetVertex(vecVertex);
 				pGroup->SetMtlTex(m_mapMtlTex[sMtlName]);
+				pGroup->SetMax(vMax);
+				pGroup->SetMin(vMin);
 				vecGroup.push_back(pGroup);
 				vecVertex.clear();
+				vMax = D3DXVECTOR3(0, 0, 0);
+				vMin = D3DXVECTOR3(0, 0, 0);
 			}
 		}
 		else if(szTemp[0] == 'v')
@@ -62,7 +83,10 @@ void cObjLoader::Load( OUT std::vector<cGroup*>& vecGroup,
 			{
 				float x, y, z;
 				sscanf_s(szTemp, "%*s %f %f %f", &x, &y, &z);
-				vecV.push_back(D3DXVECTOR3(x, y, z));
+				D3DXVECTOR3 vTemp(x, y, z);
+				D3DXVec3Maximize(&vMax, &vMax, &vTemp);
+				D3DXVec3Minimize(&vMin, &vMin, &vTemp);
+				vecV.push_back(vTemp);
 			}
 			else if(szTemp[1] == 't')
 			{

@@ -1,7 +1,7 @@
 #pragma once
 
-#define MAPSIZE 100
-
+#define MAPSIZE 129
+class cUIObject;
 class cMakeGround
 {
 	LPD3DXMESH					m_pMesh;
@@ -13,6 +13,9 @@ class cMakeGround
 
 	std::vector<D3DXVECTOR3>	m_vecGround;
 
+	LPD3DXSPRITE				m_pSprite;
+	cUIObject*					m_pUIRoot;
+
 public:
 	cMakeGround();
 	~cMakeGround();
@@ -21,6 +24,8 @@ public:
 	void Update(POINT mouse = {0, 0});
 	void Render();
 
+	void SetNormal();
+	void SettingUI();
 	void SaveMapFile();
 };
 

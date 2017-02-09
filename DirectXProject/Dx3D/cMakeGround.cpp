@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "cMakeGround.h"
 #include "cRay.h"
+#include "cUIImageView.h"
+#include "cUITextView.h"
 
 
 cMakeGround::cMakeGround()
@@ -17,6 +19,8 @@ cMakeGround::~cMakeGround()
 
 void cMakeGround::Setup()
 {
+	m_pTexture = g_pTextureManager->GetTexture("Map/Ground_CMGround_CM.tga");
+
 	m_vecGround.resize(6);
 	m_vecGround[0] = D3DXVECTOR3(-MAPSIZE / 2, 0, MAPSIZE / 2);
 	m_vecGround[1] = D3DXVECTOR3(MAPSIZE / 2, 0, -MAPSIZE / 2);
@@ -44,25 +48,7 @@ void cMakeGround::Setup()
 		//m_vecVertex[i] = v.p;
 	}
 
-	for (int x = 1; x < m_nTileN; ++x)
-	{
-		for (int z = 1; z < m_nTileN; ++z)
-		{
-			int left = (z + 0) * MAPSIZE + x - 1;
-			int right = (z + 0) * MAPSIZE + x + 1;
-			int up = (z + 1) * MAPSIZE + x + 0;
-			int down = (z - 1) * MAPSIZE + x + 0;
-
-			D3DXVECTOR3 leftToRight = m_vecVertex[right].p - m_vecVertex[left].p;
-			D3DXVECTOR3 downToUp = m_vecVertex[up].p - m_vecVertex[down].p;
-			D3DXVECTOR3 normal;
-			D3DXVec3Cross(&normal, &downToUp, &leftToRight);
-			D3DXVec3Normalize(&normal, &normal);
-
-			int nIndex = z * MAPSIZE + x;
-			m_vecVertex[nIndex].n = normal;
-		}
-	}
+	SetNormal();
 
 	for (int x = 0; x < m_nTileN; ++x)
 	{
@@ -117,10 +103,14 @@ void cMakeGround::Setup()
 	m_stMtl.Diffuse = D3DXCOLOR(0.8f, 0.8f, 0.8f, 1.0f);
 	m_stMtl.Specular = D3DXCOLOR(0.8f, 0.8f, 0.8f, 1.0f);
 
+	SettingUI();
 }
 
 void cMakeGround::Update(POINT mouse)
 {
+	if (m_pUIRoot)
+		m_pUIRoot->Update();
+	
 	// 높이를 조절해준다....
 
 	// pick 해서
@@ -169,16 +159,18 @@ void cMakeGround::Update(POINT mouse)
 			m_pMesh->UnlockIndexBuffer();
 		}
 
+		SetNormal();
 	}
-	
 
-	if (g_pKeyManager->IsOnceKeyDown(VK_SPACE))
-		g_pSceneManager->ChangeScene("playScene");
+	//if (g_pKeyManager->IsOnceKeyDown(VK_SPACE))
+	//	g_pSceneManager->ChangeScene("playScene");
 
 }
 
 void cMakeGround::Render()
 {
+	//g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+
 	D3DXMATRIXA16 matWorld;
 	D3DXMatrixIdentity(&matWorld);
 	g_pD3DDevice->SetTransform(D3DTS_WORLD, &matWorld);
@@ -186,7 +178,50 @@ void cMakeGround::Render()
 	g_pD3DDevice->SetTexture(0, m_pTexture);
 	m_pMesh->DrawSubset(0);
 
+	if (m_pUIRoot)
+		m_pUIRoot->Render(m_pSprite);
 
+}
+
+void cMakeGround::SetNormal()
+{
+	for (int x = 1; x < m_nTileN; ++x)
+	{
+		for (int z = 1; z < m_nTileN; ++z)
+		{
+			int left = (z + 0) * MAPSIZE + x - 1;
+			int right = (z + 0) * MAPSIZE + x + 1;
+			int up = (z + 1) * MAPSIZE + x + 0;
+			int down = (z - 1) * MAPSIZE + x + 0;
+
+			D3DXVECTOR3 leftToRight = m_vecVertex[right].p - m_vecVertex[left].p;
+			D3DXVECTOR3 downToUp = m_vecVertex[up].p - m_vecVertex[down].p;
+			D3DXVECTOR3 normal;
+			D3DXVec3Cross(&normal, &downToUp, &leftToRight);
+			D3DXVec3Normalize(&normal, &normal);
+
+			int nIndex = z * MAPSIZE + x;
+			m_vecVertex[nIndex].n = normal;
+		}
+	}
+}
+
+void cMakeGround::SettingUI()
+{
+	RECT rc;
+	GetClientRect(g_hWnd, &rc);
+
+	D3DXCreateSprite(g_pD3DDevice, &m_pSprite);
+
+	m_pUIRoot = new cUIObject;
+	m_pUIRoot->SetPosition(0, 0);
+
+	cUITextView* pTitleText = new cUITextView;
+	pTitleText->SetText("지형 편집");
+	pTitleText->SetSize(ST_SIZEN(200, 100));
+	pTitleText->SetPosition(rc.right - 250, rc.top + 30);
+
+	m_pUIRoot->AddChild(pTitleText);
 
 }
 
