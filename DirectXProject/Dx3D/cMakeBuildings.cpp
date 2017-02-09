@@ -32,12 +32,10 @@ void cMakeBuildings::Setup()
 	//==buildings
 	m_pName.push_back("piano");
 	m_pName.push_back("opel");
+	m_pName.push_back("aa");
+
 	for (size_t i = 0; i < m_pName.size(); i++)
 	{
-		//std::string xFileName(m_pName[i]);
-		//std::string objFileName(m_pName[i]);
-		////xFileName += ".X";
-		//objFileName += ".obj";
 		cBuilding* pBuilding = new cBuilding("Map/building/", m_pName[i]);
 		pBuilding->SetOBB("Map/building/", m_pName[i]);
 		pBuilding->SetScale(0.007);

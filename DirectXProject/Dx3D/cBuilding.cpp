@@ -26,9 +26,6 @@ void cBuilding::Setup(char* szFolder, char* szFilename)
 	std::string xFileName(szFilename);
 	xFileName += ".X";
 	m_pBuilding = new cStaticMesh(szFolder, (char*)xFileName.c_str());
-	
-	/*m_pOBB = new cOBB;
-	m_pOBB->Setup(m_pBuilding);*/
 
 	m_sFolderName = std::string(szFolder);
 	m_sFileName = std::string(szFilename);
