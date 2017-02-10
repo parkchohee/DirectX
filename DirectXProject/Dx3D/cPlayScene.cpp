@@ -60,7 +60,7 @@ void cPlayScene::Setup()
 	m_pTextMap->Setup("mapFile.txt");
 
 	m_pHeightMap = new cHeightMap;
-	m_pHeightMap->SetupText("Map/", "heightMap.txt", "Layerstone_512_B_CM.tga");
+	m_pHeightMap->SetupText("Map/", "heightMap.txt", "Ground_CMGround_CM.tga");
 
 	m_pPlayer = new cPlayer;
 	m_pPlayer->Setup();
@@ -148,11 +148,11 @@ void cPlayScene::Render()
 	for each(auto p in m_pvDeathAI)
 		p->Render();
 
-	if (m_pTextMap)
-		m_pTextMap->Render();
-	
 	if (m_pHeightMap)
 		m_pHeightMap->Render();
+
+	if (m_pTextMap)
+		m_pTextMap->Render();
 
 	if (m_pGrid)
 		m_pGrid->Render();
