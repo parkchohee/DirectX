@@ -29,30 +29,15 @@ cMakeBuildings::~cMakeBuildings()
 
 void cMakeBuildings::Setup()
 {
-
-	//m_pName.push_back("barrel.X");
-	//m_pName.push_back("box.X");
-	//m_pName.push_back("box2.X");
-	//m_pName.push_back("building01.X");
-	//m_pName.push_back("building02.X");
-	//m_pName.push_back("building03.X");
-	//m_pName.push_back("building04.X");
-	//m_pName.push_back("building05.X");
-	//m_pName.push_back("building06.X");
-	//m_pName.push_back("church.X");
-	//m_pName.push_back("wall01.X");
-	//m_pName.push_back("truck01.X");
-
-	m_pName.push_back("building1.X");
-	m_pName.push_back("building2.X");
-	m_pName.push_back("building3.X");
-	m_pName.push_back("building4.X");
-	m_pName.push_back("building5.X");
-	m_pName.push_back("building6.X");
+	//==buildings
+	m_pName.push_back("piano");
+	m_pName.push_back("opel");
+	m_pName.push_back("aa");
 
 	for (size_t i = 0; i < m_pName.size(); i++)
 	{
 		cBuilding* pBuilding = new cBuilding("Map/building/", m_pName[i]);
+		pBuilding->SetOBB("Map/building/", m_pName[i]);
 		pBuilding->SetScale(0.007);
 		m_vpAllBuildings.push_back(pBuilding);
 	}
@@ -91,6 +76,22 @@ void cMakeBuildings::Render()
 	{
 		m_vpSettingBuildings[i]->Render();
 	}
+
+
+	char szTemp[1024];
+	sprintf(szTemp, "building : %s", m_pName[m_nBuildingNum]);
+
+	LPD3DXFONT pFont = g_pFontManager->GetFont(cFontManager::E_DEFAULT);
+	RECT rc;
+	SetRect(&rc, 0, 100, 600, 300);
+	pFont->DrawText(NULL,
+		szTemp,
+		strlen(szTemp),
+		&rc,
+		DT_LEFT | DT_TOP | DT_WORDBREAK,
+		D3DCOLOR_XRGB(255, 255, 0));
+
+
 
 }
 

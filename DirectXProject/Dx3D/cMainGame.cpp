@@ -29,7 +29,7 @@ void cMainGame::Setup()
 	g_pSceneManager->AddScene("playScene", new cPlayScene);
 	g_pSceneManager->AddScene("firstScene", new cFirstScene);
 
-	g_pSceneManager->ChangeScene("playScene");
+	g_pSceneManager->ChangeScene("mapTool");
 
 	SetLight();
 
@@ -38,21 +38,14 @@ void cMainGame::Setup()
 void cMainGame::Update()
 {
 	g_pTimeManager->Update();
-
 	g_pSceneManager->Update(g_pTimeManager->GetElapsedTime());
-
-	//if (g_pKeyManager->IsOnceKeyDown(VK_RETURN))
-	//	g_pSceneManager->ChangeScene("firstScene");
-
-	//if (g_pKeyManager->IsOnceKeyDown(VK_SPACE))
-	//	g_pSceneManager->ChangeScene("playScene");
 }
 
 void cMainGame::Render()
 {
 	g_pD3DDevice->Clear(NULL,
 		NULL,
-		D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER,
+		D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER | D3DCLEAR_STENCIL,
 		D3DCOLOR_XRGB(47, 121, 112),
 		//D3DCOLOR_XRGB(0, 0, 0),
 		1.0f, 0);

@@ -8,12 +8,13 @@
 #include "cStaticMesh.h"
 #include "cMakeGround.h"
 #include "cMakeBuildings.h"
+#include "cRay.h"
 
 
 cMapToolScene::cMapToolScene()
 	: m_pCamera(NULL)
 	, m_pGrid(NULL)
-	, m_mapMode(MAKE_GROUND)
+	, m_mapMode(MAKE_BUILDINGS)
 	, m_pSkyView(NULL)
 	, m_pGroundMode(NULL)
 	, m_pBuildingMode(NULL)
@@ -51,6 +52,7 @@ void cMapToolScene::Setup()
 	m_pBuildingMode = new cMakeBuildings;
 	m_pBuildingMode->Setup();
 
+	SettingUI();
 
 }
 
@@ -70,10 +72,28 @@ void cMapToolScene::Update()
 			m_pBuildingMode->Update();
 		break;
 	}
+
+
+	//if (g_pKeyManager->IsOnceKeyDown('L'))
+	//{
+	//	if (m_pGroundMode)
+	//	{
+	//		m_pGroundMode->SaveMapFile();
+	//		m_mapMode = MAKE_BUILDINGS;
+	//	}
+	//}
+
+
+
+	if (m_pUIRoot)
+		m_pUIRoot->Update();
 }
 
 void cMapToolScene::Render()
 {
+	if (m_pUIRoot)
+		m_pUIRoot->Render(m_pSprite);
+
 	switch (m_mapMode)
 	{
 	case MAKE_GROUND:
@@ -86,22 +106,12 @@ void cMapToolScene::Render()
 		break;
 	}
 
-
-	if (g_pKeyManager->IsOnceKeyDown('L'))
-	{
-		if (m_pGroundMode)
-		{
-			m_pGroundMode->SaveMapFile();
-			m_mapMode = MAKE_BUILDINGS;
-		}
-	}
-
-
 	if (m_pSkyView)
 		m_pSkyView->Render();
 
 	if (m_pGrid)
 		m_pGrid->Render();
+
 
 }
 
@@ -115,4 +125,21 @@ void cMapToolScene::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
 
 void cMapToolScene::OnClick(cUIButton * pSender)
 {
+}
+
+void cMapToolScene::SettingUI()
+{
+	RECT rc;
+	GetClientRect(g_hWnd, &rc);
+
+	D3DXCreateSprite(g_pD3DDevice, &m_pSprite);
+
+	m_pUIRoot = new cUIObject;
+	m_pUIRoot->SetPosition(0, 0);
+
+	cUIImageView* pImageBackground = new cUIImageView;
+	pImageBackground->SetTexture("Map/UI/bg.png");
+	pImageBackground->SetPosition(rc.right - pImageBackground->GetSize().nWidth / 2, pImageBackground->GetSize().nHeight / 2);
+
+	m_pUIRoot->AddChild(pImageBackground);
 }

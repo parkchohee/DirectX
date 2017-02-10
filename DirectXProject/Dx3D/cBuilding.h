@@ -23,7 +23,7 @@ public:
 	void Render();
 
 	void Init();
-
+	void SetOBB(char* szFolder, char* szFilename);
 	float GetScale() { return m_fScale; }
 	void SetScale(float scale);
 

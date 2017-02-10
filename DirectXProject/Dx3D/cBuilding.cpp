@@ -2,6 +2,8 @@
 #include "cBuilding.h"
 #include "cStaticMesh.h"
 #include "cOBB.h"
+#include "cObjLoader.h"
+#include "cGroup.h"
 
 
 cBuilding::cBuilding(char* szFolder, char* szFilename)
@@ -21,10 +23,9 @@ cBuilding::~cBuilding()
 
 void cBuilding::Setup(char* szFolder, char* szFilename)
 {
-	m_pBuilding = new cStaticMesh(szFolder, szFilename);
-	
-	m_pOBB = new cOBB;
-	m_pOBB->Setup(m_pBuilding);
+	std::string xFileName(szFilename);
+	xFileName += ".X";
+	m_pBuilding = new cStaticMesh(szFolder, (char*)xFileName.c_str());
 
 	m_sFolderName = std::string(szFolder);
 	m_sFileName = std::string(szFilename);
@@ -64,6 +65,21 @@ void cBuilding::Init()
 	m_vPosition = D3DXVECTOR3(0, 0, 0);
 	m_fAngle = 0.f;
 	m_fScale = 0.007f;
+}
+
+void cBuilding::SetOBB(char * szFolder, char * szFilename)
+{
+	std::string objFileName(szFilename);
+	objFileName += ".obj";
+
+	cObjLoader* objLoader = new cObjLoader;
+	std::vector<cGroup*>	vecGroup;
+	objLoader->Load(vecGroup, szFolder, (char*)objFileName.c_str());
+	if (vecGroup.size() <= 0)
+		//°æ°íÃ¢;
+		;
+	m_pOBB = new cOBB;
+	m_pOBB->Setup(vecGroup[0]->GetMin(), vecGroup[0]->GetMax());
 }
 
 void cBuilding::SetScale(float scale)
