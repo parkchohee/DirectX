@@ -43,7 +43,7 @@ void cMakeBuildings::Setup()
 	}
 
 	m_pBuilding = m_vpAllBuildings[m_nBuildingNum];
-	
+
 	SettingUI();
 
 }

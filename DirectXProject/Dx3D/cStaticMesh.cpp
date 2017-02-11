@@ -167,8 +167,6 @@ void cStaticMesh::Render()
 
 	}
 
-
-
 	g_pD3DDevice->SetTransform(D3DTS_WORLD, &m_pmatWorld);
 
 	for (int i = 0; i < m_vMtrls.size(); i++)
