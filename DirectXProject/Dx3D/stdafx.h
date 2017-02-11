@@ -31,6 +31,7 @@
 #pragma comment(lib, "d3dx9.lib")
 
 extern HWND	g_hWnd;
+extern HINSTANCE hInst;
 
 #define WINSIZEX 1200
 #define WINSIZEY 800

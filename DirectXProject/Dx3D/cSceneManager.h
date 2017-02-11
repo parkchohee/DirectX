@@ -36,5 +36,8 @@ public:
 		std::string loadingSceneName);
 
 	void WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
+
+	bool CurrentScene(std::string sceneName);
+
 };
 

@@ -4,6 +4,7 @@
 #include "cFirstScene.h"
 #include "cPlayScene.h"
 #include "cMapToolScene.h"
+#include "cVideoScene.h"
 
 cMainGame::cMainGame(void)
 {
@@ -28,8 +29,10 @@ void cMainGame::Setup()
 	g_pSceneManager->AddScene("mapTool", new cMapToolScene);
 	g_pSceneManager->AddScene("playScene", new cPlayScene);
 	g_pSceneManager->AddScene("firstScene", new cFirstScene);
+	g_pSceneManager->AddScene("vedioScene", new cVideoScene);
 
-	g_pSceneManager->ChangeScene("playScene");
+	g_pSceneManager->ChangeScene("vedioScene");
+//	g_pSceneManager->ChangeScene("playScene");
 
 	SetLight();
 
@@ -43,34 +46,37 @@ void cMainGame::Update()
 
 void cMainGame::Render()
 {
-	g_pD3DDevice->Clear(NULL,
-		NULL,
-		D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER | D3DCLEAR_STENCIL,
-		D3DCOLOR_XRGB(47, 121, 112),
-		//D3DCOLOR_XRGB(0, 0, 0),
-		1.0f, 0);
+	if (!g_pSceneManager->CurrentScene("vedioScene"))
+	{
+		g_pD3DDevice->Clear(NULL,
+			NULL,
+			D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER | D3DCLEAR_STENCIL,
+			D3DCOLOR_XRGB(47, 121, 112),
+			//D3DCOLOR_XRGB(0, 0, 0),
+			1.0f, 0);
 
-	g_pD3DDevice->BeginScene();
+		g_pD3DDevice->BeginScene();
 
-	g_pSceneManager->Render();
+		g_pSceneManager->Render();
 
 
-	char szTemp[1024];
-	sprintf(szTemp, "FPS : %d", g_pTimeManager->GetFPS());
+		char szTemp[1024];
+		sprintf(szTemp, "FPS : %d", g_pTimeManager->GetFPS());
 
-	LPD3DXFONT pFont = g_pFontManager->GetFont(cFontManager::E_DEFAULT);
-	RECT rc;
-	SetRect(&rc, 0, 0, 300, 300);
-	pFont->DrawText(NULL,
-		szTemp,
-		strlen(szTemp),
-		&rc,
-		DT_LEFT | DT_TOP | DT_WORDBREAK,
-		D3DCOLOR_XRGB(255, 255, 0));
+		LPD3DXFONT pFont = g_pFontManager->GetFont(cFontManager::E_DEFAULT);
+		RECT rc;
+		SetRect(&rc, 0, 0, 300, 300);
+		pFont->DrawText(NULL,
+			szTemp,
+			strlen(szTemp),
+			&rc,
+			DT_LEFT | DT_TOP | DT_WORDBREAK,
+			D3DCOLOR_XRGB(255, 255, 0));
 
-	g_pD3DDevice->EndScene();
+		g_pD3DDevice->EndScene();
 
-	g_pD3DDevice->Present(NULL, NULL, NULL, NULL);
+		g_pD3DDevice->Present(NULL, NULL, NULL, NULL);
+	}
 }
 
 void cMainGame::SetLight()

@@ -165,3 +165,9 @@ void cSceneManager::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
 	if (m_pNowScene)
 		m_pNowScene->WndProc(hWnd, message, wParam, lParam);
 }
+
+bool cSceneManager::CurrentScene(std::string sceneName)
+{
+	MAP_SCENE::iterator find = m_Scenes.find(sceneName);
+	return (find->second == m_pNowScene);
+}
