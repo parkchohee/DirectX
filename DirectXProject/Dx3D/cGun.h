@@ -10,9 +10,9 @@ class cGun : public cObject
 
 	std::vector<cBullet*>		m_pvBullet;			// 총알 여러개
 
-	float						m_fAttackPower;		// 공격 세기
-	float						m_fAttackRange;		// 사거리
-	float						m_fAttackSpeed;		// 공격(연사) 속도
+	//float						m_fAttackPower;		// 공격 세기
+	//float						m_fAttackRange;		// 사거리
+	//float						m_fAttackSpeed;		// 공격(연사) 속도
 	
 	int							m_nMaxBullet;			// 총알 최대
 	int							m_nCurrentBullet;		// 현재 남은 총알 수
@@ -20,6 +20,10 @@ class cGun : public cObject
 	D3DXMATRIXA16				m_pWorldTM;
 	D3DXMATRIXA16				m_pTrans;
 	D3DXMATRIXA16				m_pTransInv;
+
+	SYNTHESIZE(float, m_fAttackPower, AttackPower);		// 공격 세기
+	SYNTHESIZE(float, m_fAttackRange, AttackRange);		// 사거리
+	SYNTHESIZE(float, m_fAttackSpeed, AttackSpeed);		// 공격(연사) 속도
 
 
 public:
@@ -38,5 +42,6 @@ public:
 	void Fire(D3DXVECTOR3& vDirection, D3DXMATRIXA16& vPosition);
 	void RemoveBullet(int bulletIndex);
 	float GetAttackPower();
+	//float GetAttackRange();
 };
 

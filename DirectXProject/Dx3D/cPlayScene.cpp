@@ -181,6 +181,7 @@ void cPlayScene::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 void cPlayScene::PlayerBulletFire()
 {
+	if (m_pPlayer == NULL) return;
 	if (m_pPlayer->GetGun() == NULL) return;
 	
 	float centerX, centerY;
@@ -192,6 +193,21 @@ void cPlayScene::PlayerBulletFire()
 	cRay r = cRay::RayAtWorldSpace(centerX, centerY);
 	
 	m_pPlayer->BulletFire(r.GetRayDir());
+
+	// sort 알고리즘 돌리면 계산량 증가 -> distance 계산, sort, 스피어충돌 모두 계산해야함.
+	// 스피어충돌, 충돌한것만 dist계산 하도록 하여 계산량 줄임.
+
+	// gun 의 사정거리 dist를 놓고 (dist 는 제곱값.. sqrt 연산량 줄이기 위해)
+	// 디테일 스피어 충돌하면 dist 최소값으로 업데이트
+	// dist가 최소가 나오는 ai의 index저장하고
+	// ai index를 다 돌면 dist 의 값이 변경 된 경우 
+	// 저장해 놓은 index번쨰의 ai 죽임.
+
+
+	cGun* gun = m_pPlayer->GetGun();
+	float fAttackRange = gun->GetAttackRange() * gun->GetAttackRange();
+	float fMinDist = fAttackRange + 0.0001f;
+	int nMinDistAiIndex = 0;
 
 	for (size_t aiIndex = 0; aiIndex < m_pvAI.size(); aiIndex++)
 	{
@@ -206,19 +222,14 @@ void cPlayScene::PlayerBulletFire()
 		{
 			if (r.IsPicked(&m_pvAI[aiIndex]->GetBoundingSphereDetail()[sphereIndex]))
 			{
-				cGun* gun = m_pPlayer->GetGun();
-
-				if (m_pvAI[aiIndex]->IsAttacked(gun->GetAttackPower()))
+				float dist = GetDistance(m_pPlayer->GetPosition(), m_pvAI[aiIndex]->GetBoundingSphereDetail()[sphereIndex].vCenter);
+				if (fMinDist > dist)
 				{
-					m_pvAI[aiIndex]->Destroy();
-					//SAFE_RELEASE(m_pvAI[aiIndex]);
-					m_pvDeathAI.push_back(m_pvAI[aiIndex]);
-					m_pvAI.erase(m_pvAI.begin() + aiIndex);
+					fMinDist = dist;
+					nMinDistAiIndex = aiIndex;
 				}
-				return;
 			}
 		}
-
 		/*for (size_t bulletIndex = 0; bulletIndex < gun->GetBullets().size(); bulletIndex++)
 		{
 			D3DXVECTOR3 vBulletCenter, vAICenter;
@@ -247,13 +258,19 @@ void cPlayScene::PlayerBulletFire()
 	}
 	
 
+	if (fAttackRange > fMinDist)
+	{
+		m_pvAI[nMinDistAiIndex]->Destroy();
+		m_pvDeathAI.push_back(m_pvAI[nMinDistAiIndex]);
+		m_pvAI.erase(m_pvAI.begin() + nMinDistAiIndex);
+	}
 }
 
-float cPlayScene::GetDistance(D3DXVECTOR3 BulletPos, D3DXVECTOR3 CrushManPos)
+float cPlayScene::GetDistance(D3DXVECTOR3 pos1, D3DXVECTOR3 pos2)
 {
-	return ((CrushManPos.x - BulletPos.x)*(CrushManPos.x - BulletPos.x)) +
-		((CrushManPos.y - BulletPos.y)*(CrushManPos.y - BulletPos.y)) +
-		((CrushManPos.z - BulletPos.z)* (CrushManPos.z - BulletPos.z));
+	return ((pos2.x - pos1.x)*(pos2.x - pos1.x)) +
+		((pos2.y - pos1.y)*(pos2.y - pos1.y)) +
+		((pos2.z - pos1.z)* (pos2.z - pos1.z));
 }
 
 bool cPlayScene::IsCollision(D3DXVECTOR3 BulletPos, float BulletSphereRadius, D3DXVECTOR3 CrushManPos, float CrushManSphereRadius)
