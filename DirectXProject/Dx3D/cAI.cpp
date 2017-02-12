@@ -4,11 +4,14 @@
 #include "cGun.h"
 #include "cOBB.h"
 #include "cSkinnedMesh.h"
+#include "cUIImageView.h"
 #include "cTextMap.h"
 
 cAI::cAI()
 	: m_pBoundingSphereDetailMesh(NULL)
 	, m_pAIOBB(NULL)
+	, m_pAIPointPos(NULL)
+	, m_isShow(false)
 {
 }
 
@@ -16,6 +19,7 @@ cAI::cAI()
 cAI::~cAI()
 {
 	SAFE_DELETE(m_pAIOBB);
+	SAFE_RELEASE(m_pSprite);
 	SAFE_RELEASE(m_pBoundingSphereDetailMesh);
 	SAFE_RELEASE(m_pBoundingSphereMesh);
 	SAFE_RELEASE(m_pController);
@@ -31,6 +35,13 @@ void cAI::Setup(char* szFolder, char* szFilename)
 	m_pAIOBB = new cOBB;
 	m_pAIOBB->Setup(m_pSkinnedMesh, 0.01f);
 
+	// position point 
+	D3DXCreateSprite(g_pD3DDevice, &m_pSprite);
+
+	m_pAIPointPos = new cUIImageView;
+	m_pAIPointPos->SetTexture("PlayerUI/enemy_point.png");
+	m_pAIPointPos->SetPosition(100, 100);
+	
 	// GUN
 	m_pGun = new cGun;
 	m_pGun->Setup(&m_vPosition, "Gun/MG_42/", "MG_42.X");
@@ -57,10 +68,33 @@ void cAI::Setup(char* szFolder, char* szFilename)
 	m_vecBoundingSphereDetail.resize(11);
 }
 
-void cAI::Update()
+void cAI::Update(D3DXVECTOR3 vPlayer, float fAngle)
 {
 	if (m_pGun)
 		m_pGun->Update();
+
+	if (m_pAIPointPos)
+	{
+		D3DXVECTOR3 vPos((-vPlayer.x + m_vPosition.x), 0, (vPlayer.z - m_vPosition.z));
+		
+		if (vPos.x * vPos.x + vPos.z * vPos.z < 15 * 15)
+		{
+			m_isShow = true;
+
+			// angle을 이용해서 회전 행렬을 만든다. 
+			D3DXMATRIXA16 matR;
+			D3DXMatrixRotationY(&matR, fAngle);
+
+			// 행렬에 값을 곱해서 계산한다. 
+			D3DXVec3TransformCoord(&vPos, &vPos, &matR);
+
+			m_pAIPointPos->SetPosition(172 + vPos.x * 5,
+				562 + vPos.z * 5, 0);
+		}
+		else 
+			m_isShow = false;
+
+	}
 
 	D3DXVECTOR3 vAngle = D3DXVECTOR3(0,0,0);
 	// angle을 컨트롤러에서 받아와서
@@ -85,6 +119,9 @@ void cAI::Render()
 	if (m_pGun)
 		m_pGun->Render();
 
+	if (m_isShow)
+		if (m_pAIPointPos)
+			m_pAIPointPos->Render(m_pSprite);
 	//D3DXMATRIXA16 matWorld;
 	//D3DXMatrixIdentity(&matWorld);
 	//matWorld._41 = m_stBoundingSphere.vCenter.x;

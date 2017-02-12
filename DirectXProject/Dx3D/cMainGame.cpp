@@ -31,8 +31,7 @@ void cMainGame::Setup()
 	g_pSceneManager->AddScene("firstScene", new cFirstScene);
 	g_pSceneManager->AddScene("vedioScene", new cVideoScene);
 
-	g_pSceneManager->ChangeScene("vedioScene");
-//	g_pSceneManager->ChangeScene("playScene");
+	g_pSceneManager->ChangeScene("playScene");
 
 	SetLight();
 

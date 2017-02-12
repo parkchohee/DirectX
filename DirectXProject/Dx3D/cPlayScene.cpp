@@ -67,21 +67,16 @@ void cPlayScene::Setup()
 	m_pPlayer->SetHeightMap(m_pHeightMap);
 	m_pPlayer->SetTextMap(m_pTextMap);
 
-	for (int i = 0; i < 10; i++)
+	for (int i = 0; i < 2; i++)
 	{
 		cAI* pAI = new cAI;
 		pAI->Setup("AI/", "AI.X");
-		pAI->SetPosition(D3DXVECTOR3(3 + i, 0, 0));
+		pAI->SetPosition(D3DXVECTOR3(5 * (i + 1), 0, 0));
 		pAI->SetHeightMap(m_pHeightMap);
 		pAI->SetTextMap(m_pTextMap);
 		pAI->SetIsEnemy(true);		// trueÀÌ¸é Àû
 		m_pvAI.push_back(pAI);
 	}
-	/*cAI* pAI2 = new cAI;
-	pAI2->Setup("AI/", "AI.X");
-	pAI2->SetPosition(D3DXVECTOR3(6, 0, 0));
-	m_pvAI.push_back(pAI2);
-*/
 
 	m_pCamera = new cCamera;
 	m_pCamera->Setup(&(m_pPlayer->GetPosition()));
@@ -102,11 +97,14 @@ void cPlayScene::Setup()
 
 void cPlayScene::Update()
 {
-	if (m_pPlayer && m_pCamera)
+	if (m_pPlayer == NULL) return;
+
+	if (m_pCamera)
 		m_pPlayer->Update(m_pCamera->GetCamRotAngle());
 
 	for each(auto p in m_pvAI)
-		p->Update();
+		p->Update(m_pPlayer->GetPosition(), m_pCamera->GetCamRotAngle().y);
+
 
 	for (size_t i = 0; i < m_pvDeathAI.size(); )
 	{
