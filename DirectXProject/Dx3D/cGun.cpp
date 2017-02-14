@@ -84,6 +84,7 @@ void cGun::SetWorldMatrixByBoneName(D3DXMATRIXA16 * matRot, char * name)
 
 void cGun::Fire(D3DXVECTOR3 & vDirection, D3DXMATRIXA16 & matWorld)
 {
+	m_nCurrentBullet--;
 	// 공격 애니메이션 넘버로 설정
 	m_pGun->PlayOneShot(1,0,0);
 
@@ -101,12 +102,15 @@ void cGun::Fire(D3DXVECTOR3 & vDirection, D3DXMATRIXA16 & matWorld)
 
 }
 
+void cGun::Reload()
+{
+	m_nCurrentBullet = m_nMaxBullet;
+	// reload 애니메이션 넘버로 설정
+	m_pGun->PlayOneShot(2, 0, 0);
+}
+
 void cGun::RemoveBullet(int bulletIndex)
 {
 	m_pvBullet.erase(m_pvBullet.begin() + bulletIndex);
 }
 
-float cGun::GetAttackPower()
-{
-	return m_fAttackPower;
-}

@@ -14,8 +14,8 @@ class cGun : public cObject
 	//float						m_fAttackRange;		// 사거리
 	//float						m_fAttackSpeed;		// 공격(연사) 속도
 	
-	int							m_nMaxBullet;			// 총알 최대
-	int							m_nCurrentBullet;		// 현재 남은 총알 수
+	//int							m_nMaxBullet;			// 총알 최대
+	//int							m_nCurrentBullet;		// 현재 남은 총알 수
 
 	D3DXMATRIXA16				m_pWorldTM;
 	D3DXMATRIXA16				m_pTrans;
@@ -25,6 +25,8 @@ class cGun : public cObject
 	SYNTHESIZE(float, m_fAttackRange, AttackRange);		// 사거리
 	SYNTHESIZE(float, m_fAttackSpeed, AttackSpeed);		// 공격(연사) 속도
 
+	SYNTHESIZE(int, m_nMaxBullet, MaxBullet);			// 총알 최대
+	SYNTHESIZE(int, m_nCurrentBullet, CurrentBullet);	// 현재 남은 총알 수
 
 public:
 	cGun();
@@ -40,8 +42,7 @@ public:
 	void SetWorldMatrixByBoneName(D3DXMATRIXA16* matRot, char* name);
 	
 	void Fire(D3DXVECTOR3& vDirection, D3DXMATRIXA16& vPosition);
+	void Reload();
 	void RemoveBullet(int bulletIndex);
-	float GetAttackPower();
-	//float GetAttackRange();
 };
 

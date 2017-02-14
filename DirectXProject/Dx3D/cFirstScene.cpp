@@ -74,18 +74,18 @@ void cFirstScene::OnClick(cUIButton * pSender)
 	switch (pSender->GetTag())
 	{
 	case CAMPAIN_BTN:
-		//g_pSceneManager->ChangeScene("playScene");
+		g_pSceneManager->ChangeScene("playScene");
 		break;
 	case OPTION_BTN:
 		m_stMenu = OPTION_MENU;
 		break;
 	case QUIT_BTN:
-		//exit(0);
+		exit(0);
 		break;
 	case AUDIO_BTN:
 		break;
 	case MAP_BTN:
-		//g_pSceneManager->ChangeScene("mapTool");
+		g_pSceneManager->ChangeScene("mapTool");
 		break;
 	case BACK_BTN:
 		m_stMenu = MAIN_MENU;

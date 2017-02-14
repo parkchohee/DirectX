@@ -87,6 +87,11 @@ void cCamera::WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
 					m_vCamRotAngle.x = -D3DX_PI / 4.0f + 0.0001f;
 				if(m_vCamRotAngle.x > D3DX_PI / 4.0f - 0.0001f)
 					m_vCamRotAngle.x = D3DX_PI / 4.0f - 0.0001f;
+
+				if (m_vCamRotAngle.y > D3DX_PI * 2)
+					m_vCamRotAngle.y -= D3DX_PI * 2;
+				if (m_vCamRotAngle.y < 0)
+					m_vCamRotAngle.y += D3DX_PI * 2;
 				m_ptPrevMouse = ptCurrMouse;
 			}
 		}

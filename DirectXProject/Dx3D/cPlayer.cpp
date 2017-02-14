@@ -102,10 +102,11 @@ void cPlayer::Render()
 	if (m_pGun)
 		m_pGun->Render();
 
+	g_pD3DDevice->SetRenderState(D3DRS_ZENABLE, true);
 	g_pD3DDevice->SetTransform(D3DTS_WORLD, &m_matWorldTM);
+	
 	if (m_pPlayerOBB)
 		m_pPlayerOBB->OBBBox_Render(D3DCOLOR_XRGB(0, 0, 255));
-	g_pD3DDevice->SetRenderState(D3DRS_ZENABLE, true);
 }
 
 void cPlayer::SetHeightMap(cHeightMap * hMap)
@@ -174,15 +175,7 @@ void cPlayer::GunSettingZoom(D3DXVECTOR3 & camAngle)
 
 void cPlayer::BulletFire(D3DXVECTOR3 dir)
 {
-	/*float centerX, centerY;
-	RECT rc;
-	GetClientRect(g_hWnd, &rc);
-	centerX = (rc.left + rc.right) / 2;
-	centerY = (rc.top + rc.bottom) / 2;
-
-	cRay r = cRay::RayAtWorldSpace(centerX, centerY);
-*/
-	D3DXVECTOR3 Dir = dir;// = r.GetRayDir();
+	D3DXVECTOR3 Dir = dir;
 
 	if (m_pGun)
 		m_pGun->Fire(Dir, m_matWorldTM);

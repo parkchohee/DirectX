@@ -14,7 +14,7 @@
 cMapToolScene::cMapToolScene()
 	: m_pCamera(NULL)
 	, m_pGrid(NULL)
-	, m_mapMode(MAKE_BUILDINGS)
+	, m_mapMode(MAKE_GROUND)
 	, m_pSkyView(NULL)
 	, m_pGroundMode(NULL)
 	, m_pBuildingMode(NULL)
@@ -74,17 +74,30 @@ void cMapToolScene::Update()
 	}
 
 
-	//if (g_pKeyManager->IsOnceKeyDown('L'))
-	//{
-	//	if (m_pGroundMode)
-	//	{
-	//		m_pGroundMode->SaveMapFile();
-	//		m_mapMode = MAKE_BUILDINGS;
-	//	}
-	//}
+	if (g_pKeyManager->IsOnceKeyDown('L'))
+	{
+		if (m_mapMode == MAKE_GROUND)
+		if (m_pGroundMode)
+		{
+			m_pGroundMode->SaveMapFile();
+			m_mapMode = MAKE_BUILDINGS;
+		}
+	}
 
+	if (g_pKeyManager->IsOnceKeyDown('K'))
+	{
+		if (m_mapMode == MAKE_BUILDINGS)
+		if (m_pBuildingMode)
+		{
+			m_pBuildingMode->SaveMapFile();
+			m_mapMode = MAKE_GROUND;
+		}
+	}
 
-
+	if (g_pKeyManager->IsOnceKeyDown(VK_SPACE))
+	{
+		g_pSceneManager->ChangeScene("playScene");
+	}
 	if (m_pUIRoot)
 		m_pUIRoot->Update();
 }

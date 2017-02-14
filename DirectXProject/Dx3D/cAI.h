@@ -2,6 +2,8 @@
 
 #include "cCharacter.h"
 
+class cUIImageView;
+
 class cAI : public cCharacter
 {
 	cSkinnedMesh*			m_pSkinnedMesh;				// Ä³¸¯ÅÍ ¸öÃ¼
@@ -11,12 +13,17 @@ class cAI : public cCharacter
 
 	cOBB*					m_pAIOBB;
 
+	cUIImageView*			m_pAIPointPos;
+	LPD3DXSPRITE			m_pSprite;
+
+	SYNTHESIZE(bool, m_isShow, ShowPoint);
+
 public:
 	cAI();
 	~cAI();
 
 	void Setup(char* szFolder, char* szFilename);
-	void Update();
+	void Update(D3DXVECTOR3 vPlayer = D3DXVECTOR3(0,0,0), float fAngle = 0.0f);
 	void Render();
 
 	void SetHeightMap(cHeightMap* hMap);
