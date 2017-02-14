@@ -105,6 +105,7 @@
     <ClInclude Include="cGun.h" />
     <ClInclude Include="cHeightMap.h" />
     <ClInclude Include="cKeyManager.h" />
+    <ClInclude Include="cLoadingScene.h" />
     <ClInclude Include="cMainGame.h" />
     <ClInclude Include="cMakeBuildings.h" />
     <ClInclude Include="cMakeGround.h" />
@@ -168,6 +169,7 @@
     <ClCompile Include="cGun.cpp" />
     <ClCompile Include="cHeightMap.cpp" />
     <ClCompile Include="cKeyManager.cpp" />
+    <ClCompile Include="cLoadingScene.cpp" />
     <ClCompile Include="cMainGame.cpp" />
     <ClCompile Include="cMakeBuildings.cpp" />
     <ClCompile Include="cMakeGround.cpp" />

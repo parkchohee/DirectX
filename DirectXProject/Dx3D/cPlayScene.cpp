@@ -207,7 +207,6 @@ void cPlayScene::PlayerBulletFire()
 	// ai index를 다 돌면 dist 의 값이 변경 된 경우 
 	// 저장해 놓은 index번쨰의 ai 죽임.
 
-
 	cGun* gun = m_pPlayer->GetGun();
 	float fAttackRange = gun->GetAttackRange() * gun->GetAttackRange();
 	float fMinDist = fAttackRange + 0.0001f;

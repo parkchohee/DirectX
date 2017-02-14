@@ -5,6 +5,7 @@
 #include "cPlayScene.h"
 #include "cMapToolScene.h"
 #include "cVideoScene.h"
+#include "cLoadingScene.h"
 
 cMainGame::cMainGame(void)
 {
@@ -30,8 +31,9 @@ void cMainGame::Setup()
 	g_pSceneManager->AddScene("playScene", new cPlayScene);
 	g_pSceneManager->AddScene("firstScene", new cFirstScene);
 	g_pSceneManager->AddScene("vedioScene", new cVideoScene);
+	g_pSceneManager->AddLoadingScene("loadingScene", new cLoadingScene);
 
-	g_pSceneManager->ChangeScene("mapTool");
+	g_pSceneManager->ChangeScene("firstScene");
 
 	SetLight();
 
@@ -96,26 +98,26 @@ void cMainGame::SetLight()
 	g_pD3DDevice->SetRenderState(D3DRS_NORMALIZENORMALS, true);
 }
 
-void cMainGame::WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
+void cMainGame::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	g_pSceneManager->WndProc(hWnd, message, wParam, lParam);
 
-	switch(message)
+	switch (message)
 	{
 	case WM_LBUTTONDOWN:
-		{
-		}
+	{
+	}
 
-		break;
+	break;
 	case WM_RBUTTONDOWN:
-		{
-		}
-		
-		break;
+	{
+	}
+
+	break;
 	}
 
 }
 
-void cMainGame::OnClick( cUIButton* pSender )
+void cMainGame::OnClick(cUIButton* pSender)
 {
 }
