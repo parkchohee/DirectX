@@ -5,6 +5,7 @@
 #include "cCamera.h"
 #include "cGrid.h"
 #include "cUIImageView.h"
+#include "cUITextView.h"
 #include "cPlayer.h"
 #include "cAI.h"
 #include "cGun.h"
@@ -126,6 +127,11 @@ void cPlayScene::Update()
 
 	if (m_pUICursorRoot)
 		m_pUICursorRoot->Update();
+
+	if (m_pBulletText)
+		m_pBulletText->SetText(std::to_string(m_pPlayer->GetGun()->GetCurrentBullet()) 
+			+ "/" + std::to_string(m_pPlayer->GetGun()->GetMaxBullet()));
+	
 
 	if (m_pUIPlayerInfoRoot)
 		m_pUIPlayerInfoRoot->Update();
@@ -335,6 +341,14 @@ void cPlayScene::SettingPlayerInfoUI()
 	m_pUIPlayerInfoRoot->AddChild(pHpBack);
 	m_pUIPlayerInfoRoot->AddChild(pAmmoBackground);
 	m_pUIPlayerInfoRoot->AddChild(pCompassBack);
+
+	// 텍스트 UI
+	m_pBulletText = new cUITextView;
+	m_pBulletText->SetText("0/0");
+	m_pBulletText->SetSize(ST_SIZEN(200, 100));
+	m_pBulletText->SetPosition(pAmmoBackground->GetPosition().x, pAmmoBackground->GetPosition().y);
+
+	m_pUIPlayerInfoRoot->AddChild(m_pBulletText);
 
 	// 움직이는 UI
 	m_pCompassFront = new cUIImageView;

@@ -9,6 +9,7 @@ class cHeightMap;
 
 class cUIObject;
 class cUIImageView;
+class cUITextView;
 class cStaticMesh;
 
 class cPlayer;
@@ -26,6 +27,7 @@ class cPlayScene : public cScene
 	cUIObject*					m_pUICursorRoot;
 	cUIObject*					m_pUIPlayerInfoRoot;
 	cUIImageView*				m_pCompassFront;
+	cUITextView*				m_pBulletText;
 	LPD3DXSPRITE				m_pSprite;
 
 	cPlayer*					m_pPlayer;

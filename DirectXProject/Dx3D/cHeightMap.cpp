@@ -141,7 +141,7 @@ void cHeightMap::Setup(char* szFolder,
 
 void cHeightMap::SetupText(char * szFolder, char * szTxt, char * szTex, DWORD dwBytePerPixel)
 {
-	// 100 x 100 으로 고정된 txt파일 
+	// 129 x 129 으로 고정된 txt파일 
 
 	std::string sFolder(szFolder);
 	std::string sTxt = /*sFolder + */std::string(szTxt);
@@ -152,42 +152,42 @@ void cHeightMap::SetupText(char * szFolder, char * szTxt, char * szTex, DWORD dw
 	FILE* fp = NULL;
 	fopen_s(&fp, sTxt.c_str(), "r");
 
-	int nNumVertex = 100 * 100;
-	int nRow = 100;
-	int nCol = 100;
-	int nTileN = nRow - 1;
+	int nNumVertex = MAPSIZE * MAPSIZE;
+	//int nRow = MAPSIZE;
+	//int nCol = MAPSIZE;
+	//int nTileN = MAPSIZE - 1;
 
-	m_nMapSize = 100;
-	m_nTileN = nTileN;
+	m_nMapSize = MAPSIZE;
+	m_nTileN = MAPSIZE - 1;
 
 	std::vector<ST_PNT_VERTEX>	vecVertex(nNumVertex);		/// : ST_PNT_VERTEX 정의 해놓은거 없으면 새로 정의 한다.. 물어볼것..
 	m_vecVertex.resize(nNumVertex);
 
 	std::vector<DWORD>			vecIndex;
-	vecIndex.reserve(nTileN * nTileN * 2 * 3);
+	vecIndex.reserve(m_nTileN * m_nTileN * 2 * 3);
 	for (int i = 0; i < nNumVertex; ++i)
 	{
 		int vertex;
 		fscanf_s(fp, "%d", &vertex);
 
 		ST_PNT_VERTEX v;
-		v.p = D3DXVECTOR3(i % nCol - 50, vertex / 10.0f, i / nCol - 50);
+		v.p = D3DXVECTOR3(i % MAPSIZE - (MAPSIZE / 2), vertex / 10.0f, i / MAPSIZE - (MAPSIZE / 2));
 		v.n = D3DXVECTOR3(0, 1, 0);
-		v.t = D3DXVECTOR2((i % nCol) / (float)nCol, (i / nCol) / (float)nCol);
+		v.t = D3DXVECTOR2((i % MAPSIZE) / (float)MAPSIZE, (i / MAPSIZE) / (float)MAPSIZE);
 		vecVertex[i] = v;
 		m_vecVertex[i] = v.p;
 		
 	}
 	fclose(fp);
 
-	for (int x = 1; x < nTileN; ++x)
+	for (int x = 1; x < m_nTileN; ++x)
 	{
-		for (int z = 1; z < nTileN; ++z)
+		for (int z = 1; z < m_nTileN; ++z)
 		{
-			int left = (z + 0) * nCol + x - 1;
-			int right = (z + 0) * nCol + x + 1;
-			int up = (z + 1) * nCol + x + 0;
-			int down = (z - 1) * nCol + x + 0;
+			int left = (z + 0) * MAPSIZE + x - 1;
+			int right = (z + 0) * MAPSIZE + x + 1;
+			int up = (z + 1) * MAPSIZE + x + 0;
+			int down = (z - 1) * MAPSIZE + x + 0;
 
 			D3DXVECTOR3 leftToRight = m_vecVertex[right] - m_vecVertex[left];
 			D3DXVECTOR3 downToUp = m_vecVertex[up] - m_vecVertex[down];
@@ -195,19 +195,19 @@ void cHeightMap::SetupText(char * szFolder, char * szTxt, char * szTex, DWORD dw
 			D3DXVec3Cross(&normal, &downToUp, &leftToRight);
 			D3DXVec3Normalize(&normal, &normal);
 
-			int nIndex = z * nCol + x;
+			int nIndex = z * MAPSIZE + x;
 			vecVertex[nIndex].n = normal;
 		}
 	}
 
-	for (int x = 0; x < nTileN; ++x)
+	for (int x = 0; x < m_nTileN; ++x)
 	{
-		for (int z = 0; z < nTileN; ++z)
+		for (int z = 0; z < m_nTileN; ++z)
 		{
-			int _0 = (z + 0) * nCol + x + 0;
-			int _1 = (z + 1) * nCol + x + 0;
-			int _2 = (z + 0) * nCol + x + 1;
-			int _3 = (z + 1) * nCol + x + 1;
+			int _0 = (z + 0) * MAPSIZE + x + 0;
+			int _1 = (z + 1) * MAPSIZE + x + 0;
+			int _2 = (z + 0) * MAPSIZE + x + 1;
+			int _3 = (z + 1) * MAPSIZE + x + 1;
 
 			vecIndex.push_back(_0); vecIndex.push_back(_1); vecIndex.push_back(_2);
 			vecIndex.push_back(_3); vecIndex.push_back(_2); vecIndex.push_back(_1);

@@ -1,4 +1,5 @@
 #pragma once
+#define MAPSIZE 129
 class cHeightMap : public iMap
 {
 private:
