@@ -2,6 +2,7 @@
 #include "cGun.h"
 #include "cSkinnedMesh.h"
 #include "cBullet.h"
+#include "cEffect.h"
 
 cGun::cGun()
 	: m_pGun(NULL)
@@ -44,19 +45,37 @@ void cGun::Update()
 			break;
 		}
 	}
+
+	for (size_t i = 0; i < m_pvEffect.size(); )
+	{
+		if (!m_pvEffect[i]->GetPlay())
+		{
+			m_pvEffect[i]->Destroy();
+			m_pvEffect.erase(m_pvEffect.begin() + i);
+			continue;
+		}
+
+		m_pvEffect[i]->Update();
+		i++;
+	}
+
 }
 
 void cGun::Render()
 {
 	if (m_pGun)
 		m_pGun->UpdateAndRender();
-	
+
+	for each (auto p in m_pvEffect)
+		p->Render();
+
 	g_pD3DDevice->SetRenderState(D3DRS_ZENABLE, true);
 
-	for (size_t i = 0; i < m_pvBullet.size(); i++)
+	/*for (size_t i = 0; i < m_pvBullet.size(); i++)
 	{
 		m_pvBullet[i]->Render();
-	}
+	}*/
+
 }
 
 void cGun::SetParentWorldMatrix(D3DXMATRIXA16* matWorld)
@@ -100,6 +119,10 @@ void cGun::Fire(D3DXVECTOR3 & vDirection, D3DXMATRIXA16 & matWorld)
 		m_pvBullet.push_back(bullet);
 	}
 
+	cEffect* test = new cEffect;
+	test->Setup("Effect/test4.tga", 1, 1, 2, 1);
+	test->SetPosition(D3DXVECTOR3(vecPos.x, vecPos.y, vecPos.z));
+	m_pvEffect.push_back(test);
 }
 
 void cGun::Reload()

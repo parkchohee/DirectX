@@ -276,14 +276,17 @@
     <ClInclude Include="cHeightMap.h">
       <Filter>Setting&amp;Manager\header\Setting</Filter>
     </ClInclude>
-    <ClInclude Include="cVideo.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="cVideoScene.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="cLoadingScene.h">
       <Filter>헤더 파일\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="cVideoScene.h">
+      <Filter>헤더 파일\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="cVideo.h">
+      <Filter>Setting&amp;Manager\header\Setting</Filter>
+    </ClInclude>
+    <ClInclude Include="cEffect.h">
+      <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -458,14 +461,17 @@
     <ClCompile Include="cHeightMap.cpp">
       <Filter>Setting&amp;Manager\cpp\Setting</Filter>
     </ClCompile>
-    <ClCompile Include="cVideo.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="cVideoScene.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="cLoadingScene.cpp">
       <Filter>소스 파일\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="cVideoScene.cpp">
+      <Filter>소스 파일\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="cVideo.cpp">
+      <Filter>Setting&amp;Manager\cpp\Setting</Filter>
+    </ClCompile>
+    <ClCompile Include="cEffect.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

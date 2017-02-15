@@ -30,9 +30,68 @@ cMakeBuildings::~cMakeBuildings()
 void cMakeBuildings::Setup()
 {
 	//==buildings
-	m_pName.push_back("piano");
-	m_pName.push_back("opel");
-	m_pName.push_back("aa");
+	m_pName.push_back("barbwire1");
+	m_pName.push_back("barrel1");
+	m_pName.push_back("chair1");
+	m_pName.push_back("crate1");
+	m_pName.push_back("crate2");
+	m_pName.push_back("cross1");
+	m_pName.push_back("fountain1");
+	m_pName.push_back("gravestone1");
+	m_pName.push_back("pillar1");
+	m_pName.push_back("pillar2");
+	m_pName.push_back("pillar3");
+	m_pName.push_back("pillar4");
+	m_pName.push_back("pillar5");
+	m_pName.push_back("pole1");
+	m_pName.push_back("sandbag1");
+	m_pName.push_back("square1");
+	m_pName.push_back("statue1"); 
+	m_pName.push_back("wall1");
+	m_pName.push_back("wall2");
+	m_pName.push_back("wall3");
+	m_pName.push_back("wall4");
+	m_pName.push_back("fence1");
+	m_pName.push_back("cart1");
+	m_pName.push_back("building1"); 
+	m_pName.push_back("crate3");
+	m_pName.push_back("trashcan1");
+	m_pName.push_back("car1"); 
+	m_pName.push_back("car2");
+	m_pName.push_back("building2");
+	m_pName.push_back("car3");
+	m_pName.push_back("brokenbuilding");
+	m_pName.push_back("church");
+	m_pName.push_back("cubestone");
+	m_pName.push_back("barrel2");
+	m_pName.push_back("woodenspike");
+	m_pName.push_back("car4");
+	m_pName.push_back("building4");
+	m_pName.push_back("building5");
+	m_pName.push_back("building6");
+	m_pName.push_back("building7");
+	m_pName.push_back("building8");
+	m_pName.push_back("building9");
+	m_pName.push_back("building10");
+	m_pName.push_back("building11");
+	m_pName.push_back("building12");
+	m_pName.push_back("building13");
+	m_pName.push_back("building14");
+	m_pName.push_back("tree1");
+	m_pName.push_back("tree2");
+	m_pName.push_back("tile");
+	m_pName.push_back("log");
+	m_pName.push_back("well1");
+	m_pName.push_back("tree3");
+	m_pName.push_back("signstreet");
+	m_pName.push_back("car5");
+	m_pName.push_back("car6");
+	m_pName.push_back("car7");
+	m_pName.push_back("streetlight");
+	m_pName.push_back("building15");
+	m_pName.push_back("building16");
+	m_pName.push_back("statue2");
+
 
 	for (size_t i = 0; i < m_pName.size(); i++)
 	{

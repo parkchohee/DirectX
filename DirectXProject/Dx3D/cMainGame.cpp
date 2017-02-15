@@ -33,7 +33,7 @@ void cMainGame::Setup()
 	g_pSceneManager->AddScene("vedioScene", new cVideoScene);
 	g_pSceneManager->AddLoadingScene("loadingScene", new cLoadingScene);
 
-	g_pSceneManager->ChangeScene("firstScene");
+	g_pSceneManager->ChangeScene("playScene");
 
 	SetLight();
 
@@ -52,8 +52,8 @@ void cMainGame::Render()
 		g_pD3DDevice->Clear(NULL,
 			NULL,
 			D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER | D3DCLEAR_STENCIL,
-			0xff000000,
-			//D3DCOLOR_XRGB(47, 121, 112),
+			//0xff000000,
+			D3DCOLOR_XRGB(47, 121, 112),
 			//D3DCOLOR_XRGB(0, 0, 0),
 			1.0f, 0);
 

@@ -17,6 +17,9 @@
 #include "cRay.h"
 
 
+#include "cEffect.h"
+
+
 cPlayScene::cPlayScene()
 	: m_pCamera(NULL)
 	, m_pGrid(NULL)
@@ -94,6 +97,7 @@ void cPlayScene::Setup()
 
 	SettingCursorUI();
 	SettingPlayerInfoUI();
+
 }
 
 void cPlayScene::Update()
@@ -139,6 +143,14 @@ void cPlayScene::Update()
 	if (g_pKeyManager->IsOnceKeyDown(VK_LBUTTON))
 		PlayerBulletFire();
 
+	//for each (auto p in m_pvEffect)
+	//{
+	//	if (p->GetPlay())
+	//		p->Update();
+	//	else
+	//		p->Destroy();
+	//}
+	
 }
 
 void cPlayScene::Render()
@@ -172,7 +184,7 @@ void cPlayScene::Render()
 
 	if (m_pCompassFront)
 		m_pCompassFront->SetAngle(m_pCamera->GetCamRotAngle().y);
-
+	
 }
 
 void cPlayScene::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
@@ -267,6 +279,8 @@ void cPlayScene::PlayerBulletFire()
 		m_pvDeathAI.push_back(m_pvAI[nMinDistAiIndex]);
 		m_pvAI.erase(m_pvAI.begin() + nMinDistAiIndex);
 	}
+
+
 }
 
 float cPlayScene::GetDistance(D3DXVECTOR3 pos1, D3DXVECTOR3 pos2)

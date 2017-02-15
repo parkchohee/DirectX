@@ -2,6 +2,7 @@
 
 class cSkinnedMesh;
 class cBullet;
+class cEffect;
 
 class cGun : public cObject
 {
@@ -20,6 +21,8 @@ class cGun : public cObject
 	D3DXMATRIXA16				m_pWorldTM;
 	D3DXMATRIXA16				m_pTrans;
 	D3DXMATRIXA16				m_pTransInv;
+
+	std::vector<cEffect*>		m_pvEffect;
 
 	SYNTHESIZE(float, m_fAttackPower, AttackPower);		// 공격 세기
 	SYNTHESIZE(float, m_fAttackRange, AttackRange);		// 사거리

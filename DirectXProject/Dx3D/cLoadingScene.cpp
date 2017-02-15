@@ -48,7 +48,3 @@ void cLoadingScene::Render()
 	if (m_pMainUIRoot)
 		m_pMainUIRoot->Render(m_pSprite);
 }
-
-void cLoadingScene::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
-{
-}
