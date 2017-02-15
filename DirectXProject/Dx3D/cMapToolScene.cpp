@@ -14,7 +14,7 @@
 cMapToolScene::cMapToolScene()
 	: m_pCamera(NULL)
 	, m_pGrid(NULL)
-	, m_mapMode(MAKE_GROUND)
+	, m_mapMode(MAKE_BUILDINGS)
 	, m_pSkyView(NULL)
 	, m_pGroundMode(NULL)
 	, m_pBuildingMode(NULL)

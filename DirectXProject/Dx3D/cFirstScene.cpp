@@ -74,7 +74,8 @@ void cFirstScene::OnClick(cUIButton * pSender)
 	switch (pSender->GetTag())
 	{
 	case CAMPAIN_BTN:
-		g_pSceneManager->ChangeScene("playScene");
+		//g_pSceneManager->ChangeScene("playScene");
+		g_pSceneManager->ChangeSceneWithLoading("playScene", "loadingScene");
 		break;
 	case OPTION_BTN:
 		m_stMenu = OPTION_MENU;

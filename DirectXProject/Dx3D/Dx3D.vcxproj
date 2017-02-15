@@ -96,6 +96,7 @@
     <ClInclude Include="cCharacter.h" />
     <ClInclude Include="cController.h" />
     <ClInclude Include="cDeviceManager.h" />
+    <ClInclude Include="cEffect.h" />
     <ClInclude Include="cFirstScene.h" />
     <ClInclude Include="cFontManager.h" />
     <ClInclude Include="cFrustum.h" />
@@ -105,6 +106,7 @@
     <ClInclude Include="cGun.h" />
     <ClInclude Include="cHeightMap.h" />
     <ClInclude Include="cKeyManager.h" />
+    <ClInclude Include="cLoadingScene.h" />
     <ClInclude Include="cMainGame.h" />
     <ClInclude Include="cMakeBuildings.h" />
     <ClInclude Include="cMakeGround.h" />
@@ -159,6 +161,7 @@
     <ClCompile Include="cCharacter.cpp" />
     <ClCompile Include="cController.cpp" />
     <ClCompile Include="cDeviceManager.cpp" />
+    <ClCompile Include="cEffect.cpp" />
     <ClCompile Include="cFirstScene.cpp" />
     <ClCompile Include="cFontManager.cpp" />
     <ClCompile Include="cFrustum.cpp" />
@@ -168,6 +171,7 @@
     <ClCompile Include="cGun.cpp" />
     <ClCompile Include="cHeightMap.cpp" />
     <ClCompile Include="cKeyManager.cpp" />
+    <ClCompile Include="cLoadingScene.cpp" />
     <ClCompile Include="cMainGame.cpp" />
     <ClCompile Include="cMakeBuildings.cpp" />
     <ClCompile Include="cMakeGround.cpp" />

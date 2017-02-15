@@ -5,6 +5,7 @@
 #include "cPlayScene.h"
 #include "cMapToolScene.h"
 #include "cVideoScene.h"
+#include "cLoadingScene.h"
 
 cMainGame::cMainGame(void)
 {
@@ -30,8 +31,9 @@ void cMainGame::Setup()
 	g_pSceneManager->AddScene("playScene", new cPlayScene);
 	g_pSceneManager->AddScene("firstScene", new cFirstScene);
 	g_pSceneManager->AddScene("vedioScene", new cVideoScene);
+	g_pSceneManager->AddLoadingScene("loadingScene", new cLoadingScene);
 
-	g_pSceneManager->ChangeScene("mapTool");
+	g_pSceneManager->ChangeScene("playScene");
 
 	SetLight();
 
@@ -50,8 +52,8 @@ void cMainGame::Render()
 		g_pD3DDevice->Clear(NULL,
 			NULL,
 			D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER | D3DCLEAR_STENCIL,
-			0xff000000,
-			//D3DCOLOR_XRGB(47, 121, 112),
+			//0xff000000,
+			D3DCOLOR_XRGB(47, 121, 112),
 			//D3DCOLOR_XRGB(0, 0, 0),
 			1.0f, 0);
 
@@ -96,26 +98,26 @@ void cMainGame::SetLight()
 	g_pD3DDevice->SetRenderState(D3DRS_NORMALIZENORMALS, true);
 }
 
-void cMainGame::WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
+void cMainGame::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	g_pSceneManager->WndProc(hWnd, message, wParam, lParam);
 
-	switch(message)
+	switch (message)
 	{
 	case WM_LBUTTONDOWN:
-		{
-		}
+	{
+	}
 
-		break;
+	break;
 	case WM_RBUTTONDOWN:
-		{
-		}
-		
-		break;
+	{
+	}
+
+	break;
 	}
 
 }
 
-void cMainGame::OnClick( cUIButton* pSender )
+void cMainGame::OnClick(cUIButton* pSender)
 {
 }
