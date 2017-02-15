@@ -32,9 +32,18 @@ void cMakeBuildings::Setup()
 	//==buildings
 	m_pName.push_back("barbwire1");
 	m_pName.push_back("barrel1");
+	m_pName.push_back("barrel2");
+	m_pName.push_back("boat");
+	//	m_pName.push_back("cathedral");
+	m_pName.push_back("conveyer");
+	m_pName.push_back("fueltank");
+	m_pName.push_back("industrialtank");
+	m_pName.push_back("refuse");
+	m_pName.push_back("train");
 	m_pName.push_back("chair1");
 	m_pName.push_back("crate1");
 	m_pName.push_back("crate2");
+	m_pName.push_back("crate3");
 	m_pName.push_back("cross1");
 	m_pName.push_back("fountain1");
 	m_pName.push_back("gravestone1");
@@ -47,25 +56,29 @@ void cMakeBuildings::Setup()
 	m_pName.push_back("sandbag1");
 	m_pName.push_back("square1");
 	m_pName.push_back("statue1"); 
+	m_pName.push_back("statue2");
+	m_pName.push_back("statue4");
+	m_pName.push_back("well1");
 	m_pName.push_back("wall1");
 	m_pName.push_back("wall2");
 	m_pName.push_back("wall3");
 	m_pName.push_back("wall4");
 	m_pName.push_back("fence1");
 	m_pName.push_back("cart1");
-	m_pName.push_back("building1"); 
-	m_pName.push_back("crate3");
 	m_pName.push_back("trashcan1");
 	m_pName.push_back("car1"); 
 	m_pName.push_back("car2");
-	m_pName.push_back("building2");
 	m_pName.push_back("car3");
+	m_pName.push_back("car4");
+	m_pName.push_back("car5");
+	m_pName.push_back("car6");
+	m_pName.push_back("car7");
 	m_pName.push_back("brokenbuilding");
 	m_pName.push_back("church");
 	m_pName.push_back("cubestone");
-	m_pName.push_back("barrel2");
 	m_pName.push_back("woodenspike");
-	m_pName.push_back("car4");
+	m_pName.push_back("building1"); 
+	m_pName.push_back("building2");
 	m_pName.push_back("building4");
 	m_pName.push_back("building5");
 	m_pName.push_back("building6");
@@ -77,20 +90,25 @@ void cMakeBuildings::Setup()
 	m_pName.push_back("building12");
 	m_pName.push_back("building13");
 	m_pName.push_back("building14");
+	m_pName.push_back("building15");
+//	m_pName.push_back("building16");
+	m_pName.push_back("building17");
+	m_pName.push_back("building18");
+	m_pName.push_back("building19");
+//	m_pName.push_back("building20");
+//	m_pName.push_back("building21");
+	m_pName.push_back("building22");
+	m_pName.push_back("building23");
+	m_pName.push_back("building24");
+	m_pName.push_back("building25");
 	m_pName.push_back("tree1");
 	m_pName.push_back("tree2");
+	m_pName.push_back("tree3");
 	m_pName.push_back("tile");
 	m_pName.push_back("log");
-	m_pName.push_back("well1");
-	m_pName.push_back("tree3");
 	m_pName.push_back("signstreet");
-	m_pName.push_back("car5");
-	m_pName.push_back("car6");
-	m_pName.push_back("car7");
 	m_pName.push_back("streetlight");
-	m_pName.push_back("building15");
-	m_pName.push_back("building16");
-	m_pName.push_back("statue2");
+
 
 
 	for (size_t i = 0; i < m_pName.size(); i++)
