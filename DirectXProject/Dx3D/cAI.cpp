@@ -70,6 +70,8 @@ void cAI::Setup(char* szFolder, char* szFilename)
 
 void cAI::Update(D3DXVECTOR3 vPlayer, float fAngle)
 {
+	cGameObject::Update();
+
 	if (m_pGun)
 		m_pGun->Update();
 
@@ -101,7 +103,7 @@ void cAI::Update(D3DXVECTOR3 vPlayer, float fAngle)
 	if (m_pController)
 		m_pController->Update(vAngle, m_vDirection, m_vPosition);
 
-	UpdateSkinnedMesh(vAngle);
+	UpdateSkinnedMesh(m_vDirection);
 	SetBoundingSphere();
 
 	//if (m_pAIOBB)
@@ -242,17 +244,23 @@ bool cAI::IsDeath()
 	return !m_pSkinnedMesh->IsPlay();
 }
 
-void cAI::UpdateSkinnedMesh(D3DXVECTOR3 &vAngle)
+void cAI::UpdateSkinnedMesh(D3DXVECTOR3 &vDir)
 {
-	D3DXMATRIXA16 matS, matRX, matRY, matR, matT;
+	D3DXMATRIXA16 matS, matRX, matRY, matR, matRDir, matT;
 	D3DXMatrixScaling(&matS, 0.01f, 0.01f, 0.01f);
-	D3DXMatrixRotationX(&matRX, -D3DX_PI / 2 + vAngle.x);
-	D3DXMatrixRotationY(&matRY, D3DX_PI + vAngle.y);
+	D3DXMatrixRotationX(&matRX, -D3DX_PI / 2);
+	D3DXMatrixRotationY(&matRY, D3DX_PI);
 	D3DXMatrixTranslation(&matT, m_vPosition.x, m_vPosition.y, m_vPosition.z);
-
-	matR = matRX * matRY;
-
+	
+	D3DXMatrixLookAtLH(&matRDir,
+		&D3DXVECTOR3(0, 0, 0),
+		&vDir,
+		&D3DXVECTOR3(0, 1, 0));
+	D3DXMatrixTranspose(&matRDir, &matRDir);
+	
+	matR = matRX * matRY * matRDir;
 	m_matWorldTM = matS * matR * matT;
+
 	m_pSkinnedMesh->SetTransform(&m_matWorldTM);
 
 	D3DXMATRIXA16 obbWorld;

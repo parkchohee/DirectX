@@ -17,7 +17,8 @@
 #include "cRay.h"
 
 
-#include "cEffect.h"
+#include "cState.h"
+#include "cStateMove.h"
 
 
 cPlayScene::cPlayScene()
@@ -71,14 +72,26 @@ void cPlayScene::Setup()
 	m_pPlayer->SetHeightMap(m_pHeightMap);
 	m_pPlayer->SetTextMap(m_pTextMap);
 
-	for (int i = 0; i < 2; i++)
+	for (int i = 0; i < 10; i++)
 	{
 		cAI* pAI = new cAI;
 		pAI->Setup("AI/", "AI.X");
-		pAI->SetPosition(D3DXVECTOR3(5 * (i + 1), 0, 0));
+		pAI->SetPosition(D3DXVECTOR3(rand() % 10, 0, rand() % 10));
 		pAI->SetHeightMap(m_pHeightMap);
 		pAI->SetTextMap(m_pTextMap);
 		pAI->SetIsEnemy(true);		// trueÀÌ¸é Àû
+	
+
+		cStateMove* pStateMove = new cStateMove;
+		pStateMove->SetFrom(pAI->GetPosition());
+		pStateMove->SetTarget(pAI);
+		pStateMove->SetTo(D3DXVECTOR3(rand() % 10, 0, rand() % 10));
+		pStateMove->Start();
+		pStateMove->SetDelegate(pStateMove);
+
+		pAI->SetState(pStateMove);
+		SAFE_RELEASE(pStateMove);
+
 		m_pvAI.push_back(pAI);
 	}
 
@@ -143,14 +156,6 @@ void cPlayScene::Update()
 	if (g_pKeyManager->IsOnceKeyDown(VK_LBUTTON))
 		PlayerBulletFire();
 
-	//for each (auto p in m_pvEffect)
-	//{
-	//	if (p->GetPlay())
-	//		p->Update();
-	//	else
-	//		p->Destroy();
-	//}
-	
 }
 
 void cPlayScene::Render()

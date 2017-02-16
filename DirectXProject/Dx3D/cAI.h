@@ -37,6 +37,6 @@ public:
 
 private:
 	void SetBoundingSphere();
-	void UpdateSkinnedMesh(D3DXVECTOR3 &vAngle);
+	void UpdateSkinnedMesh(D3DXVECTOR3 &vDir);
 };
 
