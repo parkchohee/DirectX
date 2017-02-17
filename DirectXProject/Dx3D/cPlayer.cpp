@@ -6,7 +6,7 @@
 #include "cOBB.h"
 #include "cHeightMap.h"
 #include "cTextMap.h"
-
+#include "cSkinnedMesh.h"
 
 cPlayer::cPlayer()
 	: m_nSelectGun(0)
@@ -118,14 +118,14 @@ void cPlayer::SetTextMap(cTextMap * tMap)
 {
 	m_pController->SetTextMap(tMap);
 }
-
-cGun * cPlayer::GetGun()
-{
-	if (m_pGun)
-		return m_pGun;
-	
-	return NULL;
-}
+//
+//cGun * cPlayer::GetGun()
+//{
+//	if (m_pGun)
+//		return m_pGun;
+//	
+//	return NULL;
+//}
 
 void cPlayer::GunSetting(D3DXVECTOR3 & camAngle)
 {
@@ -175,8 +175,9 @@ void cPlayer::GunSettingZoom(D3DXVECTOR3 & camAngle)
 
 void cPlayer::BulletFire(D3DXVECTOR3 dir)
 {
-	D3DXVECTOR3 Dir = dir;
-
 	if (m_pGun)
-		m_pGun->Fire(Dir, m_matWorldTM);
+	{
+		m_pGun->GetGunMesh()->PlayOneShot(1, 0, 0);
+		m_pGun->Fire(dir, m_matWorldTM);
+	}
 }

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "cState.h"
+class cTextMap;
 
 class cStateMove
 	: public cState
@@ -12,6 +13,8 @@ class cStateMove
 	float			m_fDistance;
 
 	D3DXVECTOR3		m_vDir;
+
+	SYNTHESIZE(cTextMap*, m_pTextMap, TextMap);
 
 	SYNTHESIZE(D3DXVECTOR3, m_vFrom, From);
 	SYNTHESIZE(D3DXVECTOR3, m_vTo, To);

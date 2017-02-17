@@ -16,9 +16,9 @@
 #include "cStaticMesh.h"
 #include "cRay.h"
 
-
-#include "cState.h"
-#include "cStateMove.h"
+//
+//#include "cState.h"
+//#include "cStateMove.h"
 
 
 cPlayScene::cPlayScene()
@@ -75,22 +75,11 @@ void cPlayScene::Setup()
 	for (int i = 0; i < 10; i++)
 	{
 		cAI* pAI = new cAI;
+		pAI->SetPosition(D3DXVECTOR3(15,0,0));
 		pAI->Setup("AI/", "AI.X");
-		pAI->SetPosition(D3DXVECTOR3(rand() % 10, 0, rand() % 10));
 		pAI->SetHeightMap(m_pHeightMap);
 		pAI->SetTextMap(m_pTextMap);
 		pAI->SetIsEnemy(true);		// trueÀÌ¸é Àû
-	
-
-		cStateMove* pStateMove = new cStateMove;
-		pStateMove->SetFrom(pAI->GetPosition());
-		pStateMove->SetTarget(pAI);
-		pStateMove->SetTo(D3DXVECTOR3(rand() % 10, 0, rand() % 10));
-		pStateMove->Start();
-		pStateMove->SetDelegate(pStateMove);
-
-		pAI->SetState(pStateMove);
-		SAFE_RELEASE(pStateMove);
 
 		m_pvAI.push_back(pAI);
 	}

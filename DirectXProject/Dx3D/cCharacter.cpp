@@ -33,6 +33,14 @@ void cCharacter::Render()
 		m_pGun->Render();
 }
 
+cGun * cCharacter::GetGun()
+{
+	if (m_pGun)
+		return m_pGun;
+
+	return NULL;
+}
+
 bool cCharacter::IsAttacked(float power)
 {
 	return m_fCurrentHp - power < 0 ? true : false;

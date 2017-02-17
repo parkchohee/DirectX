@@ -15,7 +15,7 @@ cPlayerController::~cPlayerController()
 {
 }
 
-void cPlayerController::Setup(float moveSpeed)
+void cPlayerController::Setup(float moveSpeed, cCharacter* pCharacter)
 {
 	m_fMoveSpeed = moveSpeed;
 }

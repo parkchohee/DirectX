@@ -32,6 +32,8 @@ public:
 	ST_SPHERE GetBoundingSphere();
 	std::vector<ST_SPHERE> GetBoundingSphereDetail();
 
+	void BulletFire(D3DXVECTOR3 dir);
+
 	void Destroy();
 	bool IsDeath();
 

@@ -9,11 +9,19 @@ public:
 	virtual void OnStateFinish(cState* pSender) = 0;
 };
 
+enum STATE_TYPE
+{
+	STATE_MOVE,
+	STATE_ATTACK,
+	STATE_NULL
+};
+
 class cState : public cObject
 {
 protected:
 	SYNTHESIZE(cGameObject*, m_pTarget, Target);
 	SYNTHESIZE(iStateDelegate*, m_pDelegate, Delegate);
+	SYNTHESIZE(STATE_TYPE, m_eStateType, StateType);
 
 public:
 	cState();

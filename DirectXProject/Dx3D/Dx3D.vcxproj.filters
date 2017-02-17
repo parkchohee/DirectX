@@ -294,6 +294,9 @@
     <ClInclude Include="cStateMove.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="cStateAttack.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -483,6 +486,9 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="cStateMove.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="cStateAttack.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

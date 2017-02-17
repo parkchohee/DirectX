@@ -47,5 +47,7 @@ public:
 	void Fire(D3DXVECTOR3& vDirection, D3DXMATRIXA16& vPosition);
 	void Reload();
 	void RemoveBullet(int bulletIndex);
+
+	cSkinnedMesh* GetGunMesh();
 };
 

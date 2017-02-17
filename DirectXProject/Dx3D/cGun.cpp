@@ -8,7 +8,7 @@ cGun::cGun()
 	: m_pGun(NULL)
 	, m_pvTarget(NULL)
 	, m_fAttackPower(1.f)
-	, m_fAttackRange(20.f)
+	, m_fAttackRange(10.f)
 	, m_fAttackSpeed(1.f)
 	, m_nMaxBullet(10)
 	, m_nCurrentBullet(10)
@@ -104,8 +104,6 @@ void cGun::SetWorldMatrixByBoneName(D3DXMATRIXA16 * matRot, char * name)
 void cGun::Fire(D3DXVECTOR3 & vDirection, D3DXMATRIXA16 & matWorld)
 {
 	m_nCurrentBullet--;
-	// 공격 애니메이션 넘버로 설정
-	m_pGun->PlayOneShot(1,0,0);
 
 	// 총구에서 나가도록 설정
 	D3DXMATRIXA16 matPos = *m_pGun->getLocalMatrix("tip") * matWorld;
@@ -135,5 +133,10 @@ void cGun::Reload()
 void cGun::RemoveBullet(int bulletIndex)
 {
 	m_pvBullet.erase(m_pvBullet.begin() + bulletIndex);
+}
+
+cSkinnedMesh * cGun::GetGunMesh()
+{
+	return m_pGun;
 }
 

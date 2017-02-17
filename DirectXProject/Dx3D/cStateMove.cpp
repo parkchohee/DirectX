@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "cStateMove.h"
+#include "cTextMap.h"
 
 
 cStateMove::cStateMove()
@@ -21,6 +22,7 @@ void cStateMove::Start()
 {
 	if (m_pTarget)
 	{
+		m_fPassedDistance = 0.f;
 		m_pTarget->SetPosition(m_vFrom);
 		m_vDir = m_vTo - m_vFrom;
 		m_fDistance = D3DXVec3Length(&m_vDir);
@@ -52,6 +54,12 @@ void cStateMove::OnStateFinish(cState * pSender)
 	m_pTarget->SetPosition(m_vTo);
 	m_vFrom = m_vTo;
 	m_vTo = D3DXVECTOR3(rand() % 10, 0, rand() % 10);
-	m_fPassedDistance = 0.f;
+
 	Start();
+	
+
+	// 지금 그냥 랜덤한곳으로 이동하도록함..
+	// 건물피해서 랜덤한곳으로 이동하도록 해야함.
+	// text맵 사용하면 될것같음.
+
 }

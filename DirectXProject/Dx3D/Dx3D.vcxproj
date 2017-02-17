@@ -129,6 +129,7 @@
     <ClInclude Include="cSkinnedMeshManager.h" />
     <ClInclude Include="cSoundManager.h" />
     <ClInclude Include="cState.h" />
+    <ClInclude Include="cStateAttack.h" />
     <ClInclude Include="cStateMove.h" />
     <ClInclude Include="cStaticMesh.h" />
     <ClInclude Include="cStaticMeshManager.h" />
@@ -196,6 +197,7 @@
     <ClCompile Include="cSkinnedMeshManager.cpp" />
     <ClCompile Include="cSoundManager.cpp" />
     <ClCompile Include="cState.cpp" />
+    <ClCompile Include="cStateAttack.cpp" />
     <ClCompile Include="cStateMove.cpp" />
     <ClCompile Include="cStaticMesh.cpp" />
     <ClCompile Include="cStaticMeshManager.cpp" />

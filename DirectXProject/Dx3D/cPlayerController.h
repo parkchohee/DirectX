@@ -8,7 +8,7 @@ public:
 	cPlayerController();
 	~cPlayerController();
 
-	void Setup(float moveSpeed) override;
+	void Setup(float moveSpeed, cCharacter* pCharacter = NULL) override;
 	void Update(D3DXVECTOR3& camAngle, OUT D3DXVECTOR3& vDirection, OUT D3DXVECTOR3& vPosition) override;
 };
 
