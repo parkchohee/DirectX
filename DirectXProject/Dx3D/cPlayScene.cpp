@@ -75,7 +75,7 @@ void cPlayScene::Setup()
 	for (int i = 0; i < 10; i++)
 	{
 		cAI* pAI = new cAI;
-		pAI->SetPosition(D3DXVECTOR3(15,0,0));
+		pAI->SetPosition(D3DXVECTOR3(rand()%15,0,rand() % 15));
 		pAI->Setup("AI/", "AI.X");
 		pAI->SetHeightMap(m_pHeightMap);
 		pAI->SetTextMap(m_pTextMap);
@@ -152,12 +152,6 @@ void cPlayScene::Render()
 	if (m_pSkyView)
 		m_pSkyView->Render();
 
-	for each(auto p in m_pvAI)
-		p->Render();
-	
-	for each(auto p in m_pvDeathAI)
-		p->Render();
-
 	if (m_pHeightMap)
 		m_pHeightMap->Render();
 
@@ -170,6 +164,12 @@ void cPlayScene::Render()
 	if (m_pPlayer)
 		m_pPlayer->Render();
 	
+	for each(auto p in m_pvAI)
+		p->Render();
+
+	for each(auto p in m_pvDeathAI)
+		p->Render();
+
 	if (m_pUICursorRoot)
 		m_pUICursorRoot->Render(m_pSprite);
 

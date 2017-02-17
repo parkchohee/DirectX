@@ -128,19 +128,19 @@ void cAI::Render()
 
 	//m_pBoundingSphereMesh->DrawSubset(0);
 	//
-	//for each(auto s in m_vecBoundingSphereDetail)
-	//{
-	//	D3DXMATRIXA16 matWorld;
-	//	D3DXMatrixIdentity(&matWorld);
-	//	matWorld._41 = s.vCenter.x;
-	//	matWorld._42 = s.vCenter.y;
-	//	matWorld._43 = s.vCenter.z;
-	//	
-	//	g_pD3DDevice->SetTransform(D3DTS_WORLD, &matWorld);
+	for each(auto s in m_vecBoundingSphereDetail)
+	{
+		D3DXMATRIXA16 matWorld;
+		D3DXMatrixIdentity(&matWorld);
+		matWorld._41 = s.vCenter.x;
+		matWorld._42 = s.vCenter.y;
+		matWorld._43 = s.vCenter.z;
+		
+		g_pD3DDevice->SetTransform(D3DTS_WORLD, &matWorld);
 
-	//	m_pBoundingSphereDetailMesh->DrawSubset(0);
-	//}
-	//
+		m_pBoundingSphereDetailMesh->DrawSubset(0);
+	}
+	
 
 }
 
@@ -232,8 +232,8 @@ void cAI::BulletFire(D3DXVECTOR3 dir)
 {
 	if (m_pGun)
 	{
-		m_pSkinnedMesh->PlayOneShot(1, 0, 0);
-	//	m_pGun->Fire(dir, m_matWorldTM);
+		m_pSkinnedMesh->PlayOneShot(4, 0, 0);
+		m_pGun->Fire(dir, m_matWorldTM);
 	}
 }
 

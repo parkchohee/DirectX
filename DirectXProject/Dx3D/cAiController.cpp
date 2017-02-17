@@ -80,24 +80,27 @@ void cAIController::Update(OUT D3DXVECTOR3 & vPlayer, OUT D3DXVECTOR3 & vDirecti
 		}
 		else
 		{
-			D3DXVECTOR3 vTo, vDir;
-			vDir = vPlayer - m_pTarget->GetPosition();
+			if (m_pTarget)
+			{
+				D3DXVECTOR3 vTo, vDir;
+				vDir = vPlayer - m_pTarget->GetPosition();
 
-			float vLength = D3DXVec3Length(&vDir) - 5.0f;
+				float vLength = D3DXVec3Length(&vDir) - 5.0f;
 
-			D3DXVec3Normalize(&vDir, &vDir);
-			vTo = m_pTarget->GetPosition() + vDir * vLength;
+				D3DXVec3Normalize(&vDir, &vDir);
+				vTo = m_pTarget->GetPosition() + vDir * vLength;
 
-			cStateMove* pStateMove = new cStateMove;
-			pStateMove->SetFrom(m_pTarget->GetPosition());
-			pStateMove->SetTarget(m_pTarget);
-			pStateMove->SetTo(vTo);
-			pStateMove->Start();
-			pStateMove->SetTextMap(m_pTextMap);
-			pStateMove->SetDelegate(pStateMove);
+				cStateMove* pStateMove = new cStateMove;
+				pStateMove->SetFrom(m_pTarget->GetPosition());
+				pStateMove->SetTarget(m_pTarget);
+				pStateMove->SetTo(vTo);
+				pStateMove->Start();
+				pStateMove->SetTextMap(m_pTextMap);
+				pStateMove->SetDelegate(pStateMove);
 
-			m_pTarget->SetState(pStateMove);
-			SAFE_RELEASE(pStateMove);
+				m_pTarget->SetState(pStateMove);
+				SAFE_RELEASE(pStateMove);
+			}
 		}
 		
 	}

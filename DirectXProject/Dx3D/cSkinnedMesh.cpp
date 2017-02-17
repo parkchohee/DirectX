@@ -11,7 +11,6 @@ cSkinnedMesh::cSkinnedMesh(char* szFolder, char* szFilename)
 	, m_pEffect(NULL)
 	, m_pmatParent(NULL)
 	, m_fPassedTime(0.0f)
-	
 {
 	cSkinnedMesh* pSkinnedMesh = g_pSkinnedMeshManager->GetSkinnedMesh(szFolder, szFilename);
 
@@ -287,8 +286,6 @@ void cSkinnedMesh::PlayOneShot(int animIndex, float inCrossFadeTime, float outCr
 {
 	m_bPlay = true;
 	m_bLoop = false;
-
-	
 
 	if (this->m_pPrevPlayAnimationSet == NULL)
 	{
