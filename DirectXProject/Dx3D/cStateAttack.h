@@ -8,7 +8,8 @@ class cStateAttack
 	, public iStateDelegate
 {
 	cAI*		m_pAI;
-	D3DXVECTOR3		m_vDir;
+
+	SYNTHESIZE(D3DXVECTOR3, m_vDir, Dir);
 
 	SYNTHESIZE(D3DXVECTOR3, m_vPlayerPos, PlayerPos);
 	SYNTHESIZE(D3DXVECTOR3, m_vPosition, Position);

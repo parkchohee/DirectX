@@ -13,6 +13,9 @@ class cPlayer : public cCharacter
 
 	cOBB*               m_pPlayerOBB;
 
+	ST_SPHERE			m_stSphere;
+	LPD3DXMESH			m_pSphereMesh;
+
 
 public:
 	cPlayer();

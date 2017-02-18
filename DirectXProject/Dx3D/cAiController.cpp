@@ -54,53 +54,54 @@ void cAIController::Update(OUT D3DXVECTOR3 & vPlayer, OUT D3DXVECTOR3 & vDirecti
 	D3DXVECTOR3 t = m_pTarget->GetPosition();
 	float f = D3DXVec3Length(&(vPlayer - t));
 	
+	/*if (g_pKeyManager->IsOnceKeyDown(VK_SPACE))
+	{
+		D3DXVECTOR3 vDir;
+		vDir = vPlayer - m_pTarget->GetPosition();
+
+		D3DXVec3Normalize(&vDir, &vDir);
+
+		m_pTarget->BulletFire(vDir);
+	}*/
 
 	if (f < m_fAttackRange + 5)	// player가 탐색 거리 안에 들어옴
 	{
 		if (f < m_fAttackRange)	// 공격 사정거리 안에 들어옴
 		{
-			if (m_pTarget)
-			{
-				if (m_pTarget->GetState()->GetStateType() == STATE_ATTACK)
-					return;
+			if (m_pTarget->GetState()->GetStateType() == STATE_ATTACK)
+				return;
 
-				D3DXVECTOR3 vDir;
-				vDir = m_pTarget->GetPosition() - vPlayer;
-
-				// attack state를 만듬..
-				cStateAttack* pStateAttack = new cStateAttack;
-				pStateAttack->SetTarget(m_pTarget);
-				pStateAttack->SetPosition(m_pTarget->GetPosition());
-				pStateAttack->SetPlayerPos(vPlayer);
-				pStateAttack->Start();
+			// attack state를 만듬..
+			cStateAttack* pStateAttack = new cStateAttack;
+			pStateAttack->SetTarget(m_pTarget);
+			pStateAttack->SetPosition(m_pTarget->GetPosition());
+			pStateAttack->SetPlayerPos(vPlayer);
+			pStateAttack->SetDir(vDirection);
+			pStateAttack->Start();
 			
-				m_pTarget->SetState(pStateAttack);
-				SAFE_RELEASE(pStateAttack);
-			}
+			m_pTarget->SetState(pStateAttack);
+			SAFE_RELEASE(pStateAttack);
 		}
 		else
 		{
-			if (m_pTarget)
-			{
-				D3DXVECTOR3 vTo, vDir;
-				vDir = vPlayer - m_pTarget->GetPosition();
+			D3DXVECTOR3 vTo, vDir;
+			vDir = vPlayer - m_pTarget->GetPosition();
 
-				float vLength = D3DXVec3Length(&vDir) - 5.0f;
+			float vLength = D3DXVec3Length(&vDir) - 5.0f;
 
-				D3DXVec3Normalize(&vDir, &vDir);
-				vTo = m_pTarget->GetPosition() + vDir * vLength;
+			D3DXVec3Normalize(&vDir, &vDir);
+			vTo = m_pTarget->GetPosition() + vDir * vLength;
 
-				cStateMove* pStateMove = new cStateMove;
-				pStateMove->SetFrom(m_pTarget->GetPosition());
-				pStateMove->SetTarget(m_pTarget);
-				pStateMove->SetTo(vTo);
-				pStateMove->Start();
-				pStateMove->SetTextMap(m_pTextMap);
-				pStateMove->SetDelegate(pStateMove);
+			cStateMove* pStateMove = new cStateMove;
+			pStateMove->SetFrom(m_pTarget->GetPosition());
+			pStateMove->SetTarget(m_pTarget);
+			pStateMove->SetTo(vTo);
+			pStateMove->Start();
+			pStateMove->SetTextMap(m_pTextMap);
+			pStateMove->SetDelegate(pStateMove);
 
-				m_pTarget->SetState(pStateMove);
-				SAFE_RELEASE(pStateMove);
-			}
+			m_pTarget->SetState(pStateMove);
+			SAFE_RELEASE(pStateMove);
 		}
 		
 	}

@@ -66,10 +66,19 @@ void cAI::Setup(char* szFolder, char* szFilename)
 	m_stBoundingSphere.fRadius = AI_BOUNDING_SPHERE_SIZE;
 
 	m_vecBoundingSphereDetail.resize(11);
+	//SetBoundingSphere();
+	//ST_MAT_SPHERE stMatSphere;
+	//stMatSphere.stSphere.vCenter = D3DXVECTOR3(0, 0, 0);
+	//stMatSphere.matLocal = m_pSkinnedMesh->getLocalMatrix("Jaw");
+	//stMatSphere.matWorld = *stMatSphere.matLocal * m_matWorldTM;
+	//D3DXVec3TransformCoord(&stMatSphere.stSphere.vCenter, &stMatSphere.stSphere.vCenter, &stMatSphere.matWorld);
+	//m_vecBoundingSphereDetail[0] = stMatSphere;
 }
 
 void cAI::Update(D3DXVECTOR3 vPlayer, float fAngle)
 {
+	UpdateSkinnedMesh(m_vDirection);
+	SetBoundingSphere();
 	cGameObject::Update();
 
 	if (m_pController)
@@ -100,8 +109,6 @@ void cAI::Update(D3DXVECTOR3 vPlayer, float fAngle)
 			m_isShow = false;
 	}
 
-	UpdateSkinnedMesh(m_vDirection);
-	SetBoundingSphere();
 }
 
 void cAI::Render()
@@ -128,7 +135,7 @@ void cAI::Render()
 
 	//m_pBoundingSphereMesh->DrawSubset(0);
 	//
-	for each(auto s in m_vecBoundingSphereDetail)
+	/*for each(auto s in m_vecBoundingSphereDetail)
 	{
 		D3DXMATRIXA16 matWorld;
 		D3DXMatrixIdentity(&matWorld);
@@ -140,7 +147,7 @@ void cAI::Render()
 
 		m_pBoundingSphereDetailMesh->DrawSubset(0);
 	}
-	
+	*/
 
 }
 
@@ -233,7 +240,11 @@ void cAI::BulletFire(D3DXVECTOR3 dir)
 	if (m_pGun)
 	{
 		m_pSkinnedMesh->PlayOneShot(4, 0, 0);
-		m_pGun->Fire(dir, m_matWorldTM);
+		
+		D3DXMATRIXA16 matT;
+		D3DXMatrixTranslation(&matT, m_vPosition.x, m_vPosition.y, m_vPosition.z);
+
+		m_pGun->Fire(dir, matT);
 	}
 }
 

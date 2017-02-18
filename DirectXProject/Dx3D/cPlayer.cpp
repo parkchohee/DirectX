@@ -50,6 +50,12 @@ void cPlayer::Setup()
 	m_pController->Setup(0.1f);
 	m_pController->SetOBB(m_pPlayerOBB);
 
+	m_stSphere.fRadius = PLAYER_BOUNDING_SPHERE_SIZE;
+	m_stSphere.vCenter = m_vPosition;
+
+	D3DXCreateSphere(g_pD3DDevice, m_stSphere.fRadius, 20, 20, &m_pBoundingSphereMesh, NULL);
+
+
 }
 
 void cPlayer::Update(D3DXVECTOR3 & camAngle)
@@ -107,6 +113,26 @@ void cPlayer::Render()
 	
 	if (m_pPlayerOBB)
 		m_pPlayerOBB->OBBBox_Render(D3DCOLOR_XRGB(0, 0, 255));
+
+
+
+
+	m_stSphere.vCenter = m_vPosition;
+	m_stSphere.vCenter.y = 1;
+
+	D3DXMATRIXA16 matWorld;
+	D3DXMatrixIdentity(&matWorld);
+	matWorld._41 = m_stSphere.vCenter.x;
+	matWorld._42 = m_stSphere.vCenter.y;
+	matWorld._43 = m_stSphere.vCenter.z;
+
+	g_pD3DDevice->SetTransform(D3DTS_WORLD, &matWorld);
+
+	m_pBoundingSphereMesh->DrawSubset(0);
+
+
+
+
 }
 
 void cPlayer::SetHeightMap(cHeightMap * hMap)

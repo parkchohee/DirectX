@@ -37,6 +37,7 @@ extern HINSTANCE hInst;
 #define WINSIZEY 800
 #define AI_BOUNDING_SPHERE_SIZE 1.0f
 #define AI_BOUNDING_SPHERE_DETAIL_SIZE 0.2f
+#define PLAYER_BOUNDING_SPHERE_SIZE 1.0f
 #define BULLET_RADIUS 0.1f
 
 #define SAFE_RELEASE(p) { if(p) p->Release(); p = NULL; }

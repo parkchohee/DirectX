@@ -71,10 +71,10 @@ void cGun::Render()
 
 	g_pD3DDevice->SetRenderState(D3DRS_ZENABLE, true);
 
-	/*for (size_t i = 0; i < m_pvBullet.size(); i++)
+	for (size_t i = 0; i < m_pvBullet.size(); i++)
 	{
 		m_pvBullet[i]->Render();
-	}*/
+	}
 
 }
 
@@ -101,19 +101,22 @@ void cGun::SetWorldMatrixByBoneName(D3DXMATRIXA16 * matRot, char * name)
 	}
 }
 
-void cGun::Fire(D3DXVECTOR3 & vDirection, D3DXMATRIXA16 & matWorld)
+void cGun::Fire(D3DXVECTOR3 vDirection, D3DXMATRIXA16 & matWorld)
 {
 	m_nCurrentBullet--;
 
 	D3DXMATRIXA16 matPos = matWorld;
 
+	// 총구에서 나가도록 설정
 	if (*m_pGun->getLocalMatrix("tip") != NULL)
 		matPos = *m_pGun->getLocalMatrix("tip") * matPos;
-	else if(*m_pGun->getLocalMatrix("tag_barrell") != NULL)
-		matPos = *m_pGun->getLocalMatrix("tag_barrell") * matPos;
+	else if (*m_pGun->getLocalMatrix("tag_barrell") != NULL)
+	{
+		matPos._42 = 1;
+	//	D3DXMatrixTranslation(&matPos, matPos._41, matPos._42, matPos._43);
+	//	matPos = *m_pGun->getLocalMatrix("tag_barrell") * matPos;
+	}
 	
-	// 총구에서 나가도록 설정
-	//D3DXMATRIXA16 matPos = *m_pGun->getLocalMatrix("tip") * matWorld;
 	D3DXVECTOR3 vecPos(0,0,0);
 	D3DXVec3TransformCoord(&vecPos, &vecPos, &matPos);
 

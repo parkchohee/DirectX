@@ -22,6 +22,8 @@ void cStateMove::Start()
 {
 	if (m_pTarget)
 	{
+		m_eStateType = STATE_ATTACK;
+
 		m_fPassedDistance = 0.f;
 		m_pTarget->SetPosition(m_vFrom);
 		m_vDir = m_vTo - m_vFrom;

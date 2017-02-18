@@ -37,7 +37,7 @@ public:
 	void SetWorldMatrix(D3DXMATRIXA16* matWorld);
 	void SetWorldMatrixByBoneName(D3DXMATRIXA16* matRot, char* name);
 	
-	void Fire(D3DXVECTOR3& vDirection, D3DXMATRIXA16& vPosition);
+	void Fire(D3DXVECTOR3 vDirection, D3DXMATRIXA16& vPosition);
 	void Reload();
 	void RemoveBullet(int bulletIndex);
 

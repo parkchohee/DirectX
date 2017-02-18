@@ -145,6 +145,7 @@ void cPlayScene::Update()
 	if (g_pKeyManager->IsOnceKeyDown(VK_LBUTTON))
 		PlayerBulletFire();
 
+	AIBulletCollision();
 }
 
 void cPlayScene::Render()
@@ -239,31 +240,7 @@ void cPlayScene::PlayerBulletFire()
 				}
 			}
 		}
-		/*for (size_t bulletIndex = 0; bulletIndex < gun->GetBullets().size(); bulletIndex++)
-		{
-			D3DXVECTOR3 vBulletCenter, vAICenter;
-			vBulletCenter = gun->GetBullets()[bulletIndex]->GetBoundingSphere().vCenter;
-			vAICenter = m_pvAI[aiIndex]->GetBoundingSphere().vCenter;
-
-			if (IsCollision(vBulletCenter, BULLET_RADIUS, vAICenter, AI_BOUNDING_SPHERE_SIZE))
-			{
-				for (size_t sphereIndex = 0; sphereIndex < m_pvAI[aiIndex]->GetBoundingSphereDetail().size(); sphereIndex++)
-				{
-					if (IsCollision(vBulletCenter, BULLET_RADIUS, m_pvAI[aiIndex]->GetBoundingSphereDetail()[sphereIndex].vCenter, AI_BOUNDING_SPHERE_DETAIL_SIZE))
-					{
-						SAFE_RELEASE(gun->GetBullets()[bulletIndex]);
-						gun->RemoveBullet(bulletIndex);
-
-						if (m_pvAI[aiIndex]->IsAttacked(gun->GetAttackPower()))
-						{
-							SAFE_RELEASE(m_pvAI[aiIndex]);
-							m_pvAI.erase(m_pvAI.begin() + aiIndex);
-						}
-						return;
-					}
-				}
-			}
-		}*/
+		
 	}
 	
 
@@ -275,6 +252,52 @@ void cPlayScene::PlayerBulletFire()
 	}
 
 
+}
+
+void cPlayScene::AIBulletCollision()
+{
+	D3DXVECTOR3 vPlayerPos = m_pPlayer->GetPosition();
+
+	for (size_t aiIndex = 0; aiIndex < m_pvAI.size(); aiIndex++)
+	{
+		cGun* gun = m_pvAI[aiIndex]->GetGun();
+
+		for (size_t bulletIndex = 0; bulletIndex < gun->GetBullets().size(); bulletIndex++)
+		{
+			D3DXVECTOR3 vBulletCenter;
+			vBulletCenter = gun->GetBullets()[bulletIndex]->GetBoundingSphere().vCenter;
+
+			if (IsCollision(vBulletCenter, BULLET_RADIUS, vPlayerPos, PLAYER_BOUNDING_SPHERE_SIZE))
+			{
+				int a = 0;
+			}
+		}
+	}
+	/*for (size_t bulletIndex = 0; bulletIndex < gun->GetBullets().size(); bulletIndex++)
+	{
+	D3DXVECTOR3 vBulletCenter, vAICenter;
+	vBulletCenter = gun->GetBullets()[bulletIndex]->GetBoundingSphere().vCenter;
+	vAICenter = m_pvAI[aiIndex]->GetBoundingSphere().vCenter;
+
+	if (IsCollision(vBulletCenter, BULLET_RADIUS, vAICenter, AI_BOUNDING_SPHERE_SIZE))
+	{
+	for (size_t sphereIndex = 0; sphereIndex < m_pvAI[aiIndex]->GetBoundingSphereDetail().size(); sphereIndex++)
+	{
+	if (IsCollision(vBulletCenter, BULLET_RADIUS, m_pvAI[aiIndex]->GetBoundingSphereDetail()[sphereIndex].vCenter, AI_BOUNDING_SPHERE_DETAIL_SIZE))
+	{
+	SAFE_RELEASE(gun->GetBullets()[bulletIndex]);
+	gun->RemoveBullet(bulletIndex);
+
+	if (m_pvAI[aiIndex]->IsAttacked(gun->GetAttackPower()))
+	{
+	SAFE_RELEASE(m_pvAI[aiIndex]);
+	m_pvAI.erase(m_pvAI.begin() + aiIndex);
+	}
+	return;
+	}
+	}
+	}
+	}*/
 }
 
 float cPlayScene::GetDistance(D3DXVECTOR3 pos1, D3DXVECTOR3 pos2)
