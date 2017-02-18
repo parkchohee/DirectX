@@ -1,269 +1,195 @@
 #include "stdafx.h"
 #include "cSoundManager.h"
 
-
-cSoundManager::cSoundManager()
+cSoundManager::cSoundManager() : _system(NULL), _channel(NULL), _sound(NULL)
 {
 }
-
 
 cSoundManager::~cSoundManager()
 {
 }
-//
-//void cSoundManager::Setup()
-//{
-//	//Sound System 생성
-//	FMOD::System_Create(&m_pSystem);
-//
-//	//Sound System 초기화
-//	m_pSystem->init(
-//		SOUND_CHANNEL_NUM,			//사운드 채널수 셋팅
-//		FMOD_INIT_NORMAL,
-//		NULL);
-//
-//	//Sound 채널 그룹 생성
-//	m_pSystem->createChannelGroup(
-//		"BGM",					//생성된 채널그룹 이름
-//		&m_pBGMChannelGroup		//생성된 채널그룹을 받아올 FMOD::ChannelGroup 대한 더블포인터.
-//	);
-//
-//
-//	m_pSystem->createChannelGroup(
-//		"Sound",
-//		&m_pSoundChannelGroup);
-//
-//	return ;
-//}
-//void cSoundManager::Destroy(void)
-//{
-//	//사용된 Sound 해재
-//	MAP_SOUND_ITER iter;
-//	for (iter = m_mapBGMs.begin(); iter != m_mapBGMs.end(); ++iter)
-//		iter->second->release();
-//	m_mapBGMs.clear();
-//
-//	for (iter = m_mapSounds.begin(); iter != m_mapSounds.end(); ++iter)
-//		iter->second->release();
-//	m_mapSounds.clear();
-//
-//	for (iter = m_map3DSounds.begin(); iter != m_map3DSounds.end(); ++iter)
-//		iter->second->release();
-//	m_map3DSounds.clear();
-//
-//
-//	//Sound 채널그룹 해제
-//	m_pSoundChannelGroup->release();
-//	m_pBGMChannelGroup->release();
-//
-//	//Sound System 해제
-//	m_pSystem->release();
-//	m_pSystem->close();
-//}
-//
-////매 업데이트 마다 SoundSystem 을 업데이트 해야 한다.
-//void cSoundManager::UpdateSound(void)
-//{
-//	//Sound 들의 채널 업데이트가 이루어져야 
-//	//플레이가 끝난 Sound 가 채널에서 빠지고
-//	//볼륨조정이 일어났다면 볼륨을 바꾸는등 여러가지 업데이가 이루어진다.
-//	//pause 나 resume 마찬가지임...
-//	//이는 게임 loop 에서 Update 때 해주자
-//	m_pSystem->update();
-//}
-//
-//
-////BGM 추가
-//FMOD::Sound* cSoundManager::AddBGM(std::string keyName, std::string fileName)
-//{
-//	//이미 존재하는 Key 라면 추가 로딩 되지 않는다.
-//	MAP_SOUND_ITER iter = m_mapBGMs.find(keyName);
-//	if (iter != m_mapBGMs.end())
-//		return iter->second;
-//
-//	//추가
-//	FMOD::Sound* pNewSound = NULL;
-//
-//	//BGM 같은 것은 Stream 방식으로 얻는다. ( stream 방식의 로딩은 플레이 비용이 좀들지만 메모리를 덜쓴다 자주 안바뀌고 플레이되는 Sound 를 로딩할때 쓰자 )
-//	m_pSystem->createStream(
-//		fileName.c_str(),
-//		FMOD_2D,
-//		NULL,
-//		&pNewSound);
-//
-//	if (pNewSound != NULL)
-//	{
-//		//BGM 맵에 추가
-//		m_mapBGMs.insert(std::make_pair(keyName, pNewSound));
-//	}
-//
-//	return pNewSound;
-//
-//}
-//
-////효과음 추가
-//FMOD::Sound* cSoundManager::AddSound(std::string keyName, std::string fileName)
-//{
-//	//이미 존재하는 Key 라면 추가 로딩 되지 않는다.
-//	MAP_SOUND_ITER iter = m_mapSounds.find(keyName);
-//	if (iter != m_mapSounds.end()) return iter->second;
-//
-//	//추가
-//	FMOD::Sound* pNewSound = NULL;
-//	m_pSystem->createSound(				//(createSound 방식의 로딩은 로딩되는 사운드 정보를 메모리에 적재하고 바로가져다 쓰기때문에 플레이의 비용이 적지만 메모리사용이 있다 때문에 효과음같이 자주 터지고 용량이 작은 Sound 를 로딩할때 쓰자 )
-//		fileName.c_str(),
-//		FMOD_2D | FMOD_LOOP_OFF,
-//		NULL, &pNewSound);
-//
-//	if (pNewSound != NULL)
-//		m_mapSounds.insert(std::make_pair(keyName, pNewSound));
-//
-//	return pNewSound;
-//}
-//
-////3D 사운드 추가
-//FMOD::Sound*  cSoundManager::Add3DSound(std::string keyName, std::string fileName, float minDistance, float maxDistance, bool bLoop)
-//{
-//	//이미 존재하는 Key 라면 추가 로딩 되지 않는다.
-//	MAP_SOUND_ITER iter = m_map3DSounds.find(keyName);
-//	if (iter != m_map3DSounds.end()) return iter->second;
-//
-//	//FMOD_3D_LINEARROLLOFF 옵션으로 쓰면 MaxMin 거리내에서 선형으로 볼륨이빠진다.
-//
-//	FMOD::Sound* pNewSound = NULL;
-//	m_pSystem->createSound(
-//		fileName.c_str(),
-//		FMOD_3D | FMOD_3D_LINEARROLLOFF,				//3D 사운들로 쓰겠다..
-//		NULL,
-//		&pNewSound);
-//
-//	if (pNewSound == NULL)
-//	{
-//		return NULL;
-//	}
-//
-//	//루프가 된다라면.....
-//	if (bLoop)
-//		pNewSound->setMode(FMOD_LOOP_NORMAL);
-//
-//
-//
-//
-//	//로딩된 사운드의 최대 최소값 거리 설정
-//	pNewSound->set3DMinMaxDistance(minDistance, maxDistance);
-//
-//	//맵에 추가.
-//	m_map3DSounds.insert(std::make_pair(keyName, pNewSound));
-//
-//
-//
-//	//FMOD_VECTOR vec[] = { { 0, 0, 0 }, { 1, 1, 1 } };
-//	//pNewSound->set3DCustomRolloff(NULL, 0);
-//
-//	return pNewSound;
-//
-//}
-//
-//
-////BGM 재생
-//void cSoundManager::PlayBGM(std::string keyName)
-//{
-//	MAP_SOUND_ITER iter = m_mapBGMs.find(keyName);
-//	if (iter != m_mapBGMs.end()) {
-//		PlayBGM(iter->second);
-//	}
-//}
-//void cSoundManager::PlayBGM(FMOD::Sound* pSound)
-//{
-//	//BGM 은 보통 하나만 출력된다 따라서 기존에 플레이 되고 있는 사운드는 Stop하자
-//	m_pBGMChannelGroup->stop();
-//
-//	m_pSystem->playSound(
-//		pSound,
-//		m_pBGMChannelGroup, //BGM 채널 그룹에서 실행이 된다.
-//		false,
-//		NULL				//플레이된 채널
-//	);
-//}
-//
-////효과음
-//void cSoundManager::PlaySound(std::string keyName)
-//{
-//	MAP_SOUND_ITER iter = m_mapSounds.find(keyName);
-//	if (iter != m_mapSounds.end()) {
-//		PlaySound(iter->second);
-//	}
-//}
-//void cSoundManager::PlaySound(FMOD::Sound* pSound)
-//{
-//	m_pSystem->playSound(
-//		pSound,
-//		m_pSoundChannelGroup, //Sound 채널 그룹에서 실행이 된다.
-//		false,
-//		NULL);
-//}
-//
-//
-////키 이름으로 사운드 객체를 얻는다.
-//FMOD::Sound* cSoundManager::GetBGM(const char* keyName)
-//{
-//	MAP_SOUND_ITER iter = m_mapBGMs.find(keyName);
-//	if (iter == m_mapBGMs.end()) return NULL;
-//
-//	return iter->second;
-//}
-//FMOD::Sound* cSoundManager::GetSound(const char* keyName)
-//{
-//	MAP_SOUND_ITER iter = m_mapSounds.find(keyName);
-//	if (iter == m_mapSounds.end()) return NULL;
-//
-//	return iter->second;
-//}
-//FMOD::Sound* cSoundManager::Get3DSound(const char* keyName)
-//{
-//	MAP_SOUND_ITER iter = m_map3DSounds.find(keyName);
-//	if (iter == m_map3DSounds.end()) return NULL;
-//
-//	return iter->second;
-//}
-//
-////플레이 되고 있는 사운드 모두 중지
-//void cSoundManager::AllStop(void)
-//{
-//	m_pSoundChannelGroup->stop();		//Sound Channel 그룹에서 플레이 되고있는거 싹다 stop
-//	m_pBGMChannelGroup->stop();			//BGM Channel 그룹에서 플레이 되고있는거 싹다 stop
-//}
-//
-////플레이 되고 있는 사운드 일시 정시 또는 재생 ( 토글 방식 )
-//void cSoundManager::AllPauseAndResume(void)
-//{
-//	bool bSoundPause;
-//	m_pSoundChannelGroup->getPaused(&bSoundPause);		//Sound 일시정지 상태인지를 얻는다.
-//
-//	bool bBGMPause;
-//	m_pBGMChannelGroup->getPaused(&bBGMPause);			//BGM 일시정지 상태인지를 얻는다.
-//
-//	m_pSoundChannelGroup->setPaused(!bSoundPause);
-//	m_pBGMChannelGroup->setPaused(!bBGMPause);
-//}
-//
-////볼륨 조정
-//void cSoundManager::SetVolum(float volume)
-//{
-//	m_pSoundChannelGroup->setVolume(volume);
-//	m_pBGMChannelGroup->setVolume(volume);
-//}
-//
-////피치조정
-//void cSoundManager::SetPitch(float pitch)
-//{
-//	m_pSoundChannelGroup->setPitch(pitch);
-//	m_pBGMChannelGroup->setPitch(pitch);
-//}
-//
-////피치조정
-//void cSoundManager::SetPan(float pan)
-//{
-//	m_pSoundChannelGroup->setPan(pan);
-//	m_pBGMChannelGroup->setPan(pan);
-//}
+
+HRESULT cSoundManager::Setup(void)
+{
+	//사운드 시스템 생성
+	System_Create(&_system);
+
+	//maxchannels : fomd 에서 사용하는 최대 채널의 수를 뜻함
+	//사운드 채널수 생성
+	_system->init(TOTALSOUNDBUFFER, FMOD_INIT_NORMAL, 0);
+
+	//사운드 , 채널 동적할당
+	_sound = new Sound *[TOTALSOUNDBUFFER];
+	_channel = new Channel *[TOTALSOUNDBUFFER];
+
+	//메모리 초기화
+	memset(_sound, 0, sizeof(Sound*) * (TOTALSOUNDBUFFER));
+	memset(_channel, 0, sizeof(Channel*) * (TOTALSOUNDBUFFER));
+
+	return S_OK;
+}
+void cSoundManager::Destroy(void)
+{
+	//사운드 및 채널 삭제
+	if (_channel != NULL || _sound != NULL)
+	{
+		for (int i = 0; i < TOTALSOUNDBUFFER; i++)
+		{
+			if (_channel != NULL)
+			{
+				if (_channel[i]) _channel[i]->stop();
+			}
+
+			if (_sound != NULL)
+			{
+				if (_sound[i]) _sound[i]->release();
+			}
+		}
+	}
+
+	//메모리 지우기
+	SAFE_DELETE(_channel);
+	SAFE_DELETE(_sound);
+
+	//시스템 닫기
+	if (_system != NULL)
+	{
+		_system->release();
+		_system->close();
+	}
+}
+
+void cSoundManager::Update(void)
+{
+	/*
+	사운드 시스템을 계속 업데이트 해줘야 볼륨이 바뀌거나
+	재성이 끝난 사운드를 채널에서 빼내는 등 다양한 작업을 자동으로 해준다
+	*/
+	//메인게임에서 사운드매니져를 업데이트 해준다
+	_system->update();
+}
+
+//사운드 추가(키값, 파일이름, BGM?, 루프냐?)
+void cSoundManager::addSound(std::string keyName, std::string soundName, bool bgm, bool loop)
+{
+	if (loop)//브금 or 이펙트
+	{
+		if (bgm)
+		{
+			//1: 파일 URL의 이름 
+			//2: 사운드를 열기 위한 옵션
+			//3: 사운드를 재생하는 동안 유저에게 정보를 제공하는 FMOD_CREATESOUNDEXINFO의 포인터 , 이옵션을 무시하려면 0 또는 NULL을 지정하면 됨
+			//4: FMOD::SOUND 오브젝트를 받는 변수의 주소
+			_system->createStream(soundName.c_str(), FMOD_LOOP_NORMAL, 0, &_sound[_mTotalSounds.size()]);
+		}
+		else
+		{
+			_system->createSound(soundName.c_str(), FMOD_LOOP_NORMAL, 0, &_sound[_mTotalSounds.size()]);
+		}
+	}
+
+	else  //이펙트
+	{
+		_system->createSound(soundName.c_str(), FMOD_DEFAULT, 0, &_sound[_mTotalSounds.size()]);
+	}
+
+	//맵에 사운드를 키값과 함께 담아준다
+	_mTotalSounds.insert(make_pair(keyName, &_sound[_mTotalSounds.size()]));
+}
+
+//사운드 플레이(키값, 볼륨) 0.0f~ 1.0f
+void cSoundManager::play(std::string keyName, float volume)
+{
+	int count = 0;
+	arrSoundIter iter = _mTotalSounds.begin();
+	for (iter; iter != _mTotalSounds.end(); ++iter, count++)
+	{
+		if (keyName == iter->first)
+		{
+			//사운드 플레이
+			_system->playSound(FMOD_CHANNEL_FREE, *iter->second, false, &_channel[count]);
+			//볼륨셋팅
+			_channel[count]->setVolume(volume);
+		}
+	}
+}
+//사운드 정지
+void cSoundManager::stop(std::string keyName)
+{
+	int count = 0;
+	arrSoundIter iter = _mTotalSounds.begin();
+	for (iter; iter != _mTotalSounds.end(); ++iter, count++)
+	{
+		if (keyName == iter->first)
+		{
+			//사운드 정지
+			_channel[count]->stop();
+			break;
+		}
+	}
+}
+//사운드 일시정지
+void cSoundManager::pause(std::string keyName)
+{
+	int count = 0;
+	arrSoundIter iter = _mTotalSounds.begin();
+	for (iter; iter != _mTotalSounds.end(); ++iter, count++)
+	{
+		if (keyName == iter->first)
+		{
+			//사운드 정지
+			_channel[count]->setPaused(true);
+			break;
+		}
+	}
+}
+//사운드 다시 재생
+void cSoundManager::resume(std::string keyName)
+{
+	int count = 0;
+	arrSoundIter iter = _mTotalSounds.begin();
+	for (iter; iter != _mTotalSounds.end(); ++iter, count++)
+	{
+		if (keyName == iter->first)
+		{
+			//사운드 일시정지(다시재생)
+			_channel[count]->setPaused(false);
+			break;
+		}
+	}
+}
+
+//플레이 중이냐?
+bool cSoundManager::isPlaySound(std::string keyName)
+{
+	bool isPlay;
+	int count = 0;
+	arrSoundIter iter = _mTotalSounds.begin();
+	for (iter; iter != _mTotalSounds.end(); ++iter, count++)
+	{
+		if (keyName == iter->first)
+		{
+			//플레이 중이냐?
+			_channel[count]->isPlaying(&isPlay);
+			break;
+		}
+	}
+	return isPlay;
+}
+//일시정지 중이냐?
+bool cSoundManager::isPauseSound(std::string keyName)
+{
+	bool isPause;
+	int count = 0;
+	arrSoundIter iter = _mTotalSounds.begin();
+	for (iter; iter != _mTotalSounds.end(); ++iter, count++)
+	{
+		if (keyName == iter->first)
+		{
+			//플레이 중이냐? (일시정지)
+			_channel[count]->isPlaying(&isPause);
+			break;
+		}
+	}
+	return isPause;
+}

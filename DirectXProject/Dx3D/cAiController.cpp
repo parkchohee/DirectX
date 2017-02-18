@@ -68,8 +68,8 @@ void cAIController::Update(OUT D3DXVECTOR3 & vPlayer, OUT D3DXVECTOR3 & vDirecti
 	{
 		if (f < m_fAttackRange)	// 공격 사정거리 안에 들어옴
 		{
-		/*	if (m_pTarget->GetState()->GetStateType() == STATE_ATTACK)
-				return;*/
+			if (m_pTarget->GetState()->GetStateType() == STATE_ATTACK)
+				return;
 
 			// attack state를 만듬..
 			cStateAttack* pStateAttack = new cStateAttack;

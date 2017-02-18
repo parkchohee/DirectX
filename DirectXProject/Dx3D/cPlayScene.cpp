@@ -195,6 +195,8 @@ void cPlayScene::PlayerBulletFire()
 	if (m_pPlayer == NULL) return;
 	if (m_pPlayer->GetGun() == NULL) return;
 	
+	g_pSoundManager->play("ShotgunFire", 0.5f);
+
 	float centerX, centerY;
 	RECT rc;
 	GetClientRect(g_hWnd, &rc);

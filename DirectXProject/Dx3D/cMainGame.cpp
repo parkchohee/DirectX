@@ -14,6 +14,7 @@ cMainGame::cMainGame(void)
 
 cMainGame::~cMainGame(void)
 {
+	g_pSoundManager->Destroy();
 	g_pSceneManager->Destroy();
 	g_pStaticMeshManager->Destroy();
 	g_pSkinnedMeshManager->Destroy();
@@ -26,6 +27,7 @@ cMainGame::~cMainGame(void)
 void cMainGame::Setup()
 {
 	//ShowCursor(FALSE);
+	g_pSoundManager->Setup();
 
 	g_pSceneManager->AddScene("mapTool", new cMapToolScene);
 	g_pSceneManager->AddScene("playScene", new cPlayScene);
@@ -35,6 +37,8 @@ void cMainGame::Setup()
 
 	g_pSceneManager->ChangeScene("playScene");
 
+	g_pSoundManager->addSound("ShotgunFire", "./Sound/Weapons/ShotgunFire.wav");
+
 	SetLight();
 
 }
@@ -42,6 +46,7 @@ void cMainGame::Setup()
 void cMainGame::Update()
 {
 	g_pTimeManager->Update();
+	g_pSoundManager->Update();
 	g_pSceneManager->Update(g_pTimeManager->GetElapsedTime());
 }
 
