@@ -11,15 +11,14 @@ cSkinnedMesh::cSkinnedMesh(char* szFolder, char* szFilename)
 	, m_pEffect(NULL)
 	, m_pmatParent(NULL)
 	, m_fPassedTime(0.0f)
-	
 {
 	cSkinnedMesh* pSkinnedMesh = g_pSkinnedMeshManager->GetSkinnedMesh(szFolder, szFilename);
 
 	D3DXMatrixIdentity(&m_matWorldTM);
 	D3DXMatrixIdentity(&m_matLocalTM);
 	
-	/*m_pRootFrame = new ST_BONE;
-	memcpy(m_pRootFrame, pSkinnedMesh->m_pRootFrame, sizeof(ST_BONE));*/
+	//m_pRootFrame = new ST_BONE;
+	//memcpy(m_pRootFrame, pSkinnedMesh->m_pRootFrame, sizeof(ST_BONE));
 	m_pRootFrame = pSkinnedMesh->m_pRootFrame;
 	m_dwWorkingPaletteSize = pSkinnedMesh->m_dwWorkingPaletteSize;
 	m_pmWorkingPalette = pSkinnedMesh->m_pmWorkingPalette;
@@ -49,7 +48,7 @@ cSkinnedMesh::cSkinnedMesh(char* szFolder, char* szFilename)
 		m_mapAnimSet.insert(std::make_pair(animSet->GetName(), animSet));
 	}
 
-	Play(0);
+	Play(/*rand() % m_AnimNum*/0);
 }
 
 
@@ -114,10 +113,7 @@ D3DXMATRIXA16 * cSkinnedMesh::getLocalMatrix(char * name)
 		return &pBone->LocalTransformationMatrix;
 
 	return NULL;
-	
 }
-
-
 
 ST_BONE * cSkinnedMesh::getBone(char * name, ST_BONE * pBone)
 {
@@ -288,8 +284,6 @@ void cSkinnedMesh::PlayOneShot(int animIndex, float inCrossFadeTime, float outCr
 	m_bPlay = true;
 	m_bLoop = false;
 
-	
-
 	if (this->m_pPrevPlayAnimationSet == NULL)
 	{
 		//현재 Animaiton 을 기억한다.
@@ -415,7 +409,13 @@ void cSkinnedMesh::UpdateAndRender()
 	{
 		D3DXMATRIXA16 matSRT;
 		D3DXMatrixIdentity(&matSRT);
-		UpdateLocal(m_pRootFrame, &matSRT);
+	
+		{
+			if (m_pmatParent)
+				UpdateLocal(m_pRootFrame, m_pmatParent);
+			else
+				UpdateLocal(m_pRootFrame, &matSRT);
+		}
 
 		if (m_pmatParent)
 			matSRT = m_matWorldTM * (*m_pmatParent);

@@ -16,8 +16,9 @@
 #include "cStaticMesh.h"
 #include "cRay.h"
 
-
-#include "cEffect.h"
+//
+//#include "cState.h"
+//#include "cStateMove.h"
 
 
 cPlayScene::cPlayScene()
@@ -71,14 +72,15 @@ void cPlayScene::Setup()
 	m_pPlayer->SetHeightMap(m_pHeightMap);
 	m_pPlayer->SetTextMap(m_pTextMap);
 
-	for (int i = 0; i < 2; i++)
+	for (int i = 0; i < 10; i++)
 	{
 		cAI* pAI = new cAI;
+		pAI->SetPosition(D3DXVECTOR3(rand()%15,0,rand() % 15));
 		pAI->Setup("AI/", "AI.X");
-		pAI->SetPosition(D3DXVECTOR3(5 * (i + 1), 0, 0));
 		pAI->SetHeightMap(m_pHeightMap);
 		pAI->SetTextMap(m_pTextMap);
 		pAI->SetIsEnemy(true);		// trueÀÌ¸é Àû
+
 		m_pvAI.push_back(pAI);
 	}
 
@@ -143,26 +145,13 @@ void cPlayScene::Update()
 	if (g_pKeyManager->IsOnceKeyDown(VK_LBUTTON))
 		PlayerBulletFire();
 
-	//for each (auto p in m_pvEffect)
-	//{
-	//	if (p->GetPlay())
-	//		p->Update();
-	//	else
-	//		p->Destroy();
-	//}
-	
+	AIBulletCollision();
 }
 
 void cPlayScene::Render()
 {
 	if (m_pSkyView)
 		m_pSkyView->Render();
-
-	for each(auto p in m_pvAI)
-		p->Render();
-	
-	for each(auto p in m_pvDeathAI)
-		p->Render();
 
 	if (m_pHeightMap)
 		m_pHeightMap->Render();
@@ -176,6 +165,12 @@ void cPlayScene::Render()
 	if (m_pPlayer)
 		m_pPlayer->Render();
 	
+	for each(auto p in m_pvAI)
+		p->Render();
+
+	for each(auto p in m_pvDeathAI)
+		p->Render();
+
 	if (m_pUICursorRoot)
 		m_pUICursorRoot->Render(m_pSprite);
 
@@ -245,31 +240,7 @@ void cPlayScene::PlayerBulletFire()
 				}
 			}
 		}
-		/*for (size_t bulletIndex = 0; bulletIndex < gun->GetBullets().size(); bulletIndex++)
-		{
-			D3DXVECTOR3 vBulletCenter, vAICenter;
-			vBulletCenter = gun->GetBullets()[bulletIndex]->GetBoundingSphere().vCenter;
-			vAICenter = m_pvAI[aiIndex]->GetBoundingSphere().vCenter;
-
-			if (IsCollision(vBulletCenter, BULLET_RADIUS, vAICenter, AI_BOUNDING_SPHERE_SIZE))
-			{
-				for (size_t sphereIndex = 0; sphereIndex < m_pvAI[aiIndex]->GetBoundingSphereDetail().size(); sphereIndex++)
-				{
-					if (IsCollision(vBulletCenter, BULLET_RADIUS, m_pvAI[aiIndex]->GetBoundingSphereDetail()[sphereIndex].vCenter, AI_BOUNDING_SPHERE_DETAIL_SIZE))
-					{
-						SAFE_RELEASE(gun->GetBullets()[bulletIndex]);
-						gun->RemoveBullet(bulletIndex);
-
-						if (m_pvAI[aiIndex]->IsAttacked(gun->GetAttackPower()))
-						{
-							SAFE_RELEASE(m_pvAI[aiIndex]);
-							m_pvAI.erase(m_pvAI.begin() + aiIndex);
-						}
-						return;
-					}
-				}
-			}
-		}*/
+		
 	}
 	
 
@@ -281,6 +252,52 @@ void cPlayScene::PlayerBulletFire()
 	}
 
 
+}
+
+void cPlayScene::AIBulletCollision()
+{
+	D3DXVECTOR3 vPlayerPos = m_pPlayer->GetPosition();
+
+	for (size_t aiIndex = 0; aiIndex < m_pvAI.size(); aiIndex++)
+	{
+		cGun* gun = m_pvAI[aiIndex]->GetGun();
+
+		for (size_t bulletIndex = 0; bulletIndex < gun->GetBullets().size(); bulletIndex++)
+		{
+			D3DXVECTOR3 vBulletCenter;
+			vBulletCenter = gun->GetBullets()[bulletIndex]->GetBoundingSphere().vCenter;
+
+			if (IsCollision(vBulletCenter, BULLET_RADIUS, vPlayerPos, PLAYER_BOUNDING_SPHERE_SIZE))
+			{
+				int a = 0;
+			}
+		}
+	}
+	/*for (size_t bulletIndex = 0; bulletIndex < gun->GetBullets().size(); bulletIndex++)
+	{
+	D3DXVECTOR3 vBulletCenter, vAICenter;
+	vBulletCenter = gun->GetBullets()[bulletIndex]->GetBoundingSphere().vCenter;
+	vAICenter = m_pvAI[aiIndex]->GetBoundingSphere().vCenter;
+
+	if (IsCollision(vBulletCenter, BULLET_RADIUS, vAICenter, AI_BOUNDING_SPHERE_SIZE))
+	{
+	for (size_t sphereIndex = 0; sphereIndex < m_pvAI[aiIndex]->GetBoundingSphereDetail().size(); sphereIndex++)
+	{
+	if (IsCollision(vBulletCenter, BULLET_RADIUS, m_pvAI[aiIndex]->GetBoundingSphereDetail()[sphereIndex].vCenter, AI_BOUNDING_SPHERE_DETAIL_SIZE))
+	{
+	SAFE_RELEASE(gun->GetBullets()[bulletIndex]);
+	gun->RemoveBullet(bulletIndex);
+
+	if (m_pvAI[aiIndex]->IsAttacked(gun->GetAttackPower()))
+	{
+	SAFE_RELEASE(m_pvAI[aiIndex]);
+	m_pvAI.erase(m_pvAI.begin() + aiIndex);
+	}
+	return;
+	}
+	}
+	}
+	}*/
 }
 
 float cPlayScene::GetDistance(D3DXVECTOR3 pos1, D3DXVECTOR3 pos2)

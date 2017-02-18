@@ -6,7 +6,7 @@
 #include "cOBB.h"
 #include "cHeightMap.h"
 #include "cTextMap.h"
-
+#include "cSkinnedMesh.h"
 
 cPlayer::cPlayer()
 	: m_nSelectGun(0)
@@ -49,6 +49,12 @@ void cPlayer::Setup()
 	m_pController = new cPlayerController;
 	m_pController->Setup(0.1f);
 	m_pController->SetOBB(m_pPlayerOBB);
+
+	m_stSphere.fRadius = PLAYER_BOUNDING_SPHERE_SIZE;
+	m_stSphere.vCenter = m_vPosition;
+
+	D3DXCreateSphere(g_pD3DDevice, m_stSphere.fRadius, 20, 20, &m_pBoundingSphereMesh, NULL);
+
 
 }
 
@@ -107,6 +113,26 @@ void cPlayer::Render()
 	
 	if (m_pPlayerOBB)
 		m_pPlayerOBB->OBBBox_Render(D3DCOLOR_XRGB(0, 0, 255));
+
+
+
+
+	m_stSphere.vCenter = m_vPosition;
+	m_stSphere.vCenter.y = 1;
+
+	D3DXMATRIXA16 matWorld;
+	D3DXMatrixIdentity(&matWorld);
+	matWorld._41 = m_stSphere.vCenter.x;
+	matWorld._42 = m_stSphere.vCenter.y;
+	matWorld._43 = m_stSphere.vCenter.z;
+
+	g_pD3DDevice->SetTransform(D3DTS_WORLD, &matWorld);
+
+	m_pBoundingSphereMesh->DrawSubset(0);
+
+
+
+
 }
 
 void cPlayer::SetHeightMap(cHeightMap * hMap)
@@ -118,14 +144,14 @@ void cPlayer::SetTextMap(cTextMap * tMap)
 {
 	m_pController->SetTextMap(tMap);
 }
-
-cGun * cPlayer::GetGun()
-{
-	if (m_pGun)
-		return m_pGun;
-	
-	return NULL;
-}
+//
+//cGun * cPlayer::GetGun()
+//{
+//	if (m_pGun)
+//		return m_pGun;
+//	
+//	return NULL;
+//}
 
 void cPlayer::GunSetting(D3DXVECTOR3 & camAngle)
 {
@@ -175,8 +201,9 @@ void cPlayer::GunSettingZoom(D3DXVECTOR3 & camAngle)
 
 void cPlayer::BulletFire(D3DXVECTOR3 dir)
 {
-	D3DXVECTOR3 Dir = dir;
-
 	if (m_pGun)
-		m_pGun->Fire(Dir, m_matWorldTM);
+	{
+		m_pGun->GetGunMesh()->PlayOneShot(1, 0, 0);
+		m_pGun->Fire(dir, m_matWorldTM);
+	}
 }

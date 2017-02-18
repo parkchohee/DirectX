@@ -33,6 +33,7 @@ public:
 	virtual void Update();
 	virtual void Render();
 	
+	virtual cGun* GetGun();
 	virtual bool IsAttacked(float power);
 };
 

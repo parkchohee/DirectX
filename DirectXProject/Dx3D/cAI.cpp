@@ -56,20 +56,34 @@ void cAI::Setup(char* szFolder, char* szFilename)
 
 	// Controller
 	m_pController = new cAIController;
-	m_pController->Setup(0.1f);
+	m_pController->Setup(0.1f, this);
 	m_pController->SetOBB(m_pAIOBB);
 	
 	// bounding Sphere
 	D3DXCreateSphere(g_pD3DDevice, AI_BOUNDING_SPHERE_DETAIL_SIZE, 20, 20, &m_pBoundingSphereDetailMesh, NULL);
 	D3DXCreateSphere(g_pD3DDevice, AI_BOUNDING_SPHERE_SIZE, 20, 20, &m_pBoundingSphereMesh, NULL);
-	
+
 	m_stBoundingSphere.fRadius = AI_BOUNDING_SPHERE_SIZE;
 
 	m_vecBoundingSphereDetail.resize(11);
+	//SetBoundingSphere();
+	//ST_MAT_SPHERE stMatSphere;
+	//stMatSphere.stSphere.vCenter = D3DXVECTOR3(0, 0, 0);
+	//stMatSphere.matLocal = m_pSkinnedMesh->getLocalMatrix("Jaw");
+	//stMatSphere.matWorld = *stMatSphere.matLocal * m_matWorldTM;
+	//D3DXVec3TransformCoord(&stMatSphere.stSphere.vCenter, &stMatSphere.stSphere.vCenter, &stMatSphere.matWorld);
+	//m_vecBoundingSphereDetail[0] = stMatSphere;
 }
 
 void cAI::Update(D3DXVECTOR3 vPlayer, float fAngle)
 {
+	UpdateSkinnedMesh(m_vDirection);
+	SetBoundingSphere();
+	cGameObject::Update();
+
+	if (m_pController)
+		m_pController->Update(vPlayer, m_vDirection, m_vPosition);
+	
 	if (m_pGun)
 		m_pGun->Update();
 
@@ -93,19 +107,8 @@ void cAI::Update(D3DXVECTOR3 vPlayer, float fAngle)
 		}
 		else 
 			m_isShow = false;
-
 	}
 
-	D3DXVECTOR3 vAngle = D3DXVECTOR3(0,0,0);
-	// angle을 컨트롤러에서 받아와서
-	if (m_pController)
-		m_pController->Update(vAngle, m_vDirection, m_vPosition);
-
-	UpdateSkinnedMesh(vAngle);
-	SetBoundingSphere();
-
-	//if (m_pAIOBB)
-	//	m_pAIOBB->Update(&m_matWorldTM);
 }
 
 void cAI::Render()
@@ -132,19 +135,19 @@ void cAI::Render()
 
 	//m_pBoundingSphereMesh->DrawSubset(0);
 	//
-	//for each(auto s in m_vecBoundingSphereDetail)
-	//{
-	//	D3DXMATRIXA16 matWorld;
-	//	D3DXMatrixIdentity(&matWorld);
-	//	matWorld._41 = s.vCenter.x;
-	//	matWorld._42 = s.vCenter.y;
-	//	matWorld._43 = s.vCenter.z;
-	//	
-	//	g_pD3DDevice->SetTransform(D3DTS_WORLD, &matWorld);
+	/*for each(auto s in m_vecBoundingSphereDetail)
+	{
+		D3DXMATRIXA16 matWorld;
+		D3DXMatrixIdentity(&matWorld);
+		matWorld._41 = s.vCenter.x;
+		matWorld._42 = s.vCenter.y;
+		matWorld._43 = s.vCenter.z;
+		
+		g_pD3DDevice->SetTransform(D3DTS_WORLD, &matWorld);
 
-	//	m_pBoundingSphereDetailMesh->DrawSubset(0);
-	//}
-	//
+		m_pBoundingSphereDetailMesh->DrawSubset(0);
+	}
+	*/
 
 }
 
@@ -232,6 +235,19 @@ std::vector<ST_SPHERE> cAI::GetBoundingSphereDetail()
 	return m_vecBoundingSphereDetail;
 }
 
+void cAI::BulletFire(D3DXVECTOR3 dir)
+{
+	if (m_pGun)
+	{
+		m_pSkinnedMesh->PlayOneShot(4, 0, 0);
+		
+		D3DXMATRIXA16 matT;
+		D3DXMatrixTranslation(&matT, m_vPosition.x, m_vPosition.y, m_vPosition.z);
+
+		m_pGun->Fire(dir, matT);
+	}
+}
+
 void cAI::Destroy()
 {
 	m_pSkinnedMesh->PlayOneShotAfterHold(8);
@@ -242,17 +258,23 @@ bool cAI::IsDeath()
 	return !m_pSkinnedMesh->IsPlay();
 }
 
-void cAI::UpdateSkinnedMesh(D3DXVECTOR3 &vAngle)
+void cAI::UpdateSkinnedMesh(D3DXVECTOR3 &vDir)
 {
-	D3DXMATRIXA16 matS, matRX, matRY, matR, matT;
+	D3DXMATRIXA16 matS, matRX, matRY, matR, matRDir, matT;
 	D3DXMatrixScaling(&matS, 0.01f, 0.01f, 0.01f);
-	D3DXMatrixRotationX(&matRX, -D3DX_PI / 2 + vAngle.x);
-	D3DXMatrixRotationY(&matRY, D3DX_PI + vAngle.y);
+	D3DXMatrixRotationX(&matRX, -D3DX_PI / 2);
+	D3DXMatrixRotationY(&matRY, D3DX_PI);
 	D3DXMatrixTranslation(&matT, m_vPosition.x, m_vPosition.y, m_vPosition.z);
-
-	matR = matRX * matRY;
-
+	
+	D3DXMatrixLookAtLH(&matRDir,
+		&D3DXVECTOR3(0, 0, 0),
+		&vDir,
+		&D3DXVECTOR3(0, 1, 0));
+	D3DXMatrixTranspose(&matRDir, &matRDir);
+	
+	matR = matRX * matRY * matRDir;
 	m_matWorldTM = matS * matR * matT;
+
 	m_pSkinnedMesh->SetTransform(&m_matWorldTM);
 
 	D3DXMATRIXA16 obbWorld;

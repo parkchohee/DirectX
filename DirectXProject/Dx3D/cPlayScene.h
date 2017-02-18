@@ -14,7 +14,6 @@ class cStaticMesh;
 
 class cPlayer;
 class cAI;
-//class cEffect;
 
 class cPlayScene : public cScene
 {
@@ -35,8 +34,6 @@ class cPlayScene : public cScene
 	std::vector<cAI*>			m_pvAI;
 	std::vector<cAI*>			m_pvDeathAI;
 
-//	cEffect*					test;
-	//std::vector<cEffect*>		m_pvEffect;
 
 public:
 	cPlayScene();
@@ -49,6 +46,7 @@ public:
 	virtual void WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
 	void PlayerBulletFire();
+	void AIBulletCollision();
 
 	float GetDistance(D3DXVECTOR3 BulletPos, D3DXVECTOR3 CrushManPos);
 	bool IsCollision(D3DXVECTOR3 BulletPos, float BulletSphereRadius, D3DXVECTOR3 CrushManPos, float CrushManSphereRadius);

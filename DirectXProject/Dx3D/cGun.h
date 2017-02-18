@@ -11,13 +11,6 @@ class cGun : public cObject
 
 	std::vector<cBullet*>		m_pvBullet;			// 총알 여러개
 
-	//float						m_fAttackPower;		// 공격 세기
-	//float						m_fAttackRange;		// 사거리
-	//float						m_fAttackSpeed;		// 공격(연사) 속도
-	
-	//int							m_nMaxBullet;			// 총알 최대
-	//int							m_nCurrentBullet;		// 현재 남은 총알 수
-
 	D3DXMATRIXA16				m_pWorldTM;
 	D3DXMATRIXA16				m_pTrans;
 	D3DXMATRIXA16				m_pTransInv;
@@ -44,8 +37,10 @@ public:
 	void SetWorldMatrix(D3DXMATRIXA16* matWorld);
 	void SetWorldMatrixByBoneName(D3DXMATRIXA16* matRot, char* name);
 	
-	void Fire(D3DXVECTOR3& vDirection, D3DXMATRIXA16& vPosition);
+	void Fire(D3DXVECTOR3 vDirection, D3DXMATRIXA16& vPosition);
 	void Reload();
 	void RemoveBullet(int bulletIndex);
+
+	cSkinnedMesh* GetGunMesh();
 };
 

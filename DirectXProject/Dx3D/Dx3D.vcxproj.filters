@@ -286,6 +286,15 @@
       <Filter>Setting&amp;Manager\header\Setting</Filter>
     </ClInclude>
     <ClInclude Include="cEffect.h">
+      <Filter>Setting&amp;Manager\header\Setting</Filter>
+    </ClInclude>
+    <ClInclude Include="cState.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="cStateMove.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="cStateAttack.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
@@ -471,6 +480,15 @@
       <Filter>Setting&amp;Manager\cpp\Setting</Filter>
     </ClCompile>
     <ClCompile Include="cEffect.cpp">
+      <Filter>Setting&amp;Manager\cpp\Setting</Filter>
+    </ClCompile>
+    <ClCompile Include="cState.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="cStateMove.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="cStateAttack.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

@@ -13,6 +13,9 @@ class cPlayer : public cCharacter
 
 	cOBB*               m_pPlayerOBB;
 
+	ST_SPHERE			m_stSphere;
+	LPD3DXMESH			m_pSphereMesh;
+
 
 public:
 	cPlayer();
@@ -25,7 +28,7 @@ public:
 	void SetHeightMap(cHeightMap* hMap);
 	void SetTextMap(cTextMap* tMap);
 
-	cGun* GetGun();
+	//cGun* GetGun();
 	void GunSetting(D3DXVECTOR3& camAngle);
 	void GunSettingZoom(D3DXVECTOR3& camAngle);
 

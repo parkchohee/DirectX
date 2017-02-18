@@ -4,12 +4,20 @@
 
 class cUIImageView;
 
+struct ST_MAT_SPHERE
+{
+	ST_SPHERE	stSphere;
+	D3DXMATRIXA16* matLocal;
+	D3DXMATRIXA16 matWorld;
+};
+
 class cAI : public cCharacter
 {
 	cSkinnedMesh*			m_pSkinnedMesh;				// Ä³¸¯ÅÍ ¸öÃ¼
 
 	LPD3DXMESH				m_pBoundingSphereDetailMesh;
 	std::vector<ST_SPHERE>	m_vecBoundingSphereDetail;
+	//std::vector<ST_MAT_SPHERE>	m_vecBoundingSphereDetail;
 
 	cOBB*					m_pAIOBB;
 
@@ -32,11 +40,13 @@ public:
 	ST_SPHERE GetBoundingSphere();
 	std::vector<ST_SPHERE> GetBoundingSphereDetail();
 
+	void BulletFire(D3DXVECTOR3 dir);
+
 	void Destroy();
 	bool IsDeath();
 
 private:
 	void SetBoundingSphere();
-	void UpdateSkinnedMesh(D3DXVECTOR3 &vAngle);
+	void UpdateSkinnedMesh(D3DXVECTOR3 &vDir);
 };
 

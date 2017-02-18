@@ -7,6 +7,7 @@ class cBullet : public cGameObject
 
 	float						m_fBulletSpeed;				// 총알의 이동 속도
 
+	LPD3DXMESH					m_pBoundingSphereMesh;
 	ST_SPHERE					m_stBoundingSphere;
 
 	SYNTHESIZE(float, m_fMoveDistance, MoveDistance);		// 총알이 이동한 거리
@@ -15,7 +16,7 @@ public:
 	cBullet();
 	~cBullet();
 
-	void Setup(D3DXVECTOR3 & vDirection, D3DXVECTOR3 & vPosition);
+	void Setup(D3DXVECTOR3 vDirection, D3DXVECTOR3 vPosition);
 	void Update();
 	void Render();
 
