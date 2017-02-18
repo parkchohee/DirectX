@@ -41,6 +41,9 @@ public:
 	void Reload();
 	void RemoveBullet(int bulletIndex);
 
+	bool IsShoot();
+	bool IsReload();
+
 	cSkinnedMesh* GetGunMesh();
 };
 

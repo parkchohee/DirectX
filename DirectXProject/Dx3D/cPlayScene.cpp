@@ -142,8 +142,8 @@ void cPlayScene::Update()
 	if (m_pUIPlayerInfoRoot)
 		m_pUIPlayerInfoRoot->Update();
 
-	if (g_pKeyManager->IsOnceKeyDown(VK_LBUTTON))
-		PlayerBulletFire();
+	//if (g_pKeyManager->IsOnceKeyDown(VK_LBUTTON))
+	PlayerBulletFire();
 
 	AIBulletCollision();
 }
@@ -194,8 +194,8 @@ void cPlayScene::PlayerBulletFire()
 {
 	if (m_pPlayer == NULL) return;
 	if (m_pPlayer->GetGun() == NULL) return;
-	
-	g_pSoundManager->play("ShotgunFire", 0.5f);
+	if (!m_pPlayer->GetGun()->IsShoot()) return;
+	if (m_pPlayer->GetBullet() == NULL) return;
 
 	float centerX, centerY;
 	RECT rc;
@@ -203,9 +203,10 @@ void cPlayScene::PlayerBulletFire()
 	centerX = (rc.left + rc.right) / 2;
 	centerY = (rc.top + rc.bottom) / 2;
 
-	cRay r = cRay::RayAtWorldSpace(centerX, centerY);
+	/*cRay r = cRay::RayAtWorldSpace(centerX, centerY);*/
 	
-	m_pPlayer->BulletFire(r.GetRayDir());
+	cRay r = m_pPlayer->GetBullet()->RayAtWorldSpace(centerX, centerY);
+//	m_pPlayer->BulletFire(r.GetRayDir());
 
 	// sort 알고리즘 돌리면 계산량 증가 -> distance 계산, sort, 스피어충돌 모두 계산해야함.
 	// 스피어충돌, 충돌한것만 dist계산 하도록 하여 계산량 줄임.
@@ -223,8 +224,8 @@ void cPlayScene::PlayerBulletFire()
 
 	for (size_t aiIndex = 0; aiIndex < m_pvAI.size(); aiIndex++)
 	{
-		// 우리팀은 건너뛴다.
-		if (!m_pvAI[aiIndex]->GetIsEnemy()) continue;
+		// 우리팀은 건너뛴다. -> 팀개념이 없어짐. 삭제 
+	//	if (!m_pvAI[aiIndex]->GetIsEnemy()) continue;
 
 		// 상대팀이면 충돌체크
 		if (!r.IsPicked(&m_pvAI[aiIndex]->GetBoundingSphere()))
@@ -244,16 +245,16 @@ void cPlayScene::PlayerBulletFire()
 		}
 		
 	}
-	
 
 	if (fAttackRange > fMinDist)
 	{
 		m_pvAI[nMinDistAiIndex]->Destroy();
 		m_pvDeathAI.push_back(m_pvAI[nMinDistAiIndex]);
 		m_pvAI.erase(m_pvAI.begin() + nMinDistAiIndex);
+	
 	}
 
-
+	m_pPlayer->DeleteRay();
 }
 
 void cPlayScene::AIBulletCollision()

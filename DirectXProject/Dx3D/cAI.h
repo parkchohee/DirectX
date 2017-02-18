@@ -4,20 +4,12 @@
 
 class cUIImageView;
 
-struct ST_MAT_SPHERE
-{
-	ST_SPHERE	stSphere;
-	D3DXMATRIXA16* matLocal;
-	D3DXMATRIXA16 matWorld;
-};
-
 class cAI : public cCharacter
 {
 	cSkinnedMesh*			m_pSkinnedMesh;				// 캐릭터 몸체
 
 	LPD3DXMESH				m_pBoundingSphereDetailMesh;
 	std::vector<ST_SPHERE>	m_vecBoundingSphereDetail;
-	//std::vector<ST_MAT_SPHERE>	m_vecBoundingSphereDetail;
 
 	cOBB*					m_pAIOBB;
 

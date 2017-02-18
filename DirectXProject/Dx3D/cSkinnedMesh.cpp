@@ -336,6 +336,11 @@ void cSkinnedMesh::PlayOneShotAfterHold(int animIndex, float crossFadeTime)
 	this->SetAnimation(m_vecAnimSet[animIndex]);
 }
 
+bool cSkinnedMesh::IsPlay(std::string animName)
+{
+	return (animName == m_pNowPlayAnimationSet->GetName());
+}
+
 cSkinnedMesh::cSkinnedMesh()
 	: m_pRootFrame(NULL)
 	, m_pAnimController(NULL)

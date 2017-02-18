@@ -7,10 +7,12 @@
 #include "cHeightMap.h"
 #include "cTextMap.h"
 #include "cSkinnedMesh.h"
+#include "cRay.h"
 
 cPlayer::cPlayer()
 	: m_nSelectGun(0)
 	, m_pPlayerOBB(NULL)
+	, m_pBulletRay(NULL)
 {
 }
 
@@ -37,7 +39,7 @@ void cPlayer::Setup()
 	m_vecGun[1] = pGun2;
 	
 	cGun* pGun3 = new cGun;
-	pGun3->Setup(&m_vPosition, "Gun/bullpop/", "bullpop.X");
+	pGun3->Setup(&m_vPosition, "Gun/9mm/", "9mm.X");
 	m_vecGun[2] = pGun3;
 
 	m_pGun = m_vecGun[m_nSelectGun];
@@ -47,7 +49,7 @@ void cPlayer::Setup()
 		D3DXVECTOR3(0.5f, 2.0f, 0.5f));
 
 	m_pController = new cPlayerController;
-	m_pController->Setup(0.1f);
+	m_pController->Setup(0.1f, this);
 	m_pController->SetOBB(m_pPlayerOBB);
 
 	m_stSphere.fRadius = PLAYER_BOUNDING_SPHERE_SIZE;
@@ -67,11 +69,6 @@ void cPlayer::Update(D3DXVECTOR3 & camAngle)
 	{
 		m_pGun->Update();
 	}
-
-	/*if (g_pKeyManager->IsOnceKeyDown(VK_LBUTTON))
-	{
-		BulletFire();
-	}*/
 
 	if (g_pKeyManager->IsStayKeyDown(VK_RBUTTON))
 	{
@@ -144,14 +141,6 @@ void cPlayer::SetTextMap(cTextMap * tMap)
 {
 	m_pController->SetTextMap(tMap);
 }
-//
-//cGun * cPlayer::GetGun()
-//{
-//	if (m_pGun)
-//		return m_pGun;
-//	
-//	return NULL;
-//}
 
 void cPlayer::GunSetting(D3DXVECTOR3 & camAngle)
 {
@@ -203,7 +192,21 @@ void cPlayer::BulletFire(D3DXVECTOR3 dir)
 {
 	if (m_pGun)
 	{
+		m_pBulletRay = new cRay;
+
+		g_pSoundManager->play("ShotgunFire", 0.5f);
+
 		m_pGun->GetGunMesh()->PlayOneShot(1, 0, 0);
 		m_pGun->Fire(dir, m_matWorldTM);
 	}
+}
+
+cRay * cPlayer::GetBullet()
+{
+	return m_pBulletRay;
+}
+
+void cPlayer::DeleteRay()
+{
+	SAFE_DELETE(m_pBulletRay);
 }

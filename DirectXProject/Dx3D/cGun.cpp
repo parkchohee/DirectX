@@ -145,6 +145,16 @@ void cGun::RemoveBullet(int bulletIndex)
 	m_pvBullet.erase(m_pvBullet.begin() + bulletIndex);
 }
 
+bool cGun::IsShoot()
+{
+	return m_pGun->IsPlay("shot");
+}
+
+bool cGun::IsReload()
+{
+	return m_pGun->IsPlay("reload");
+}
+
 cSkinnedMesh * cGun::GetGunMesh()
 {
 	return m_pGun;

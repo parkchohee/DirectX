@@ -86,6 +86,7 @@ public:
 	void Pause() { m_bPlay = false;	}
 	void Resume() { m_bPlay = true; }
 	bool IsPlay() {	return m_bPlay; }
+	bool IsPlay(std::string animName);
 
 private:
 	cSkinnedMesh();

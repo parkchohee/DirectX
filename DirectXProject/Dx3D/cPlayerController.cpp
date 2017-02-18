@@ -4,9 +4,11 @@
 #include "cTextMap.h"
 #include "cOBB.h"
 #include "cBuilding.h"
-
+#include "cPlayer.h"
+#include "cGun.h"
 
 cPlayerController::cPlayerController()
+	: m_pTarget(NULL)
 {
 }
 
@@ -18,10 +20,14 @@ cPlayerController::~cPlayerController()
 void cPlayerController::Setup(float moveSpeed, cCharacter* pCharacter)
 {
 	m_fMoveSpeed = moveSpeed;
+
+	m_pTarget = (cPlayer*)pCharacter;
 }
 
 void cPlayerController::Update(D3DXVECTOR3 & camAngle, OUT D3DXVECTOR3 & vDirection, OUT D3DXVECTOR3 & vPosition)
 {
+	if (m_pTarget == NULL) return;
+
 	// angle을 이용해 direction을 구한다. 
 	D3DXMATRIXA16 matR, matRX, matRY, matT;
 	D3DXMatrixRotationX(&matRX, camAngle.x);
@@ -36,6 +42,16 @@ void cPlayerController::Update(D3DXVECTOR3 & camAngle, OUT D3DXVECTOR3 & vDirect
 	vDirection = D3DXVECTOR3(0, 0, 1);
 	matR = matRX * matRY;
 	D3DXVec3TransformNormal(&vDirection, &vDirection, &matR);
+
+
+
+	if (g_pKeyManager->IsOnceKeyDown(VK_LBUTTON))
+	{
+		if(!m_pTarget->GetGun()->IsShoot())
+			m_pTarget->BulletFire(vDirection);
+	}
+
+
 
 
 	D3DXVECTOR3 _vPosition = vPosition;

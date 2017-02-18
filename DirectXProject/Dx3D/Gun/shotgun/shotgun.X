@@ -128969,7 +128969,7 @@ AnimTicksPerSecond  {
  4800;
 }
 
-AnimationSet Anim1 {
+AnimationSet takeout {
  
 
  Animation {
@@ -129774,7 +129774,7 @@ AnimationSet Anim1 {
 }
 
 
-AnimationSet Anim1 {
+AnimationSet backoff {
  
 
  Animation {
@@ -130571,7 +130571,7 @@ AnimationSet Anim1 {
 }
 
 
-AnimationSet Anim1 {
+AnimationSet reload {
  
 
  Animation {
@@ -134397,7 +134397,7 @@ AnimationSet Anim1 {
 }
 
 
-AnimationSet Anim1 {
+AnimationSet shot {
  
 
  Animation {
@@ -135291,7 +135291,7 @@ AnimationSet Anim1 {
 }
 
 
-AnimationSet Anim1 {
+AnimationSet idle {
  
 
  Animation {
