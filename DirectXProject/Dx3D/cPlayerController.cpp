@@ -51,33 +51,52 @@ void cPlayerController::Update(D3DXVECTOR3 & camAngle, OUT D3DXVECTOR3 & vDirect
 			m_pTarget->BulletFire(vDirection);
 	}
 
-
-
-
+	if (g_pKeyManager->IsStayKeyDown(VK_RBUTTON))
+		m_pTarget->SetGunMode(GUN_ZOOM_MODE);
+	else
+		m_pTarget->SetGunMode(GUN_NORMAL_MODE);
+	
 	D3DXVECTOR3 _vPosition = vPosition;
 
-	// direction 방향으로 앞으로,
-	if (g_pKeyManager->IsStayKeyDown('W'))			// 앞으로 움직임
+	if (m_pTarget->GetGunMode() == GUN_NORMAL_MODE)
 	{
-		_vPosition = vPosition + (mvDirection * m_fMoveSpeed);
+		// direction 방향으로 앞으로,
+		if (g_pKeyManager->IsStayKeyDown('W'))			// 앞으로 움직임
+		{
+			_vPosition = vPosition + (mvDirection * m_fMoveSpeed);
+		}
+		else if (g_pKeyManager->IsStayKeyDown('S'))		// 뒤로 움직임
+		{
+			_vPosition = vPosition - (mvDirection * m_fMoveSpeed);
+		}
+
+		D3DXMatrixRotationY(&matR, camAngle.y - D3DX_PI / 2);
+		mvDirection = D3DXVECTOR3(0, 0, 1);
+		D3DXVec3TransformNormal(&mvDirection, &mvDirection, &matR);
+
+		if (g_pKeyManager->IsStayKeyDown('A'))			// 왼쪽으로 움직임
+		{
+			_vPosition = vPosition + (mvDirection * m_fMoveSpeed);
+		}
+		else if (g_pKeyManager->IsStayKeyDown('D'))		// 오른쪽으로 움직임
+		{
+			_vPosition = vPosition - (mvDirection * m_fMoveSpeed);
+		}
 	}
-	else if (g_pKeyManager->IsStayKeyDown('S'))		// 뒤로 움직임
+	else
 	{
-		_vPosition = vPosition - (mvDirection * m_fMoveSpeed);
+		if (g_pKeyManager->IsStayKeyDown('A'))			// 왼쪽으로 움직임
+		{
+			// 왼쪽으로 카메라 회전시킨다
+		//	_vPosition = vPosition + (mvDirection * m_fMoveSpeed);
+		}
+		else if (g_pKeyManager->IsStayKeyDown('D'))		// 오른쪽으로 움직임
+		{
+			// 오른쪽으로 카메라를 회전시킨다.
+			//_vPosition = vPosition - (mvDirection * m_fMoveSpeed);
+		}
 	}
 
-	D3DXMatrixRotationY(&matR, camAngle.y - D3DX_PI / 2);
-	mvDirection = D3DXVECTOR3(0, 0, 1);
-	D3DXVec3TransformNormal(&mvDirection, &mvDirection, &matR);
-	
-	if (g_pKeyManager->IsStayKeyDown('A'))			// 왼쪽으로 움직임
-	{
-		_vPosition = vPosition + (mvDirection * m_fMoveSpeed);
-	}
-	else if (g_pKeyManager->IsStayKeyDown('D'))		// 오른쪽으로 움직임
-	{
-		_vPosition = vPosition - (mvDirection * m_fMoveSpeed);
-	}
 
 	if (m_pTextMap)
 	{
