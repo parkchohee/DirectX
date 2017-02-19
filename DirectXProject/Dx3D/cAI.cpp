@@ -234,7 +234,7 @@ void cAI::BulletFire(D3DXVECTOR3 dir)
 {
 	if (m_pGun)
 	{
-		m_pSkinnedMesh->PlayOneShot(4, 0, 0);
+		m_pSkinnedMesh->PlayOneShot("StandFire", 0, 0);
 		
 		D3DXMATRIXA16 matT;
 		D3DXMatrixTranslation(&matT, m_vPosition.x, m_vPosition.y, m_vPosition.z);

@@ -193,7 +193,7 @@ void cPlayer::GunChange()
 
 void cPlayer::GunSetting(D3DXVECTOR3 & camAngle)
 {
-	D3DXMATRIXA16 matS, matRX, matRY, matR, matT, matSRT;
+	D3DXMATRIXA16 matS, matRX, matRY, matRZ, matR, matT, matSRT;
 	D3DXMatrixScaling(&matS, 0.1f, 0.1f, 0.1f);
 	D3DXMatrixRotationY(&matR, -D3DX_PI / 2);
 
@@ -209,6 +209,13 @@ void cPlayer::GunSetting(D3DXVECTOR3 & camAngle)
 
 	// 중심 축 맞춰주기 위해 이동후 회전, 다시 원위치로
 	D3DXMATRIXA16 matTempT, matTempTInv;
+
+	/*D3DXMatrixTranslation(&matTempT, 0.f, 2.f, 0.f);
+	D3DXMatrixTranslation(&matTempTInv, 0.f, -2.f, 0.f);
+	D3DXMatrixRotationZ(&matRZ, camAngle.z);
+
+	matR = matR * matTempT * matRZ * matTempTInv;*/
+
 	D3DXMatrixTranslation(&matTempT, moveX, 0.5, 3.0f);
 	D3DXMatrixTranslation(&matTempTInv, -moveX, -0.5, -3.0f);
 
@@ -216,6 +223,8 @@ void cPlayer::GunSetting(D3DXVECTOR3 & camAngle)
 	D3DXMatrixRotationY(&matRY, camAngle.y);
 
 	matR = matR * matTempT * matRX * matRY * matTempTInv;
+
+
 	matSRT = matS * matR * matT;
 
 	m_matWorldTM = matSRT;

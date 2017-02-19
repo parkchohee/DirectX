@@ -61,7 +61,7 @@ void cAIController::Update(OUT D3DXVECTOR3 & vPlayer, OUT D3DXVECTOR3 & vDirecti
 		/*if (m_pTarget->GetState()->GetStateType() == STATE_ATTACK)
 		return;
 		*/
-		if (m_pTarget->GetMesh()->IsPlay("shot"))
+		if (m_pTarget->GetMesh()->IsPlay("StandFire"))
 			return;
 		
 		D3DXVECTOR3 vPlayerDir;

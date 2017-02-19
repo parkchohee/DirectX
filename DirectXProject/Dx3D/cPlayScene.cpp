@@ -66,7 +66,7 @@ void cPlayScene::Setup()
 		cAI* pAI = new cAI;
 		pAI->SetBuildings(m_pvBuildingGroup[1]);
 		pAI->SetPosition(D3DXVECTOR3(rand()%15,0,rand() % 15));
-		pAI->Setup("AI/", "AI.X");
+		pAI->Setup("AI/", "soldier.X");
 		pAI->SetHeightMap(m_pHeightMap);
 		pAI->SetTextMap(m_pTextMap);
 		//pAI->SetIsEnemy(true);		// trueÀÌ¸é Àû

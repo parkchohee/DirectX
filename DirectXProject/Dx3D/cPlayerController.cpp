@@ -89,9 +89,11 @@ void cPlayerController::Update(D3DXVECTOR3 & camAngle, OUT D3DXVECTOR3 & vDirect
 		{
 			// 왼쪽으로 카메라 회전시킨다
 		//	_vPosition = vPosition + (mvDirection * m_fMoveSpeed);
+			camAngle.z += 0.01f;
 		}
 		else if (g_pKeyManager->IsStayKeyDown('D'))		// 오른쪽으로 움직임
 		{
+			camAngle.z -= 0.01f;
 			// 오른쪽으로 카메라를 회전시킨다.
 			//_vPosition = vPosition - (mvDirection * m_fMoveSpeed);
 		}

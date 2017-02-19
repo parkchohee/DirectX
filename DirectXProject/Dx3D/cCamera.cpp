@@ -48,6 +48,7 @@ void cCamera::Update()
 	matR = matRX * matRY;
 	D3DXVec3TransformCoord(&m_vLookAt, &m_vLookAt, &matR);
 
+
 	if (m_pvTarget)
 	{
 		m_vEye = m_vEye + *m_pvTarget;
