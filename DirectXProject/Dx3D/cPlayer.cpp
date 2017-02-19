@@ -209,13 +209,6 @@ void cPlayer::GunSetting(D3DXVECTOR3 & camAngle)
 
 	// 중심 축 맞춰주기 위해 이동후 회전, 다시 원위치로
 	D3DXMATRIXA16 matTempT, matTempTInv;
-
-	/*D3DXMatrixTranslation(&matTempT, 0.f, 2.f, 0.f);
-	D3DXMatrixTranslation(&matTempTInv, 0.f, -2.f, 0.f);
-	D3DXMatrixRotationZ(&matRZ, camAngle.z);
-
-	matR = matR * matTempT * matRZ * matTempTInv;*/
-
 	D3DXMatrixTranslation(&matTempT, moveX, 0.5, 3.0f);
 	D3DXMatrixTranslation(&matTempTInv, -moveX, -0.5, -3.0f);
 

@@ -7,6 +7,7 @@ cStaticMesh::cStaticMesh()
 	, m_vTexture(0)
 	, m_vMin(0, 0, 0)
 	, m_vMax(0, 0, 0)
+	, m_vPosition(0,0,0)
 {
 	D3DXMatrixIdentity(&m_pmatWorld);
 }
@@ -114,6 +115,11 @@ bool cStaticMesh::Setup(char* szDirectory, char* szFilename)
 
 void cStaticMesh::Render()
 {
+
+	D3DXMATRIXA16 matWorld;
+	D3DXMatrixTranslation(&matWorld, m_vPosition.x, m_vPosition.y, m_vPosition.z);
+	matWorld = m_pmatWorld * matWorld;
+
 	// ±×¸²ÀÚ
 	{
 		g_pD3DDevice->SetRenderState(D3DRS_STENCILENABLE, true);
@@ -135,7 +141,7 @@ void cStaticMesh::Render()
 			&lightDirection,
 			&groundPlane);
 
-		D3DXMATRIX W = m_pmatWorld * S;
+		D3DXMATRIX W = matWorld * S;
 		g_pD3DDevice->SetTransform(D3DTS_WORLD, &W);
 
 		// alpha blend the shadow
@@ -167,7 +173,8 @@ void cStaticMesh::Render()
 
 	}
 
-	g_pD3DDevice->SetTransform(D3DTS_WORLD, &m_pmatWorld);
+
+	g_pD3DDevice->SetTransform(D3DTS_WORLD, &matWorld);
 
 	for (int i = 0; i < m_vMtrls.size(); i++)
 	{

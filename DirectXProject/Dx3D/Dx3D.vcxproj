@@ -89,6 +89,7 @@
     <ClInclude Include="cActionSeq.h" />
     <ClInclude Include="cAI.h" />
     <ClInclude Include="cAiController.h" />
+    <ClInclude Include="cAirDrop.h" />
     <ClInclude Include="cAllocateHierarchy.h" />
     <ClInclude Include="cBuilding.h" />
     <ClInclude Include="cBuildingGroup.h" />
@@ -98,6 +99,7 @@
     <ClInclude Include="cController.h" />
     <ClInclude Include="cDeviceManager.h" />
     <ClInclude Include="cEffect.h" />
+    <ClInclude Include="cEvent.h" />
     <ClInclude Include="cFirstScene.h" />
     <ClInclude Include="cFontManager.h" />
     <ClInclude Include="cFrustum.h" />
@@ -158,6 +160,7 @@
     <ClCompile Include="cActionSeq.cpp" />
     <ClCompile Include="cAI.cpp" />
     <ClCompile Include="cAiController.cpp" />
+    <ClCompile Include="cAirDrop.cpp" />
     <ClCompile Include="cAllocateHierarchy.cpp" />
     <ClCompile Include="cBuilding.cpp" />
     <ClCompile Include="cBuildingGroup.cpp" />
@@ -167,6 +170,7 @@
     <ClCompile Include="cController.cpp" />
     <ClCompile Include="cDeviceManager.cpp" />
     <ClCompile Include="cEffect.cpp" />
+    <ClCompile Include="cEvent.cpp" />
     <ClCompile Include="cFirstScene.cpp" />
     <ClCompile Include="cFontManager.cpp" />
     <ClCompile Include="cFrustum.cpp" />

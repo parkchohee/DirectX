@@ -16,6 +16,17 @@ class cPlayer;
 class cAI;
 
 class cBuildingGroup;
+class cEvent;
+
+class cAirDrop;
+
+enum PLAY_STATE
+{
+	AIRDROP_STATE,
+	NORMAL_STATE,
+	PAUSE_STATE,
+	GAME_OVER
+};
 
 class cPlayScene : public cScene
 {
@@ -31,6 +42,12 @@ class cPlayScene : public cScene
 	std::vector<cAI*>			m_pvDeathAI;
 
 	std::vector<cBuildingGroup*> m_pvBuildingGroup;
+
+	cEvent*						m_pEvent;
+
+	cAirDrop*					m_pAirDrop;
+
+	PLAY_STATE					m_eState;
 
 public:
 	cPlayScene();
@@ -49,6 +66,7 @@ public:
 
 	float GetDistance(D3DXVECTOR3 BulletPos, D3DXVECTOR3 CrushManPos);
 	bool IsCollision(D3DXVECTOR3 BulletPos, float BulletSphereRadius, D3DXVECTOR3 CrushManPos, float CrushManSphereRadius);
+	void LevUpCheck();
 
 };
 

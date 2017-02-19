@@ -14,7 +14,7 @@ cGun::cGun()
 	, m_nCurrentBullet(8)
 	, m_nMagazine(8)
 	, m_fCurrentExp(0.f)
-	, m_fMaxExp(10.f)
+	, m_fMaxExp(3.f)
 	, m_CurrentLv(0)
 	, m_MaxLv(3)
 {

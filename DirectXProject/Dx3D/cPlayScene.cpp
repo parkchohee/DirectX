@@ -16,6 +16,8 @@
 #include "cStaticMesh.h"
 #include "cRay.h"
 #include "cBuildingGroup.h"
+#include "cEvent.h"
+#include "cAirDrop.h"
 
 cPlayScene::cPlayScene()
 	: m_pCamera(NULL)
@@ -24,12 +26,17 @@ cPlayScene::cPlayScene()
 	, m_pHeightMap(NULL)
 	, m_pPlayer(NULL)
 	, m_pSkyView(NULL)
+	, m_pEvent(NULL)
+	, m_pAirDrop(NULL)
+	, m_eState(AIRDROP_STATE)
 {
 }
 
 
 cPlayScene::~cPlayScene()
 {
+	SAFE_RELEASE(m_pAirDrop);
+	SAFE_RELEASE(m_pEvent);
 	SAFE_DELETE(m_pSkyView);
 
 	SAFE_DELETE(m_pCamera);
@@ -87,6 +94,9 @@ void cPlayScene::Setup()
 	D3DXMatrixScaling(&matS, 0.05f, 0.05f, 0.05f);
 	m_pSkyView->SetWorld(matS);
 
+	m_pAirDrop = new cAirDrop;
+	m_pAirDrop->Setup(m_pHeightMap);
+	m_pCamera->Setup(&m_pAirDrop->GetPosition());
 }
 
 void cPlayScene::Update()
@@ -95,6 +105,9 @@ void cPlayScene::Update()
 
 	if (m_pCamera)
 		m_pPlayer->Update(m_pCamera->GetCamRotAngle());
+
+	if (m_pTextMap)
+		m_pTextMap->Update();
 
 	for each(auto p in m_pvAI)
 		p->Update(m_pPlayer->GetPosition(), m_pCamera->GetCamRotAngle().y);
@@ -111,15 +124,46 @@ void cPlayScene::Update()
 		i++;
 	}
 
-	if (m_pTextMap)
-		m_pTextMap->Update();
+	if (m_pEvent)
+	{
+		m_pEvent->Update();
+
+		if (!m_pEvent->GetIsPlay())
+		{
+			m_pEvent->Destroy();
+			SAFE_RELEASE(m_pEvent);
+			
+			if (m_eState == GAME_OVER)
+			{
+				// 씬체인치
+			}
+		}
+	}
 
 	if (m_pCamera)
 		m_pCamera->Update();
 
+	if ((m_eState != GAME_OVER))
+	{
+		if (m_eState != AIRDROP_STATE)
+		{
+			PlayerBulletCollision();
+			AIBulletCollision();
+		}
+		else
+		{
+			if (m_pAirDrop)
+			{
+				m_pAirDrop->Update();
 
-	PlayerBulletCollision();
-	AIBulletCollision();
+				if (!m_pAirDrop->isPlay())
+				{
+					m_eState = NORMAL_STATE;
+					m_pCamera->Setup(&(m_pPlayer->GetPosition()));
+				}
+			}
+		}
+	}
 }
 
 void cPlayScene::Render()
@@ -142,8 +186,17 @@ void cPlayScene::Render()
 	for each(auto p in m_pvDeathAI)
 		p->Render();
 
-	if (m_pPlayer)
+	if (m_pEvent)
+		m_pEvent->Render();
+	
+	if(m_eState != AIRDROP_STATE)
 		m_pPlayer->Render();
+	else
+	{
+		// airdrop모드에서 그려줄것.
+		if (m_pAirDrop)
+			m_pAirDrop->Render();
+	}
 	
 }
 
@@ -203,7 +256,8 @@ void cPlayScene::PlayerBulletCollision()
 	if (fAttackRange > fMinDist)
 	{
 		m_pPlayer->GetGun()->SetCurrentExp(m_pPlayer->GetGun()->GetCurrentExp() + 1.0f);
-	
+		LevUpCheck();
+
 		if (m_pvAI[nMinDistAiIndex]->IsAttacked(m_pPlayer->GetGun()->GetAttackPower())) // 피없으면 죽임
 		{
 			m_pvAI[nMinDistAiIndex]->Destroy();
@@ -233,7 +287,11 @@ void cPlayScene::AIBulletCollision()
 			{
 				if (m_pPlayer->IsAttacked(gun->GetAttackPower()))
 				{
-					int a = 0;
+					m_pEvent = new cEvent;
+					m_pEvent->Setup("PlayerUI/gameOver.png",
+						"PlayerUI/gameOver.png");
+
+					m_eState = GAME_OVER;
 				}
 			}
 		}
@@ -275,4 +333,44 @@ float cPlayScene::GetDistance(D3DXVECTOR3 pos1, D3DXVECTOR3 pos2)
 bool cPlayScene::IsCollision(D3DXVECTOR3 BulletPos, float BulletSphereRadius, D3DXVECTOR3 CrushManPos, float CrushManSphereRadius)
 {
 	return GetDistance(BulletPos, CrushManPos) < ((BulletSphereRadius + CrushManSphereRadius) * (BulletSphereRadius + CrushManSphereRadius));
+}
+
+void cPlayScene::LevUpCheck()
+{
+	if (m_pPlayer->GetGun()->GetCurrentExp() >= m_pPlayer->GetGun()->GetMaxExp()) // 경험치 다 오르면
+	{
+		if (m_pPlayer->GetGun()->GetMaxLv() > m_pPlayer->GetGun()->GetCurrentLv()) // 레벨 최대치가 아니면
+		{
+			m_pPlayer->GetGun()->SetCurrentLv(m_pPlayer->GetGun()->GetCurrentLv() + 1); // 현재 레벨 증가
+		}
+		m_pPlayer->GetGun()->SetCurrentExp(0); // 현재 경험치 초기화
+		m_pPlayer->GetGun()->SetMaxExp(m_pPlayer->GetGun()->GetMaxExp() + 2); // 필요경험치 증가
+
+
+		switch (m_pPlayer->GetGun()->GetCurrentLv())
+		{
+		case 1:
+			m_pEvent = new cEvent;
+			m_pEvent->Setup("PlayerUI/attackup.png",
+				"PlayerUI/attackup.png");
+				/*"PlayerUI/secondclassshooter.png");*/
+			m_pPlayer->GetGun()->SetAttackPower(m_pPlayer->GetGun()->GetAttackPower() + 5);
+			break;
+		case 2:
+			m_pEvent = new cEvent;
+			m_pEvent->Setup("PlayerUI/firstclassshooter.png",
+				/*	"PlayerUI/speedup.png");*/
+				"PlayerUI/firstclassshooter.png");
+			//m_pPlayer->SetMoveSpeed(m_pPlayer->GetMoveSpeed() + 0.05f);
+			break;
+		case 3:
+			m_pEvent = new cEvent;
+			m_pEvent->Setup("PlayerUI/expressshooter.png",
+				/*"PlayerUI/magazineup.png");*/
+				"PlayerUI/expressshooter.png");
+			m_pPlayer->GetGun()->SetMagazine(m_pPlayer->GetGun()->GetMagazine() + 5);
+			break;
+		}
+	}
+
 }
