@@ -41,8 +41,13 @@ void cUIImageView::Render( LPD3DXSPRITE pSprite )
 
 	if (m_fRateX < 0.f)
 		m_fRateX = 0.f;
+	else if (m_fRateX > 1.f)
+		m_fRateX = 1.f;
+
 	if (m_fRateY < 0.f)
 		m_fRateY = 0.f;
+	else if (m_fRateY > 1.f)
+		m_fRateY = 1.f;
 
 	RECT rc;
 	SetRect(&rc, 0, 0, m_stSize.nWidth * m_fRateX, m_stSize.nHeight * m_fRateY);

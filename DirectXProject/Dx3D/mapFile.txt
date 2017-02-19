@@ -1,125 +1,125 @@
 {
 DirectoryName : Map/Building/
-FileName : building25
-S : 0.007000
-A : 1.169999
-P : -8.499996, 0.000000, 46.699860
-}
-{
-DirectoryName : Map/Building/
-FileName : building24
-S : 0.007000
-A : -0.120000
-P : -16.600027, 0.000000, 45.499878
-}
-{
-DirectoryName : Map/Building/
-FileName : building19
+FileName : building15
 S : 0.007000
 A : 0.000000
-P : -2.700000, 0.000000, 47.399849
+P : -11.400007, 0.000000, 12.700012
 }
 {
 DirectoryName : Map/Building/
-FileName : car6
-S : 0.007000
-A : -1.589999
-P : -13.200014, 0.000000, 36.400017
-}
-{
-DirectoryName : Map/Building/
-FileName : trashcan1
+FileName : building15
 S : 0.007000
 A : 0.000000
-P : -18.700035, 0.000000, 40.199959
+P : 0.800000, 0.000000, 12.700012
 }
 {
 DirectoryName : Map/Building/
-FileName : trashcan1
+FileName : barbwire1
 S : 0.007000
 A : 0.000000
-P : -18.000032, 0.000000, 40.099960
+P : 3.899998, 0.000000, 6.499996
 }
 {
 DirectoryName : Map/Building/
-FileName : cart1
+FileName : barbwire1
 S : 0.007000
 A : 0.000000
-P : -3.399999, 0.000000, 44.599892
+P : 8.699997, 0.000000, 6.499996
 }
 {
 DirectoryName : Map/Building/
-FileName : cart1
+FileName : barbwire1
 S : 0.007000
 A : 0.000000
-P : -0.600000, 0.000000, 48.499832
+P : 7.699995, 0.000000, 11.400007
 }
 {
 DirectoryName : Map/Building/
-FileName : fence1
-S : 0.007000
-A : 1.259999
-P : 2.400000, 0.000000, 49.199821
-}
-{
-DirectoryName : Map/Building/
-FileName : fence1
-S : 0.007000
-A : 1.709999
-P : 2.899999, 0.000000, 46.099869
-}
-{
-DirectoryName : Map/Building/
-FileName : fence1
-S : 0.007000
-A : 2.249998
-P : 1.500000, 0.000000, 43.099915
-}
-{
-DirectoryName : Map/Building/
-FileName : car1
+FileName : barbwire1
 S : 0.007000
 A : 0.000000
-P : 1.400000, 0.000000, 46.399864
+P : 7.399995, 0.000000, 2.900000
 }
 {
 DirectoryName : Map/Building/
-FileName : train
+FileName : barbwire1
 S : 0.007000
 A : 0.000000
-P : -48.899826, 0.000000, 0.000000
+P : 3.499999, 0.000000, 0.500000
 }
 {
 DirectoryName : Map/Building/
-FileName : industrialtank
-S : 0.007000
-A : -1.259999
-P : -43.699905, 0.000000, 12.200010
-}
-{
-DirectoryName : Map/Building/
-FileName : industrialtank
-S : 0.007000
-A : -1.259999
-P : -42.699921, 0.000000, 15.400023
-}
-{
-DirectoryName : Map/Building/
-FileName : fueltank
-S : 0.007000
-A : 0.330000
-P : -47.899841, 0.000000, 15.500023
-}
-{
-DirectoryName : Map/Building/
-FileName : fueltank
-S : 0.007000
-A : 0.330000
-P : -45.399879, 0.000000, 14.500019
-}
-{
-DirectoryName : Map/Building/
-FileName : conveyer
+FileName : barbwire1
 S : 0.007000
 A : 0.000000
-P : -39.09
+P : 2.900000, 0.000000, -3.599998
+}
+{
+DirectoryName : Map/Building/
+FileName : barbwire1
+S : 0.007000
+A : 0.000000
+P : 7.199996, 0.000000, -6.999995
+}
+{
+DirectoryName : Map/Building/
+FileName : barbwire1
+S : 0.007000
+A : 0.000000
+P : 8.999998, 0.000000, -2.400000
+}
+{
+DirectoryName : Map/Building/
+FileName : barbwire1
+S : 0.007000
+A : 0.000000
+P : 12.600012, 0.000000, 2.000001
+}
+{
+DirectoryName : Map/Building/
+FileName : barbwire1
+S : 0.007000
+A : 0.000000
+P : 12.600012, 0.000000, 7.699996
+}
+{
+DirectoryName : Map/Building/
+FileName : barbwire1
+S : 0.007000
+A : 0.000000
+P : 15.100021, 0.000000, 12.200011
+}
+{
+DirectoryName : Map/Building/
+FileName : barbwire1
+S : 0.007000
+A : 0.000000
+P : 20.200041, 0.000000, 12.200011
+}
+{
+DirectoryName : Map/Building/
+FileName : barbwire1
+S : 0.007000
+A : 0.000000
+P : 21.400045, 0.000000, 8.399997
+}
+{
+DirectoryName : Map/Building/
+FileName : barbwire1
+S : 0.007000
+A : 0.000000
+P : 19.000036, 0.000000, 4.499999
+}
+{
+DirectoryName : Map/Building/
+FileName : barbwire1
+S : 0.007000
+A : 0.000000
+P : 19.300037, 0.000000, -0.999999
+}
+{
+DirectoryName : Map/Building/
+FileName : barbwire1
+S : 0.007000
+A : 0.000000
+P : 16.3000

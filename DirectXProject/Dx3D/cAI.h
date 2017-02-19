@@ -3,6 +3,7 @@
 #include "cCharacter.h"
 
 class cUIImageView;
+class cBuildingGroup;
 
 class cAI : public cCharacter
 {
@@ -17,6 +18,8 @@ class cAI : public cCharacter
 	LPD3DXSPRITE			m_pSprite;
 
 	SYNTHESIZE(bool, m_isShow, ShowPoint);
+	
+	SYNTHESIZE_PASS_BY_REF(cBuildingGroup*, m_pBuildings, Buildings);
 
 public:
 	cAI();

@@ -15,7 +15,7 @@
 #include "cHeightMap.h"
 #include "cStaticMesh.h"
 #include "cRay.h"
-
+#include "cBuildingGroup.h"
 
 cPlayScene::cPlayScene()
 	: m_pCamera(NULL)
@@ -51,6 +51,8 @@ void cPlayScene::Setup()
 	m_pTextMap = new cTextMap;
 	m_pTextMap->Setup("mapFile.txt");
 
+	SettingBuildingGroup();
+
 	m_pHeightMap = new cHeightMap;
 	m_pHeightMap->SetupText("Map/", "heightMap.txt", "Ground_CMGround_CM.tga");
 
@@ -62,11 +64,12 @@ void cPlayScene::Setup()
 	for (int i = 0; i < 10; i++)
 	{
 		cAI* pAI = new cAI;
+		pAI->SetBuildings(m_pvBuildingGroup[1]);
 		pAI->SetPosition(D3DXVECTOR3(rand()%15,0,rand() % 15));
 		pAI->Setup("AI/", "AI.X");
 		pAI->SetHeightMap(m_pHeightMap);
 		pAI->SetTextMap(m_pTextMap);
-		pAI->SetIsEnemy(true);		// true이면 적
+		//pAI->SetIsEnemy(true);		// true이면 적
 
 		m_pvAI.push_back(pAI);
 	}
@@ -76,7 +79,7 @@ void cPlayScene::Setup()
 	//m_pCamera->Setup(NULL);
 
 	m_pGrid = new cGrid;
-	m_pGrid->Setup();
+	m_pGrid->Setup(50,1.0f);
 
 	
 	m_pSkyView = g_pStaticMeshManager->GetStaticMesh("Map/Sky/", "sky.X");
@@ -231,6 +234,31 @@ void cPlayScene::AIBulletCollision()
 				int a = 0;
 			}
 		}
+	}
+}
+
+void cPlayScene::SettingBuildingGroup()
+{
+	m_pvBuildingGroup.resize(4);
+
+	m_pvBuildingGroup[0] = new cBuildingGroup;
+	m_pvBuildingGroup[0]->SetCenter(D3DXVECTOR3(-20, 0, 20));
+
+	m_pvBuildingGroup[1] = new cBuildingGroup;
+	m_pvBuildingGroup[1]->SetCenter(D3DXVECTOR3( 20, 0, 20));
+
+	m_pvBuildingGroup[2] = new cBuildingGroup;
+	m_pvBuildingGroup[2]->SetCenter(D3DXVECTOR3(-20, 0,-20));
+
+	m_pvBuildingGroup[3] = new cBuildingGroup;
+	m_pvBuildingGroup[3]->SetCenter(D3DXVECTOR3( 20, 0,-20));
+
+	for (size_t buildingNum = 0; buildingNum < m_pTextMap->GetBuildings().size(); buildingNum++)
+	{
+		m_pvBuildingGroup[0]->AddBuilding(m_pTextMap->GetBuildings()[buildingNum]);
+		m_pvBuildingGroup[1]->AddBuilding(m_pTextMap->GetBuildings()[buildingNum]);
+		m_pvBuildingGroup[2]->AddBuilding(m_pTextMap->GetBuildings()[buildingNum]);
+		m_pvBuildingGroup[3]->AddBuilding(m_pTextMap->GetBuildings()[buildingNum]);
 	}
 }
 

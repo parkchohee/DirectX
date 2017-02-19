@@ -1,6 +1,7 @@
 #pragma once
 
 class cGameObject;
+class cCharacter;
 
 class cState;
 class iStateDelegate
@@ -19,7 +20,7 @@ enum STATE_TYPE
 class cState : public cObject
 {
 protected:
-	SYNTHESIZE(cGameObject*, m_pTarget, Target);
+	SYNTHESIZE(cCharacter*, m_pTarget, Target);
 	SYNTHESIZE(iStateDelegate*, m_pDelegate, Delegate);
 	SYNTHESIZE(STATE_TYPE, m_eStateType, StateType);
 

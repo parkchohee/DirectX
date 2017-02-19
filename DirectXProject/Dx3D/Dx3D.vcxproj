@@ -91,6 +91,7 @@
     <ClInclude Include="cAiController.h" />
     <ClInclude Include="cAllocateHierarchy.h" />
     <ClInclude Include="cBuilding.h" />
+    <ClInclude Include="cBuildingGroup.h" />
     <ClInclude Include="cBullet.h" />
     <ClInclude Include="cCamera.h" />
     <ClInclude Include="cCharacter.h" />
@@ -159,6 +160,7 @@
     <ClCompile Include="cAiController.cpp" />
     <ClCompile Include="cAllocateHierarchy.cpp" />
     <ClCompile Include="cBuilding.cpp" />
+    <ClCompile Include="cBuildingGroup.cpp" />
     <ClCompile Include="cBullet.cpp" />
     <ClCompile Include="cCamera.cpp" />
     <ClCompile Include="cCharacter.cpp" />

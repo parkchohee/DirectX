@@ -29,15 +29,15 @@ void cAIController::Setup(float moveSpeed, cCharacter* pCharacter)
 	m_fMoveSpeed = moveSpeed;
 
 	m_pTarget = (cAI*)pCharacter;
-
+	
 	if (m_pTarget)
 	{
 		cStateMove* pStateMove = new cStateMove;
 		pStateMove->SetFrom(m_pTarget->GetPosition());
 		pStateMove->SetTarget(m_pTarget);
-		pStateMove->SetTo(D3DXVECTOR3(10, 0, 0));
+//		pStateMove->SetTo(D3DXVECTOR3(10, 0, 0));//->start함수 내에서 랜덤하게 받을것..
+		pStateMove->SetBuildings(m_pTarget->GetBuildings());
 		pStateMove->Start();
-		pStateMove->SetTextMap(m_pTextMap);
 		pStateMove->SetDelegate(pStateMove);
 
 		m_pTarget->SetState(pStateMove);
@@ -64,46 +64,46 @@ void cAIController::Update(OUT D3DXVECTOR3 & vPlayer, OUT D3DXVECTOR3 & vDirecti
 		m_pTarget->BulletFire(vDir);
 	}*/
 
-	if (f < m_fAttackRange + 5)	// player가 탐색 거리 안에 들어옴
-	{
-		if (f < m_fAttackRange)	// 공격 사정거리 안에 들어옴
-		{
-			if (m_pTarget->GetState()->GetStateType() == STATE_ATTACK)
-				return;
+	//if (f < m_fAttackRange + 5)	// player가 탐색 거리 안에 들어옴
+	//{
+	//	if (m_pTarget->GetState()->GetStateType() == STATE_ATTACK)
+	//		return;
 
-			// attack state를 만듬..
-			cStateAttack* pStateAttack = new cStateAttack;
-			pStateAttack->SetTarget(m_pTarget);
-			pStateAttack->SetPosition(m_pTarget->GetPosition());
-			pStateAttack->SetPlayerPos(vPlayer);
-			pStateAttack->SetDir(vDirection);
-			pStateAttack->Start();
-			
-			m_pTarget->SetState(pStateAttack);
-			SAFE_RELEASE(pStateAttack);
-		}
-		else
-		{
-			D3DXVECTOR3 vTo, vDir;
-			vDir = vPlayer - m_pTarget->GetPosition();
+	//	if (f < m_fAttackRange)	// 공격 사정거리 안에 들어옴
+	//	{
+	//		// attack state를 만듬..
+	//		cStateAttack* pStateAttack = new cStateAttack;
+	//		pStateAttack->SetTarget(m_pTarget);
+	//		pStateAttack->SetPosition(m_pTarget->GetPosition());
+	//		pStateAttack->SetPlayerPos(vPlayer);
+	//		pStateAttack->SetDir(vDirection);
+	//		pStateAttack->Start();
+	//		
+	//		m_pTarget->SetState(pStateAttack);
+	//		SAFE_RELEASE(pStateAttack);
+	//	}
+	//	else
+	//	{
+	//		D3DXVECTOR3 vTo, vDir;
+	//		vDir = vPlayer - m_pTarget->GetPosition();
 
-			float vLength = D3DXVec3Length(&vDir) - 5.0f;
+	//		float vLength = D3DXVec3Length(&vDir) - 5.0f;
 
-			D3DXVec3Normalize(&vDir, &vDir);
-			vTo = m_pTarget->GetPosition() + vDir * vLength;
+	//		D3DXVec3Normalize(&vDir, &vDir);
+	//		vTo = m_pTarget->GetPosition() + vDir * vLength;
 
-			cStateMove* pStateMove = new cStateMove;
-			pStateMove->SetFrom(m_pTarget->GetPosition());
-			pStateMove->SetTarget(m_pTarget);
-			pStateMove->SetTo(vTo);
-			pStateMove->Start();
-			pStateMove->SetTextMap(m_pTextMap);
-			pStateMove->SetDelegate(pStateMove);
+	//		cStateMove* pStateMove = new cStateMove;
+	//		pStateMove->SetFrom(m_pTarget->GetPosition());
+	//		pStateMove->SetTarget(m_pTarget);
+	//		pStateMove->SetTo(vTo);
+	//		pStateMove->Start();
+	//	//	pStateMove->SetTextMap(m_pTextMap);
+	//		pStateMove->SetDelegate(pStateMove);
 
-			m_pTarget->SetState(pStateMove);
-			SAFE_RELEASE(pStateMove);
-		}
-		
-	}
+	//		m_pTarget->SetState(pStateMove);
+	//		SAFE_RELEASE(pStateMove);
+	//	}
+	//	
+	//}
 
 }

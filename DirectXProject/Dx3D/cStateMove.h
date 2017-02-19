@@ -1,7 +1,7 @@
 #pragma once
 
 #include "cState.h"
-class cTextMap;
+class cBuildingGroup;
 
 class cStateMove
 	: public cState
@@ -14,7 +14,7 @@ class cStateMove
 
 	D3DXVECTOR3		m_vDir;
 
-	SYNTHESIZE(cTextMap*, m_pTextMap, TextMap);
+	SYNTHESIZE(cBuildingGroup*, m_pBuildings, Buildings);
 
 	SYNTHESIZE(D3DXVECTOR3, m_vFrom, From);
 	SYNTHESIZE(D3DXVECTOR3, m_vTo, To);

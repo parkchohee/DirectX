@@ -15,6 +15,8 @@ class cStaticMesh;
 class cPlayer;
 class cAI;
 
+class cBuildingGroup;
+
 class cPlayScene : public cScene
 {
 	cCamera*					m_pCamera;
@@ -28,6 +30,8 @@ class cPlayScene : public cScene
 	std::vector<cAI*>			m_pvAI;
 	std::vector<cAI*>			m_pvDeathAI;
 
+	std::vector<cBuildingGroup*> m_pvBuildingGroup;
+
 public:
 	cPlayScene();
 	virtual ~cPlayScene();
@@ -40,6 +44,8 @@ public:
 
 	void PlayerBulletCollision();
 	void AIBulletCollision();
+
+	void SettingBuildingGroup();
 
 	float GetDistance(D3DXVECTOR3 BulletPos, D3DXVECTOR3 CrushManPos);
 	bool IsCollision(D3DXVECTOR3 BulletPos, float BulletSphereRadius, D3DXVECTOR3 CrushManPos, float CrushManSphereRadius);

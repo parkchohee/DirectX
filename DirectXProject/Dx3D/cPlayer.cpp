@@ -48,14 +48,17 @@ void cPlayer::Setup()
 	
 	cGun* pGun1 = new cGun;
 	pGun1->Setup(&m_vPosition, "Gun/shotgun/", "shotgun.X");
+	pGun1->SetAttackPower(10.f);
 	m_vecGun[0] = pGun1;
 
 	cGun* pGun2 = new cGun;
 	pGun2->Setup(&m_vPosition, "Gun/winc/", "winchester.X");
+	pGun2->SetAttackPower(10.f);
 	m_vecGun[1] = pGun2;
 	
 	cGun* pGun3 = new cGun;
 	pGun3->Setup(&m_vPosition, "Gun/9mm/", "9mm.X");
+	pGun3->SetAttackPower(10.f);
 	m_vecGun[2] = pGun3;
 
 	m_pGun = m_vecGun[m_nSelectGun];
