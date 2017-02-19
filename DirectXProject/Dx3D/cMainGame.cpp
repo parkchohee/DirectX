@@ -58,11 +58,12 @@ void cMainGame::Render()
 			NULL,
 			D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER | D3DCLEAR_STENCIL,
 			//0xff000000,
-			D3DCOLOR_XRGB(47, 121, 112),
-			//D3DCOLOR_XRGB(0, 0, 0),
+			//D3DCOLOR_XRGB(47, 121, 112),
+			D3DCOLOR_XRGB(0, 0, 0),
 			1.0f, 0);
 
 		g_pD3DDevice->BeginScene();
+		g_pD3DDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
 		g_pSceneManager->Render();
 

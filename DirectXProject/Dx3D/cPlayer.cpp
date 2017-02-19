@@ -115,6 +115,9 @@ void cPlayer::Update(D3DXVECTOR3 & camAngle)
 	UIUpdate(camAngle.y);
 	GunSetting(camAngle);
 
+	m_stSphere.vCenter = m_vPosition;
+	m_stSphere.vCenter.y = 1;
+
 }
 
 void cPlayer::Render()
@@ -132,9 +135,8 @@ void cPlayer::Render()
 
 	UIRender();
 
-	{
-		m_stSphere.vCenter = m_vPosition;
-		m_stSphere.vCenter.y = 1;
+	/*{
+
 
 		D3DXMATRIXA16 matWorld;
 		D3DXMatrixIdentity(&matWorld);
@@ -146,7 +148,7 @@ void cPlayer::Render()
 
 		m_pBoundingSphereMesh->DrawSubset(0);
 
-	}
+	}*/
 }
 
 void cPlayer::SetHeightMap(cHeightMap * hMap)

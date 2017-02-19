@@ -40,6 +40,8 @@ public:
 	void Destroy();
 	bool IsDeath();
 
+	cSkinnedMesh* GetMesh() { return m_pSkinnedMesh; }
+
 private:
 	void SetBoundingSphere();
 	void UpdateSkinnedMesh(D3DXVECTOR3 &vDir);

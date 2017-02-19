@@ -231,7 +231,10 @@ void cPlayScene::AIBulletCollision()
 
 			if (IsCollision(vBulletCenter, BULLET_RADIUS, vPlayerPos, PLAYER_BOUNDING_SPHERE_SIZE))
 			{
-				int a = 0;
+				if (m_pPlayer->IsAttacked(gun->GetAttackPower()))
+				{
+					int a = 0;
+				}
 			}
 		}
 	}
@@ -245,7 +248,7 @@ void cPlayScene::SettingBuildingGroup()
 	m_pvBuildingGroup[0]->SetCenter(D3DXVECTOR3(-20, 0, 20));
 
 	m_pvBuildingGroup[1] = new cBuildingGroup;
-	m_pvBuildingGroup[1]->SetCenter(D3DXVECTOR3( 20, 0, 20));
+	m_pvBuildingGroup[1]->SetCenter(D3DXVECTOR3( 5, 0, 5));
 
 	m_pvBuildingGroup[2] = new cBuildingGroup;
 	m_pvBuildingGroup[2]->SetCenter(D3DXVECTOR3(-20, 0,-20));

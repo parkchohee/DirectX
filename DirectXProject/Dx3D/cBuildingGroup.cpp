@@ -5,7 +5,7 @@
 
 cBuildingGroup::cBuildingGroup()
 	: m_vCenter(0, 0, 0)
-	, m_fScope(20.f)
+	, m_fScope(15.f)
 	, m_fBuildingScope(25.f)
 {
 }
@@ -27,11 +27,6 @@ void cBuildingGroup::AddBuilding(cBuilding * building)
 		m_pvBuildings.push_back(building);
 	}
 
-
-	//D3DXVECTOR3 vec = building->GetPosition() - m_vCenter;
-
-	//if (D3DXVec3Length(&vec) < m_fBuildingScope)
-	//	m_pvBuildings.push_back(building);
 }
 
 std::vector<cBuilding*> cBuildingGroup::GetBuilding()

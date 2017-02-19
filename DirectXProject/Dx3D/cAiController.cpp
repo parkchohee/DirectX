@@ -11,6 +11,7 @@
 #include "cState.h"
 #include "cStateMove.h"
 #include "cStateAttack.h"
+#include "cSkinnedMesh.h"
 
 
 cAIController::cAIController()
@@ -35,8 +36,9 @@ void cAIController::Setup(float moveSpeed, cCharacter* pCharacter)
 		cStateMove* pStateMove = new cStateMove;
 		pStateMove->SetFrom(m_pTarget->GetPosition());
 		pStateMove->SetTarget(m_pTarget);
-//		pStateMove->SetTo(D3DXVECTOR3(10, 0, 0));//->start함수 내에서 랜덤하게 받을것..
 		pStateMove->SetBuildings(m_pTarget->GetBuildings());
+	//	pStateMove->SetRandomPos();
+		pStateMove->SetTo(D3DXVECTOR3(10,0,10));
 		pStateMove->Start();
 		pStateMove->SetDelegate(pStateMove);
 
@@ -51,9 +53,54 @@ void cAIController::Update(OUT D3DXVECTOR3 & vPlayer, OUT D3DXVECTOR3 & vDirecti
 {
 	if (m_pTarget == NULL) return;
 	
-	D3DXVECTOR3 t = m_pTarget->GetPosition();
-	float f = D3DXVec3Length(&(vPlayer - t));
+	D3DXVECTOR3 vTargetPos = m_pTarget->GetPosition();
+	float fPlayerDist = D3DXVec3Length(&(vPlayer - vTargetPos));
 	
+	if (fPlayerDist < m_fAttackRange)	// player가 탐색 거리 안에 들어옴
+	{
+		/*if (m_pTarget->GetState()->GetStateType() == STATE_ATTACK)
+		return;
+		*/
+		if (m_pTarget->GetMesh()->IsPlay("shot"))
+			return;
+		
+		D3DXVECTOR3 vPlayerDir;
+		vPlayerDir = vPlayer - vTargetPos;
+		D3DXVec3Normalize(&vPlayerDir, &vPlayerDir);
+
+		if (D3DXVec3Dot(&vDirection, &vPlayerDir) < 0.5f)	// player가 시야각 안에 없음
+			return;
+
+		if (fPlayerDist < m_fAttackRange - 1.5f)	// 공격 사정거리 안에 들어옴
+		{
+			cStateAttack* pStateAttack = new cStateAttack;
+			pStateAttack->SetTarget(m_pTarget);
+			pStateAttack->SetPosition(m_pTarget->GetPosition());
+			pStateAttack->SetDir(vDirection);
+			pStateAttack->SetPlayerPosition(vPlayer);
+			pStateAttack->SetDelegate(pStateAttack);
+			pStateAttack->Start();
+
+			m_pTarget->SetState(pStateAttack);
+		
+			SAFE_RELEASE(pStateAttack);		
+
+			return;
+		}
+		else
+		{
+			cStateMove* pStateMove = new cStateMove;
+			pStateMove->SetFrom(m_pTarget->GetPosition());
+			pStateMove->SetTarget(m_pTarget);
+			pStateMove->SetBuildings(m_pTarget->GetBuildings());
+			pStateMove->SetTo(vPlayer);
+			pStateMove->Start();
+			pStateMove->SetDelegate(pStateMove);
+
+			m_pTarget->SetState(pStateMove);
+			SAFE_RELEASE(pStateMove);
+		}
+	}
 	/*if (g_pKeyManager->IsOnceKeyDown(VK_SPACE))
 	{
 		D3DXVECTOR3 vDir;
