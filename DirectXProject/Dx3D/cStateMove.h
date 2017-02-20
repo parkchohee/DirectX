@@ -23,6 +23,8 @@ class cStateMove
 	D3DXVECTOR3		m_vTo;
 	bool			m_isSetTo;
 
+	CRITICAL_SECTION			m_CS;
+
 public:
 	cStateMove();
 	virtual ~cStateMove();
@@ -35,5 +37,7 @@ public:
 	//void SetRandomPos();
 	void SetTo(D3DXVECTOR3 vTo);
 	void SetPos(D3DXVECTOR3 vTo);
+
+	static void ThSetPos(LPVOID pParam);
 };
 

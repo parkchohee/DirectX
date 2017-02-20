@@ -19,6 +19,7 @@ class cBuildingGroup;
 class cEvent;
 
 class cAirDrop;
+class cFrustum;
 
 enum PLAY_STATE
 {
@@ -48,6 +49,9 @@ class cPlayScene : public cScene
 	cAirDrop*					m_pAirDrop;
 
 	PLAY_STATE					m_eState;
+
+
+	cFrustum*					m_pFrustum;
 
 public:
 	cPlayScene();

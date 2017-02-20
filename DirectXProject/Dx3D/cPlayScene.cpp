@@ -18,6 +18,7 @@
 #include "cBuildingGroup.h"
 #include "cEvent.h"
 #include "cAirDrop.h"
+#include "cFrustum.h"
 
 cPlayScene::cPlayScene()
 	: m_pCamera(NULL)
@@ -29,6 +30,7 @@ cPlayScene::cPlayScene()
 	, m_pEvent(NULL)
 	, m_pAirDrop(NULL)
 	, m_eState(AIRDROP_STATE)
+	, m_pFrustum(NULL)
 {
 }
 
@@ -38,6 +40,7 @@ cPlayScene::~cPlayScene()
 	SAFE_RELEASE(m_pAirDrop);
 	SAFE_RELEASE(m_pEvent);
 	SAFE_DELETE(m_pSkyView);
+	SAFE_DELETE(m_pFrustum);
 
 	SAFE_DELETE(m_pCamera);
 	SAFE_DELETE(m_pGrid);
@@ -67,17 +70,54 @@ void cPlayScene::Setup()
 	m_pPlayer->Setup();
 	m_pPlayer->SetHeightMap(m_pHeightMap);
 	m_pPlayer->SetTextMap(m_pTextMap);
+	m_pPlayer->SetMaxHp(1000);
+	m_pPlayer->SetCurrentHp(1000);
+
+	for (int i = 0; i < 10; i++)
+	{
+		cAI* pAI = new cAI;
+		pAI->SetBuildings(m_pvBuildingGroup[0]);
+		pAI->SetPosition(D3DXVECTOR3(-20, 0, 20));
+		pAI->Setup("AI/", "soldier.X");
+		pAI->SetHeightMap(m_pHeightMap);
+		pAI->SetTextMap(m_pTextMap);
+		//pAI->SetIsEnemy(true);		// true이면 적
+		m_pvAI.push_back(pAI);
+	}
 
 	for (int i = 0; i < 10; i++)
 	{
 		cAI* pAI = new cAI;
 		pAI->SetBuildings(m_pvBuildingGroup[1]);
-		pAI->SetPosition(D3DXVECTOR3(rand()%15,0,rand() % 15));
+		pAI->SetPosition(D3DXVECTOR3(20,0,20));
 		pAI->Setup("AI/", "soldier.X");
 		pAI->SetHeightMap(m_pHeightMap);
 		pAI->SetTextMap(m_pTextMap);
 		//pAI->SetIsEnemy(true);		// true이면 적
+		m_pvAI.push_back(pAI);
+	}
 
+	for (int i = 0; i < 10; i++)
+	{
+		cAI* pAI = new cAI;
+		pAI->SetBuildings(m_pvBuildingGroup[2]);
+		pAI->SetPosition(D3DXVECTOR3(-20, 0, -20));
+		pAI->Setup("AI/", "soldier.X");
+		pAI->SetHeightMap(m_pHeightMap);
+		pAI->SetTextMap(m_pTextMap);
+		//pAI->SetIsEnemy(true);		// true이면 적
+		m_pvAI.push_back(pAI);
+	}
+
+	for (int i = 0; i < 10; i++)
+	{
+		cAI* pAI = new cAI;
+		pAI->SetBuildings(m_pvBuildingGroup[3]);
+		pAI->SetPosition(D3DXVECTOR3(20, 0, -20));
+		pAI->Setup("AI/", "soldier.X");
+		pAI->SetHeightMap(m_pHeightMap);
+		pAI->SetTextMap(m_pTextMap);
+		//pAI->SetIsEnemy(true);		// true이면 적
 		m_pvAI.push_back(pAI);
 	}
 
@@ -97,6 +137,9 @@ void cPlayScene::Setup()
 	m_pAirDrop = new cAirDrop;
 	m_pAirDrop->Setup(m_pHeightMap);
 	m_pCamera->Setup(&m_pAirDrop->GetPosition());
+
+	m_pFrustum = new cFrustum;
+	m_pFrustum->Setup();
 }
 
 void cPlayScene::Update()
@@ -136,6 +179,7 @@ void cPlayScene::Update()
 			if (m_eState == GAME_OVER)
 			{
 				// 씬체인치
+				g_pSceneManager->ChangeSceneWithLoading("firstScene", "loadingScene");
 			}
 		}
 	}
@@ -164,6 +208,9 @@ void cPlayScene::Update()
 			}
 		}
 	}
+
+	m_pFrustum->Update();
+
 }
 
 void cPlayScene::Render()
@@ -181,7 +228,8 @@ void cPlayScene::Render()
 		m_pGrid->Render();
 
 	for each(auto p in m_pvAI)
-		p->Render();
+		if (m_pFrustum->IsIn(p->GetPosition()))
+			p->Render();
 
 	for each(auto p in m_pvDeathAI)
 		p->Render();
@@ -213,6 +261,8 @@ void cPlayScene::PlayerBulletCollision()
 	if (m_pPlayer == NULL) return;
 	if (m_pPlayer->GetGun() == NULL) return;
 	if (m_pPlayer->GetBullet() == NULL) return;
+
+	m_pCamera->SetShakePow(0.5f);
 
 	cRay r = m_pPlayer->GetBullet()->RayAtWorldSpace(CENTERX, CENTERY);
 

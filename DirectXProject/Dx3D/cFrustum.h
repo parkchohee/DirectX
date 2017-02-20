@@ -13,5 +13,6 @@ public:
 	void Setup();
 	void Update();
 	bool IsIn(ST_SPHERE* pSphere);
+	bool IsIn(D3DXVECTOR3 vPos);
 };
 

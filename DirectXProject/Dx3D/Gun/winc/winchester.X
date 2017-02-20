@@ -156168,7 +156168,7 @@ AnimationSet backoff {
 }
 
 
-AnimationSet shot {
+AnimationSet reload {
  
 
  Animation {
@@ -161324,7 +161324,7 @@ AnimationSet shot {
 }
 
 
-AnimationSet idle {
+AnimationSet shot {
  
 
  Animation {
@@ -162417,7 +162417,7 @@ AnimationSet idle {
 }
 
 
-AnimationSet takeout {
+AnimationSet idle {
  
 
  Animation {

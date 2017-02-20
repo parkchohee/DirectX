@@ -116,65 +116,65 @@ bool cStaticMesh::Setup(char* szDirectory, char* szFilename)
 void cStaticMesh::Render()
 {
 
-	D3DXMATRIXA16 matWorld;
+	/*D3DXMATRIXA16 matWorld;
 	D3DXMatrixTranslation(&matWorld, m_vPosition.x, m_vPosition.y, m_vPosition.z);
 	matWorld = m_pmatWorld * matWorld;
-
+*/
 	// ±×¸²ÀÚ
-	{
-		g_pD3DDevice->SetRenderState(D3DRS_STENCILENABLE, true);
-		g_pD3DDevice->SetRenderState(D3DRS_STENCILFUNC, D3DCMP_EQUAL);
-		g_pD3DDevice->SetRenderState(D3DRS_STENCILREF, 0x0);
-		g_pD3DDevice->SetRenderState(D3DRS_STENCILMASK, 0xffffffff);
-		g_pD3DDevice->SetRenderState(D3DRS_STENCILWRITEMASK, 0xffffffff);
-		g_pD3DDevice->SetRenderState(D3DRS_STENCILZFAIL, D3DSTENCILOP_KEEP);
-		g_pD3DDevice->SetRenderState(D3DRS_STENCILFAIL, D3DSTENCILOP_KEEP);
-		g_pD3DDevice->SetRenderState(D3DRS_STENCILPASS, D3DSTENCILOP_INCR); // increment to 1
+	//{
+	//	g_pD3DDevice->SetRenderState(D3DRS_STENCILENABLE, true);
+	//	g_pD3DDevice->SetRenderState(D3DRS_STENCILFUNC, D3DCMP_EQUAL);
+	//	g_pD3DDevice->SetRenderState(D3DRS_STENCILREF, 0x0);
+	//	g_pD3DDevice->SetRenderState(D3DRS_STENCILMASK, 0xffffffff);
+	//	g_pD3DDevice->SetRenderState(D3DRS_STENCILWRITEMASK, 0xffffffff);
+	//	g_pD3DDevice->SetRenderState(D3DRS_STENCILZFAIL, D3DSTENCILOP_KEEP);
+	//	g_pD3DDevice->SetRenderState(D3DRS_STENCILFAIL, D3DSTENCILOP_KEEP);
+	//	g_pD3DDevice->SetRenderState(D3DRS_STENCILPASS, D3DSTENCILOP_INCR); // increment to 1
 
-																			// position shadow
-		D3DXVECTOR4 lightDirection(0.707f, -0.707f, 0.707f, 0.0f);
-		D3DXPLANE groundPlane(0.0f, -1.0f, 0.0f, 0.0f);
+	//																		// position shadow
+	//	D3DXVECTOR4 lightDirection(0.707f, -0.707f, 0.707f, 0.0f);
+	//	D3DXPLANE groundPlane(0.0f, -1.0f, 0.0f, 0.0f);
 
-		D3DXMATRIX S;
-		D3DXMatrixShadow(
-			&S,
-			&lightDirection,
-			&groundPlane);
+	//	D3DXMATRIX S;
+	//	D3DXMatrixShadow(
+	//		&S,
+	//		&lightDirection,
+	//		&groundPlane);
 
-		D3DXMATRIX W = matWorld * S;
-		g_pD3DDevice->SetTransform(D3DTS_WORLD, &W);
+	//	D3DXMATRIX W = m_pmatWorld * S;
+	//	g_pD3DDevice->SetTransform(D3DTS_WORLD, &W);
 
-		// alpha blend the shadow
-		g_pD3DDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, true);
-		g_pD3DDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-		g_pD3DDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+	//	// alpha blend the shadow
+	//	g_pD3DDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, true);
+	//	g_pD3DDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+	//	g_pD3DDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
-		D3DMATERIAL9 mtrl;
-		mtrl.Ambient =
-			mtrl.Diffuse =
-			mtrl.Specular =
-			D3DXCOLOR(0.0f, 0.0f, 0.0f, 0.0f);
-		mtrl.Diffuse.a = 0.5f; // 50% transparency.
+	//	D3DMATERIAL9 mtrl;
+	//	mtrl.Ambient =
+	//		mtrl.Diffuse =
+	//		mtrl.Specular =
+	//		D3DXCOLOR(0.0f, 0.0f, 0.0f, 0.0f);
+	//	mtrl.Diffuse.a = 0.5f; // 50% transparency.
 
-							   // Disable depth buffer so that z-fighting doesn't occur when we
-							   // render the shadow on top of the floor.
-		g_pD3DDevice->SetRenderState(D3DRS_ZENABLE, false);
+	//						   // Disable depth buffer so that z-fighting doesn't occur when we
+	//						   // render the shadow on top of the floor.
+	//	g_pD3DDevice->SetRenderState(D3DRS_ZENABLE, false);
 
-		for (int i = 0; i < m_vMtrls.size(); i++)
-		{
-			g_pD3DDevice->SetMaterial(&mtrl);
-			g_pD3DDevice->SetTexture(0, 0);
-			m_pStaticMesh->DrawSubset(i);
-		}
+	//	for (int i = 0; i < m_vMtrls.size(); i++)
+	//	{
+	//		g_pD3DDevice->SetMaterial(&mtrl);
+	//		g_pD3DDevice->SetTexture(0, 0);
+	//		m_pStaticMesh->DrawSubset(i);
+	//	}
 
-		g_pD3DDevice->SetRenderState(D3DRS_ZENABLE, true);
-		g_pD3DDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, false);
-		g_pD3DDevice->SetRenderState(D3DRS_STENCILENABLE, false);
+	//	g_pD3DDevice->SetRenderState(D3DRS_ZENABLE, true);
+	//	g_pD3DDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, false);
+	//	g_pD3DDevice->SetRenderState(D3DRS_STENCILENABLE, false);
 
-	}
+	//}
 
 
-	g_pD3DDevice->SetTransform(D3DTS_WORLD, &matWorld);
+	g_pD3DDevice->SetTransform(D3DTS_WORLD, &m_pmatWorld);
 
 	for (int i = 0; i < m_vMtrls.size(); i++)
 	{

@@ -89,11 +89,11 @@ void cPlayerController::Update(D3DXVECTOR3 & camAngle, OUT D3DXVECTOR3 & vDirect
 		{
 			// 왼쪽으로 카메라 회전시킨다
 		//	_vPosition = vPosition + (mvDirection * m_fMoveSpeed);
-			camAngle.z += 0.01f;
+			//camAngle.z += 0.01f;
 		}
 		else if (g_pKeyManager->IsStayKeyDown('D'))		// 오른쪽으로 움직임
 		{
-			camAngle.z -= 0.01f;
+			//camAngle.z -= 0.01f;
 			// 오른쪽으로 카메라를 회전시킨다.
 			//_vPosition = vPosition - (mvDirection * m_fMoveSpeed);
 		}
@@ -103,12 +103,17 @@ void cPlayerController::Update(D3DXVECTOR3 & camAngle, OUT D3DXVECTOR3 & vDirect
 	if (m_pTextMap)
 	{
 		// 맵의 건물들의 obb를 불러와 obb 충돌체크
-		for (size_t i = 0; i < m_pTextMap->GetBuildings().size(); i++)
-		{
-			// 충돌하면 그냥 리턴
-			if (cOBB::IsCollision(m_pTextMap->GetBuildings()[i]->GetOBB(), m_pOBB))
-				return;
-		}
+		//for (size_t i = 0; i < m_pTextMap->GetBuildings().size(); i++)
+		//{
+		//	D3DXVECTOR3 vec = m_pTextMap->GetBuildings()[i]->GetPosition() - vPosition;
+		//	float length = D3DXVec3Length(&vec);
+		//	if (length > 10)
+		//		continue;
+
+		//	//// 충돌하면 그냥 리턴
+		///*	if (cOBB::IsCollision(m_pTextMap->GetBuildings()[i]->GetOBB(), m_pOBB))
+		//		return;*/
+		//}
 	}
 
 	if (m_pHeightMap)

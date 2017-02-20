@@ -380,6 +380,6 @@ void cMakeBuildings::SaveMapFile()
 
 	}
 	//WriteFile(file, str, MAPMAXSIZE, &write, NULL);
-	WriteFile(file, str, 2048, &write, NULL);
+	WriteFile(file, str, MAPMAXSIZE, &write, NULL);
 	CloseHandle(file);
 }

@@ -37,8 +37,6 @@ void cAIController::Setup(float moveSpeed, cCharacter* pCharacter)
 		pStateMove->SetFrom(m_pTarget->GetPosition());
 		pStateMove->SetTarget(m_pTarget);
 		pStateMove->SetBuildings(m_pTarget->GetBuildings());
-	//	pStateMove->SetRandomPos();
-		pStateMove->SetTo(D3DXVECTOR3(10,0,10));
 		pStateMove->Start();
 		pStateMove->SetDelegate(pStateMove);
 
@@ -69,7 +67,19 @@ void cAIController::Update(OUT D3DXVECTOR3 & vPlayer, OUT D3DXVECTOR3 & vDirecti
 		D3DXVec3Normalize(&vPlayerDir, &vPlayerDir);
 
 		if (D3DXVec3Dot(&vDirection, &vPlayerDir) < 0.5f)	// player가 시야각 안에 없음
+		{
+			cStateMove* pStateMove = new cStateMove;
+			pStateMove->SetFrom(m_pTarget->GetPosition());
+			pStateMove->SetTarget(m_pTarget);
+			pStateMove->SetBuildings(m_pTarget->GetBuildings());
+			pStateMove->Start();
+			pStateMove->SetDelegate(pStateMove);
+
+			m_pTarget->SetState(pStateMove);
+			SAFE_RELEASE(pStateMove);
+
 			return;
+		}
 
 		if (fPlayerDist < m_fAttackRange - 1.5f)	// 공격 사정거리 안에 들어옴
 		{

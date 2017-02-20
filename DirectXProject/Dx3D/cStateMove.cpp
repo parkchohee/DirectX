@@ -34,6 +34,9 @@ void cStateMove::Start()
 
 	if (m_isSetTo)
 	{
+	//	DWORD dwThID;
+	//	CloseHandle(CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)ThSetPos, this, NULL, &dwThID));
+
 		SetPos(m_vTo);
 		m_isSetTo = false;
 		//// to를 randompos에 넣어주면 될것같음
@@ -51,8 +54,12 @@ void cStateMove::Start()
 		vCenter.z -= scope;
 		
 
-		D3DXVECTOR3 vTo = D3DXVECTOR3(vCenter.x + rand() % ((int)scope * 2), 0, vCenter.z + rand() % ((int)scope * 2));
-		SetPos(vTo);
+		m_vTo = D3DXVECTOR3(vCenter.x + rand() % ((int)scope * 2), 0, vCenter.z + rand() % ((int)scope * 2));
+
+	//	DWORD dwThID;
+	//	CloseHandle(CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)ThSetPos, this, NULL, &dwThID));
+
+		SetPos(m_vTo);
 	}
 }
 
@@ -184,4 +191,14 @@ void cStateMove::SetPos(D3DXVECTOR3 vTo)
 	m_fDistance = D3DXVec3Length(&m_vDir);
 	m_pTarget->SetDirection(vDir);
 	m_vDir = vDir;
+}
+
+void cStateMove::ThSetPos(LPVOID pParam)
+{
+	cStateMove* stateMove = (cStateMove*)pParam;
+
+	EnterCriticalSection(&stateMove->m_CS);
+	stateMove->SetPos(stateMove->m_vTo);
+	//SetPos(m_vTo);
+	LeaveCriticalSection(&stateMove->m_CS);
 }

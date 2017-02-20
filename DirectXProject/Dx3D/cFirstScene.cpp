@@ -92,6 +92,8 @@ void cFirstScene::OnClick(cUIButton * pSender)
 		m_stMenu = MAIN_MENU;
 		break;
 	}
+	
+	g_pSoundManager->play("MenuSelect", 0.5f);
 }
 
 void cFirstScene::MainMenuUISetting()

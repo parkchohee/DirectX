@@ -88,3 +88,13 @@ bool cFrustum::IsIn( ST_SPHERE* pSphere )
 	}
 	return true;
 }
+
+bool cFrustum::IsIn(D3DXVECTOR3 vPos)
+{
+	for each(D3DXPLANE p in m_vecPlane)
+	{
+		if (D3DXPlaneDotCoord(&p, &vPos) > 0)
+			return false;
+	}
+	return true;
+}

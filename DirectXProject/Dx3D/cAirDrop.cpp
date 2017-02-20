@@ -34,16 +34,17 @@ void cAirDrop::Setup(cHeightMap* heightMap)
 
 	D3DXMatrixScaling(&matS, 0.01f, 0.01f, 0.01f);
 	D3DXMatrixRotationX(&matR, -D3DX_PI / 2);
-	
-	matSRT = matS * matR;
+	D3DXMatrixTranslation(&matT, m_vPos.x, m_vPos.y, m_vPos.z);
+
+	matSRT = matS * matR * matT;
 
 	m_pAirdrop->SetWorld(matSRT);
 	m_pParachute->SetWorld(matSRT);
 	m_pAirMan->SetWorld(matSRT);
 
-	m_pAirdrop->SetPosition(m_vPos);
-	m_pParachute->SetPosition(m_vPos);
-	m_pAirMan->SetPosition(m_vPos);
+	//m_pAirdrop->SetPosition(m_vPos);
+	//m_pParachute->SetPosition(m_vPos);
+	//m_pAirMan->SetPosition(m_vPos);
 
 }
 
@@ -67,9 +68,20 @@ void cAirDrop::Update()
 		}
 	}
 
-	m_pAirdrop->SetPosition(m_vPos);
+	D3DXMATRIXA16 matS, matR, matT, matSRT;
+
+	D3DXMatrixScaling(&matS, 0.01f, 0.01f, 0.01f);
+	D3DXMatrixRotationX(&matR, -D3DX_PI / 2);
+	D3DXMatrixTranslation(&matT, m_vPos.x, m_vPos.y, m_vPos.z);
+
+	matSRT = matS * matR * matT;
+
+	m_pAirdrop->SetWorld(matSRT);
+	m_pParachute->SetWorld(matSRT);
+	m_pAirMan->SetWorld(matSRT);
+	/*m_pAirdrop->SetPosition(m_vPos);
 	m_pParachute->SetPosition(m_vPos);
-	m_pAirMan->SetPosition(m_vPos);
+	m_pAirMan->SetPosition(m_vPos);*/
 }
 
 void cAirDrop::Render()
