@@ -15,6 +15,20 @@ class cStaticMesh;
 class cPlayer;
 class cAI;
 
+class cBuildingGroup;
+class cEvent;
+
+class cAirDrop;
+class cFrustum;
+
+enum PLAY_STATE
+{
+	AIRDROP_STATE,
+	NORMAL_STATE,
+	PAUSE_STATE,
+	GAME_OVER
+};
+
 class cPlayScene : public cScene
 {
 	cCamera*					m_pCamera;
@@ -24,16 +38,20 @@ class cPlayScene : public cScene
 	cTextMap*					m_pTextMap;
 	cHeightMap*					m_pHeightMap;
 
-	cUIObject*					m_pUICursorRoot;
-	cUIObject*					m_pUIPlayerInfoRoot;
-	cUIImageView*				m_pCompassFront;
-	cUITextView*				m_pBulletText;
-	LPD3DXSPRITE				m_pSprite;
-
 	cPlayer*					m_pPlayer;
 	std::vector<cAI*>			m_pvAI;
 	std::vector<cAI*>			m_pvDeathAI;
 
+	std::vector<cBuildingGroup*> m_pvBuildingGroup;
+
+	cEvent*						m_pEvent;
+
+	cAirDrop*					m_pAirDrop;
+
+	PLAY_STATE					m_eState;
+
+
+	cFrustum*					m_pFrustum;
 
 public:
 	cPlayScene();
@@ -45,13 +63,14 @@ public:
 
 	virtual void WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
-	void PlayerBulletFire();
+	void PlayerBulletCollision();
 	void AIBulletCollision();
+
+	void SettingBuildingGroup();
 
 	float GetDistance(D3DXVECTOR3 BulletPos, D3DXVECTOR3 CrushManPos);
 	bool IsCollision(D3DXVECTOR3 BulletPos, float BulletSphereRadius, D3DXVECTOR3 CrushManPos, float CrushManSphereRadius);
+	void LevUpCheck();
 
-	void SettingCursorUI();
-	void SettingPlayerInfoUI();
 };
 

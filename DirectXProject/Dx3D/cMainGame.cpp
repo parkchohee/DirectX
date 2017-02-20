@@ -14,6 +14,7 @@ cMainGame::cMainGame(void)
 
 cMainGame::~cMainGame(void)
 {
+	g_pSoundManager->Destroy();
 	g_pSceneManager->Destroy();
 	g_pStaticMeshManager->Destroy();
 	g_pSkinnedMeshManager->Destroy();
@@ -26,6 +27,7 @@ cMainGame::~cMainGame(void)
 void cMainGame::Setup()
 {
 	//ShowCursor(FALSE);
+	g_pSoundManager->Setup();
 
 	g_pSceneManager->AddScene("mapTool", new cMapToolScene);
 	g_pSceneManager->AddScene("playScene", new cPlayScene);
@@ -33,7 +35,14 @@ void cMainGame::Setup()
 	g_pSceneManager->AddScene("vedioScene", new cVideoScene);
 	g_pSceneManager->AddLoadingScene("loadingScene", new cLoadingScene);
 
-	g_pSceneManager->ChangeScene("playScene");
+	g_pSceneManager->ChangeScene("firstScene");
+
+	// menu sound
+	g_pSoundManager->addSound("MenuSelect", "./Sound/Menu/Select.wav");
+
+	// play sound
+	g_pSoundManager->addSound("ShotgunFire", "./Sound/Weapons/ShotgunFire.wav");
+
 
 	SetLight();
 
@@ -42,6 +51,7 @@ void cMainGame::Setup()
 void cMainGame::Update()
 {
 	g_pTimeManager->Update();
+	g_pSoundManager->Update();
 	g_pSceneManager->Update(g_pTimeManager->GetElapsedTime());
 }
 
@@ -53,11 +63,12 @@ void cMainGame::Render()
 			NULL,
 			D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER | D3DCLEAR_STENCIL,
 			//0xff000000,
-			D3DCOLOR_XRGB(47, 121, 112),
-			//D3DCOLOR_XRGB(0, 0, 0),
+			//D3DCOLOR_XRGB(47, 121, 112),
+			D3DCOLOR_XRGB(0, 0, 0),
 			1.0f, 0);
 
 		g_pD3DDevice->BeginScene();
+		g_pD3DDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
 		g_pSceneManager->Render();
 

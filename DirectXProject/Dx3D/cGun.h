@@ -21,8 +21,14 @@ class cGun : public cObject
 	SYNTHESIZE(float, m_fAttackRange, AttackRange);		// 사거리
 	SYNTHESIZE(float, m_fAttackSpeed, AttackSpeed);		// 공격(연사) 속도
 
+	SYNTHESIZE(float, m_fCurrentExp, CurrentExp);		// 총기 최대 경험치
+	SYNTHESIZE(float, m_fMaxExp, MaxExp);		        // 총기 현재 경험치
+	SYNTHESIZE(int, m_CurrentLv, CurrentLv);		    // 총기 현재 레벨
+	SYNTHESIZE(int, m_MaxLv, MaxLv);		            // 총기 최대 레벨
+
 	SYNTHESIZE(int, m_nMaxBullet, MaxBullet);			// 총알 최대
 	SYNTHESIZE(int, m_nCurrentBullet, CurrentBullet);	// 현재 남은 총알 수
+	SYNTHESIZE(int, m_nMagazine, Magazine);	            // 한번에 장착 할 수있는 탄창 수
 
 public:
 	cGun();
@@ -37,9 +43,12 @@ public:
 	void SetWorldMatrix(D3DXMATRIXA16* matWorld);
 	void SetWorldMatrixByBoneName(D3DXMATRIXA16* matRot, char* name);
 	
-	void Fire(D3DXVECTOR3 vDirection, D3DXMATRIXA16& vPosition);
+	bool Fire(D3DXVECTOR3 vDirection, D3DXMATRIXA16& vPosition);
 	void Reload();
 	void RemoveBullet(int bulletIndex);
+
+	bool IsShoot();
+	bool IsReload();
 
 	cSkinnedMesh* GetGunMesh();
 };

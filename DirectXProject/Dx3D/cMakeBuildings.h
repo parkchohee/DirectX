@@ -1,6 +1,6 @@
 #pragma once
 
-#define MAPMAXSIZE 4096
+#define MAPMAXSIZE 50000
 
 class cBuilding;
 class cUIObject;

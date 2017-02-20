@@ -8,6 +8,8 @@ cCharacter::cCharacter(void)
 	: m_pGun(NULL)
 	, m_pController(NULL)
 	, m_pBoundingSphereMesh(NULL)
+	, m_fMaxHp(8)
+	, m_fCurrentHp(8)
 {
 	D3DXMatrixIdentity(&m_matWorldTM);
 }
@@ -43,5 +45,7 @@ cGun * cCharacter::GetGun()
 
 bool cCharacter::IsAttacked(float power)
 {
-	return m_fCurrentHp - power < 0 ? true : false;
+	m_fCurrentHp -= power;
+
+	return m_fCurrentHp < 0 ? true : false;
 }

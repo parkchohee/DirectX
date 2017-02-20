@@ -7,11 +7,10 @@ class cStateAttack
 	: public cState
 	, public iStateDelegate
 {
-	cAI*		m_pAI;
+	float		m_fPassedTime;
 
 	SYNTHESIZE(D3DXVECTOR3, m_vDir, Dir);
-
-	SYNTHESIZE(D3DXVECTOR3, m_vPlayerPos, PlayerPos);
+	SYNTHESIZE(D3DXVECTOR3, m_vPlayerPosition, PlayerPosition);
 	SYNTHESIZE(D3DXVECTOR3, m_vPosition, Position);
 
 public:

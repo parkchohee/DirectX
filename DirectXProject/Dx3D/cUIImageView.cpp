@@ -4,6 +4,8 @@
 
 cUIImageView::cUIImageView(void)
 	: m_pTexture(NULL)
+	, m_fRateX(1.0f)
+	, m_fRateY(1.0f)
 {
 }
 
@@ -37,8 +39,18 @@ void cUIImageView::Render( LPD3DXSPRITE pSprite )
 
 	pSprite->SetTransform(&m_matWorld);
 
+	if (m_fRateX < 0.f)
+		m_fRateX = 0.f;
+	else if (m_fRateX > 1.f)
+		m_fRateX = 1.f;
+
+	if (m_fRateY < 0.f)
+		m_fRateY = 0.f;
+	else if (m_fRateY > 1.f)
+		m_fRateY = 1.f;
+
 	RECT rc;
-	SetRect(&rc, 0, 0, m_stSize.nWidth, m_stSize.nHeight);
+	SetRect(&rc, 0, 0, m_stSize.nWidth * m_fRateX, m_stSize.nHeight * m_fRateY);
 	pSprite->Draw(m_pTexture,
 		&rc,
 		&D3DXVECTOR3(m_stSize.nWidth / 2, m_stSize.nHeight / 2, 0),
@@ -49,4 +61,3 @@ void cUIImageView::Render( LPD3DXSPRITE pSprite )
 
 	cUIObject::Render(pSprite);
 }
-

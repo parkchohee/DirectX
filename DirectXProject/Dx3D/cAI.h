@@ -3,13 +3,7 @@
 #include "cCharacter.h"
 
 class cUIImageView;
-
-struct ST_MAT_SPHERE
-{
-	ST_SPHERE	stSphere;
-	D3DXMATRIXA16* matLocal;
-	D3DXMATRIXA16 matWorld;
-};
+class cBuildingGroup;
 
 class cAI : public cCharacter
 {
@@ -17,7 +11,6 @@ class cAI : public cCharacter
 
 	LPD3DXMESH				m_pBoundingSphereDetailMesh;
 	std::vector<ST_SPHERE>	m_vecBoundingSphereDetail;
-	//std::vector<ST_MAT_SPHERE>	m_vecBoundingSphereDetail;
 
 	cOBB*					m_pAIOBB;
 
@@ -25,6 +18,8 @@ class cAI : public cCharacter
 	LPD3DXSPRITE			m_pSprite;
 
 	SYNTHESIZE(bool, m_isShow, ShowPoint);
+	
+	SYNTHESIZE_PASS_BY_REF(cBuildingGroup*, m_pBuildings, Buildings);
 
 public:
 	cAI();
@@ -44,6 +39,8 @@ public:
 
 	void Destroy();
 	bool IsDeath();
+
+	cSkinnedMesh* GetMesh() { return m_pSkinnedMesh; }
 
 private:
 	void SetBoundingSphere();

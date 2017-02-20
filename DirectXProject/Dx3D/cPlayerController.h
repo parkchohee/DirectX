@@ -1,9 +1,13 @@
 #pragma once
 #include "cController.h"
 
+class cPlayer;
+
 class cPlayerController 
 	: public cController
 {
+	cPlayer*			m_pTarget;
+
 public:
 	cPlayerController();
 	~cPlayerController();

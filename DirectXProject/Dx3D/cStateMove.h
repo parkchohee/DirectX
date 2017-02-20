@@ -1,7 +1,7 @@
 #pragma once
 
 #include "cState.h"
-class cTextMap;
+class cBuildingGroup;
 
 class cStateMove
 	: public cState
@@ -12,12 +12,18 @@ class cStateMove
 	float			m_fPassedDistance;
 	float			m_fDistance;
 
+	bool			m_isRandomPos;
+
 	D3DXVECTOR3		m_vDir;
 
-	SYNTHESIZE(cTextMap*, m_pTextMap, TextMap);
+	SYNTHESIZE(cBuildingGroup*, m_pBuildings, Buildings);
 
 	SYNTHESIZE(D3DXVECTOR3, m_vFrom, From);
-	SYNTHESIZE(D3DXVECTOR3, m_vTo, To);
+	//SYNTHESIZE(D3DXVECTOR3, m_vTo, To);
+	D3DXVECTOR3		m_vTo;
+	bool			m_isSetTo;
+
+	CRITICAL_SECTION			m_CS;
 
 public:
 	cStateMove();
@@ -28,5 +34,10 @@ public:
 
 	// iStateDelegate overrride
 	virtual void OnStateFinish(cState* pSender) override;
+	//void SetRandomPos();
+	void SetTo(D3DXVECTOR3 vTo);
+	void SetPos(D3DXVECTOR3 vTo);
+
+	static void ThSetPos(LPVOID pParam);
 };
 

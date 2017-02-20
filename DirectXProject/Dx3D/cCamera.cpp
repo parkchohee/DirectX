@@ -10,6 +10,8 @@ cCamera::cCamera(void)
 	, m_fCameraDistance(50)
 	, m_isLButtonDown(false)
 	, m_vCamRotAngle(0, 0, 0)
+	, m_vEyeTrans(0,0,0)
+	, m_vLookAtTrans(0,0,0)
 {
 	m_ptPrevMouse.x = 0;
 	m_ptPrevMouse.y = 0;
@@ -38,8 +40,37 @@ void cCamera::Setup( D3DXVECTOR3* pvTarget )
 
 void cCamera::Update()
 {
-	m_vEye = D3DXVECTOR3(0, 1.5, 0);
-	m_vLookAt = D3DXVECTOR3(0, 1.5, 5);
+	/*if (g_pKeyManager->IsStayKeyDown(VK_UP))
+	{
+		m_vEyeTrans.y += 0.1f;
+		m_vLookAtTrans.y += 0.1f;
+	}
+	else if (g_pKeyManager->IsStayKeyDown(VK_DOWN))
+	{
+		m_vEyeTrans.y -= 0.1f;
+		m_vLookAtTrans.y -= 0.1f;
+	}
+
+	if (g_pKeyManager->IsStayKeyDown(VK_LEFT))
+	{
+		m_vEyeTrans.x -= 0.1f;
+		m_vLookAtTrans.x -= 0.1f;
+	}
+	else if (g_pKeyManager->IsStayKeyDown(VK_RIGHT))
+	{
+		m_vEyeTrans.x += 0.1f;
+		m_vLookAtTrans.x += 0.1f;
+	}*/
+
+	/*if (g_pKeyManager->IsStayKeyDown(VK_RETURN))
+	{
+		m_fShakePow = 0.3;
+	}
+*/
+	ShakeUpdate();
+
+	m_vEye = D3DXVECTOR3(0, 1.5, 0) + m_vEyeTrans;
+	m_vLookAt = D3DXVECTOR3(0, 1.5, 5) + m_vLookAtTrans;
 
 	D3DXMATRIXA16 matR, matRX, matRY;
 	D3DXMatrixRotationX(&matRX, m_vCamRotAngle.x);
@@ -47,6 +78,7 @@ void cCamera::Update()
 
 	matR = matRX * matRY;
 	D3DXVec3TransformCoord(&m_vLookAt, &m_vLookAt, &matR);
+
 
 	if (m_pvTarget)
 	{
@@ -58,6 +90,26 @@ void cCamera::Update()
 	D3DXMatrixLookAtLH(&matView, &m_vEye, &m_vLookAt, &m_vUp);
 	
 	g_pD3DDevice->SetTransform(D3DTS_VIEW, &matView);
+}
+
+void cCamera::ShakeUpdate()
+{
+	if (m_fShakePow > 0.f)
+	{
+		m_vShakePos.x = (float(rand() % 6) - 3) / 10.f;
+		m_vShakePos.y = (float(rand() % 6) - 3) / 10.f;
+		m_vShakePos.z = (float(rand() % 6) - 3) / 10.f;
+
+		m_fShakePow -= 0.1f;
+
+		if(m_fShakePow < 0)
+		{
+			m_fShakePow = 0.f;
+			m_vShakePos = D3DXVECTOR3(0, 0, 0);
+		}
+
+		m_vLookAtTrans = m_vShakePos;
+	}
 }
 
 void cCamera::WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )

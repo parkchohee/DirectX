@@ -104,6 +104,10 @@ void cMapToolScene::Update()
 
 void cMapToolScene::Render()
 {
+
+	if (m_pSkyView)
+		m_pSkyView->Render();
+
 	if (m_pUIRoot)
 		m_pUIRoot->Render(m_pSprite);
 
@@ -119,8 +123,6 @@ void cMapToolScene::Render()
 		break;
 	}
 
-	if (m_pSkyView)
-		m_pSkyView->Render();
 
 	if (m_pGrid)
 		m_pGrid->Render();

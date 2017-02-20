@@ -1,82 +1,50 @@
 #pragma once
+#include "./inc\fmod.hpp"		
+#pragma comment(lib, "./lib/fmodex_vc.lib")	//lib 링크
+using namespace FMOD;		//FMOD 네임스페이스 사용
+
+							//채널버퍼, 사운드버퍼
+#define EXTRACHANNERBUFFER 5
+#define SOUNDBUFFER 20
+							//총사운 버퍼설정: 버퍼가 작아서 씹히는 문제를 해결해주기 위함
+#define TOTALSOUNDBUFFER SOUNDBUFFER + EXTRACHANNERBUFFER
 #define g_pSoundManager cSoundManager::GetInstance()
-//
-//#include "FMOD/inc/fmod.hpp"
-//#pragma comment( lib, "FMOD/lib/fmod_vc.lib")
-
-#define SOUND_CHANNEL_NUM		128
-
 class cSoundManager
 {
-	SINGLETONE(cSoundManager);
+
 private:
-	//typedef std::map< std::string, FMOD::Sound* >				MAP_SOUND;		//Sound 를 저장할 Map typedef
-	//typedef std::map< std::string, FMOD::Sound* >::iterator		MAP_SOUND_ITER;
+	typedef std::map<std::string, Sound**> arrSounds;
+	typedef std::map<std::string, Sound**>::iterator arrSoundIter;
+private:
+	System* _system;		//fmod의 시스템 클래스
+	Sound** _sound;			//fmod의 사운드 클래스
+	Channel** _channel;		//fmod의 채널 클래스
 
-	//FMOD::System*			m_pSystem;		//사운드 System 객체
-
-	//MAP_SOUND				m_mapSounds;					//효과음 맵
-	//MAP_SOUND				m_mapBGMs;						//BGM 맵
-	//MAP_SOUND				m_map3DSounds;
-
-
-	//FMOD::ChannelGroup*		m_pSoundChannelGroup;			//사운드 채널 그룹
-	//FMOD::ChannelGroup*		m_pBGMChannelGroup;				//BGM 채널 그룹
+	arrSounds _mTotalSounds;//맵에 담긴 사운드 목록
 
 
 public:
+	SINGLETONE(cSoundManager);
+	HRESULT Setup(void);
+	void Destroy(void);
+	void Update(void);
 
-	//void Setup();
-	//void Destroy();
+	//사운드 추가(키값, 파일이름, BGM? 루프냐?)
+	void addSound(std::string keyName, std::string soundName, bool bgm = FALSE, bool loop = FALSE);
 
+	//사운드 플레이(키값, 불륨) 0.0f ~ 1.0f
+	void play(std::string keyName, float volume = 1.0f);
+	//사운드 정지
+	void stop(std::string keyName);
+	//사운드 일시정지
+	void pause(std::string keyName);
+	//사운드 다시 재생
+	void resume(std::string ketName);
 
-	////매 업데이트 마다 SoundSystem 을 업데이트 해야 한다.
-	//void UpdateSound(void);
-
-	////BGM 추가
-	//FMOD::Sound* AddBGM(std::string keyName, std::string fileName);
-
-	////효과음 추가
-	//FMOD::Sound* AddSound(std::string keyName, std::string fileName);
-
-	////3D 사운드 추가
-	//FMOD::Sound* Add3DSound(std::string keyName, std::string fileName, float minDistance, float maxDistance, bool bLoop);
-
-
-
-	////BGM 재생
-	//void PlayBGM(std::string keyName);
-	//void PlayBGM(FMOD::Sound* pSound);
-
-	////효과음
-	//void PlaySound(std::string keyName);
-	//void PlaySound(FMOD::Sound* pSound);
-
-
-	////키 이름으로 사운드 객체를 얻는다.
-	//FMOD::Sound* GetBGM(const char* keyName);
-	//FMOD::Sound* GetSound(const char* keyName);
-	//FMOD::Sound* Get3DSound(const char* keyName);
-
-	//FMOD::System* GetSoundSystem() {
-	//	return m_pSystem;
-	//}
-
-
-	////플레이 되고 있는 사운드 모두 중지
-	//void AllStop(void);
-
-	////플레이 되고 있는 사운드 일시 정시 또는 재생 ( 토글 방식 )
-	//void AllPauseAndResume(void);
-
-	////볼륨 조정
-	//void SetVolum(float volume);
-
-	////피치조정
-	//void SetPitch(float pitch);
-
-	////좌우조정 ( -1 이면 왼쪽 이빠이 0 이면 센터 1 이며 오른쪽 )
-	//void SetPan(float pan);
+	//플레이 중이냐?
+	bool isPlaySound(std::string keyName);
+	//일시정지 중이냐?
+	bool isPauseSound(std::string KeyName);
 
 };
 

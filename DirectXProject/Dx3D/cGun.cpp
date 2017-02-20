@@ -10,8 +10,13 @@ cGun::cGun()
 	, m_fAttackPower(1.f)
 	, m_fAttackRange(10.f)
 	, m_fAttackSpeed(1.f)
-	, m_nMaxBullet(10)
-	, m_nCurrentBullet(10)
+	, m_nMaxBullet(100)
+	, m_nCurrentBullet(8)
+	, m_nMagazine(8)
+	, m_fCurrentExp(0.f)
+	, m_fMaxExp(3.f)
+	, m_CurrentLv(0)
+	, m_MaxLv(3)
 {
 	D3DXMatrixIdentity(&m_pTrans);
 }
@@ -19,6 +24,9 @@ cGun::cGun()
 
 cGun::~cGun()
 {
+	for each (auto p in m_pvEffect)
+		SAFE_RELEASE(p);
+
 	for each (auto p in m_pvBullet)
 		SAFE_RELEASE(p);
 
@@ -35,15 +43,16 @@ void cGun::Setup(D3DXVECTOR3* pvTarget, char* szFolder, char* szFilename)
 
 void cGun::Update()
 {
-	for (size_t i = 0; i < m_pvBullet.size(); i++)
+	for (size_t i = 0; i < m_pvBullet.size(); )
 	{
 		m_pvBullet[i]->Update();
 		if(m_pvBullet[i]->GetMoveDistance() > m_fAttackRange)
 		{
 			SAFE_RELEASE(m_pvBullet[i]);
 			m_pvBullet.erase(m_pvBullet.begin());
-			break;
+			continue;
 		}
+		i++;
 	}
 
 	for (size_t i = 0; i < m_pvEffect.size(); )
@@ -101,8 +110,16 @@ void cGun::SetWorldMatrixByBoneName(D3DXMATRIXA16 * matRot, char * name)
 	}
 }
 
-void cGun::Fire(D3DXVECTOR3 vDirection, D3DXMATRIXA16 & matWorld)
+bool cGun::Fire(D3DXVECTOR3 vDirection, D3DXMATRIXA16 & matWorld)
 {
+	if (m_nCurrentBullet <= 0)
+	{
+		Reload();
+
+		// 총알 발사는 안할거니까 false 리턴
+		return false;
+	}
+
 	m_nCurrentBullet--;
 
 	D3DXMATRIXA16 matPos = matWorld;
@@ -127,22 +144,47 @@ void cGun::Fire(D3DXVECTOR3 vDirection, D3DXMATRIXA16 & matWorld)
 		m_pvBullet.push_back(bullet);
 	}
 
-	cEffect* test = new cEffect;
-	test->Setup("Effect/test4.tga", 1, 1, 2, 1);
-	test->SetPosition(D3DXVECTOR3(vecPos.x, vecPos.y, vecPos.z));
-	m_pvEffect.push_back(test);
+	cEffect* effect = new cEffect;
+	effect->Setup("Effect/test4.tga", 1, 1, 2, 1);
+	effect->SetPosition(D3DXVECTOR3(vecPos.x, vecPos.y, vecPos.z));
+	m_pvEffect.push_back(effect);
+
+	return true;
 }
 
 void cGun::Reload()
 {
-	m_nCurrentBullet = m_nMaxBullet;
-	// reload 애니메이션 넘버로 설정
-	m_pGun->PlayOneShot(2, 0, 0);
+	// 총알 채워준다.  외부에서 재장전 애니메이션 실행함.
+	if (m_nMaxBullet >= m_nMagazine)
+	{
+		// currentbullet이 남아있는채로 reload하는 경우 더해줌..
+		m_nMaxBullet -= (m_nMagazine - m_nCurrentBullet);
+		m_nCurrentBullet = m_nMagazine;
+	}
+	else
+	{
+		m_nCurrentBullet = m_nMaxBullet;
+		m_nMaxBullet = 0;
+	}
+
+	//m_nCurrentBullet = m_nMaxBullet;
+	//// reload 애니메이션 넘버로 설정
+	//m_pGun->PlayOneShot(2, 0, 0);
 }
 
 void cGun::RemoveBullet(int bulletIndex)
 {
 	m_pvBullet.erase(m_pvBullet.begin() + bulletIndex);
+}
+
+bool cGun::IsShoot()
+{
+	return m_pGun->IsPlay("shot");
+}
+
+bool cGun::IsReload()
+{
+	return m_pGun->IsPlay("reload");
 }
 
 cSkinnedMesh * cGun::GetGunMesh()

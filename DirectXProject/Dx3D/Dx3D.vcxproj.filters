@@ -88,6 +88,12 @@
     <Filter Include="헤더 파일\MapTool">
       <UniqueIdentifier>{ff5b6015-d9c4-4775-b8a0-a87d4da05c3f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\State">
+      <UniqueIdentifier>{973ba52c-f4cc-4070-a68a-9591fe8ad679}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\State">
+      <UniqueIdentifier>{e54a29e1-1f64-4db8-b2f0-c2bcfae561fe}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />
@@ -288,13 +294,22 @@
     <ClInclude Include="cEffect.h">
       <Filter>Setting&amp;Manager\header\Setting</Filter>
     </ClInclude>
-    <ClInclude Include="cState.h">
-      <Filter>헤더 파일</Filter>
+    <ClInclude Include="cBuildingGroup.h">
+      <Filter>헤더 파일\Character</Filter>
     </ClInclude>
-    <ClInclude Include="cStateMove.h">
-      <Filter>헤더 파일</Filter>
+    <ClInclude Include="cState.h">
+      <Filter>헤더 파일\State</Filter>
     </ClInclude>
     <ClInclude Include="cStateAttack.h">
+      <Filter>헤더 파일\State</Filter>
+    </ClInclude>
+    <ClInclude Include="cStateMove.h">
+      <Filter>헤더 파일\State</Filter>
+    </ClInclude>
+    <ClInclude Include="cEvent.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="cAirDrop.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
@@ -482,13 +497,22 @@
     <ClCompile Include="cEffect.cpp">
       <Filter>Setting&amp;Manager\cpp\Setting</Filter>
     </ClCompile>
-    <ClCompile Include="cState.cpp">
-      <Filter>소스 파일</Filter>
+    <ClCompile Include="cBuildingGroup.cpp">
+      <Filter>소스 파일\Character</Filter>
     </ClCompile>
-    <ClCompile Include="cStateMove.cpp">
-      <Filter>소스 파일</Filter>
+    <ClCompile Include="cState.cpp">
+      <Filter>소스 파일\State</Filter>
     </ClCompile>
     <ClCompile Include="cStateAttack.cpp">
+      <Filter>소스 파일\State</Filter>
+    </ClCompile>
+    <ClCompile Include="cStateMove.cpp">
+      <Filter>소스 파일\State</Filter>
+    </ClCompile>
+    <ClCompile Include="cEvent.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="cAirDrop.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

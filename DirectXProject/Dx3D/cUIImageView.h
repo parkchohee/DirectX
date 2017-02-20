@@ -2,6 +2,11 @@
 
 class cUIImageView : public cUIObject
 {
+	/*float rateX;
+	float rateY;*/
+	SYNTHESIZE(float, m_fRateX, RateX);
+	SYNTHESIZE(float, m_fRateY, RateY);
+
 protected:
 	LPDIRECT3DTEXTURE9	m_pTexture;
 

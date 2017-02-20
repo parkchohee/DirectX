@@ -20,10 +20,12 @@ cAI::~cAI()
 {
 	SAFE_DELETE(m_pAIOBB);
 	SAFE_RELEASE(m_pSprite);
+	SAFE_RELEASE(m_pAIPointPos);
 	SAFE_RELEASE(m_pBoundingSphereDetailMesh);
 	SAFE_RELEASE(m_pBoundingSphereMesh);
 	SAFE_RELEASE(m_pController);
 	SAFE_RELEASE(m_pGun);
+	SAFE_DELETE(m_pSkinnedMesh);
 }
 
 void cAI::Setup(char* szFolder, char* szFilename)
@@ -66,13 +68,6 @@ void cAI::Setup(char* szFolder, char* szFilename)
 	m_stBoundingSphere.fRadius = AI_BOUNDING_SPHERE_SIZE;
 
 	m_vecBoundingSphereDetail.resize(11);
-	//SetBoundingSphere();
-	//ST_MAT_SPHERE stMatSphere;
-	//stMatSphere.stSphere.vCenter = D3DXVECTOR3(0, 0, 0);
-	//stMatSphere.matLocal = m_pSkinnedMesh->getLocalMatrix("Jaw");
-	//stMatSphere.matWorld = *stMatSphere.matLocal * m_matWorldTM;
-	//D3DXVec3TransformCoord(&stMatSphere.stSphere.vCenter, &stMatSphere.stSphere.vCenter, &stMatSphere.matWorld);
-	//m_vecBoundingSphereDetail[0] = stMatSphere;
 }
 
 void cAI::Update(D3DXVECTOR3 vPlayer, float fAngle)
@@ -239,7 +234,7 @@ void cAI::BulletFire(D3DXVECTOR3 dir)
 {
 	if (m_pGun)
 	{
-		m_pSkinnedMesh->PlayOneShot(4, 0, 0);
+		m_pSkinnedMesh->PlayOneShot("StandFire", 0, 0);
 		
 		D3DXMATRIXA16 matT;
 		D3DXMatrixTranslation(&matT, m_vPosition.x, m_vPosition.y, m_vPosition.z);

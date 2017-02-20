@@ -10,6 +10,7 @@ private:
 
 	SYNTHESIZE_PASS_BY_REF(D3DXMATRIXA16, m_pmatWorld, World);
 
+	SYNTHESIZE(D3DXVECTOR3, m_vPosition, Position);
 	SYNTHESIZE(D3DXVECTOR3, m_vMin, Min);
 	SYNTHESIZE(D3DXVECTOR3, m_vMax, Max);
 

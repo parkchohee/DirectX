@@ -11,6 +11,9 @@ private:
 	float		m_fAxisLen[3];		/// :  박스에 평행한 세 축의 길이 fAxisLen[n]은 vAxisDir[n]에 각각 대응한다.
 	float		m_fAxisHalfLen[3];
 
+	D3DXVECTOR3 m_vVertex[8];
+	D3DXVECTOR3 m_vWorldVertex[8];
+
 	D3DXMATRIXA16 m_matWorldTM;
 public:
 	cOBB(void);
@@ -26,5 +29,8 @@ public:
 
 	D3DXMATRIXA16* GetWorldTM() { return &m_matWorldTM; }
 	void SetScale(float scale);
+	void SetVertex();
+
+	D3DXVECTOR3* GetVertes() { return m_vWorldVertex; }
 };
 

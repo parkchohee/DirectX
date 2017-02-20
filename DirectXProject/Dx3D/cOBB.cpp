@@ -50,6 +50,8 @@ void cOBB::Setup(cStaticMesh * pStaticMesh, float scale)
 	m_fAxisHalfLen[0] = m_fAxisLen[0] / 2.0f;
 	m_fAxisHalfLen[1] = m_fAxisLen[1] / 2.0f;
 	m_fAxisHalfLen[2] = m_fAxisLen[2] / 2.0f;
+
+	SetVertex();
 }
 
 void cOBB::Setup(D3DXVECTOR3 vMin, D3DXVECTOR3 vMax, float scale)
@@ -67,6 +69,8 @@ void cOBB::Setup(D3DXVECTOR3 vMin, D3DXVECTOR3 vMax, float scale)
 	m_fAxisHalfLen[0] = m_fAxisLen[0] / 2.0f;
 	m_fAxisHalfLen[1] = m_fAxisLen[1] / 2.0f;
 	m_fAxisHalfLen[2] = m_fAxisLen[2] / 2.0f;
+
+	SetVertex();
 }
 
 void cOBB::Update( D3DXMATRIXA16* pmatWorld )
@@ -87,6 +91,7 @@ void cOBB::Update( D3DXMATRIXA16* pmatWorld )
 		&m_vOrgCenterPos,
 		&m_matWorldTM);
 
+	SetVertex();
 }
 
 bool cOBB::IsCollision( cOBB* pOBB1, cOBB* pOBB2 )
@@ -224,57 +229,31 @@ bool cOBB::IsCollision( cOBB* pOBB1, cOBB* pOBB2 )
 /// >> : 박스 그리기.
 void cOBB::OBBBox_Render(D3DCOLOR c)
 {
-	D3DXVECTOR3 pos1(m_vOrgCenterPos.x - m_fAxisHalfLen[0],
-					 m_vOrgCenterPos.y - m_fAxisHalfLen[1],
-					 m_vOrgCenterPos.z - m_fAxisHalfLen[2]);
-	D3DXVECTOR3 pos2(m_vOrgCenterPos.x - m_fAxisHalfLen[0],
-					 m_vOrgCenterPos.y + m_fAxisHalfLen[1],
-					 m_vOrgCenterPos.z -m_fAxisHalfLen[2]);
-	D3DXVECTOR3 pos3(m_vOrgCenterPos.x + m_fAxisHalfLen[0],
-					 m_vOrgCenterPos.y + m_fAxisHalfLen[1],
-					 m_vOrgCenterPos.z - m_fAxisHalfLen[2]);
-	D3DXVECTOR3 pos4(m_vOrgCenterPos.x + m_fAxisHalfLen[0],
-					 m_vOrgCenterPos.y - m_fAxisHalfLen[1],
-					 m_vOrgCenterPos.z - m_fAxisHalfLen[2]);
-
-	D3DXVECTOR3 pos5(m_vOrgCenterPos.x - m_fAxisHalfLen[0],
-					 m_vOrgCenterPos.y - m_fAxisHalfLen[1],
-					 m_vOrgCenterPos.z + m_fAxisHalfLen[2]);
-	D3DXVECTOR3 pos6(m_vOrgCenterPos.x - m_fAxisHalfLen[0],
-					 m_vOrgCenterPos.y + m_fAxisHalfLen[1],
-					 m_vOrgCenterPos.z + m_fAxisHalfLen[2]);
-	D3DXVECTOR3 pos7(m_vOrgCenterPos.x + m_fAxisHalfLen[0],
-					 m_vOrgCenterPos.y + m_fAxisHalfLen[1],
-					 m_vOrgCenterPos.z + m_fAxisHalfLen[2]);
-	D3DXVECTOR3 pos8(m_vOrgCenterPos.x + m_fAxisHalfLen[0],
-					 m_vOrgCenterPos.y - m_fAxisHalfLen[1],
-					 m_vOrgCenterPos.z + m_fAxisHalfLen[2]);
-
 	std::vector<ST_PC_VERTEX> vecVertex;
-	vecVertex.push_back(ST_PC_VERTEX(pos1, c));
-	vecVertex.push_back(ST_PC_VERTEX(pos2, c));
-	vecVertex.push_back(ST_PC_VERTEX(pos2, c));
-	vecVertex.push_back(ST_PC_VERTEX(pos3, c));
-	vecVertex.push_back(ST_PC_VERTEX(pos3, c));
-	vecVertex.push_back(ST_PC_VERTEX(pos4, c));
-	vecVertex.push_back(ST_PC_VERTEX(pos4, c));
-	vecVertex.push_back(ST_PC_VERTEX(pos1, c));
-	vecVertex.push_back(ST_PC_VERTEX(pos1, c));
-	vecVertex.push_back(ST_PC_VERTEX(pos5, c));
-	vecVertex.push_back(ST_PC_VERTEX(pos2, c));
-	vecVertex.push_back(ST_PC_VERTEX(pos6, c));
-	vecVertex.push_back(ST_PC_VERTEX(pos3, c));
-	vecVertex.push_back(ST_PC_VERTEX(pos7, c));
-	vecVertex.push_back(ST_PC_VERTEX(pos4, c));
-	vecVertex.push_back(ST_PC_VERTEX(pos8, c));
-	vecVertex.push_back(ST_PC_VERTEX(pos5, c));
-	vecVertex.push_back(ST_PC_VERTEX(pos6, c));
-	vecVertex.push_back(ST_PC_VERTEX(pos6, c));
-	vecVertex.push_back(ST_PC_VERTEX(pos7, c));
-	vecVertex.push_back(ST_PC_VERTEX(pos7, c));
-	vecVertex.push_back(ST_PC_VERTEX(pos8, c));
-	vecVertex.push_back(ST_PC_VERTEX(pos8, c));
-	vecVertex.push_back(ST_PC_VERTEX(pos5, c));
+	vecVertex.push_back(ST_PC_VERTEX(m_vVertex[0], c));
+	vecVertex.push_back(ST_PC_VERTEX(m_vVertex[1], c));
+	vecVertex.push_back(ST_PC_VERTEX(m_vVertex[1], c));
+	vecVertex.push_back(ST_PC_VERTEX(m_vVertex[2], c));
+	vecVertex.push_back(ST_PC_VERTEX(m_vVertex[2], c));
+	vecVertex.push_back(ST_PC_VERTEX(m_vVertex[3], c));
+	vecVertex.push_back(ST_PC_VERTEX(m_vVertex[3], c));
+	vecVertex.push_back(ST_PC_VERTEX(m_vVertex[0], c));
+	vecVertex.push_back(ST_PC_VERTEX(m_vVertex[0], c));
+	vecVertex.push_back(ST_PC_VERTEX(m_vVertex[4], c));
+	vecVertex.push_back(ST_PC_VERTEX(m_vVertex[1], c));
+	vecVertex.push_back(ST_PC_VERTEX(m_vVertex[5], c));
+	vecVertex.push_back(ST_PC_VERTEX(m_vVertex[2], c));
+	vecVertex.push_back(ST_PC_VERTEX(m_vVertex[6], c));
+	vecVertex.push_back(ST_PC_VERTEX(m_vVertex[3], c));
+	vecVertex.push_back(ST_PC_VERTEX(m_vVertex[7], c));
+	vecVertex.push_back(ST_PC_VERTEX(m_vVertex[4], c));
+	vecVertex.push_back(ST_PC_VERTEX(m_vVertex[5], c));
+	vecVertex.push_back(ST_PC_VERTEX(m_vVertex[5], c));
+	vecVertex.push_back(ST_PC_VERTEX(m_vVertex[6], c));
+	vecVertex.push_back(ST_PC_VERTEX(m_vVertex[6], c));
+	vecVertex.push_back(ST_PC_VERTEX(m_vVertex[7], c));
+	vecVertex.push_back(ST_PC_VERTEX(m_vVertex[7], c));
+	vecVertex.push_back(ST_PC_VERTEX(m_vVertex[4], c));
 
 	g_pD3DDevice->SetTexture(NULL,NULL);
 	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, false);
@@ -297,4 +276,42 @@ void cOBB::SetScale(float scale)
 	m_fAxisHalfLen[0] = m_fAxisLen[0] / 2.0f;
 	m_fAxisHalfLen[1] = m_fAxisLen[1] / 2.0f;
 	m_fAxisHalfLen[2] = m_fAxisLen[2] / 2.0f;
+}
+
+void cOBB::SetVertex()
+{
+	m_vVertex[0] = D3DXVECTOR3(m_vOrgCenterPos.x - m_fAxisHalfLen[0],
+		m_vOrgCenterPos.y - m_fAxisHalfLen[1],
+		m_vOrgCenterPos.z - m_fAxisHalfLen[2]);
+	m_vVertex[1] = D3DXVECTOR3(m_vOrgCenterPos.x - m_fAxisHalfLen[0],
+		m_vOrgCenterPos.y + m_fAxisHalfLen[1],
+		m_vOrgCenterPos.z - m_fAxisHalfLen[2]);
+	m_vVertex[2] = D3DXVECTOR3(m_vOrgCenterPos.x + m_fAxisHalfLen[0],
+		m_vOrgCenterPos.y + m_fAxisHalfLen[1],
+		m_vOrgCenterPos.z - m_fAxisHalfLen[2]);
+	m_vVertex[3] = D3DXVECTOR3(m_vOrgCenterPos.x + m_fAxisHalfLen[0],
+		m_vOrgCenterPos.y - m_fAxisHalfLen[1],
+		m_vOrgCenterPos.z - m_fAxisHalfLen[2]);
+
+	m_vVertex[4] = D3DXVECTOR3(m_vOrgCenterPos.x - m_fAxisHalfLen[0],
+		m_vOrgCenterPos.y - m_fAxisHalfLen[1],
+		m_vOrgCenterPos.z + m_fAxisHalfLen[2]);
+	m_vVertex[5] = D3DXVECTOR3(m_vOrgCenterPos.x - m_fAxisHalfLen[0],
+		m_vOrgCenterPos.y + m_fAxisHalfLen[1],
+		m_vOrgCenterPos.z + m_fAxisHalfLen[2]);
+	m_vVertex[6] = D3DXVECTOR3(m_vOrgCenterPos.x + m_fAxisHalfLen[0],
+		m_vOrgCenterPos.y + m_fAxisHalfLen[1],
+		m_vOrgCenterPos.z + m_fAxisHalfLen[2]);
+	m_vVertex[7] = D3DXVECTOR3(m_vOrgCenterPos.x + m_fAxisHalfLen[0],
+		m_vOrgCenterPos.y - m_fAxisHalfLen[1],
+		m_vOrgCenterPos.z + m_fAxisHalfLen[2]);
+
+	D3DXVec3TransformCoord(&m_vWorldVertex[0], &m_vVertex[0], &m_matWorldTM);
+	D3DXVec3TransformCoord(&m_vWorldVertex[1], &m_vVertex[1], &m_matWorldTM);
+	D3DXVec3TransformCoord(&m_vWorldVertex[2], &m_vVertex[2], &m_matWorldTM);
+	D3DXVec3TransformCoord(&m_vWorldVertex[3], &m_vVertex[3], &m_matWorldTM);
+	D3DXVec3TransformCoord(&m_vWorldVertex[4], &m_vVertex[4], &m_matWorldTM);
+	D3DXVec3TransformCoord(&m_vWorldVertex[5], &m_vVertex[5], &m_matWorldTM);
+	D3DXVec3TransformCoord(&m_vWorldVertex[6], &m_vVertex[6], &m_matWorldTM);
+	D3DXVec3TransformCoord(&m_vWorldVertex[7], &m_vVertex[7], &m_matWorldTM);
 }
