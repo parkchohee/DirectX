@@ -19,6 +19,10 @@ cBuilding::cBuilding(char* szFolder, char* szFilename)
 cBuilding::~cBuilding()
 {
 	SAFE_DELETE(m_pBuilding);
+	SAFE_DELETE(m_pOBB);
+
+	for each (auto p in m_vecGroup)
+		SAFE_RELEASE(p);
 }
 
 void cBuilding::Setup(char* szFolder, char* szFilename)
@@ -73,13 +77,16 @@ void cBuilding::SetOBB(char * szFolder, char * szFilename)
 	objFileName += ".obj";
 
 	cObjLoader* objLoader = new cObjLoader;
-	std::vector<cGroup*>	vecGroup;
-	objLoader->Load(vecGroup, szFolder, (char*)objFileName.c_str());
-	if (vecGroup.size() <= 0)
+	/*std::vector<cGroup*>	vecGroup;*/
+	objLoader->Load(m_vecGroup, szFolder, (char*)objFileName.c_str());
+	if (m_vecGroup.size() <= 0)
 		//°æ°íÃ¢;
 		;
+
+	SAFE_DELETE(objLoader);
+
 	m_pOBB = new cOBB;
-	m_pOBB->Setup(vecGroup[0]->GetMin(), vecGroup[0]->GetMax());
+	m_pOBB->Setup(m_vecGroup[0]->GetMin(), m_vecGroup[0]->GetMax());
 }
 
 void cBuilding::SetScale(float scale)

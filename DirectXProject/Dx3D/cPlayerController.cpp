@@ -103,17 +103,18 @@ void cPlayerController::Update(D3DXVECTOR3 & camAngle, OUT D3DXVECTOR3 & vDirect
 	if (m_pTextMap)
 	{
 		// 맵의 건물들의 obb를 불러와 obb 충돌체크
-		//for (size_t i = 0; i < m_pTextMap->GetBuildings().size(); i++)
-		//{
-		//	D3DXVECTOR3 vec = m_pTextMap->GetBuildings()[i]->GetPosition() - vPosition;
-		//	float length = D3DXVec3Length(&vec);
-		//	if (length > 10)
-		//		continue;
-
-		//	//// 충돌하면 그냥 리턴
-		///*	if (cOBB::IsCollision(m_pTextMap->GetBuildings()[i]->GetOBB(), m_pOBB))
-		//		return;*/
-		//}
+	/*	for (size_t i = 0; i < m_pTextMap->GetBuildings().size(); i++)
+		{
+			int a = 0;*/
+		/*	D3DXVECTOR3 vec = m_pTextMap->GetBuildings()[i]->GetPosition() - vPosition;
+			float length = D3DXVec3Length(&vec);
+			if (length > 10)
+				continue;
+*/
+			//// 충돌하면 그냥 리턴
+		/*	if (cOBB::IsCollision(m_pTextMap->GetBuildings()[i]->GetOBB(), m_pOBB))
+				return;*/
+	//	}
 	}
 
 	if (m_pHeightMap)

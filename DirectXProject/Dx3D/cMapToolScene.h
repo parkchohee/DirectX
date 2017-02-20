@@ -39,6 +39,7 @@ public:
 	virtual ~cMapToolScene();
 
 	virtual void Setup();
+	virtual void Destroy();
 	virtual void Update();
 	virtual void Render();
 

@@ -58,6 +58,7 @@ public:
 	virtual ~cPlayScene();
 
 	virtual void Setup();
+	virtual void Destroy();
 	virtual void Update();
 	virtual void Render();
 

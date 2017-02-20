@@ -15,6 +15,10 @@ void cScene::Setup()
 {
 }
 
+void cScene::Destroy()
+{
+}
+
 void cScene::Update()
 {
 }

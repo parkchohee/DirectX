@@ -16,8 +16,8 @@ cMainGame::~cMainGame(void)
 {
 	g_pSoundManager->Destroy();
 	g_pSceneManager->Destroy();
-	g_pStaticMeshManager->Destroy();
 	g_pSkinnedMeshManager->Destroy();
+	g_pStaticMeshManager->Destroy();
 	g_pObjectManager->Destroy();
 	g_pFontManager->Destroy();
 	g_pTextureManager->Destroy();

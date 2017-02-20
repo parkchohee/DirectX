@@ -1,11 +1,12 @@
 #pragma once
-class cScene : public cObject
+class cScene/* : public cObject*/
 {
 public:
 	cScene();
 	virtual ~cScene();
 
 	virtual void Setup();
+	virtual void Destroy();
 	virtual void Update();
 	virtual void Render();
 

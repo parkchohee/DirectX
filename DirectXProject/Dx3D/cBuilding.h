@@ -1,6 +1,7 @@
 #pragma once
 class cStaticMesh;
 class cOBB;
+class cGroup;
 
 class cBuilding : public cObject
 {
@@ -8,6 +9,8 @@ class cBuilding : public cObject
 	std::string			m_sFolderName;
 	std::string			m_sFileName;
 	cOBB*				m_pOBB;	/// >> : OBB
+
+	std::vector<cGroup*> m_vecGroup;
 
 	SYNTHESIZE(D3DXVECTOR3, m_vPosition, Position);
 	SYNTHESIZE(float, m_fAngle, Angle);

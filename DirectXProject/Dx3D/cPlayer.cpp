@@ -28,11 +28,16 @@ cPlayer::cPlayer()
 
 cPlayer::~cPlayer()
 {
+	SAFE_DELETE(m_pBulletRay);
+
 	if (m_pUICursorRoot)
 		m_pUICursorRoot->Destroy();
 
 	if (m_pUIPlayerInfoRoot)
 		m_pUIPlayerInfoRoot->Destroy();
+
+	if (m_pUIGunInfoRoot)
+		m_pUIGunInfoRoot->Destroy();
 
 	SAFE_RELEASE(m_pSprite);
 	SAFE_RELEASE(m_pController);
@@ -40,6 +45,8 @@ cPlayer::~cPlayer()
 
 	for each (auto p in m_vecGun)
 		SAFE_RELEASE(p);
+
+	m_pGun = NULL;
 }
 
 void cPlayer::Setup()

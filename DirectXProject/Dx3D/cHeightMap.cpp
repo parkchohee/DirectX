@@ -12,6 +12,7 @@ cHeightMap::cHeightMap(void)
 cHeightMap::~cHeightMap(void)
 {
 	SAFE_RELEASE(m_pMesh);
+	SAFE_RELEASE(m_pTexture);
 }
 
 // >> :  

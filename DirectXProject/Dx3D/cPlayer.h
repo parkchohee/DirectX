@@ -25,7 +25,6 @@ class cPlayer : public cCharacter
 	cOBB*               m_pPlayerOBB;
 
 	ST_SPHERE			m_stSphere;
-	LPD3DXMESH			m_pSphereMesh;
 	
 	LPD3DXSPRITE		m_pSprite;
 	cUIObject*			m_pUICursorRoot;

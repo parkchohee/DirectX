@@ -12,11 +12,7 @@ cLoadingScene::cLoadingScene()
 
 cLoadingScene::~cLoadingScene()
 {
-	if (m_pMainUIRoot)
-		m_pMainUIRoot->Destroy();
-
-	SAFE_RELEASE(m_pSprite);
-
+	
 }
 
 void cLoadingScene::Setup()
@@ -34,6 +30,15 @@ void cLoadingScene::Setup()
 	MainMenuBackground->SetPosition(MainMenuBackground->GetSize().nWidth / 2, MainMenuBackground->GetSize().nHeight / 2);
 
 	m_pMainUIRoot->AddChild(MainMenuBackground);
+
+}
+
+void cLoadingScene::Destroy()
+{
+	if (m_pMainUIRoot)
+		m_pMainUIRoot->Destroy();
+
+	SAFE_RELEASE(m_pSprite);
 
 }
 

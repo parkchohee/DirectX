@@ -16,6 +16,10 @@ cEvent::cEvent()
 
 cEvent::~cEvent()
 {
+	SAFE_RELEASE(m_pSprite);
+
+	for each (auto p in m_aTexture)
+		SAFE_RELEASE(p);
 }
 
 void cEvent::Setup(char * FirstszFullPath, char * SecondszFullPath)

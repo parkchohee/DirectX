@@ -14,13 +14,7 @@ cFirstScene::cFirstScene()
 
 cFirstScene::~cFirstScene()
 {
-	if (m_pMainUIRoot)
-		m_pMainUIRoot->Destroy();
-
-	if (m_pOptionUIRoot)
-		m_pOptionUIRoot->Destroy();
-
-	SAFE_RELEASE(m_pSprite);
+	
 }
 
 void cFirstScene::Setup()
@@ -29,6 +23,17 @@ void cFirstScene::Setup()
 
 	MainMenuUISetting();
 	OptionMenuUISetting();
+}
+
+void cFirstScene::Destroy()
+{
+	if (m_pMainUIRoot)
+		m_pMainUIRoot->Destroy();
+
+	if (m_pOptionUIRoot)
+		m_pOptionUIRoot->Destroy();
+
+	SAFE_RELEASE(m_pSprite);
 }
 
 void cFirstScene::Update()

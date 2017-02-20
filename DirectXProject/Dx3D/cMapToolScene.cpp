@@ -24,27 +24,21 @@ cMapToolScene::cMapToolScene()
 
 cMapToolScene::~cMapToolScene()
 {
-	SAFE_DELETE(m_pBuildingMode);
-	SAFE_DELETE(m_pGroundMode);
-	SAFE_DELETE(m_pSkyView);
-
-	SAFE_DELETE(m_pCamera);
-	SAFE_DELETE(m_pGrid);
-
+	
 }
 
 void cMapToolScene::Setup()
 {
-	m_pSkyView = g_pStaticMeshManager->GetStaticMesh("Map/Sky/", "sky.X");
-	D3DXMATRIXA16 matS;
-	D3DXMatrixScaling(&matS, 0.05f, 0.05f, 0.05f);
-	m_pSkyView->SetWorld(matS);
-
 	m_pGrid = new cGrid;
 	m_pGrid->Setup();
 
 	m_pCamera = new cMapCamera;
 	m_pCamera->Setup(NULL);
+
+	m_pSkyView = new cStaticMesh("Map/Sky/", "sky.X");//g_pStaticMeshManager->GetStaticMesh("Map/Sky/", "sky.X");
+	D3DXMATRIXA16 matS;
+	D3DXMatrixScaling(&matS, 0.05f, 0.05f, 0.05f);
+	m_pSkyView->SetWorld(matS);
 
 	m_pGroundMode = new cMakeGround;
 	m_pGroundMode->Setup();
@@ -53,6 +47,22 @@ void cMapToolScene::Setup()
 	m_pBuildingMode->Setup();
 
 	SettingUI();
+
+}
+
+void cMapToolScene::Destroy()
+{
+	if (m_pUIRoot)
+		m_pUIRoot->Destroy();
+
+	SAFE_RELEASE(m_pSprite);
+
+	SAFE_DELETE(m_pBuildingMode);
+	SAFE_DELETE(m_pGroundMode);
+	SAFE_DELETE(m_pSkyView);
+
+	SAFE_DELETE(m_pCamera);
+	SAFE_DELETE(m_pGrid);
 
 }
 

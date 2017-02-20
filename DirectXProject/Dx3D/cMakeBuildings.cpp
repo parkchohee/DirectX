@@ -25,6 +25,9 @@ cMakeBuildings::~cMakeBuildings()
 		SAFE_RELEASE(p);
 
 	SAFE_RELEASE(m_pSprite);
+
+	m_pBuilding = NULL;
+	m_pName.clear();
 }
 
 void cMakeBuildings::Setup()

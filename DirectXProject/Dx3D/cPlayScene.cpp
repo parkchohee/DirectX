@@ -37,23 +37,6 @@ cPlayScene::cPlayScene()
 
 cPlayScene::~cPlayScene()
 {
-	SAFE_RELEASE(m_pAirDrop);
-	SAFE_RELEASE(m_pEvent);
-	SAFE_DELETE(m_pSkyView);
-	SAFE_DELETE(m_pFrustum);
-
-	SAFE_DELETE(m_pCamera);
-	SAFE_DELETE(m_pGrid);
-	SAFE_DELETE(m_pTextMap);
-	SAFE_DELETE(m_pHeightMap);
-
-	SAFE_RELEASE(m_pPlayer);
-	
-	for each(auto p in m_pvAI)
-		SAFE_RELEASE(p);
-	
-	for each(auto p in m_pvDeathAI)
-		SAFE_RELEASE(p);
 }
 
 void cPlayScene::Setup()
@@ -81,7 +64,6 @@ void cPlayScene::Setup()
 		pAI->Setup("AI/", "soldier.X");
 		pAI->SetHeightMap(m_pHeightMap);
 		pAI->SetTextMap(m_pTextMap);
-		//pAI->SetIsEnemy(true);		// true이면 적
 		m_pvAI.push_back(pAI);
 	}
 
@@ -93,7 +75,6 @@ void cPlayScene::Setup()
 		pAI->Setup("AI/", "soldier.X");
 		pAI->SetHeightMap(m_pHeightMap);
 		pAI->SetTextMap(m_pTextMap);
-		//pAI->SetIsEnemy(true);		// true이면 적
 		m_pvAI.push_back(pAI);
 	}
 
@@ -105,7 +86,6 @@ void cPlayScene::Setup()
 		pAI->Setup("AI/", "soldier.X");
 		pAI->SetHeightMap(m_pHeightMap);
 		pAI->SetTextMap(m_pTextMap);
-		//pAI->SetIsEnemy(true);		// true이면 적
 		m_pvAI.push_back(pAI);
 	}
 
@@ -117,7 +97,6 @@ void cPlayScene::Setup()
 		pAI->Setup("AI/", "soldier.X");
 		pAI->SetHeightMap(m_pHeightMap);
 		pAI->SetTextMap(m_pTextMap);
-		//pAI->SetIsEnemy(true);		// true이면 적
 		m_pvAI.push_back(pAI);
 	}
 
@@ -129,7 +108,8 @@ void cPlayScene::Setup()
 	m_pGrid->Setup(50,1.0f);
 
 	
-	m_pSkyView = g_pStaticMeshManager->GetStaticMesh("Map/Sky/", "sky.X");
+	m_pSkyView = new cStaticMesh("Map/Sky/", "sky.X");
+	//	g_pStaticMeshManager->GetStaticMesh("Map/Sky/", "sky.X");
 	D3DXMATRIXA16 matS;
 	D3DXMatrixScaling(&matS, 0.05f, 0.05f, 0.05f);
 	m_pSkyView->SetWorld(matS);
@@ -140,6 +120,30 @@ void cPlayScene::Setup()
 
 	m_pFrustum = new cFrustum;
 	m_pFrustum->Setup();
+}
+
+void cPlayScene::Destroy()
+{
+	SAFE_RELEASE(m_pEvent);
+	SAFE_DELETE(m_pFrustum);
+	SAFE_RELEASE(m_pAirDrop);
+	SAFE_DELETE(m_pSkyView);
+
+	SAFE_DELETE(m_pCamera);
+	SAFE_DELETE(m_pGrid);
+	SAFE_DELETE(m_pTextMap);
+	SAFE_DELETE(m_pHeightMap);
+
+	SAFE_RELEASE(m_pPlayer);
+
+	for each(auto p in m_pvAI)
+		SAFE_RELEASE(p);
+
+	for each(auto p in m_pvDeathAI)
+		SAFE_RELEASE(p);
+
+	for each(auto p in m_pvBuildingGroup)
+		SAFE_RELEASE(p);
 }
 
 void cPlayScene::Update()

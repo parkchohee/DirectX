@@ -13,6 +13,7 @@ cBuildingGroup::cBuildingGroup()
 
 cBuildingGroup::~cBuildingGroup()
 {
+	m_pvBuildings.clear();
 }
 
 void cBuildingGroup::AddBuilding(cBuilding * building)
