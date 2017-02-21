@@ -6,7 +6,8 @@ class cUIObject;
 
 enum MAIN_MENU_STATE {
 	MAIN_MENU,
-	OPTION_MENU
+	OPTION_MENU,
+	SOUND_MENU
 };
 
 enum MAIN_MENU_BUTTON {
@@ -23,6 +24,7 @@ class cFirstScene : public cScene
 {
 	cUIObject*			m_pMainUIRoot;
 	cUIObject*			m_pOptionUIRoot;
+	cUIObject*			m_pSoundUIRoot;
 	LPD3DXSPRITE		m_pSprite;
 
 	MAIN_MENU_STATE		m_stMenu;
@@ -42,5 +44,6 @@ public:
 
 	void MainMenuUISetting();
 	void OptionMenuUISetting();
+	void SoundMenuSetting();
 };
 

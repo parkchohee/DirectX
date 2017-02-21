@@ -8,6 +8,7 @@
 cMakeGround::cMakeGround()
 	: m_pTexture(NULL)
 	, m_pMesh(NULL)
+	, m_fPower(0.1f)
 {
 }
 
@@ -15,10 +16,6 @@ cMakeGround::cMakeGround()
 cMakeGround::~cMakeGround()
 {
 	SAFE_RELEASE(m_pMesh);
-	SAFE_RELEASE(m_pSprite);
-
-	if (m_pUIRoot)
-		m_pUIRoot->Destroy();
 }
 
 void cMakeGround::Setup()
@@ -47,7 +44,7 @@ void cMakeGround::Setup()
 		ST_PNT_VERTEX v;
 		v.p = D3DXVECTOR3(i % MAPSIZE - (MAPSIZE / 2), 0, i / MAPSIZE - (MAPSIZE / 2));
 		v.n = D3DXVECTOR3(0, 1, 0);
-		v.t = D3DXVECTOR2((i % MAPSIZE) / (float)MAPSIZE * 5, (i / MAPSIZE) / (float)MAPSIZE * 5);
+		v.t = D3DXVECTOR2((i % MAPSIZE)/* / (float)MAPSIZE * 5*/, (i / MAPSIZE)/* / (float)MAPSIZE * 5*/);
 		m_vecVertex[i] = v;
 		//m_vecVertex[i] = v.p;
 	}
@@ -107,14 +104,11 @@ void cMakeGround::Setup()
 	m_stMtl.Diffuse = D3DXCOLOR(0.8f, 0.8f, 0.8f, 1.0f);
 	m_stMtl.Specular = D3DXCOLOR(0.8f, 0.8f, 0.8f, 1.0f);
 
-	SettingUI();
 }
 
 void cMakeGround::Update(POINT mouse)
 {
-	if (m_pUIRoot)
-		m_pUIRoot->Update();
-	
+	SetPower();
 	// 높이를 조절해준다....
 
 	// pick 해서
@@ -147,10 +141,10 @@ void cMakeGround::Update(POINT mouse)
 			int _3 = (nZ + 1) * (m_nTileN + 1) + nX + 1;
 			
 			// y값 증가시킨다. 
-			m_vecVertex[_0].p.y += 0.1f;
-			m_vecVertex[_1].p.y += 0.1f;
-			m_vecVertex[_2].p.y += 0.1f;
-			m_vecVertex[_3].p.y += 0.1f;
+			m_vecVertex[_0].p.y += m_fPower;
+			m_vecVertex[_1].p.y += m_fPower;
+			m_vecVertex[_2].p.y += m_fPower;
+			m_vecVertex[_3].p.y += m_fPower;
 
 			ST_PNT_VERTEX* pV = NULL;
 			m_pMesh->LockVertexBuffer(0, (LPVOID*)&pV);
@@ -166,9 +160,6 @@ void cMakeGround::Update(POINT mouse)
 		SetNormal();
 	}
 
-	//if (g_pKeyManager->IsOnceKeyDown(VK_SPACE))
-	//	g_pSceneManager->ChangeScene("playScene");
-
 }
 
 void cMakeGround::Render()
@@ -182,8 +173,19 @@ void cMakeGround::Render()
 	g_pD3DDevice->SetTexture(0, m_pTexture);
 	m_pMesh->DrawSubset(0);
 
-	if (m_pUIRoot)
-		m_pUIRoot->Render(m_pSprite);
+	char szTemp[1024];
+	sprintf(szTemp, "power : %.3f\n 1 :  0.01\n 2 : -0.01\n 3 :  0.1\n 4 : -0.1\n 5 : 0\nEnter : Save", m_fPower);
+
+	LPD3DXFONT pFont = g_pFontManager->GetFont(cFontManager::E_DEFAULT);
+	RECT rc;
+	SetRect(&rc, 0, 100, 600, 300);
+	pFont->DrawText(NULL,
+		szTemp,
+		strlen(szTemp),
+		&rc,
+		DT_LEFT | DT_TOP | DT_WORDBREAK,
+		D3DCOLOR_XRGB(255, 255, 0));
+
 
 }
 
@@ -209,26 +211,6 @@ void cMakeGround::SetNormal()
 		}
 	}
 }
-
-void cMakeGround::SettingUI()
-{
-	RECT rc;
-	GetClientRect(g_hWnd, &rc);
-
-	D3DXCreateSprite(g_pD3DDevice, &m_pSprite);
-
-	m_pUIRoot = new cUIObject;
-	m_pUIRoot->SetPosition(0, 0);
-
-	cUITextView* pTitleText = new cUITextView;
-	pTitleText->SetText("지형 편집");
-	pTitleText->SetSize(ST_SIZEN(200, 100));
-	pTitleText->SetPosition(rc.right - 250, rc.top + 30);
-
-	m_pUIRoot->AddChild(pTitleText);
-
-}
-
 void cMakeGround::SaveMapFile()
 {
 	HANDLE file;
@@ -247,4 +229,20 @@ void cMakeGround::SaveMapFile()
 
 	WriteFile(file, str, 50000, &write, NULL);
 	CloseHandle(file);
+}
+
+void cMakeGround::SetPower()
+{
+	if (g_pKeyManager->IsStayKeyDown('1'))
+		m_fPower += 0.01f;
+	else if (g_pKeyManager->IsStayKeyDown('2'))
+		m_fPower -= 0.01f;
+	else if (g_pKeyManager->IsStayKeyDown('3'))
+		m_fPower += 0.1f;
+	else if (g_pKeyManager->IsStayKeyDown('4'))
+		m_fPower -= 0.1f;
+	else if (g_pKeyManager->IsStayKeyDown('5'))
+		m_fPower = 0.f;
+	else if (g_pKeyManager->IsStayKeyDown(VK_RETURN))
+		SaveMapFile();
 }

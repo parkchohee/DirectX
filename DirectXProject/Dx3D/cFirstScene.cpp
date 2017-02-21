@@ -23,6 +23,7 @@ void cFirstScene::Setup()
 
 	MainMenuUISetting();
 	OptionMenuUISetting();
+	SoundMenuSetting();
 }
 
 void cFirstScene::Destroy()
@@ -32,6 +33,9 @@ void cFirstScene::Destroy()
 
 	if (m_pOptionUIRoot)
 		m_pOptionUIRoot->Destroy();
+
+	if (m_pSoundUIRoot)
+		m_pSoundUIRoot->Destroy();
 
 	SAFE_RELEASE(m_pSprite);
 }
@@ -44,6 +48,9 @@ void cFirstScene::Update()
 		if (m_pMainUIRoot)
 			m_pMainUIRoot->Update();
 		break;
+	case SOUND_MENU:
+		if (m_pSoundUIRoot)
+			m_pSoundUIRoot->Update();
 	case OPTION_MENU:
 		if (m_pOptionUIRoot)
 			m_pOptionUIRoot->Update();
@@ -61,9 +68,16 @@ void cFirstScene::Render()
 		if (m_pMainUIRoot)
 			m_pMainUIRoot->Render(m_pSprite);
 		break;
+
 	case OPTION_MENU:
 		if (m_pOptionUIRoot)
 			m_pOptionUIRoot->Render(m_pSprite);
+		break;
+	case SOUND_MENU:
+		if (m_pOptionUIRoot)
+			m_pOptionUIRoot->Render(m_pSprite);
+		if (m_pSoundUIRoot)
+			m_pSoundUIRoot->Render(m_pSprite);
 		break;
 	default:
 		break;
@@ -79,7 +93,6 @@ void cFirstScene::OnClick(cUIButton * pSender)
 	switch (pSender->GetTag())
 	{
 	case CAMPAIN_BTN:
-		//g_pSceneManager->ChangeScene("playScene");
 		g_pSceneManager->ChangeSceneWithLoading("playScene", "loadingScene");
 		break;
 	case OPTION_BTN:
@@ -89,6 +102,10 @@ void cFirstScene::OnClick(cUIButton * pSender)
 		exit(0);
 		break;
 	case AUDIO_BTN:
+		if (m_stMenu == SOUND_MENU)
+			m_stMenu = OPTION_MENU;
+		else
+			m_stMenu = SOUND_MENU;
 		break;
 	case MAP_BTN:
 		g_pSceneManager->ChangeScene("mapTool");
@@ -183,4 +200,24 @@ void cFirstScene::OptionMenuUISetting()
 	m_pOptionUIRoot->AddChild(BtnMap);
 	m_pOptionUIRoot->AddChild(BtnBack);
 
+}
+
+void cFirstScene::SoundMenuSetting()
+{
+	RECT rc;
+	GetClientRect(g_hWnd, &rc);
+
+	m_pSoundUIRoot = new cUIObject;
+	m_pSoundUIRoot->SetPosition(0, 0);
+
+	cUIImageView* SoundSlideBar = new cUIImageView;
+	SoundSlideBar->SetTexture("MainMenuUI/VolCast_off.png");
+	SoundSlideBar->SetPosition(200, 100);
+
+	cUIImageView* SoundSlider = new cUIImageView;
+	SoundSlider->SetTexture("MainMenuUI/VolScaleButton_off.png");
+	SoundSlider->SetPosition(100,150);
+
+	m_pSoundUIRoot->AddChild(SoundSlideBar);
+	m_pSoundUIRoot->AddChild(SoundSlider);
 }
