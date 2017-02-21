@@ -20,6 +20,8 @@ DWORD CALLBACK LoadingThread(LPVOID lpParam)
 
 	pScene->Setup();
 
+	g_pSceneManager->fLoadingProgress = 1.0f;
+
 	g_pSceneManager->m_pNowScene = pScene;
 
 	return 0;

@@ -52,4 +52,17 @@ void cLoadingScene::Render()
 {
 	if (m_pMainUIRoot)
 		m_pMainUIRoot->Render(m_pSprite);
+
+	char szTemp[1024];
+	sprintf(szTemp, "LOADING : %f", g_pSceneManager->fLoadingProgress);
+
+	LPD3DXFONT pFont = g_pFontManager->GetFont(cFontManager::E_DEFAULT);
+	RECT rc;
+	SetRect(&rc, 0, 40, 300, 300);
+	pFont->DrawText(NULL,
+		szTemp,
+		strlen(szTemp),
+		&rc,
+		DT_LEFT | DT_TOP | DT_WORDBREAK,
+		D3DCOLOR_XRGB(255, 255, 0));
 }

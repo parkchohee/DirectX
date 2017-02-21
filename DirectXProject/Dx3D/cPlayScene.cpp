@@ -51,6 +51,7 @@ void cPlayScene::Setup()
 
 	m_pPlayer = new cPlayer;
 	m_pPlayer->Setup();
+	m_pPlayer->SetBuildings(m_pvBuildingGroup[0]);
 	m_pPlayer->SetHeightMap(m_pHeightMap);
 	m_pPlayer->SetTextMap(m_pTextMap);
 	m_pPlayer->SetMaxHp(1000);
@@ -71,7 +72,7 @@ void cPlayScene::Setup()
 	{
 		cAI* pAI = new cAI;
 		pAI->SetBuildings(m_pvBuildingGroup[1]);
-		pAI->SetPosition(D3DXVECTOR3(20,0,20));
+		pAI->SetPosition(D3DXVECTOR3(20, 0, 20));
 		pAI->Setup("AI/", "soldier.X");
 		pAI->SetHeightMap(m_pHeightMap);
 		pAI->SetTextMap(m_pTextMap);
@@ -109,7 +110,6 @@ void cPlayScene::Setup()
 
 	
 	m_pSkyView = new cStaticMesh("Map/Sky/", "sky.X");
-	//	g_pStaticMeshManager->GetStaticMesh("Map/Sky/", "sky.X");
 	D3DXMATRIXA16 matS;
 	D3DXMatrixScaling(&matS, 0.05f, 0.05f, 0.05f);
 	m_pSkyView->SetWorld(matS);
@@ -144,11 +144,17 @@ void cPlayScene::Destroy()
 
 	for each(auto p in m_pvBuildingGroup)
 		SAFE_RELEASE(p);
+
+	for each(auto p in m_pAttackEvent)
+		SAFE_RELEASE(p);
+
 }
 
 void cPlayScene::Update()
 {
 	if (m_pPlayer == NULL) return;
+
+	UpdatePlayerBuildingGroup();
 
 	if (m_pCamera)
 		m_pPlayer->Update(m_pCamera->GetCamRotAngle());
@@ -171,18 +177,17 @@ void cPlayScene::Update()
 		i++;
 	}
 
+
 	if (m_pEvent)
 	{
 		m_pEvent->Update();
 
 		if (!m_pEvent->GetIsPlay())
 		{
-			m_pEvent->Destroy();
 			SAFE_RELEASE(m_pEvent);
 			
 			if (m_eState == GAME_OVER)
 			{
-				// 씬체인치
 				g_pSceneManager->ChangeSceneWithLoading("firstScene", "loadingScene");
 			}
 		}
@@ -213,6 +218,20 @@ void cPlayScene::Update()
 		}
 	}
 
+
+	for (size_t i = 0; i < m_pAttackEvent.size(); )
+	{
+		if (!m_pAttackEvent[i]->GetIsPlay())
+		{
+			SAFE_RELEASE(m_pAttackEvent[i]);
+			m_pAttackEvent.erase(m_pAttackEvent.begin() + i);
+			continue;
+		}
+		
+		m_pAttackEvent[i]->Update();
+		i++;
+	}
+
 	m_pFrustum->Update();
 
 }
@@ -232,11 +251,18 @@ void cPlayScene::Render()
 		m_pGrid->Render();
 
 	for each(auto p in m_pvAI)
+	{
 		if (m_pFrustum->IsIn(p->GetPosition()))
 			p->Render();
 
+		p->SpriteRender();
+	}
+
 	for each(auto p in m_pvDeathAI)
 		p->Render();
+
+	for (size_t i = 0; i < m_pAttackEvent.size(); i++)
+		m_pAttackEvent[i]->Render();
 
 	if (m_pEvent)
 		m_pEvent->Render();
@@ -286,10 +312,6 @@ void cPlayScene::PlayerBulletCollision()
 
 	for (size_t aiIndex = 0; aiIndex < m_pvAI.size(); aiIndex++)
 	{
-		// 우리팀은 건너뛴다. -> 팀개념이 없어짐. 삭제 
-	//	if (!m_pvAI[aiIndex]->GetIsEnemy()) continue;
-
-		// 상대팀이면 충돌체크
 		if (!r.IsPicked(&m_pvAI[aiIndex]->GetBoundingSphere()))
 			continue;
 
@@ -339,6 +361,29 @@ void cPlayScene::AIBulletCollision()
 
 			if (IsCollision(vBulletCenter, BULLET_RADIUS, vPlayerPos, PLAYER_BOUNDING_SPHERE_SIZE))
 			{
+				D3DXVECTOR3 vDir = m_pvAI[aiIndex]->GetPosition() - vPlayerPos;
+				D3DXVec3Normalize(&vDir, &vDir);
+
+				float angle = acos(D3DXVec3Dot(&vDir, &m_pPlayer->GetDirection()));
+
+				D3DXVECTOR3 vRightDir = m_pPlayer->GetDirection();
+				D3DXMATRIXA16 matR;
+				D3DXMatrixRotationY(&matR, D3DX_PI / 2);
+				D3DXVec3TransformCoord(&vRightDir, &vRightDir, &matR);
+				D3DXVec3Normalize(&vRightDir, &vRightDir);
+
+				if (D3DXVec3Dot(&vDir, &vRightDir) < 0)
+					angle = -angle;
+
+				cEvent* attackEvent = new cEvent;
+				attackEvent->Setup("PlayerUI/hud_hitIndicator.tga",
+					"PlayerUI/hud_hitIndicator.tga", 30, 90);
+			
+				attackEvent->SetAngle(angle);
+				
+				m_pAttackEvent.push_back(attackEvent);
+
+
 				if (m_pPlayer->IsAttacked(gun->GetAttackPower()))
 				{
 					m_pEvent = new cEvent;
@@ -360,7 +405,7 @@ void cPlayScene::SettingBuildingGroup()
 	m_pvBuildingGroup[0]->SetCenter(D3DXVECTOR3(-20, 0, 20));
 
 	m_pvBuildingGroup[1] = new cBuildingGroup;
-	m_pvBuildingGroup[1]->SetCenter(D3DXVECTOR3( 5, 0, 5));
+	m_pvBuildingGroup[1]->SetCenter(D3DXVECTOR3( 20, 0, 20));
 
 	m_pvBuildingGroup[2] = new cBuildingGroup;
 	m_pvBuildingGroup[2]->SetCenter(D3DXVECTOR3(-20, 0,-20));
@@ -377,6 +422,22 @@ void cPlayScene::SettingBuildingGroup()
 	}
 }
 
+void cPlayScene::UpdatePlayerBuildingGroup()
+{
+	D3DXVECTOR3 vPos = m_pPlayer->GetPosition();
+
+	if (vPos.x < 0)
+		if (vPos.z > 0)
+			m_pPlayer->SetBuildings(m_pvBuildingGroup[0]);
+		else
+			m_pPlayer->SetBuildings(m_pvBuildingGroup[2]);
+	else
+		if(vPos.z > 0)
+			m_pPlayer->SetBuildings(m_pvBuildingGroup[1]);
+		else
+			m_pPlayer->SetBuildings(m_pvBuildingGroup[3]);
+}
+
 float cPlayScene::GetDistance(D3DXVECTOR3 pos1, D3DXVECTOR3 pos2)
 {
 	return ((pos2.x - pos1.x)*(pos2.x - pos1.x)) +
@@ -391,12 +452,12 @@ bool cPlayScene::IsCollision(D3DXVECTOR3 BulletPos, float BulletSphereRadius, D3
 
 void cPlayScene::LevUpCheck()
 {
+	if (m_pPlayer->GetGun()->GetMaxLv() < m_pPlayer->GetGun()->GetCurrentLv())
+		return;
+
 	if (m_pPlayer->GetGun()->GetCurrentExp() >= m_pPlayer->GetGun()->GetMaxExp()) // 경험치 다 오르면
 	{
-		if (m_pPlayer->GetGun()->GetMaxLv() > m_pPlayer->GetGun()->GetCurrentLv()) // 레벨 최대치가 아니면
-		{
-			m_pPlayer->GetGun()->SetCurrentLv(m_pPlayer->GetGun()->GetCurrentLv() + 1); // 현재 레벨 증가
-		}
+		m_pPlayer->GetGun()->SetCurrentLv(m_pPlayer->GetGun()->GetCurrentLv() + 1); // 현재 레벨 증가
 		m_pPlayer->GetGun()->SetCurrentExp(0); // 현재 경험치 초기화
 		m_pPlayer->GetGun()->SetMaxExp(m_pPlayer->GetGun()->GetMaxExp() + 2); // 필요경험치 증가
 
@@ -407,20 +468,17 @@ void cPlayScene::LevUpCheck()
 			m_pEvent = new cEvent;
 			m_pEvent->Setup("PlayerUI/attackup.png",
 				"PlayerUI/attackup.png");
-				/*"PlayerUI/secondclassshooter.png");*/
 			m_pPlayer->GetGun()->SetAttackPower(m_pPlayer->GetGun()->GetAttackPower() + 5);
 			break;
 		case 2:
 			m_pEvent = new cEvent;
 			m_pEvent->Setup("PlayerUI/firstclassshooter.png",
-				/*	"PlayerUI/speedup.png");*/
 				"PlayerUI/firstclassshooter.png");
 			//m_pPlayer->SetMoveSpeed(m_pPlayer->GetMoveSpeed() + 0.05f);
 			break;
 		case 3:
 			m_pEvent = new cEvent;
 			m_pEvent->Setup("PlayerUI/expressshooter.png",
-				/*"PlayerUI/magazineup.png");*/
 				"PlayerUI/expressshooter.png");
 			m_pPlayer->GetGun()->SetMagazine(m_pPlayer->GetGun()->GetMagazine() + 5);
 			break;

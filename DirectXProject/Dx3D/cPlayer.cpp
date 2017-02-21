@@ -7,7 +7,7 @@
 #include "cHeightMap.h"
 #include "cTextMap.h"
 #include "cSkinnedMesh.h"
-#include "cRay.h"
+#include "cRay.h"  
 #include "cUIImageView.h"
 #include "cUITextView.h"
 
@@ -361,8 +361,14 @@ void cPlayer::SettingPlayerInfoUI()
 	m_pUIPlayerHP->SetTexture("PlayerUI/hp_bar_front.png");
 	m_pUIPlayerHP->SetPosition(pHpBack->GetPosition().x + 31, pHpBack->GetPosition().y + 6);
 
+	/*m_pUIPlayerState = new cUIImageView;
+	m_pUIPlayerState->SetTexture("PlayerUI/playerStand.png");
+	m_pUIPlayerState->SetPosition(pHpBack->GetPosition().x + pHpBack->GetSize().nWidth / 2 + 5, pHpBack->GetPosition().y - 30);
+*/
+
 	m_pUIPlayerInfoRoot->AddChild(m_pCompassFront);
 	m_pUIPlayerInfoRoot->AddChild(m_pUIPlayerHP);
+//	m_pUIPlayerInfoRoot->AddChild(m_pUIPlayerState);
 }
 
 void cPlayer::CursorAction(float ActionPower)

@@ -117,9 +117,6 @@ void cAI::Render()
 	if (m_pGun)
 		m_pGun->Render();
 
-	if (m_isShow)
-		if (m_pAIPointPos)
-			m_pAIPointPos->Render(m_pSprite);
 	//D3DXMATRIXA16 matWorld;
 	//D3DXMatrixIdentity(&matWorld);
 	//matWorld._41 = m_stBoundingSphere.vCenter.x;
@@ -144,6 +141,13 @@ void cAI::Render()
 	}
 	*/
 
+}
+
+void cAI::SpriteRender()
+{
+	if (m_isShow)
+		if (m_pAIPointPos)
+			m_pAIPointPos->Render(m_pSprite);
 }
 
 void cAI::SetHeightMap(cHeightMap * hMap)
@@ -235,7 +239,8 @@ void cAI::BulletFire(D3DXVECTOR3 dir)
 	if (m_pGun)
 	{
 		m_pSkinnedMesh->PlayOneShot("StandFire", 0, 0);
-		
+		m_pSkinnedMesh->SetPlaySpeed(0.4f);
+
 		D3DXMATRIXA16 matT;
 		D3DXMatrixTranslation(&matT, m_vPosition.x, m_vPosition.y, m_vPosition.z);
 

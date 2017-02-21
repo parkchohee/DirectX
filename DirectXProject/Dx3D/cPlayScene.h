@@ -45,6 +45,7 @@ class cPlayScene : public cScene
 	std::vector<cBuildingGroup*> m_pvBuildingGroup;
 
 	cEvent*						m_pEvent;
+	std::vector<cEvent*>		m_pAttackEvent;
 
 	cAirDrop*					m_pAirDrop;
 
@@ -68,6 +69,7 @@ public:
 	void AIBulletCollision();
 
 	void SettingBuildingGroup();
+	void UpdatePlayerBuildingGroup();
 
 	float GetDistance(D3DXVECTOR3 BulletPos, D3DXVECTOR3 CrushManPos);
 	bool IsCollision(D3DXVECTOR3 BulletPos, float BulletSphereRadius, D3DXVECTOR3 CrushManPos, float CrushManSphereRadius);

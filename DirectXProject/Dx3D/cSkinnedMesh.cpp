@@ -341,6 +341,11 @@ bool cSkinnedMesh::IsPlay(std::string animName)
 	return (animName == m_pNowPlayAnimationSet->GetName());
 }
 
+void cSkinnedMesh::SetPlaySpeed(float speed)
+{
+	m_pAnimController->SetTrackSpeed(0, speed);
+}
+
 cSkinnedMesh::cSkinnedMesh()
 	: m_pRootFrame(NULL)
 	, m_pAnimController(NULL)

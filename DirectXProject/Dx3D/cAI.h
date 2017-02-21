@@ -19,7 +19,7 @@ class cAI : public cCharacter
 
 	SYNTHESIZE(bool, m_isShow, ShowPoint);
 	
-	SYNTHESIZE_PASS_BY_REF(cBuildingGroup*, m_pBuildings, Buildings);
+	SYNTHESIZE(cBuildingGroup*, m_pBuildings, Buildings);
 
 public:
 	cAI();
@@ -28,6 +28,7 @@ public:
 	void Setup(char* szFolder, char* szFilename);
 	void Update(D3DXVECTOR3 vPlayer = D3DXVECTOR3(0,0,0), float fAngle = 0.0f);
 	void Render();
+	void SpriteRender();
 
 	void SetHeightMap(cHeightMap* hMap);
 	void SetTextMap(cTextMap* tMap);

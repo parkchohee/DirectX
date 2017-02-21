@@ -31,7 +31,7 @@ private:
 	std::map< std::string, LPD3DXANIMATIONSET > m_mapAnimSet;
 	std::vector< LPD3DXANIMATIONSET >			m_vecAnimSet;
 
-	LPD3DXANIMATIONSET				m_pNowPlayAnimationSet;		//현제 플레이되고있는 AnimationSet
+	LPD3DXANIMATIONSET				m_pNowPlayAnimationSet;		//현재 플레이되고있는 AnimationSet
 
 	D3DXTRACK_DESC					m_Track_Desc_0;				//0번 Track_Desc ( 0 번 Track 의 정보 )
 
@@ -72,7 +72,7 @@ public:
 
 	ST_BONE* getBone(char * name, ST_BONE * pBone = NULL);
 
-
+public:	// animation function
 
 	void Play(std::string animName, float crossFadeTime = 0.0);
 	void Play(int animIndex, float crossFadeTime = 0.0);
@@ -87,6 +87,15 @@ public:
 	void Resume() { m_bPlay = true; }
 	bool IsPlay() {	return m_bPlay; }
 	bool IsPlay(std::string animName);
+
+	//애니메이션 속도조정
+	void SetPlaySpeed(float speed);
+
+	//해당 인덱스의 Animation Set 을 얻는다.
+	LPD3DXANIMATIONSET GetAnimSet(int index)
+	{
+		return m_vecAnimSet[index];
+	}
 
 private:
 	cSkinnedMesh();

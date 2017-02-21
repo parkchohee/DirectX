@@ -4,6 +4,7 @@
 #include "cTextMap.h"
 #include "cOBB.h"
 #include "cBuilding.h"
+#include "cBuildingGroup.h"
 #include "cPlayer.h"
 #include "cGun.h"
 
@@ -100,8 +101,13 @@ void cPlayerController::Update(D3DXVECTOR3 & camAngle, OUT D3DXVECTOR3 & vDirect
 	}
 
 
-	if (m_pTextMap)
+	if (m_pTarget->GetBuildings())
 	{
+		for (size_t i = 0; i < m_pTarget->GetBuildings()->GetBuilding().size(); i++)
+		{
+			if (cOBB::IsCollision(m_pTarget->GetBuildings()->GetBuilding()[i]->GetOBB(), m_pOBB))
+				return;
+		}
 		// 맵의 건물들의 obb를 불러와 obb 충돌체크
 	/*	for (size_t i = 0; i < m_pTextMap->GetBuildings().size(); i++)
 		{

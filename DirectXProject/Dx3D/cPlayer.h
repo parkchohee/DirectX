@@ -7,6 +7,7 @@ class cRay;
 class cUIObject;
 class cUIImageView;
 class cUITextView;
+class cBuildingGroup;
 
 enum GUN_MODE
 {
@@ -42,12 +43,14 @@ class cPlayer : public cCharacter
 
 	cUIImageView*		m_pCompassFront;
 	cUIImageView*		m_pUIPlayerHP;
+//	cUIImageView*		m_pUIPlayerState;
 
 	float				m_fActionPower;
 	bool				m_isAction;
 	bool				m_isActionUp;
 	
 	SYNTHESIZE(GUN_MODE, m_eGunMode, GunMode);
+	SYNTHESIZE(cBuildingGroup*, m_pBuildings, Buildings);
 
 public:
 	cPlayer();
