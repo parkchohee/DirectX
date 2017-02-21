@@ -238,6 +238,9 @@ void cAI::BulletFire(D3DXVECTOR3 dir)
 {
 	if (m_pGun)
 	{
+		if (m_pSkinnedMesh->IsPlay("StandFire"))
+			return;
+
 		m_pSkinnedMesh->PlayOneShot("StandFire", 0, 0);
 		m_pSkinnedMesh->SetPlaySpeed(0.4f);
 

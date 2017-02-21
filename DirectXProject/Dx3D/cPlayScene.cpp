@@ -274,8 +274,8 @@ void cPlayScene::Render()
 	if (m_pTextMap)
 		m_pTextMap->Render();
 
-	if (m_pGrid)
-		m_pGrid->Render();
+	//if (m_pGrid)
+	//	m_pGrid->Render();
 
 	for each(auto p in m_pvAI)
 	{
