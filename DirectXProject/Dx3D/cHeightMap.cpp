@@ -12,7 +12,6 @@ cHeightMap::cHeightMap(void)
 cHeightMap::~cHeightMap(void)
 {
 	SAFE_RELEASE(m_pMesh);
-	SAFE_RELEASE(m_pTexture);
 }
 
 // >> :  
@@ -55,7 +54,7 @@ void cHeightMap::Setup(char* szFolder,
 		ST_PNT_VERTEX v;
 		v.p = D3DXVECTOR3(i % nCol, ((unsigned char)fgetc(fp)) / 10.0f, i / nCol);
 		v.n = D3DXVECTOR3(0, 1, 0);
-		v.t = D3DXVECTOR2((i % nCol) / (float)nCol, (i / nCol) / (float)nCol);
+		v.t = D3DXVECTOR2((i % nCol) /*/ (float)nCol*/, (i / nCol)/* / (float)nCol*/);
 		vecVertex[i] = v;
 		m_vecVertex[i] = v.p;
 		if (dwBytePerPixel == 3)
@@ -174,7 +173,7 @@ void cHeightMap::SetupText(char * szFolder, char * szTxt, char * szTex, DWORD dw
 		ST_PNT_VERTEX v;
 		v.p = D3DXVECTOR3(i % MAPSIZE - (MAPSIZE / 2), vertex / 10.0f, i / MAPSIZE - (MAPSIZE / 2));
 		v.n = D3DXVECTOR3(0, 1, 0);
-		v.t = D3DXVECTOR2((i % MAPSIZE) / (float)MAPSIZE, (i / MAPSIZE) / (float)MAPSIZE);
+		v.t = D3DXVECTOR2((i % MAPSIZE) /*/ (float)MAPSIZE*/, (i / MAPSIZE)/* / (float)MAPSIZE*/);
 		vecVertex[i] = v;
 		m_vecVertex[i] = v.p;
 		

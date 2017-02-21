@@ -14,7 +14,7 @@
 cMapToolScene::cMapToolScene()
 	: m_pCamera(NULL)
 	, m_pGrid(NULL)
-	, m_mapMode(MAKE_BUILDINGS)
+	, m_mapMode(MAKE_GROUND)
 	, m_pSkyView(NULL)
 	, m_pGroundMode(NULL)
 	, m_pBuildingMode(NULL)
@@ -115,8 +115,8 @@ void cMapToolScene::Update()
 void cMapToolScene::Render()
 {
 
-	if (m_pSkyView)
-		m_pSkyView->Render();
+	//if (m_pSkyView)
+	//	m_pSkyView->Render();
 
 	if (m_pUIRoot)
 		m_pUIRoot->Render(m_pSprite);

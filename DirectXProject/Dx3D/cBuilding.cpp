@@ -23,6 +23,8 @@ cBuilding::~cBuilding()
 
 	for each (auto p in m_vecGroup)
 		SAFE_RELEASE(p);
+
+	m_vecGroup.clear();
 }
 
 void cBuilding::Setup(char* szFolder, char* szFilename)

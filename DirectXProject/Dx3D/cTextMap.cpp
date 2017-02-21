@@ -12,6 +12,8 @@ cTextMap::~cTextMap()
 {
 	for each (auto p in m_vpBuildings)
 		SAFE_RELEASE(p);
+
+	m_vpBuildings.clear();
 }
 
 void cTextMap::Setup(IN char * szFilename, IN D3DXMATRIXA16 * pmat)

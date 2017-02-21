@@ -47,6 +47,7 @@ cPlayer::~cPlayer()
 		SAFE_RELEASE(p);
 
 	m_pGun = NULL;
+	m_vecGun.clear();
 }
 
 void cPlayer::Setup()

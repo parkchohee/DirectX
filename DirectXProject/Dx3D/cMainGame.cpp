@@ -35,7 +35,7 @@ void cMainGame::Setup()
 	g_pSceneManager->AddScene("vedioScene", new cVideoScene);
 	g_pSceneManager->AddLoadingScene("loadingScene", new cLoadingScene);
 
-	g_pSceneManager->ChangeScene("playScene");
+	g_pSceneManager->ChangeScene("firstScene");
 
 	// menu sound
 	g_pSoundManager->addSound("MenuSelect", "./Sound/Menu/Select.wav");
@@ -68,6 +68,10 @@ void cMainGame::Render()
 			1.0f, 0);
 
 		g_pD3DDevice->BeginScene();
+
+		g_pD3DDevice->SetSamplerState(0, D3DSAMP_ADDRESSU, D3DTADDRESS_WRAP);
+		g_pD3DDevice->SetSamplerState(0, D3DSAMP_ADDRESSV, D3DTADDRESS_WRAP);
+
 		g_pD3DDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
 		g_pSceneManager->Render();

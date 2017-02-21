@@ -44,8 +44,6 @@ void cPlayerController::Update(D3DXVECTOR3 & camAngle, OUT D3DXVECTOR3 & vDirect
 	matR = matRX * matRY;
 	D3DXVec3TransformNormal(&vDirection, &vDirection, &matR);
 
-
-
 	if (g_pKeyManager->IsOnceKeyDown(VK_LBUTTON))
 	{
 		if(!m_pTarget->GetGun()->IsShoot())
@@ -103,24 +101,19 @@ void cPlayerController::Update(D3DXVECTOR3 & camAngle, OUT D3DXVECTOR3 & vDirect
 
 	if (m_pTarget->GetBuildings())
 	{
+		D3DXMATRIXA16 matWorld = *m_pOBB->GetWorldTM();
+		D3DXVECTOR3 vDelta(_vPosition - vPosition);
+		D3DXMATRIXA16 matT;
+		
+		D3DXMatrixTranslation(&matT, vDelta.x, vDelta.y, vDelta.z);
+		matWorld = matWorld * matT;
+		m_pOBB->Update(&matWorld);
+
 		for (size_t i = 0; i < m_pTarget->GetBuildings()->GetBuilding().size(); i++)
 		{
 			if (cOBB::IsCollision(m_pTarget->GetBuildings()->GetBuilding()[i]->GetOBB(), m_pOBB))
 				return;
 		}
-		// 맵의 건물들의 obb를 불러와 obb 충돌체크
-	/*	for (size_t i = 0; i < m_pTextMap->GetBuildings().size(); i++)
-		{
-			int a = 0;*/
-		/*	D3DXVECTOR3 vec = m_pTextMap->GetBuildings()[i]->GetPosition() - vPosition;
-			float length = D3DXVec3Length(&vec);
-			if (length > 10)
-				continue;
-*/
-			//// 충돌하면 그냥 리턴
-		/*	if (cOBB::IsCollision(m_pTextMap->GetBuildings()[i]->GetOBB(), m_pOBB))
-				return;*/
-	//	}
 	}
 
 	if (m_pHeightMap)

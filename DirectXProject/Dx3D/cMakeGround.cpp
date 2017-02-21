@@ -15,7 +15,6 @@ cMakeGround::cMakeGround()
 cMakeGround::~cMakeGround()
 {
 	SAFE_RELEASE(m_pMesh);
-	SAFE_RELEASE(m_pTexture);
 	SAFE_RELEASE(m_pSprite);
 
 	if (m_pUIRoot)
@@ -48,7 +47,7 @@ void cMakeGround::Setup()
 		ST_PNT_VERTEX v;
 		v.p = D3DXVECTOR3(i % MAPSIZE - (MAPSIZE / 2), 0, i / MAPSIZE - (MAPSIZE / 2));
 		v.n = D3DXVECTOR3(0, 1, 0);
-		v.t = D3DXVECTOR2((i % MAPSIZE) / (float)MAPSIZE, (i / MAPSIZE) / (float)MAPSIZE);
+		v.t = D3DXVECTOR2((i % MAPSIZE) / (float)MAPSIZE * 5, (i / MAPSIZE) / (float)MAPSIZE * 5);
 		m_vecVertex[i] = v;
 		//m_vecVertex[i] = v.p;
 	}

@@ -5,7 +5,6 @@
 #include "cCamera.h"
 #include "cGrid.h"
 #include "cUIImageView.h"
-#include "cUITextView.h"
 #include "cPlayer.h"
 #include "cAI.h"
 #include "cGun.h"
@@ -30,7 +29,9 @@ cPlayScene::cPlayScene()
 	, m_pEvent(NULL)
 	, m_pAirDrop(NULL)
 	, m_eState(AIRDROP_STATE)
+	, m_ePrevState(AIRDROP_STATE)
 	, m_pFrustum(NULL)
+	, m_pQuitGameRoot(NULL)
 {
 }
 
@@ -41,6 +42,8 @@ cPlayScene::~cPlayScene()
 
 void cPlayScene::Setup()
 {
+	m_ePrevState = m_eState = AIRDROP_STATE;
+
 	m_pTextMap = new cTextMap;
 	m_pTextMap->Setup("mapFile.txt");
 
@@ -120,10 +123,16 @@ void cPlayScene::Setup()
 
 	m_pFrustum = new cFrustum;
 	m_pFrustum->Setup();
+
+	QuitGameUISetting();
 }
 
 void cPlayScene::Destroy()
 {
+	if (m_pQuitGameRoot)
+		m_pQuitGameRoot->Destroy();
+
+	SAFE_RELEASE(m_pSprite);
 	SAFE_RELEASE(m_pEvent);
 	SAFE_DELETE(m_pFrustum);
 	SAFE_RELEASE(m_pAirDrop);
@@ -148,11 +157,30 @@ void cPlayScene::Destroy()
 	for each(auto p in m_pAttackEvent)
 		SAFE_RELEASE(p);
 
+	m_pvAI.clear();
+	m_pvDeathAI.clear();
+	m_pvBuildingGroup.clear();
+	m_pAttackEvent.clear();
 }
 
 void cPlayScene::Update()
 {
 	if (m_pPlayer == NULL) return;
+
+	if (m_eState == PAUSE_STATE)
+	{
+		if (m_pQuitGameRoot)
+			m_pQuitGameRoot->Update();
+		return;
+	}
+
+	if (g_pKeyManager->IsOnceKeyDown(VK_ESCAPE))
+	{
+		if (m_eState == PAUSE_STATE)
+			m_eState = m_ePrevState;
+		else
+			m_eState = PAUSE_STATE;
+	}
 
 	UpdatePlayerBuildingGroup();
 
@@ -173,7 +201,7 @@ void cPlayScene::Update()
 			m_pvDeathAI.erase(m_pvDeathAI.begin() + i);
 			continue;
 		}
-		
+
 		i++;
 	}
 
@@ -185,7 +213,7 @@ void cPlayScene::Update()
 		if (!m_pEvent->GetIsPlay())
 		{
 			SAFE_RELEASE(m_pEvent);
-			
+
 			if (m_eState == GAME_OVER)
 			{
 				g_pSceneManager->ChangeSceneWithLoading("firstScene", "loadingScene");
@@ -227,13 +255,12 @@ void cPlayScene::Update()
 			m_pAttackEvent.erase(m_pAttackEvent.begin() + i);
 			continue;
 		}
-		
+
 		m_pAttackEvent[i]->Update();
 		i++;
 	}
 
 	m_pFrustum->Update();
-
 }
 
 void cPlayScene::Render()
@@ -267,13 +294,21 @@ void cPlayScene::Render()
 	if (m_pEvent)
 		m_pEvent->Render();
 	
-	if(m_eState != AIRDROP_STATE)
-		m_pPlayer->Render();
-	else
+	if (m_eState != AIRDROP_STATE)
 	{
-		// airdrop모드에서 그려줄것.
+		if (m_pPlayer)
+			m_pPlayer->Render();
+	}
+	
+	if (m_eState == AIRDROP_STATE)
+	{
 		if (m_pAirDrop)
 			m_pAirDrop->Render();
+	}
+	else if (m_eState == PAUSE_STATE)
+	{
+		if (m_pQuitGameRoot)
+			m_pQuitGameRoot->Render(m_pSprite);
 	}
 	
 }
@@ -390,7 +425,7 @@ void cPlayScene::AIBulletCollision()
 					m_pEvent->Setup("PlayerUI/gameOver.png",
 						"PlayerUI/gameOver.png");
 
-					m_eState = GAME_OVER;
+					m_ePrevState = m_eState = GAME_OVER;
 				}
 			}
 		}
@@ -466,8 +501,8 @@ void cPlayScene::LevUpCheck()
 		{
 		case 1:
 			m_pEvent = new cEvent;
-			m_pEvent->Setup("PlayerUI/attackup.png",
-				"PlayerUI/attackup.png");
+			m_pEvent->Setup("PlayerUI/secondclassshooter.png",
+				"PlayerUI/secondclassshooter.png");
 			m_pPlayer->GetGun()->SetAttackPower(m_pPlayer->GetGun()->GetAttackPower() + 5);
 			break;
 		case 2:
@@ -485,4 +520,45 @@ void cPlayScene::LevUpCheck()
 		}
 	}
 
+}
+
+void cPlayScene::QuitGameUISetting()
+{
+	D3DXCreateSprite(g_pD3DDevice, &m_pSprite);
+
+	m_pQuitGameRoot = new cUIObject;
+	m_pQuitGameRoot->SetPosition(0, 0);
+
+	cUIImageView * QuitGameWindow = new cUIImageView;
+	QuitGameWindow->SetTexture("QuitUI/QuitGameWindow.png");
+	QuitGameWindow->SetPosition(CENTERX / 2, CENTERY / 2 - 50);
+
+	cUIButton* YesButton = new cUIButton;
+	YesButton->SetTexture("QuitUI/YesButton_1.png", "QuitUI/YesButton_2.png", "QuitUI/YesButton_3.png");
+	YesButton->SetPosition(CENTERX / 2 - 260, CENTERY / 2 + 30);
+	YesButton->SetTag(EXIT_BTN);
+	YesButton->SetDelegate(this);
+
+	cUIButton* NoButton = new cUIButton;
+	NoButton->SetTexture("QuitUI/NoButton_1.png", "QuitUI/NoButton_2.png", "QuitUI/NoButton_3.png");
+	NoButton->SetPosition(CENTERX / 2 - 260, CENTERY / 2 - 60);
+	NoButton->SetTag(RETURN_BTN);
+	NoButton->SetDelegate(this);
+
+	m_pQuitGameRoot->AddChild(QuitGameWindow);
+	m_pQuitGameRoot->AddChild(YesButton);
+	m_pQuitGameRoot->AddChild(NoButton);
+}
+
+void cPlayScene::OnClick(cUIButton * pSender)
+{
+	switch (pSender->GetTag())
+	{
+	case EXIT_BTN:
+		g_pSceneManager->ChangeScene("firstScene");
+		break;
+	case RETURN_BTN:
+		m_eState = m_ePrevState;
+		break;
+	}
 }

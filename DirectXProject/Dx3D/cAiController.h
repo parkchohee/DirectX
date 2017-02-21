@@ -8,6 +8,7 @@ class cAIController
 	cAI*			m_pTarget;
 
 	float			m_fAttackRange;
+	float			m_fDeltaTime;
 	
 public:
 	cAIController();

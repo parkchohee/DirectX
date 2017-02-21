@@ -4,6 +4,7 @@
 #include "cBuilding.h"
 #include "cCharacter.h"
 #include "cOBB.h"
+#include "cAI.h"
 
 
 cStateMove::cStateMove()

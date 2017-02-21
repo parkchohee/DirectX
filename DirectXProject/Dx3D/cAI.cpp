@@ -32,7 +32,7 @@ void cAI::Setup(char* szFolder, char* szFilename)
 {
 	// SkinnedMesh
 	m_pSkinnedMesh = new cSkinnedMesh(szFolder, szFilename);
-
+	
 	// obb
 	m_pAIOBB = new cOBB;
 	m_pAIOBB->Setup(m_pSkinnedMesh, 0.01f);

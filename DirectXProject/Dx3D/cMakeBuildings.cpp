@@ -28,6 +28,8 @@ cMakeBuildings::~cMakeBuildings()
 
 	m_pBuilding = NULL;
 	m_pName.clear();
+	m_vpAllBuildings.clear();
+	m_vpSettingBuildings.clear();
 }
 
 void cMakeBuildings::Setup()
