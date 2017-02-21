@@ -31,7 +31,7 @@ void cStateAttack::Update()
 {
 	m_fPassedTime += g_pTimeManager->GetElapsedTime();
 
-	if (m_fPassedTime > 3.5f)
+	if (m_fPassedTime > 1.5f)
 	{
 		if (m_pDelegate)
 			m_pDelegate->OnStateFinish(this);

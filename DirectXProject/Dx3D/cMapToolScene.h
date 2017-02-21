@@ -1,10 +1,8 @@
 #pragma once
 #include "cScene.h"
-#include "cUIButton.h"
 
 
 class cBuilding;
-class cUIObject;
 class cGrid;
 class cMapCamera;
 class cStaticMesh;
@@ -18,7 +16,6 @@ enum MAP_MODE
 };
 
 class cMapToolScene : public cScene
-	, public iButtonDelegate
 {
 
 	cMapCamera*					m_pCamera;
@@ -27,10 +24,6 @@ class cMapToolScene : public cScene
 
 	MAP_MODE					m_mapMode;
 	
-	LPD3DXSPRITE				m_pSprite;
-	cUIObject*					m_pUIRoot;
-	cUIButton*					m_pBtnNext;
-
 	cMakeGround*				m_pGroundMode;
 	cMakeBuildings*				m_pBuildingMode;
 
@@ -39,12 +32,11 @@ public:
 	virtual ~cMapToolScene();
 
 	virtual void Setup();
+	virtual void Destroy();
 	virtual void Update();
 	virtual void Render();
 
 	virtual void WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
-	void OnClick(cUIButton* pSender);
-	void SettingUI();
 };
 

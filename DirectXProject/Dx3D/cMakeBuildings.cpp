@@ -4,10 +4,12 @@
 #include "cUIImageView.h"
 #include "cUITextView.h"
 #include "cStaticMesh.h"
+#include "cHeightMap.h"
 
 
 cMakeBuildings::cMakeBuildings()
 	: m_pBuilding(NULL)
+	, m_pHeightMap(NULL)
 	, m_nBuildingNum(0)
 {
 }
@@ -15,8 +17,7 @@ cMakeBuildings::cMakeBuildings()
 
 cMakeBuildings::~cMakeBuildings()
 {
-	if (m_pUIRoot)
-		m_pUIRoot->Destroy();
+	SAFE_DELETE(m_pHeightMap);
 
 	for each (auto p in m_vpAllBuildings)
 		SAFE_RELEASE(p);
@@ -24,7 +25,10 @@ cMakeBuildings::~cMakeBuildings()
 	for each (auto p in m_vpSettingBuildings)
 		SAFE_RELEASE(p);
 
-	SAFE_RELEASE(m_pSprite);
+	m_pBuilding = NULL;
+	m_pName.clear();
+	m_vpAllBuildings.clear();
+	m_vpSettingBuildings.clear();
 }
 
 void cMakeBuildings::Setup()
@@ -34,7 +38,6 @@ void cMakeBuildings::Setup()
 	m_pName.push_back("barrel1");
 	m_pName.push_back("barrel2");
 	m_pName.push_back("boat");
-	//	m_pName.push_back("cathedral");
 	m_pName.push_back("conveyer");
 	m_pName.push_back("fueltank");
 	m_pName.push_back("industrialtank");
@@ -91,12 +94,9 @@ void cMakeBuildings::Setup()
 	m_pName.push_back("building13");
 	m_pName.push_back("building14");
 	m_pName.push_back("building15");
-//	m_pName.push_back("building16");
 	m_pName.push_back("building17");
 	m_pName.push_back("building18");
 	m_pName.push_back("building19");
-//	m_pName.push_back("building20");
-//	m_pName.push_back("building21");
 	m_pName.push_back("building22");
 	m_pName.push_back("building23");
 	m_pName.push_back("building24");
@@ -121,16 +121,14 @@ void cMakeBuildings::Setup()
 
 	m_pBuilding = m_vpAllBuildings[m_nBuildingNum];
 
-	SettingUI();
+	m_pHeightMap = new cHeightMap;
+	m_pHeightMap->SetupText("Map/", "heightMap.txt", "Ground_CMGround_CM.tga");
 
 }
 
 void cMakeBuildings::Update()
 {
-	if (m_pUIRoot)
-		m_pUIRoot->Update();
-
-	PositionSettingController();
+	BuildingController();
 
 	if (m_pBuilding)
 		m_pBuilding->Update();
@@ -139,13 +137,11 @@ void cMakeBuildings::Update()
 	{
 		m_vpSettingBuildings[i]->Update();
 	}
+
 }
 
 void cMakeBuildings::Render()
 {
-	if (m_pUIRoot)
-		m_pUIRoot->Render(m_pSprite);
-
 	if (m_pBuilding)
 		m_pBuilding->Render();
 
@@ -154,9 +150,11 @@ void cMakeBuildings::Render()
 		m_vpSettingBuildings[i]->Render();
 	}
 
+	if (m_pHeightMap)
+		m_pHeightMap->Render();
 
 	char szTemp[1024];
-	sprintf(szTemp, "building : %s", m_pName[m_nBuildingNum]);
+	sprintf(szTemp, "building : %s\nCAMERA : W(up) S(down) A(left) D(right) \nBUILDING : Y(prev) U(next)\nROTATION : H(-) J (+) \nSCALE : N(-) M(+)\nPOSITION : UP(z+) DOWN(z-) LEFT(x-) RIGHT(x+) 1(y-) 2(y+) 3(y=0)\nSETTING : SPACE\nSAVE : ENTER", m_pName[m_nBuildingNum]);
 
 	LPD3DXFONT pFont = g_pFontManager->GetFont(cFontManager::E_DEFAULT);
 	RECT rc;
@@ -168,166 +166,45 @@ void cMakeBuildings::Render()
 		DT_LEFT | DT_TOP | DT_WORDBREAK,
 		D3DCOLOR_XRGB(255, 255, 0));
 
-
-
 }
 
-void cMakeBuildings::OnClick(cUIButton * pSender)
-{
-	switch (pSender->GetTag())
-	{
-	case PREV_TITLE:
-		m_nBuildingNum = (--m_nBuildingNum + m_vpAllBuildings.size()) % m_pName.size();
-		m_pBuilding = m_vpAllBuildings[m_nBuildingNum];
-		m_pBuilding->Init();
-		break;
-	case NEXT_TITLE:
-		m_nBuildingNum = (++m_nBuildingNum) % m_pName.size();
-		m_pBuilding = m_vpAllBuildings[m_nBuildingNum];
-		m_pBuilding->Init();
-		break;
-	case DOWN_SCALE:
-		if (m_pBuilding->GetScale() > 0.002)
-			m_pBuilding->SetScale(m_pBuilding->GetScale() - 0.001f);
-		break;
-	case UP_SCALE:
-		if (m_pBuilding->GetScale() < 0.02)
-			m_pBuilding->SetScale(m_pBuilding->GetScale() + 0.001f);
-		break;
-	case DOWN_ANGLE:
-		m_pBuilding->SetAngle(m_pBuilding->GetAngle() - 0.03f);
-		break;
-	case UP_ANGLE:
-		m_pBuilding->SetAngle(m_pBuilding->GetAngle() + 0.03f);
-		break;
-	case SAVE:
-		SaveMapFile();
-		break;
-	case EXIT:
-		AddBuilding();
-		break;
-	default:
-		break;
-	}
-}
-
-void cMakeBuildings::SettingUI()
-{
-	RECT rc;
-	GetClientRect(g_hWnd, &rc);
-
-	D3DXCreateSprite(g_pD3DDevice, &m_pSprite);
-
-	m_pUIRoot = new cUIObject;
-	m_pUIRoot->SetPosition(0, 0);
-
-	cUIImageView* pImageBackground = new cUIImageView;
-	pImageBackground->SetTexture("Map/UI/background.png");
-	pImageBackground->SetPosition(rc.right - pImageBackground->GetSize().nWidth / 2, pImageBackground->GetSize().nHeight / 2);
-
-	/// >> : Title
-	cUIButton* pLeftTitleBtn = new cUIButton;
-	pLeftTitleBtn->SetTexture("Map/UI/arrow-btn-l-down.png", "Map/UI/arrow-btn-l-over.png", "Map/UI/arrow-btn-l-up.png");
-	pLeftTitleBtn->SetPosition(pImageBackground->GetPosition().x - pImageBackground->GetSize().nWidth / 2, 30);
-	pLeftTitleBtn->SetTag(PREV_TITLE);
-	pLeftTitleBtn->SetDelegate(this);
-
-	cUIButton* pRightTitleBtn = new cUIButton;
-	pRightTitleBtn->SetTexture("Map/UI/arrow-btn-r-down.png", "Map/UI/arrow-btn-r-over.png", "Map/UI/arrow-btn-r-up.png");
-	pRightTitleBtn->SetPosition(rc.right - pRightTitleBtn->GetSize().nWidth, 30);
-	pRightTitleBtn->SetTag(NEXT_TITLE);
-	pRightTitleBtn->SetDelegate(this);
-
-	cUITextView* pTitleText = new cUITextView;
-	pTitleText->SetText("title");
-	pTitleText->SetSize(ST_SIZEN(pImageBackground->GetSize().nWidth - pRightTitleBtn->GetSize().nWidth * 2, 100));
-	pTitleText->SetPosition(pLeftTitleBtn->GetPosition().x + pRightTitleBtn->GetSize().nWidth, pLeftTitleBtn->GetPosition().y);
-	/// << :
-
-	/// >> : SIze
-	cUIButton* pScaleDownBtn = new cUIButton;
-	pScaleDownBtn->SetTexture("Map/UI/arrow-btn-l-down.png", "Map/UI/arrow-btn-l-over.png", "Map/UI/arrow-btn-l-up.png");
-	pScaleDownBtn->SetPosition(pImageBackground->GetPosition().x - pImageBackground->GetSize().nWidth / 2, 90);
-	pScaleDownBtn->SetTag(DOWN_SCALE);
-	pScaleDownBtn->SetDelegate(this);
-
-	cUIButton* pScaleUpBtn = new cUIButton;
-	pScaleUpBtn->SetTexture("Map/UI/arrow-btn-r-down.png", "Map/UI/arrow-btn-r-over.png", "Map/UI/arrow-btn-r-up.png");
-	pScaleUpBtn->SetPosition(rc.right - pScaleUpBtn->GetSize().nWidth, 90);
-	pScaleUpBtn->SetTag(UP_SCALE);
-	pScaleUpBtn->SetDelegate(this);
-
-	cUITextView* pScaleText = new cUITextView;
-	pScaleText->SetText("scale");
-	pScaleText->SetSize(ST_SIZEN(pImageBackground->GetSize().nWidth - pScaleUpBtn->GetSize().nWidth * 2, 100));
-	pScaleText->SetPosition(pScaleDownBtn->GetPosition().x + pScaleUpBtn->GetSize().nWidth, pScaleDownBtn->GetPosition().y);
-	/// << :
-
-	/// >> : Angle
-	cUIButton* pAngleDownBtn = new cUIButton;
-	pAngleDownBtn->SetTexture("Map/UI/arrow-btn-l-down.png", "Map/UI/arrow-btn-l-over.png", "Map/UI/arrow-btn-l-up.png");
-	pAngleDownBtn->SetPosition(pImageBackground->GetPosition().x - pImageBackground->GetSize().nWidth / 2, 150);
-	pAngleDownBtn->SetTag(DOWN_ANGLE);
-	pAngleDownBtn->SetDelegate(this);
-
-	cUIButton* pAngleUpBtn = new cUIButton;
-	pAngleUpBtn->SetTexture("Map/UI/arrow-btn-r-down.png", "Map/UI/arrow-btn-r-over.png", "Map/UI/arrow-btn-r-up.png");
-	pAngleUpBtn->SetPosition(rc.right - pAngleUpBtn->GetSize().nWidth, 150);
-	pAngleUpBtn->SetTag(UP_ANGLE);
-	pAngleUpBtn->SetDelegate(this);
-
-	cUITextView* pAngleText = new cUITextView;
-	pAngleText->SetText("angle");
-	pAngleText->SetSize(ST_SIZEN(pImageBackground->GetSize().nWidth - pAngleUpBtn->GetSize().nWidth * 2, 100));
-	pAngleText->SetPosition(pAngleDownBtn->GetPosition().x + pAngleUpBtn->GetSize().nWidth, pAngleDownBtn->GetPosition().y);
-	/// << :
-
-	/// >> : Save
-	cUIButton* pSaveBtn = new cUIButton;
-	pSaveBtn->SetTexture("Map/UI/btn-med-down.png", "Map/UI/btn-med-over.png", "Map/UI/btn-med-up.png");
-	pSaveBtn->SetPosition(pImageBackground->GetPosition().x - pImageBackground->GetSize().nWidth / 2 + 25, rc.bottom - pSaveBtn->GetSize().nHeight * 2 - 15);
-	pSaveBtn->SetTag(SAVE);
-	pSaveBtn->SetDelegate(this);
-
-	cUITextView* pSaveText = new cUITextView;
-	pSaveText->SetText("Save");
-	pSaveText->SetSize(ST_SIZEN(pImageBackground->GetSize().nWidth - 50, 100));
-	pSaveText->SetPosition(pSaveBtn->GetPosition().x, pSaveBtn->GetPosition().y);
-	/// << :
-
-	/// >> : Exit
-	cUIButton* pExitBtn = new cUIButton;
-	pExitBtn->SetTexture("Map/UI/btn-med-down.png", "Map/UI/btn-med-over.png", "Map/UI/btn-med-up.png");
-	pExitBtn->SetPosition(pImageBackground->GetPosition().x - pImageBackground->GetSize().nWidth / 2 + 25, rc.bottom - pSaveBtn->GetSize().nHeight - 15);
-	pExitBtn->SetTag(EXIT);
-	pExitBtn->SetDelegate(this);
-
-	cUITextView* pExitText = new cUITextView;
-	pExitText->SetText("Exit");
-	pExitText->SetSize(ST_SIZEN(pImageBackground->GetSize().nWidth - 50, 100));
-	pExitText->SetPosition(pExitBtn->GetPosition().x, pExitBtn->GetPosition().y);
-	/// << :
-
-	m_pUIRoot->AddChild(pImageBackground);
-	m_pUIRoot->AddChild(pLeftTitleBtn);
-	m_pUIRoot->AddChild(pRightTitleBtn);
-	m_pUIRoot->AddChild(pTitleText);
-	m_pUIRoot->AddChild(pScaleDownBtn);
-	m_pUIRoot->AddChild(pScaleUpBtn);
-	m_pUIRoot->AddChild(pScaleText);
-	m_pUIRoot->AddChild(pAngleDownBtn);
-	m_pUIRoot->AddChild(pAngleUpBtn);
-	m_pUIRoot->AddChild(pAngleText);
-	m_pUIRoot->AddChild(pSaveBtn);
-	m_pUIRoot->AddChild(pSaveText);
-	m_pUIRoot->AddChild(pExitBtn);
-	m_pUIRoot->AddChild(pExitText);
-}
-
-void cMakeBuildings::PositionSettingController()
+void cMakeBuildings::BuildingController()
 {
 	D3DXVECTOR3 pos = m_pBuilding->GetPosition();
 
+	if (g_pKeyManager->IsOnceKeyDown('Y'))
+	{
+		m_nBuildingNum = (--m_nBuildingNum + m_vpAllBuildings.size()) % m_pName.size();
+		m_pBuilding = m_vpAllBuildings[m_nBuildingNum];
+		m_pBuilding->Init();
+		m_pBuilding->SetPosition(pos);
+	}
+	else if (g_pKeyManager->IsOnceKeyDown('U'))
+	{
+		m_nBuildingNum = (++m_nBuildingNum) % m_pName.size();
+		m_pBuilding = m_vpAllBuildings[m_nBuildingNum];
+		m_pBuilding->Init();
+		m_pBuilding->SetPosition(pos);
+	}
+	else if (g_pKeyManager->IsStayKeyDown('H'))
+	{
+		m_pBuilding->SetAngle(m_pBuilding->GetAngle() - 0.03f);
+	}
+	else if (g_pKeyManager->IsStayKeyDown('J'))
+	{
+		m_pBuilding->SetAngle(m_pBuilding->GetAngle() + 0.03f);
+	}
+	else if (g_pKeyManager->IsOnceKeyDown('N'))
+	{
+		if (m_pBuilding->GetScale() > 0.002)
+			m_pBuilding->SetScale(m_pBuilding->GetScale() - 0.001f);
+	}
+	else if (g_pKeyManager->IsOnceKeyDown('M'))
+	{
+		if (m_pBuilding->GetScale() < 0.02)
+			m_pBuilding->SetScale(m_pBuilding->GetScale() + 0.001f);
+	}
+	
 	if (g_pKeyManager->IsStayKeyDown(VK_LEFT))
 		pos.x -= 0.1f;
 	else if (g_pKeyManager->IsStayKeyDown(VK_RIGHT))
@@ -337,6 +214,19 @@ void cMakeBuildings::PositionSettingController()
 		pos.z += 0.1f;
 	else if (g_pKeyManager->IsStayKeyDown(VK_DOWN))
 		pos.z -= 0.1f;
+
+	if (g_pKeyManager->IsStayKeyDown('1'))
+		pos.y -= 0.1f;
+	else if (g_pKeyManager->IsStayKeyDown('2'))
+		pos.y += 0.1f;
+	else if (g_pKeyManager->IsStayKeyDown('3'))
+		pos.y = 0;
+
+	if (g_pKeyManager->IsOnceKeyDown(VK_SPACE))
+		AddBuilding();
+	if (g_pKeyManager->IsOnceKeyDown(VK_RETURN))
+		SaveMapFile();
+
 
 	m_pBuilding->SetPosition(pos);
 }
@@ -379,7 +269,7 @@ void cMakeBuildings::SaveMapFile()
 		strcat_s(str, "\n}\n");
 
 	}
-	//WriteFile(file, str, MAPMAXSIZE, &write, NULL);
+	
 	WriteFile(file, str, MAPMAXSIZE, &write, NULL);
 	CloseHandle(file);
 }

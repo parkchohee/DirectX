@@ -13,7 +13,12 @@ class cEvent : public cObject
 	int					m_nHeight[2];
 
 	int                 m_nCount;
-	int					m_nAlpha;
+	int					m_nFadeInSpeed;
+	int					m_nFadeOutSpeed;
+	float				m_fAlpha;
+	float				m_fDeltaAlpha;
+
+	SYNTHESIZE(float, m_fAngle, Angle);
 
 	SYNTHESIZE(bool, m_isPlay, IsPlay);
 
@@ -21,11 +26,9 @@ public:
 	cEvent();
 	~cEvent();
 
-	void Setup(char * FirstszFullPath, char * SecondszFullPath);
+	void Setup(char * FirstszFullPath, char * SecondszFullPath, int fadeInSpeed = 120, int fadeOutSpeed = 120);
 	void Update();
 	void Render();
-
-	void Destroy();
 
 };
 

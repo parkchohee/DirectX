@@ -31,6 +31,9 @@ cGun::~cGun()
 		SAFE_RELEASE(p);
 
 	SAFE_DELETE(m_pGun);
+
+	m_pvEffect.clear();
+	m_pvBullet.clear();
 }
 
 void cGun::Setup(D3DXVECTOR3* pvTarget, char* szFolder, char* szFilename)

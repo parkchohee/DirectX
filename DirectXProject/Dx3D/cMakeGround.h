@@ -13,8 +13,7 @@ class cMakeGround
 
 	std::vector<D3DXVECTOR3>	m_vecGround;
 
-	LPD3DXSPRITE				m_pSprite;
-	cUIObject*					m_pUIRoot;
+	float						m_fPower;
 
 public:
 	cMakeGround();
@@ -25,7 +24,7 @@ public:
 	void Render();
 
 	void SetNormal();
-	void SettingUI();
 	void SaveMapFile();
+	void SetPower();
 };
 

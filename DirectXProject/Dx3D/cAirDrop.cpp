@@ -17,6 +17,9 @@ cAirDrop::cAirDrop()
 
 cAirDrop::~cAirDrop()
 {
+	SAFE_DELETE(m_pAirdrop);
+	SAFE_DELETE(m_pParachute);
+	SAFE_DELETE(m_pAirMan);
 }
 
 void cAirDrop::Setup(cHeightMap* heightMap)
@@ -26,9 +29,9 @@ void cAirDrop::Setup(cHeightMap* heightMap)
 	m_vPos = D3DXVECTOR3(0, 30, 0);
 	m_vCamPos = D3DXVECTOR3(0, 32, 0);
 
-	m_pAirdrop = g_pStaticMeshManager->GetStaticMesh("Airdrop/", "Airdrop.X");
-	m_pParachute = g_pStaticMeshManager->GetStaticMesh("Airdrop/", "Parachute.X");
-	m_pAirMan = g_pStaticMeshManager->GetStaticMesh("Airdrop/", "AirMan.X");
+	m_pAirdrop = new cStaticMesh("Airdrop/", "Airdrop.X");
+	m_pParachute = new cStaticMesh("Airdrop/", "Parachute.X");
+	m_pAirMan = new cStaticMesh("Airdrop/", "AirMan.X");
 	
 	D3DXMATRIXA16 matS, matR, matT, matSRT;
 
@@ -41,10 +44,6 @@ void cAirDrop::Setup(cHeightMap* heightMap)
 	m_pAirdrop->SetWorld(matSRT);
 	m_pParachute->SetWorld(matSRT);
 	m_pAirMan->SetWorld(matSRT);
-
-	//m_pAirdrop->SetPosition(m_vPos);
-	//m_pParachute->SetPosition(m_vPos);
-	//m_pAirMan->SetPosition(m_vPos);
 
 }
 
@@ -63,8 +62,8 @@ void cAirDrop::Update()
 		if (m_vPos.y < height)
 		{
 			m_vPos.y = height;
+			m_vCamPos.y = height + 2;
 			m_isPlay = false;
-		//	m_vCamPos.y = height + 2;
 		}
 	}
 
@@ -79,9 +78,7 @@ void cAirDrop::Update()
 	m_pAirdrop->SetWorld(matSRT);
 	m_pParachute->SetWorld(matSRT);
 	m_pAirMan->SetWorld(matSRT);
-	/*m_pAirdrop->SetPosition(m_vPos);
-	m_pParachute->SetPosition(m_vPos);
-	m_pAirMan->SetPosition(m_vPos);*/
+
 }
 
 void cAirDrop::Render()

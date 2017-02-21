@@ -1,6 +1,7 @@
 #pragma once
 
 #include "cScene.h"
+#include "cUIButton.h"
 
 class cCamera;
 class cGrid;
@@ -9,7 +10,6 @@ class cHeightMap;
 
 class cUIObject;
 class cUIImageView;
-class cUITextView;
 class cStaticMesh;
 
 class cPlayer;
@@ -29,7 +29,15 @@ enum PLAY_STATE
 	GAME_OVER
 };
 
-class cPlayScene : public cScene
+enum QUIT_BUTTON_STATE
+{
+	EXIT_BTN,
+	RETURN_BTN
+};
+
+class cPlayScene 
+	: public cScene
+	, public iButtonDelegate
 {
 	cCamera*					m_pCamera;
 	cGrid*						m_pGrid;
@@ -45,11 +53,13 @@ class cPlayScene : public cScene
 	std::vector<cBuildingGroup*> m_pvBuildingGroup;
 
 	cEvent*						m_pEvent;
-
-	cAirDrop*					m_pAirDrop;
-
+	std::vector<cEvent*>		m_pAttackEvent;
+	
 	PLAY_STATE					m_eState;
-
+	PLAY_STATE					m_ePrevState;
+	cAirDrop*					m_pAirDrop;
+	cUIObject*                  m_pQuitGameRoot;
+	LPD3DXSPRITE		        m_pSprite;
 
 	cFrustum*					m_pFrustum;
 
@@ -58,6 +68,7 @@ public:
 	virtual ~cPlayScene();
 
 	virtual void Setup();
+	virtual void Destroy();
 	virtual void Update();
 	virtual void Render();
 
@@ -67,10 +78,13 @@ public:
 	void AIBulletCollision();
 
 	void SettingBuildingGroup();
+	void UpdatePlayerBuildingGroup();
 
 	float GetDistance(D3DXVECTOR3 BulletPos, D3DXVECTOR3 CrushManPos);
 	bool IsCollision(D3DXVECTOR3 BulletPos, float BulletSphereRadius, D3DXVECTOR3 CrushManPos, float CrushManSphereRadius);
 	void LevUpCheck();
 
+	void QuitGameUISetting();
+	void OnClick(cUIButton * pSender);
 };
 

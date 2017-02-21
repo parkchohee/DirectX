@@ -5,7 +5,6 @@
 #include "cCamera.h"
 #include "cGrid.h"
 #include "cUIImageView.h"
-#include "cUITextView.h"
 #include "cPlayer.h"
 #include "cAI.h"
 #include "cGun.h"
@@ -30,34 +29,21 @@ cPlayScene::cPlayScene()
 	, m_pEvent(NULL)
 	, m_pAirDrop(NULL)
 	, m_eState(AIRDROP_STATE)
+	, m_ePrevState(AIRDROP_STATE)
 	, m_pFrustum(NULL)
+	, m_pQuitGameRoot(NULL)
 {
 }
 
 
 cPlayScene::~cPlayScene()
 {
-	SAFE_RELEASE(m_pAirDrop);
-	SAFE_RELEASE(m_pEvent);
-	SAFE_DELETE(m_pSkyView);
-	SAFE_DELETE(m_pFrustum);
-
-	SAFE_DELETE(m_pCamera);
-	SAFE_DELETE(m_pGrid);
-	SAFE_DELETE(m_pTextMap);
-	SAFE_DELETE(m_pHeightMap);
-
-	SAFE_RELEASE(m_pPlayer);
-	
-	for each(auto p in m_pvAI)
-		SAFE_RELEASE(p);
-	
-	for each(auto p in m_pvDeathAI)
-		SAFE_RELEASE(p);
 }
 
 void cPlayScene::Setup()
 {
+	m_ePrevState = m_eState = AIRDROP_STATE;
+
 	m_pTextMap = new cTextMap;
 	m_pTextMap->Setup("mapFile.txt");
 
@@ -68,6 +54,7 @@ void cPlayScene::Setup()
 
 	m_pPlayer = new cPlayer;
 	m_pPlayer->Setup();
+	m_pPlayer->SetBuildings(m_pvBuildingGroup[0]);
 	m_pPlayer->SetHeightMap(m_pHeightMap);
 	m_pPlayer->SetTextMap(m_pTextMap);
 	m_pPlayer->SetMaxHp(1000);
@@ -81,7 +68,6 @@ void cPlayScene::Setup()
 		pAI->Setup("AI/", "soldier.X");
 		pAI->SetHeightMap(m_pHeightMap);
 		pAI->SetTextMap(m_pTextMap);
-		//pAI->SetIsEnemy(true);		// true이면 적
 		m_pvAI.push_back(pAI);
 	}
 
@@ -89,11 +75,10 @@ void cPlayScene::Setup()
 	{
 		cAI* pAI = new cAI;
 		pAI->SetBuildings(m_pvBuildingGroup[1]);
-		pAI->SetPosition(D3DXVECTOR3(20,0,20));
+		pAI->SetPosition(D3DXVECTOR3(20, 0, 20));
 		pAI->Setup("AI/", "soldier.X");
 		pAI->SetHeightMap(m_pHeightMap);
 		pAI->SetTextMap(m_pTextMap);
-		//pAI->SetIsEnemy(true);		// true이면 적
 		m_pvAI.push_back(pAI);
 	}
 
@@ -105,7 +90,6 @@ void cPlayScene::Setup()
 		pAI->Setup("AI/", "soldier.X");
 		pAI->SetHeightMap(m_pHeightMap);
 		pAI->SetTextMap(m_pTextMap);
-		//pAI->SetIsEnemy(true);		// true이면 적
 		m_pvAI.push_back(pAI);
 	}
 
@@ -117,7 +101,6 @@ void cPlayScene::Setup()
 		pAI->Setup("AI/", "soldier.X");
 		pAI->SetHeightMap(m_pHeightMap);
 		pAI->SetTextMap(m_pTextMap);
-		//pAI->SetIsEnemy(true);		// true이면 적
 		m_pvAI.push_back(pAI);
 	}
 
@@ -129,7 +112,7 @@ void cPlayScene::Setup()
 	m_pGrid->Setup(50,1.0f);
 
 	
-	m_pSkyView = g_pStaticMeshManager->GetStaticMesh("Map/Sky/", "sky.X");
+	m_pSkyView = new cStaticMesh("Map/Sky/", "sky.X");
 	D3DXMATRIXA16 matS;
 	D3DXMatrixScaling(&matS, 0.05f, 0.05f, 0.05f);
 	m_pSkyView->SetWorld(matS);
@@ -140,11 +123,66 @@ void cPlayScene::Setup()
 
 	m_pFrustum = new cFrustum;
 	m_pFrustum->Setup();
+
+	QuitGameUISetting();
+}
+
+void cPlayScene::Destroy()
+{
+	if (m_pQuitGameRoot)
+		m_pQuitGameRoot->Destroy();
+
+	SAFE_RELEASE(m_pSprite);
+	SAFE_RELEASE(m_pEvent);
+	SAFE_DELETE(m_pFrustum);
+	SAFE_RELEASE(m_pAirDrop);
+	SAFE_DELETE(m_pSkyView);
+
+	SAFE_DELETE(m_pCamera);
+	SAFE_DELETE(m_pGrid);
+	SAFE_DELETE(m_pTextMap);
+	SAFE_DELETE(m_pHeightMap);
+
+	SAFE_RELEASE(m_pPlayer);
+
+	for each(auto p in m_pvAI)
+		SAFE_RELEASE(p);
+
+	for each(auto p in m_pvDeathAI)
+		SAFE_RELEASE(p);
+
+	for each(auto p in m_pvBuildingGroup)
+		SAFE_RELEASE(p);
+
+	for each(auto p in m_pAttackEvent)
+		SAFE_RELEASE(p);
+
+	m_pvAI.clear();
+	m_pvDeathAI.clear();
+	m_pvBuildingGroup.clear();
+	m_pAttackEvent.clear();
 }
 
 void cPlayScene::Update()
 {
 	if (m_pPlayer == NULL) return;
+
+	if (m_eState == PAUSE_STATE)
+	{
+		if (m_pQuitGameRoot)
+			m_pQuitGameRoot->Update();
+		return;
+	}
+
+	if (g_pKeyManager->IsOnceKeyDown(VK_ESCAPE))
+	{
+		if (m_eState == PAUSE_STATE)
+			m_eState = m_ePrevState;
+		else
+			m_eState = PAUSE_STATE;
+	}
+
+	UpdatePlayerBuildingGroup();
 
 	if (m_pCamera)
 		m_pPlayer->Update(m_pCamera->GetCamRotAngle());
@@ -163,9 +201,10 @@ void cPlayScene::Update()
 			m_pvDeathAI.erase(m_pvDeathAI.begin() + i);
 			continue;
 		}
-		
+
 		i++;
 	}
+
 
 	if (m_pEvent)
 	{
@@ -173,12 +212,10 @@ void cPlayScene::Update()
 
 		if (!m_pEvent->GetIsPlay())
 		{
-			m_pEvent->Destroy();
 			SAFE_RELEASE(m_pEvent);
-			
+
 			if (m_eState == GAME_OVER)
 			{
-				// 씬체인치
 				g_pSceneManager->ChangeSceneWithLoading("firstScene", "loadingScene");
 			}
 		}
@@ -209,8 +246,21 @@ void cPlayScene::Update()
 		}
 	}
 
-	m_pFrustum->Update();
 
+	for (size_t i = 0; i < m_pAttackEvent.size(); )
+	{
+		if (!m_pAttackEvent[i]->GetIsPlay())
+		{
+			SAFE_RELEASE(m_pAttackEvent[i]);
+			m_pAttackEvent.erase(m_pAttackEvent.begin() + i);
+			continue;
+		}
+
+		m_pAttackEvent[i]->Update();
+		i++;
+	}
+
+	m_pFrustum->Update();
 }
 
 void cPlayScene::Render()
@@ -224,26 +274,41 @@ void cPlayScene::Render()
 	if (m_pTextMap)
 		m_pTextMap->Render();
 
-	if (m_pGrid)
-		m_pGrid->Render();
+	//if (m_pGrid)
+	//	m_pGrid->Render();
 
 	for each(auto p in m_pvAI)
+	{
 		if (m_pFrustum->IsIn(p->GetPosition()))
 			p->Render();
+
+		p->SpriteRender();
+	}
 
 	for each(auto p in m_pvDeathAI)
 		p->Render();
 
+	for (size_t i = 0; i < m_pAttackEvent.size(); i++)
+		m_pAttackEvent[i]->Render();
+
 	if (m_pEvent)
 		m_pEvent->Render();
 	
-	if(m_eState != AIRDROP_STATE)
-		m_pPlayer->Render();
-	else
+	if (m_eState != AIRDROP_STATE)
 	{
-		// airdrop모드에서 그려줄것.
+		if (m_pPlayer)
+			m_pPlayer->Render();
+	}
+	
+	if (m_eState == AIRDROP_STATE)
+	{
 		if (m_pAirDrop)
 			m_pAirDrop->Render();
+	}
+	else if (m_eState == PAUSE_STATE)
+	{
+		if (m_pQuitGameRoot)
+			m_pQuitGameRoot->Render(m_pSprite);
 	}
 	
 }
@@ -282,10 +347,6 @@ void cPlayScene::PlayerBulletCollision()
 
 	for (size_t aiIndex = 0; aiIndex < m_pvAI.size(); aiIndex++)
 	{
-		// 우리팀은 건너뛴다. -> 팀개념이 없어짐. 삭제 
-	//	if (!m_pvAI[aiIndex]->GetIsEnemy()) continue;
-
-		// 상대팀이면 충돌체크
 		if (!r.IsPicked(&m_pvAI[aiIndex]->GetBoundingSphere()))
 			continue;
 
@@ -335,13 +396,36 @@ void cPlayScene::AIBulletCollision()
 
 			if (IsCollision(vBulletCenter, BULLET_RADIUS, vPlayerPos, PLAYER_BOUNDING_SPHERE_SIZE))
 			{
+				D3DXVECTOR3 vDir = m_pvAI[aiIndex]->GetPosition() - vPlayerPos;
+				D3DXVec3Normalize(&vDir, &vDir);
+
+				float angle = acos(D3DXVec3Dot(&vDir, &m_pPlayer->GetDirection()));
+
+				D3DXVECTOR3 vRightDir = m_pPlayer->GetDirection();
+				D3DXMATRIXA16 matR;
+				D3DXMatrixRotationY(&matR, D3DX_PI / 2);
+				D3DXVec3TransformCoord(&vRightDir, &vRightDir, &matR);
+				D3DXVec3Normalize(&vRightDir, &vRightDir);
+
+				if (D3DXVec3Dot(&vDir, &vRightDir) < 0)
+					angle = -angle;
+
+				cEvent* attackEvent = new cEvent;
+				attackEvent->Setup("PlayerUI/hud_hitIndicator.tga",
+					"PlayerUI/hud_hitIndicator.tga", 30, 90);
+			
+				attackEvent->SetAngle(angle);
+				
+				m_pAttackEvent.push_back(attackEvent);
+
+
 				if (m_pPlayer->IsAttacked(gun->GetAttackPower()))
 				{
 					m_pEvent = new cEvent;
 					m_pEvent->Setup("PlayerUI/gameOver.png",
 						"PlayerUI/gameOver.png");
 
-					m_eState = GAME_OVER;
+					m_ePrevState = m_eState = GAME_OVER;
 				}
 			}
 		}
@@ -356,7 +440,7 @@ void cPlayScene::SettingBuildingGroup()
 	m_pvBuildingGroup[0]->SetCenter(D3DXVECTOR3(-20, 0, 20));
 
 	m_pvBuildingGroup[1] = new cBuildingGroup;
-	m_pvBuildingGroup[1]->SetCenter(D3DXVECTOR3( 5, 0, 5));
+	m_pvBuildingGroup[1]->SetCenter(D3DXVECTOR3( 20, 0, 20));
 
 	m_pvBuildingGroup[2] = new cBuildingGroup;
 	m_pvBuildingGroup[2]->SetCenter(D3DXVECTOR3(-20, 0,-20));
@@ -373,6 +457,22 @@ void cPlayScene::SettingBuildingGroup()
 	}
 }
 
+void cPlayScene::UpdatePlayerBuildingGroup()
+{
+	D3DXVECTOR3 vPos = m_pPlayer->GetPosition();
+
+	if (vPos.x < 0)
+		if (vPos.z > 0)
+			m_pPlayer->SetBuildings(m_pvBuildingGroup[0]);
+		else
+			m_pPlayer->SetBuildings(m_pvBuildingGroup[2]);
+	else
+		if(vPos.z > 0)
+			m_pPlayer->SetBuildings(m_pvBuildingGroup[1]);
+		else
+			m_pPlayer->SetBuildings(m_pvBuildingGroup[3]);
+}
+
 float cPlayScene::GetDistance(D3DXVECTOR3 pos1, D3DXVECTOR3 pos2)
 {
 	return ((pos2.x - pos1.x)*(pos2.x - pos1.x)) +
@@ -387,12 +487,12 @@ bool cPlayScene::IsCollision(D3DXVECTOR3 BulletPos, float BulletSphereRadius, D3
 
 void cPlayScene::LevUpCheck()
 {
+	if (m_pPlayer->GetGun()->GetMaxLv() < m_pPlayer->GetGun()->GetCurrentLv())
+		return;
+
 	if (m_pPlayer->GetGun()->GetCurrentExp() >= m_pPlayer->GetGun()->GetMaxExp()) // 경험치 다 오르면
 	{
-		if (m_pPlayer->GetGun()->GetMaxLv() > m_pPlayer->GetGun()->GetCurrentLv()) // 레벨 최대치가 아니면
-		{
-			m_pPlayer->GetGun()->SetCurrentLv(m_pPlayer->GetGun()->GetCurrentLv() + 1); // 현재 레벨 증가
-		}
+		m_pPlayer->GetGun()->SetCurrentLv(m_pPlayer->GetGun()->GetCurrentLv() + 1); // 현재 레벨 증가
 		m_pPlayer->GetGun()->SetCurrentExp(0); // 현재 경험치 초기화
 		m_pPlayer->GetGun()->SetMaxExp(m_pPlayer->GetGun()->GetMaxExp() + 2); // 필요경험치 증가
 
@@ -401,26 +501,64 @@ void cPlayScene::LevUpCheck()
 		{
 		case 1:
 			m_pEvent = new cEvent;
-			m_pEvent->Setup("PlayerUI/attackup.png",
-				"PlayerUI/attackup.png");
-				/*"PlayerUI/secondclassshooter.png");*/
+			m_pEvent->Setup("PlayerUI/secondclassshooter.png",
+				"PlayerUI/secondclassshooter.png");
 			m_pPlayer->GetGun()->SetAttackPower(m_pPlayer->GetGun()->GetAttackPower() + 5);
 			break;
 		case 2:
 			m_pEvent = new cEvent;
 			m_pEvent->Setup("PlayerUI/firstclassshooter.png",
-				/*	"PlayerUI/speedup.png");*/
 				"PlayerUI/firstclassshooter.png");
 			//m_pPlayer->SetMoveSpeed(m_pPlayer->GetMoveSpeed() + 0.05f);
 			break;
 		case 3:
 			m_pEvent = new cEvent;
 			m_pEvent->Setup("PlayerUI/expressshooter.png",
-				/*"PlayerUI/magazineup.png");*/
 				"PlayerUI/expressshooter.png");
 			m_pPlayer->GetGun()->SetMagazine(m_pPlayer->GetGun()->GetMagazine() + 5);
 			break;
 		}
 	}
 
+}
+
+void cPlayScene::QuitGameUISetting()
+{
+	D3DXCreateSprite(g_pD3DDevice, &m_pSprite);
+
+	m_pQuitGameRoot = new cUIObject;
+	m_pQuitGameRoot->SetPosition(0, 0);
+
+	cUIImageView * QuitGameWindow = new cUIImageView;
+	QuitGameWindow->SetTexture("QuitUI/QuitGameWindow.png");
+	QuitGameWindow->SetPosition(CENTERX / 2, CENTERY / 2 - 50);
+
+	cUIButton* YesButton = new cUIButton;
+	YesButton->SetTexture("QuitUI/YesButton_1.png", "QuitUI/YesButton_2.png", "QuitUI/YesButton_3.png");
+	YesButton->SetPosition(CENTERX / 2 - 260, CENTERY / 2 + 30);
+	YesButton->SetTag(EXIT_BTN);
+	YesButton->SetDelegate(this);
+
+	cUIButton* NoButton = new cUIButton;
+	NoButton->SetTexture("QuitUI/NoButton_1.png", "QuitUI/NoButton_2.png", "QuitUI/NoButton_3.png");
+	NoButton->SetPosition(CENTERX / 2 - 260, CENTERY / 2 - 60);
+	NoButton->SetTag(RETURN_BTN);
+	NoButton->SetDelegate(this);
+
+	m_pQuitGameRoot->AddChild(QuitGameWindow);
+	m_pQuitGameRoot->AddChild(YesButton);
+	m_pQuitGameRoot->AddChild(NoButton);
+}
+
+void cPlayScene::OnClick(cUIButton * pSender)
+{
+	switch (pSender->GetTag())
+	{
+	case EXIT_BTN:
+		g_pSceneManager->ChangeScene("firstScene");
+		break;
+	case RETURN_BTN:
+		m_eState = m_ePrevState;
+		break;
+	}
 }

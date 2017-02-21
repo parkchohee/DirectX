@@ -5,27 +5,12 @@
 class cBuilding;
 class cUIObject;
 class cStaticMesh;
+class cHeightMap;
 
-#include "cUIButton.h"
-
-enum BUTTON_TYPE
-{
-	PREV_TITLE,
-	NEXT_TITLE,
-	DOWN_SCALE,
-	UP_SCALE,
-	DOWN_ANGLE,
-	UP_ANGLE,
-	SAVE,
-	EXIT
-};
-
-class cMakeBuildings : public iButtonDelegate
+class cMakeBuildings
 {
 	cBuilding*					m_pBuilding;
-
-	LPD3DXSPRITE				m_pSprite;
-	cUIObject*					m_pUIRoot;
+	cHeightMap*					m_pHeightMap;
 
 	std::vector<cBuilding*>		m_vpAllBuildings;
 	std::vector<cBuilding*>		m_vpSettingBuildings;
@@ -41,10 +26,7 @@ public:
 	void Update();
 	void Render();
 
-	void OnClick(cUIButton* pSender);
-
-	void SettingUI();
-	void PositionSettingController();
+	void BuildingController();
 
 	void AddBuilding();
 	void SaveMapFile();

@@ -20,6 +20,10 @@ void cVideoScene::Setup()
 	m_bstartBackbuffer = false;
 }
 
+void cVideoScene::Destroy()
+{
+}
+
 void cVideoScene::Update()
 {
 	if (g_pKeyManager->IsOnceKeyDown('1'))

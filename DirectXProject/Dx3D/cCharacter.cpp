@@ -17,6 +17,7 @@ cCharacter::cCharacter(void)
 
 cCharacter::~cCharacter(void)
 {
+	SAFE_RELEASE(m_pBoundingSphereMesh);
 }
 
 void cCharacter::Setup(char* szFolder, char* szFilename)

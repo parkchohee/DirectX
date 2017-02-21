@@ -20,6 +20,8 @@ DWORD CALLBACK LoadingThread(LPVOID lpParam)
 
 	pScene->Setup();
 
+	g_pSceneManager->fLoadingProgress = 1.0f;
+
 	g_pSceneManager->m_pNowScene = pScene;
 
 	return 0;
@@ -33,50 +35,36 @@ void cSceneManager::Destroy()
 {
 	MAP_SCENE::iterator iter;
 
-	for (iter = m_LoadingScenes.begin(); iter != m_LoadingScenes.end(); ) 
+	for (iter = m_LoadingScenes.begin(); iter != m_LoadingScenes.end(); iter++)
 	{
-		iter->second->Release();
-
 		if (iter->second == m_pNowScene)
 		{
 			m_pNowScene = NULL;
 		}
 
+		iter->second->Destroy();
 		SAFE_DELETE(iter->second);
-		m_LoadingScenes.erase(iter);
 	}
 
-	/*if (m_pNowScene != NULL) {
-		m_pNowScene->Release();
-		SAFE_DELETE(m_pNowScene);
-	}*/
+	if (m_pNowScene != NULL)
+		m_pNowScene->Destroy();
 
-	for (iter = m_Scenes.begin(); iter != m_Scenes.end(); )
+	for (iter = m_Scenes.begin(); iter != m_Scenes.end(); iter++)
 	{
-		if (iter->second == m_pNowScene)
-		{
-			m_pNowScene = NULL;
-		}
-
-		iter->second->Release();
-		if(iter->second != NULL)
-			SAFE_DELETE(iter->second);
-		m_Scenes.erase(iter);
+		SAFE_DELETE(iter->second);
 	}
 
-	SAFE_DELETE(m_pNowScene);
-	SAFE_DELETE(m_pReleaseScene);
 
 }
 
 void cSceneManager::Update(float timeDelta)
 {
-	//if (m_pReleaseScene != NULL)
-	//{
-	//	//SAFE_RELEASE(m_pReleaseScene);
-	////	m_pReleaseScene->Release();
-	//	m_pReleaseScene = NULL;
-	//}
+	if (m_pReleaseScene != NULL)
+	{
+		//SAFE_RELEASE(m_pReleaseScene);
+		m_pReleaseScene->Destroy();
+		m_pReleaseScene = NULL;
+	}
 
 	if (m_pNowScene != NULL)
 		m_pNowScene->Update();
@@ -93,7 +81,6 @@ void cSceneManager::AddScene(std::string sceneName, cScene * pScene)
 	MAP_SCENE::iterator  iter = m_Scenes.find(sceneName);
 
 	if (iter == m_Scenes.end()) {
-		//pScene->Setup();
 		m_Scenes.insert(std::make_pair(sceneName, pScene));
 	}
 }
@@ -115,7 +102,7 @@ void cSceneManager::ChangeScene(std::string sceneName)
 	if (iter == m_Scenes.end())
 		return;
 
-	//m_pReleaseScene = m_pNowScene;
+	m_pReleaseScene = m_pNowScene;
 	
 	m_pNowScene = iter->second;
 	m_pNowScene->Setup();
