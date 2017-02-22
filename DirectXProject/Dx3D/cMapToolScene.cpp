@@ -34,7 +34,7 @@ void cMapToolScene::Setup()
 	m_pCamera = new cMapCamera;
 	m_pCamera->Setup(NULL);
 
-	m_pSkyView = new cStaticMesh("Map/Sky/", "sky.X");//g_pStaticMeshManager->GetStaticMesh("Map/Sky/", "sky.X");
+	m_pSkyView = new cStaticMesh("Map/Sky/", "sky.X");
 	D3DXMATRIXA16 matS;
 	D3DXMatrixScaling(&matS, 0.05f, 0.05f, 0.05f);
 	m_pSkyView->SetWorld(matS);

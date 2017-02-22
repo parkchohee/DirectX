@@ -15,6 +15,8 @@ private:
 	D3DXVECTOR3 m_vWorldVertex[8];
 
 	D3DXMATRIXA16 m_matWorldTM;
+
+	float		m_fRadius;
 public:
 	cOBB(void);
 	~cOBB(void);
@@ -32,5 +34,6 @@ public:
 	void SetVertex();
 
 	D3DXVECTOR3* GetVertes() { return m_vWorldVertex; }
+	float GetRadius() { return m_fRadius; }
 };
 
