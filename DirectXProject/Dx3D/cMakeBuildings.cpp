@@ -142,16 +142,17 @@ void cMakeBuildings::Update()
 
 void cMakeBuildings::Render()
 {
-	if (m_pBuilding)
-		m_pBuilding->Render();
+
+	if (m_pHeightMap)
+		m_pHeightMap->Render();
 
 	for (size_t i = 0; i < m_vpSettingBuildings.size(); i++)
 	{
 		m_vpSettingBuildings[i]->Render();
 	}
 
-	if (m_pHeightMap)
-		m_pHeightMap->Render();
+	if (m_pBuilding)
+		m_pBuilding->Render();
 
 	char szTemp[1024];
 	sprintf(szTemp, "building : %s\nCAMERA : W(up) S(down) A(left) D(right) \nBUILDING : Y(prev) U(next)\nROTATION : H(-) J (+) \nSCALE : N(-) M(+)\nPOSITION : UP(z+) DOWN(z-) LEFT(x-) RIGHT(x+) 1(y-) 2(y+) 3(y=0)\nSETTING : SPACE\nSAVE : ENTER", m_pName[m_nBuildingNum]);

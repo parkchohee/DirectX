@@ -14,7 +14,6 @@ protected:
 	bool			m_isLButtonDown;
 	float			m_fCameraDistance;
 
-	//float			m_fShakePow;
 	D3DXVECTOR3		m_vShakePos;
 
 	SYNTHESIZE(float, m_fShakePow, ShakePow);

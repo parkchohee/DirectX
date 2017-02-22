@@ -1,8 +1,11 @@
 #pragma once
+class cCamera;
 class cStaticMesh
 {
 	friend class cStaticMeshManager;
 
+private:
+	static LPD3DXEFFECT pMeshEffect;
 private:
 	ID3DXMesh*							m_pStaticMesh;
 	std::vector<D3DMATERIAL9>			m_vMtrls;
@@ -21,6 +24,9 @@ public:
 
 	bool Setup(char* szDirectory, char* szFilename);
 	void Render();
+	void RenderShadow();
 	void Destroy();
+
+	LPD3DXEFFECT LoadEffect(char* szFilename);
 };
 
