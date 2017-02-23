@@ -35,7 +35,7 @@ void cMainGame::Setup()
 	g_pSceneManager->AddScene("vedioScene", new cVideoScene);
 	g_pSceneManager->AddLoadingScene("loadingScene", new cLoadingScene);
 
-	g_pSceneManager->ChangeScene("playScene");
+	g_pSceneManager->ChangeScene("firstScene");
 
 	// menu sound
 	g_pSoundManager->addSound("MenuSelect", "./Sound/Menu/Select.wav");
