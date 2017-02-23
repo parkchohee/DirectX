@@ -312,6 +312,9 @@
     <ClInclude Include="cAirDrop.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="cPlane.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -513,6 +516,9 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="cAirDrop.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="cPlane.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

@@ -42,6 +42,13 @@ void cMainGame::Setup()
 
 	// play sound
 	g_pSoundManager->addSound("ShotgunFire", "./Sound/Weapons/ShotgunFire.wav");
+	g_pSoundManager->addSound("WincFire", "./Sound/Weapons/WincFire.wav");
+	g_pSoundManager->addSound("9mmFire", "./Sound/Weapons/9mmFire.wav");
+	g_pSoundManager->addSound("AIDeath", "./Sound/Death/AIDeath.wav");
+	g_pSoundManager->addSound("ShotgunReload", "./Sound/Weapons/ShotgunReload.wav");
+	g_pSoundManager->addSound("9mmReload", "./Sound/Weapons/9mmReload.wav");
+	g_pSoundManager->addSound("WincReload", "./Sound/Weapons/WincReload.wav");
+	g_pSoundManager->addSound("Walk", "./Sound/Walk/Walk.wav");
 
 
 	SetLight();

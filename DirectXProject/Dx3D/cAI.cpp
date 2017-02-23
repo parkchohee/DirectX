@@ -242,7 +242,6 @@ void cAI::BulletFire(D3DXVECTOR3 dir)
 			return;
 
 		m_pSkinnedMesh->PlayOneShot("StandFire", 0, 0);
-		m_pSkinnedMesh->SetPlaySpeed(0.4f);
 
 		D3DXMATRIXA16 matT;
 		D3DXMatrixTranslation(&matT, m_vPosition.x, m_vPosition.y, m_vPosition.z);
@@ -254,6 +253,7 @@ void cAI::BulletFire(D3DXVECTOR3 dir)
 void cAI::Destroy()
 {
 	m_pSkinnedMesh->PlayOneShotAfterHold(8);
+	g_pSoundManager->play("AIDeath");
 }
 
 bool cAI::IsDeath()

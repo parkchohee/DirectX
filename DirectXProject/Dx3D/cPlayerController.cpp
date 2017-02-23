@@ -62,10 +62,16 @@ void cPlayerController::Update(D3DXVECTOR3 & camAngle, OUT D3DXVECTOR3 & vDirect
 		// direction 방향으로 앞으로,
 		if (g_pKeyManager->IsStayKeyDown('W'))			// 앞으로 움직임
 		{
+			if (!g_pSoundManager->isPlaySound("Walk"))
+				g_pSoundManager->play("Walk");
+
 			_vPosition = vPosition + (mvDirection * m_fMoveSpeed);
 		}
 		else if (g_pKeyManager->IsStayKeyDown('S'))		// 뒤로 움직임
 		{
+			if (!g_pSoundManager->isPlaySound("Walk"))
+				g_pSoundManager->play("Walk");
+
 			_vPosition = vPosition - (mvDirection * m_fMoveSpeed);
 		}
 
@@ -75,10 +81,16 @@ void cPlayerController::Update(D3DXVECTOR3 & camAngle, OUT D3DXVECTOR3 & vDirect
 
 		if (g_pKeyManager->IsStayKeyDown('A'))			// 왼쪽으로 움직임
 		{
+			if (!g_pSoundManager->isPlaySound("Walk"))
+				g_pSoundManager->play("Walk");
+
 			_vPosition = vPosition + (mvDirection * m_fMoveSpeed);
 		}
 		else if (g_pKeyManager->IsStayKeyDown('D'))		// 오른쪽으로 움직임
 		{
+			if (!g_pSoundManager->isPlaySound("Walk"))
+				g_pSoundManager->play("Walk");
+
 			_vPosition = vPosition - (mvDirection * m_fMoveSpeed);
 		}
 	}
@@ -121,6 +133,7 @@ void cPlayerController::Update(D3DXVECTOR3 & camAngle, OUT D3DXVECTOR3 & vDirect
 		if (m_pHeightMap->GetHeight(_vPosition.x, _vPosition.y, _vPosition.z))
 		{
 			vPosition = _vPosition;
+
 		}
 	}
 

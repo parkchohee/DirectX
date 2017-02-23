@@ -49,6 +49,9 @@ class cPlayer : public cCharacter
 	bool				m_isAction;
 	bool				m_isActionUp;
 	
+	char*               m_cFireGunSoundName;
+	char*               m_cReloadGunSoundName;
+
 	SYNTHESIZE(GUN_MODE, m_eGunMode, GunMode);
 	SYNTHESIZE(cBuildingGroup*, m_pBuildings, Buildings);
 

@@ -62,7 +62,7 @@ void cBuilding::Render()
 	if (m_pBuilding)
 	{
 		m_pBuilding->Render();
-		m_pBuilding->RenderShadow();
+	//	m_pBuilding->RenderShadow();
 	}
 
 	if (m_pOBB)

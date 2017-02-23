@@ -18,6 +18,7 @@
 #include "cEvent.h"
 #include "cAirDrop.h"
 #include "cFrustum.h"
+#include "cPlane.h"
 
 cPlayScene::cPlayScene()
 	: m_pCamera(NULL)
@@ -124,6 +125,15 @@ void cPlayScene::Setup()
 	m_pFrustum = new cFrustum;
 	m_pFrustum->Setup();
 
+	for (int i = 0; i < 10; i++)
+	{
+		cPlane* plane = new cPlane;
+		plane->SetPosition(D3DXVECTOR3(rand() % 20, 30, rand() % 30));
+		plane->Setup("plane/", "plane.X");
+
+		m_pvPlane.push_back(plane);
+	}
+
 	QuitGameUISetting();
 }
 
@@ -145,6 +155,9 @@ void cPlayScene::Destroy()
 
 	SAFE_RELEASE(m_pPlayer);
 
+	for each(auto p in m_pvPlane)
+		SAFE_DELETE(p);
+
 	for each(auto p in m_pvAI)
 		SAFE_RELEASE(p);
 
@@ -157,6 +170,7 @@ void cPlayScene::Destroy()
 	for each(auto p in m_pAttackEvent)
 		SAFE_RELEASE(p);
 
+	m_pvPlane.clear();
 	m_pvAI.clear();
 	m_pvDeathAI.clear();
 	m_pvBuildingGroup.clear();
@@ -260,6 +274,9 @@ void cPlayScene::Update()
 		i++;
 	}
 
+	for each(auto p in m_pvPlane)
+		p->Update();
+
 	m_pFrustum->Update();
 }
 
@@ -274,8 +291,11 @@ void cPlayScene::Render()
 	if (m_pTextMap)
 		m_pTextMap->Render();
 
-	//if (m_pGrid)
-	//	m_pGrid->Render();
+	if (m_pGrid)
+		m_pGrid->Render();
+
+	for each(auto p in m_pvPlane)
+		p->Render();
 
 	for each(auto p in m_pvAI)
 	{

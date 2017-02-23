@@ -92,6 +92,9 @@ void cPlayer::Setup()
 		D3DXCreateSphere(g_pD3DDevice, m_stSphere.fRadius, 20, 20, &m_pBoundingSphereMesh, NULL);
 	}
 
+	m_cFireGunSoundName = "ShotgunFire";
+	m_cReloadGunSoundName = "ShotgunReload";
+
 	SettingCursorUI();
 	SettingGunUI();
 	SettingPlayerInfoUI();
@@ -109,6 +112,9 @@ void cPlayer::Update(D3DXVECTOR3 & camAngle)
 	{
 		m_pGun->GetGunMesh()->PlayOneShot("reload", 0, 0);
 		m_pGun->Reload();
+
+		if (!g_pSoundManager->isPlaySound(m_cReloadGunSoundName))
+			g_pSoundManager->play(m_cReloadGunSoundName);
 	}
 
 	if (g_pKeyManager->IsOnceKeyDown('1'))
@@ -186,14 +192,20 @@ void cPlayer::GunChange()
 	case 0:
 		m_pImageGunFront->SetTexture("PlayerUI/shotgun_front.png");
 		m_pImageGunBack->SetTexture("PlayerUI/shotgun_back.png");
+		m_cFireGunSoundName = "ShotgunFire";
+		m_cReloadGunSoundName = "ShotgunReload";
 		break;
 	case 1:
 		m_pImageGunFront->SetTexture("PlayerUI/winc_front.png");
 		m_pImageGunBack->SetTexture("PlayerUI/winc_back.png");
+		m_cFireGunSoundName = "WincFire";
+		m_cReloadGunSoundName = "WincReload";
 		break;
 	case 2:
 		m_pImageGunFront->SetTexture("PlayerUI/9mm_front.png");
 		m_pImageGunBack->SetTexture("PlayerUI/9mm_back.png");
+		m_cFireGunSoundName = "9mmFire";
+		m_cReloadGunSoundName = "9mmReload";
 		break;
 	}
 
@@ -246,14 +258,22 @@ void cPlayer::BulletFire(D3DXVECTOR3 dir)
 		if (m_pGun->IsReload() || m_pGun->IsShoot())
 			return;
 
-		if(m_pGun->GetCurrentBullet() <= 0)
+		if (m_pGun->GetCurrentBullet() <= 0)
+		{
 			m_pGun->GetGunMesh()->PlayOneShot("reload", 0, 0);
+			m_pGun->Reload();
 
+			if (!g_pSoundManager->isPlaySound(m_cReloadGunSoundName))
+			{
+				g_pSoundManager->play(m_cReloadGunSoundName);
+			}
+		}
 		if (!m_pGun->Fire(dir, m_matWorldTM))
 			return;
 
-		g_pSoundManager->play("ShotgunFire", 0.5f);
 		m_pGun->GetGunMesh()->PlayOneShot("shot", 0, 0);
+		g_pSoundManager->play(m_cFireGunSoundName, 0.5f);
+
 		m_pBulletRay = new cRay;
 
 		m_isAction = true;

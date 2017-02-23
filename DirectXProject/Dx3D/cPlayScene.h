@@ -20,6 +20,7 @@ class cEvent;
 
 class cAirDrop;
 class cFrustum;
+class cPlane;
 
 enum PLAY_STATE
 {
@@ -62,6 +63,8 @@ class cPlayScene
 	LPD3DXSPRITE		        m_pSprite;
 
 	cFrustum*					m_pFrustum;
+	
+	std::vector<cPlane*>        m_pvPlane;
 
 public:
 	cPlayScene();

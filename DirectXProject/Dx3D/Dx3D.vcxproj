@@ -121,6 +121,7 @@
     <ClInclude Include="cObjectManager.h" />
     <ClInclude Include="cObjLoader.h" />
     <ClInclude Include="cObjMap.h" />
+    <ClInclude Include="cPlane.h" />
     <ClInclude Include="cPlayer.h" />
     <ClInclude Include="cPlayerController.h" />
     <ClInclude Include="cPlayScene.h" />
@@ -192,6 +193,7 @@
     <ClCompile Include="cObjectManager.cpp" />
     <ClCompile Include="cObjLoader.cpp" />
     <ClCompile Include="cObjMap.cpp" />
+    <ClCompile Include="cPlane.cpp" />
     <ClCompile Include="cPlayer.cpp" />
     <ClCompile Include="cPlayerController.cpp" />
     <ClCompile Include="cPlayScene.cpp" />
