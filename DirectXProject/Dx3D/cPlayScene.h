@@ -4,7 +4,6 @@
 #include "cUIButton.h"
 
 class cCamera;
-class cGrid;
 class cTextMap;
 class cHeightMap;
 
@@ -21,6 +20,12 @@ class cEvent;
 class cAirDrop;
 class cFrustum;
 class cPlane;
+
+
+
+class cLight;
+
+
 
 enum PLAY_STATE
 {
@@ -41,7 +46,6 @@ class cPlayScene
 	, public iButtonDelegate
 {
 	cCamera*					m_pCamera;
-	cGrid*						m_pGrid;
 
 	cStaticMesh*				m_pSkyView;
 	cTextMap*					m_pTextMap;
@@ -66,6 +70,12 @@ class cPlayScene
 	
 	std::vector<cPlane*>        m_pvPlane;
 
+	int                         m_FireCount;
+	int                         m_HitCount;
+	float                       m_startTime;
+	float                       m_endTime;
+
+
 public:
 	cPlayScene();
 	virtual ~cPlayScene();
@@ -89,5 +99,7 @@ public:
 
 	void QuitGameUISetting();
 	void OnClick(cUIButton * pSender);
+	void SaveAccuracyRate();
+	void SavePlayTime();
 };
 

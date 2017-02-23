@@ -23,9 +23,14 @@ void cFirstScene::Setup()
 	D3DXCreateSprite(g_pD3DDevice, &m_pSprite);
 
 	LoadHoner("Guntext.txt");
+	LoadHeathRate("HeathRate.txt");
+	LoadAccuracyRate("AccuracyRate.txt");
+	LoadPlayTime("PlayTime.txt");
+
 	MainMenuUISetting();
 	OptionMenuUISetting();
 	SoundMenuSetting();
+
 	MedalMenuSetting();
 }
 
@@ -146,11 +151,35 @@ void cFirstScene::OnClick(cUIButton * pSender)
 			m_stMenu = SOUND_MENU;
 		break;
 	case MEDAL_BTN:
-
 		m_stMenu = MEDAL_MENU;
 		break;
 	case BACK_BTN:
-		m_stMenu = MAIN_MENU;
+		if (m_stMenu == MEDAL_MENU) m_stMenu = OPTION_MENU;
+		else m_stMenu = MAIN_MENU;
+		break;
+	case FIRST_MEDAL_BTN:
+		m_pSoldierHonerText->SetTexture("MainMenuUI/Medal/first_medal_reason.png");
+		m_pTakeConditionText->SetTexture("MainMenuUI/Medal/first_medal_condition.png");
+		break;
+	case SECOND_MEDAL_BTN:
+		m_pSoldierHonerText->SetTexture("MainMenuUI/Medal/second_medal_reason.png");
+		m_pTakeConditionText->SetTexture("MainMenuUI/Medal/second_medal_condition.png");
+		break;
+	case THIRD_MEDAL_BTN:
+		m_pSoldierHonerText->SetTexture("MainMenuUI/Medal/third_medal_reason.png");
+		m_pTakeConditionText->SetTexture("MainMenuUI/Medal/third_medal_condition.png");
+		break;
+	case FOURTH_MEDAL_BTN:
+		m_pSoldierHonerText->SetTexture("MainMenuUI/Medal/fourth_medal_reason.png");
+		m_pTakeConditionText->SetTexture("MainMenuUI/Medal/fourth_medal_condition.png");
+		break;
+	case FIFTH_MEDAL_BTN:
+		m_pSoldierHonerText->SetTexture("MainMenuUI/Medal/fifth_medal_reason.png");
+		m_pTakeConditionText->SetTexture("MainMenuUI/Medal/fifth_medal_condition.png");
+		break;
+	case SIXTH_MEDAL_BTN:
+		m_pSoldierHonerText->SetTexture("MainMenuUI/Medal/sixth_medal_reason.png");
+		m_pTakeConditionText->SetTexture("MainMenuUI/Medal/sixth_medal_condition.png");
 		break;
 	}
 
@@ -279,96 +308,159 @@ void cFirstScene::MedalMenuSetting()
 	m_pMedalUIRoot = new cUIObject;
 	m_pMedalUIRoot->SetPosition(0, 0);
 
-	cUIImageView* Collection = new cUIImageView;
-	Collection->SetTexture("MainMenuUi/Collection.png");
-	Collection->SetPosition(rc.left + 600, rc.top + 400);
+	cUIImageView* board = new cUIImageView;
+	board->SetTexture("MainMenuUI/Medal/board.png");
+	board->SetPosition(rc.left + 550, rc.top + 350);
+	m_pMedalUIRoot->AddChild(board);
 
-	cUIImageView * ShotGunImage = new cUIImageView;
-	ShotGunImage->SetTexture("MainMenuUI/shotgun.png");
-	ShotGunImage->SetPosition(rc.left + 300, rc.top + 300);
-
-	cUIImageView * WincImage = new cUIImageView;
-	WincImage->SetTexture("MainMenuUI/winc.png");
-	WincImage->SetPosition(rc.left + 300, rc.top + 450);
-
-	cUIImageView * NinemmImage = new cUIImageView;
-	NinemmImage->SetTexture("MainMenuUI/9mm.png");
-	NinemmImage->SetPosition(rc.left + 300, rc.top + 600);
-
-	m_pMedalUIRoot->AddChild(Collection);
-	m_pMedalUIRoot->AddChild(ShotGunImage);
-	m_pMedalUIRoot->AddChild(WincImage);
-	m_pMedalUIRoot->AddChild(NinemmImage);
-
-	if (GunLv[2] >= 1)
+	if (m_honer[0])
 	{
-		m_pNinemmLv1 = new cUIImageView;
-		m_pNinemmLv1->SetTexture("MainMenuUI/9mmlv1.tga");
-		m_pNinemmLv1->SetPosition(rc.left + 500, rc.top + 600);
-		m_pMedalUIRoot->AddChild(m_pNinemmLv1);
+		cUIButton* FirstMedalOn = new cUIButton;
+		FirstMedalOn->SetTexture("MainMenuUI/Medal/first_medal_unclick_possession.png",
+			"MainMenuUI/Medal/first_medal_click_possession.png",
+			"MainMenuUI/Medal/first_medal_click_possession.png");
+		FirstMedalOn->SetPosition(rc.right - 780, rc.top + 130);
+		FirstMedalOn->SetDelegate(this);
+		FirstMedalOn->SetTag(FIRST_MEDAL_BTN);
+		m_pMedalUIRoot->AddChild(FirstMedalOn);
 	}
-	if (GunLv[2] >= 2)
+	if (!m_honer[0])
 	{
-		m_pNinemmLv2 = new cUIImageView;
-		m_pNinemmLv2->SetTexture("MainMenuUI/9mmlv2.tga");
-		m_pNinemmLv2->SetPosition(rc.left + 700, rc.top + 600);
-		m_pMedalUIRoot->AddChild(m_pNinemmLv2);
-
-	}
-	if (GunLv[2] >= 3)
-	{
-		m_pNinemmLv3 = new cUIImageView;
-		m_pNinemmLv3->SetTexture("MainMenuUI/9mmlv3.tga");
-		m_pNinemmLv3->SetPosition(rc.left + 900, rc.top + 600);
-		m_pMedalUIRoot->AddChild(m_pNinemmLv3);
-	}
-	if (GunLv[0] >= 1)
-	{
-		m_pShotgunLv1 = new cUIImageView;
-		m_pShotgunLv1->SetTexture("MainMenuUI/shotgunlv1.tga");
-		m_pShotgunLv1->SetPosition(rc.left + 500, rc.top + 300);
-		m_pMedalUIRoot->AddChild(m_pShotgunLv1);
-	}
-	if (GunLv[0] >= 2)
-	{
-		m_pShotgunLv2 = new cUIImageView;
-		m_pShotgunLv2->SetTexture("MainMenuUI/shotgunlv2.tga");
-		m_pShotgunLv2->SetPosition(rc.left + 700, rc.top + 300);
-		m_pMedalUIRoot->AddChild(m_pShotgunLv2);
-	}
-	if (GunLv[0] >= 3)
-	{
-		m_pShotgunLv3 = new cUIImageView;
-		m_pShotgunLv3->SetTexture("MainMenuUI/shotgunlv3.tga");
-		m_pShotgunLv3->SetPosition(rc.left + 900, rc.top + 300);
-		m_pMedalUIRoot->AddChild(m_pShotgunLv3);
-	}
-	if (GunLv[1] >= 1)
-	{
-		m_pWincLv1 = new cUIImageView;
-		m_pWincLv1->SetTexture("MainMenuUI/winclv1.tga");
-		m_pWincLv1->SetPosition(rc.left + 500, rc.top + 450);
-		m_pMedalUIRoot->AddChild(m_pWincLv1);
-		int b = 0;
-	}
-	if (GunLv[1] >= 2)
-	{
-		m_pWincLv2 = new cUIImageView;
-		m_pWincLv2->SetTexture("MainMenuUI/winclv2.tga");
-		m_pWincLv2->SetPosition(rc.left + 700, rc.top + 450);
-		m_pMedalUIRoot->AddChild(m_pWincLv2);
-	}
-	if (GunLv[2] >= 3)
-	{
-		m_pWincLv3 = new cUIImageView;
-		m_pWincLv3->SetTexture("MainMenuUI/winclv3.tga");
-		m_pWincLv3->SetPosition(rc.left + 900, rc.top + 450);
-		m_pMedalUIRoot->AddChild(m_pWincLv3);
+		cUIButton* FirstMedalOff = new cUIButton;
+		FirstMedalOff->SetTexture("MainMenuUI/Medal/first_medal_unclick_non_possession.png",
+			"MainMenuUI/Medal/first_medal_click_non_possession.png",
+			"MainMenuUI/Medal/first_medal_click_non_possession.png");
+		FirstMedalOff->SetPosition(rc.right - 780, rc.top + 130);
+		FirstMedalOff->SetDelegate(this);
+		FirstMedalOff->SetTag(FIRST_MEDAL_BTN);
+		m_pMedalUIRoot->AddChild(FirstMedalOff);
 	}
 
+	if (m_honer[1])
+	{
+		cUIButton* SecondMedalOn = new cUIButton;
+		SecondMedalOn->SetTexture("MainMenuUI/Medal/second_medal_unclick_possession.png",
+			"MainMenuUI/Medal/second_medal_click_possession.png",
+			"MainMenuUI/Medal/second_medal_click_possession.png");
+		SecondMedalOn->SetPosition(rc.right - 680, rc.top + 130);
+		SecondMedalOn->SetDelegate(this);
+		SecondMedalOn->SetTag(SECOND_MEDAL_BTN);
+		m_pMedalUIRoot->AddChild(SecondMedalOn);
+	}
+	if (!m_honer[1])
+	{
+		cUIButton* SecondMedalOff = new cUIButton;
+		SecondMedalOff->SetTexture("MainMenuUI/Medal/second_medal_unclick_non_possession.png",
+			"MainMenuUI/Medal/second_medal_click_non_possession.png",
+			"MainMenuUI/Medal/second_medal_click_non_possession.png");
+		SecondMedalOff->SetPosition(rc.right - 680, rc.top + 130);
+		SecondMedalOff->SetDelegate(this);
+		SecondMedalOff->SetTag(SECOND_MEDAL_BTN);
+		m_pMedalUIRoot->AddChild(SecondMedalOff);
+	}
+	if (m_honer[2])
+	{
+		cUIButton* ThirdMedalOn = new cUIButton;
+		ThirdMedalOn->SetTexture("MainMenuUI/Medal/third_medal_unclick_possession.png",
+			"MainMenuUI/Medal/third_medal_click_possession.png",
+			"MainMenuUI/Medal/third_medal_click_possession.png");
+		ThirdMedalOn->SetPosition(rc.right - 580, rc.top + 130);
+		ThirdMedalOn->SetDelegate(this);
+		ThirdMedalOn->SetTag(THIRD_MEDAL_BTN);
+		m_pMedalUIRoot->AddChild(ThirdMedalOn);
+	}
+	if (!m_honer[2])
+	{
+		cUIButton* ThirdMedalOff = new cUIButton;
+		ThirdMedalOff->SetTexture("MainMenuUI/Medal/third_medal_unclick_non_possession.png",
+			"MainMenuUI/Medal/third_medal_click_non_possession.png",
+			"MainMenuUI/Medal/third_medal_click_non_possession.png");
+		ThirdMedalOff->SetPosition(rc.right - 580, rc.top + 130);
+		ThirdMedalOff->SetDelegate(this);
+		ThirdMedalOff->SetTag(THIRD_MEDAL_BTN);
+		m_pMedalUIRoot->AddChild(ThirdMedalOff);
+	}
+	if (m_honer[3])
+	{
+		cUIButton* FourthMedalOn = new cUIButton;
+		FourthMedalOn->SetTexture("MainMenuUI/Medal/fourth_medal_unclick_possession.png",
+			"MainMenuUI/Medal/fourth_medal_click_possession.png",
+			"MainMenuUI/Medal/fourth_medal_click_possession.png");
+		FourthMedalOn->SetPosition(rc.right - 480, rc.top + 130);
+		FourthMedalOn->SetDelegate(this);
+		FourthMedalOn->SetTag(FOURTH_MEDAL_BTN);
+		m_pMedalUIRoot->AddChild(FourthMedalOn);
+	}
+	if (!m_honer[3])
+	{
+		cUIButton* FourthMedalOff = new cUIButton;
+		FourthMedalOff->SetTexture("MainMenuUI/Medal/fourth_medal_unclick_non_possession.png",
+			"MainMenuUI/Medal/fourth_medal_click_non_possession.png",
+			"MainMenuUI/Medal/fourth_medal_click_non_possession.png");
+		FourthMedalOff->SetPosition(rc.right - 480, rc.top + 130);
+		FourthMedalOff->SetDelegate(this);
+		FourthMedalOff->SetTag(FOURTH_MEDAL_BTN);
+		m_pMedalUIRoot->AddChild(FourthMedalOff);
+	}
+	if (m_honer[4])
+	{
+		cUIButton* FifthMedalOn = new cUIButton;
+		FifthMedalOn->SetTexture("MainMenuUI/Medal/fifth_medal_unclick_possession.png",
+			"MainMenuUI/Medal/fifth_medal_click_possession.png",
+			"MainMenuUI/Medal/fifth_medal_click_possession.png");
+		FifthMedalOn->SetPosition(rc.right - 380, rc.top + 130);
+		FifthMedalOn->SetDelegate(this);
+		FifthMedalOn->SetTag(FIFTH_MEDAL_BTN);
+		m_pMedalUIRoot->AddChild(FifthMedalOn);
+	}
+	if (!m_honer[4])
+	{
+		cUIButton* FifthMedalOff = new cUIButton;
+		FifthMedalOff->SetTexture("MainMenuUI/Medal/fifth_medal_unclick_non_possession.png",
+			"MainMenuUI/Medal/fifth_medal_click_non_possession.png",
+			"MainMenuUI/Medal/fifth_medal_click_non_possession.png");
+		FifthMedalOff->SetPosition(rc.right - 380, rc.top + 130);
+		FifthMedalOff->SetDelegate(this);
+		FifthMedalOff->SetTag(FIFTH_MEDAL_BTN);
+		m_pMedalUIRoot->AddChild(FifthMedalOff);
+	}
+	if (m_honer[5])
+	{
+		cUIButton* SixthMedalOn = new cUIButton;
+		SixthMedalOn->SetTexture("MainMenuUI/Medal/sixth_medal_unclick_possession.png",
+			"MainMenuUI/Medal/sixth_medal_click_possession.png",
+			"MainMenuUI/Medal/sixth_medal_click_possession.png");
+		SixthMedalOn->SetPosition(rc.right - 280, rc.top + 130);
+		SixthMedalOn->SetDelegate(this);
+		SixthMedalOn->SetTag(SIXTH_MEDAL_BTN);
+		m_pMedalUIRoot->AddChild(SixthMedalOn);
+	}
+	if (!m_honer[5])
+	{
+		cUIButton* SixthMedalOff = new cUIButton;
+		SixthMedalOff->SetTexture("MainMenuUI/Medal/sixth_medal_unclick_non_possession.png",
+			"MainMenuUI/Medal/sixth_medal_click_non_possession.png",
+			"MainMenuUI/Medal/sixth_medal_click_non_possession.png");
+		SixthMedalOff->SetPosition(rc.right - 280, rc.top + 130);
+		SixthMedalOff->SetDelegate(this);
+		SixthMedalOff->SetTag(SIXTH_MEDAL_BTN);
+		m_pMedalUIRoot->AddChild(SixthMedalOff);
+	}
 
+	m_pSoldierHonerText = new cUIImageView; // ±ºÀÎÈÆÀå
+	m_pSoldierHonerText->SetPosition(rc.left + 810, rc.top + 360);
+	m_pMedalUIRoot->AddChild(m_pSoldierHonerText);
 
+	m_pTakeConditionText = new cUIImageView; // È¹µæÁ¶°Ç
+	m_pTakeConditionText->SetPosition(rc.left + 810, rc.top + 520);
+	m_pMedalUIRoot->AddChild(m_pTakeConditionText);
 
+	cUIButton* MedalMenuBack = new cUIButton;
+	MedalMenuBack->SetPosition(rc.right - 180, rc.bottom - 50);
+	MedalMenuBack->SetTexture("MainMenuUI/Medal/Back_Btn_off.png", "MainMenuUI/Medal/Back_Btn_on.png", "MainMenuUI/Medal/Back_Btn_on.png");
+	MedalMenuBack->SetDelegate(this);
+	MedalMenuBack->SetTag(BACK_BTN);
+	m_pMedalUIRoot->AddChild(MedalMenuBack);
 
 
 }
@@ -411,23 +503,97 @@ void cFirstScene::LoadHoner(char * szFilename)
 		{
 
 			sscanf_s(szTemp, "%*c %*c %*c %*c %*c %*c %*c %*c %*c %*c %d", &lvtemp);
-			GunLv[0] = lvtemp;
+			if (lvtemp >= 3) m_honer[0] = true;
+			else m_honer[0] = false;
 		}
 		if (szTemp[0] == 'W')
 		{
 
 			sscanf_s(szTemp, "%*c %*c %*c %*c %*c %*c %*c %d", &lvtemp);
-			GunLv[1] = lvtemp;
+			if (lvtemp >= 3) m_honer[1] = true;
+			else m_honer[1] = false;
 		}
 		if (szTemp[0] == '9')
 		{
 
 			sscanf_s(szTemp, "%*c %*c %*c %*c %*c %*c %d", &lvtemp);
-			GunLv[2] = lvtemp;
+			if (lvtemp >= 3) m_honer[2] = true;
+			else m_honer[2] = false;
 		}
 	}
 
 
 	fclose(fp);
 
+}
+
+void cFirstScene::LoadAccuracyRate(char * szFilename)
+{
+	FILE* fp = NULL;
+	fopen_s(&fp, szFilename, "r");
+
+	while (true)
+	{
+		if (feof(fp))break;
+
+		char szTemp[1024] = { '\0', };
+		fgets(szTemp, 1024, fp);
+
+		if (szTemp[0] == 'G')
+			m_honer[3] = true;
+		if (szTemp[0] == 'B')
+			m_honer[3] = false;
+
+	}
+	fclose(fp);
+}
+
+void cFirstScene::LoadHeathRate(char * szFileName)
+{
+	FILE* fp = NULL;
+	fopen_s(&fp, szFileName, "r");
+
+
+	while (true)
+	{
+		if (feof(fp))break;
+
+		char szTemp[1024] = { '\0', };
+		fgets(szTemp, 1024, fp);
+
+		if (szTemp[0] == 'G')
+			m_honer[4] = true;
+		if (szTemp[0] == 'B')
+			m_honer[4] = false;
+
+	}
+	fclose(fp);
+}
+
+void cFirstScene::LoadPlayTime(char * szFilename)
+{
+	FILE* fp = NULL;
+	fopen_s(&fp, szFilename, "r");
+
+
+	while (true)
+	{
+		if (feof(fp))break;
+
+		char szTemp[1024] = { '\0', };
+		fgets(szTemp, 1024, fp);
+
+		char timeTmp[1024];
+
+		sscanf(szTemp, "%s", timeTmp);
+
+		float time = atof(timeTmp);
+		if (time > 3600.f)
+		{
+			m_honer[5] = true;
+		}
+		else m_honer[5] = false;
+
+	}
+	fclose(fp);
 }

@@ -13,13 +13,9 @@ protected:
 	cGun*					m_pGun;
 	cController*			m_pController;
 
-	LPD3DXMESH				m_pBoundingSphereMesh;
 	ST_SPHERE				m_stBoundingSphere;
 
 	D3DXMATRIXA16			m_matWorldTM;
-
-	// 적인지, 우리팀인지 확인하는 bool형 변수
-	SYNTHESIZE(bool, m_isEnemy, IsEnemy);
 
 	// HP
 	SYNTHESIZE(float, m_fMaxHp, MaxHp);

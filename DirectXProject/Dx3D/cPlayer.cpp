@@ -88,10 +88,6 @@ void cPlayer::Setup()
 	m_stSphere.fRadius = PLAYER_BOUNDING_SPHERE_SIZE;
 	m_stSphere.vCenter = m_vPosition;
 
-	{
-		D3DXCreateSphere(g_pD3DDevice, m_stSphere.fRadius, 20, 20, &m_pBoundingSphereMesh, NULL);
-	}
-
 	m_cFireGunSoundName = "ShotgunFire";
 	m_cReloadGunSoundName = "ShotgunReload";
 
@@ -114,7 +110,7 @@ void cPlayer::Update(D3DXVECTOR3 & camAngle)
 		m_pGun->Reload();
 
 		if (!g_pSoundManager->isPlaySound(m_cReloadGunSoundName))
-			g_pSoundManager->play(m_cReloadGunSoundName);
+			g_pSoundManager->play(m_cReloadGunSoundName, 0.7f * g_pSoundManager->GetSoundVol());
 	}
 
 	if (g_pKeyManager->IsOnceKeyDown('1'))
@@ -150,25 +146,7 @@ void cPlayer::Render()
 	g_pD3DDevice->SetRenderState(D3DRS_ZENABLE, true);
 	g_pD3DDevice->SetTransform(D3DTS_WORLD, &m_matWorldTM);
 	
-	if (m_pPlayerOBB)
-		m_pPlayerOBB->OBBBox_Render(D3DCOLOR_XRGB(0, 0, 255));
-
 	UIRender();
-
-	/*{
-
-
-		D3DXMATRIXA16 matWorld;
-		D3DXMatrixIdentity(&matWorld);
-		matWorld._41 = m_stSphere.vCenter.x;
-		matWorld._42 = m_stSphere.vCenter.y;
-		matWorld._43 = m_stSphere.vCenter.z;
-
-		g_pD3DDevice->SetTransform(D3DTS_WORLD, &matWorld);
-
-		m_pBoundingSphereMesh->DrawSubset(0);
-
-	}*/
 }
 
 void cPlayer::SetHeightMap(cHeightMap * hMap)
@@ -265,14 +243,15 @@ void cPlayer::BulletFire(D3DXVECTOR3 dir)
 
 			if (!g_pSoundManager->isPlaySound(m_cReloadGunSoundName))
 			{
-				g_pSoundManager->play(m_cReloadGunSoundName);
+				g_pSoundManager->play(m_cReloadGunSoundName, 0.7f * g_pSoundManager->GetSoundVol());
 			}
+			return;
 		}
 		if (!m_pGun->Fire(dir, m_matWorldTM))
 			return;
 
 		m_pGun->GetGunMesh()->PlayOneShot("shot", 0, 0);
-		g_pSoundManager->play(m_cFireGunSoundName, 0.5f);
+		g_pSoundManager->play(m_cFireGunSoundName, 0.7f * g_pSoundManager->GetSoundVol());
 
 		m_pBulletRay = new cRay;
 
@@ -348,6 +327,7 @@ void cPlayer::SettingGunUI()
 	m_pBulletText = new cUITextView;
 	m_pBulletText->SetText("0/0");
 	m_pBulletText->SetSize(ST_SIZEN(200, 100));
+	m_pBulletText->SetTextColor(D3DCOLOR_XRGB(255, 255, 255));
 	m_pBulletText->SetPosition(pAmmoBackground->GetPosition().x + 50, pAmmoBackground->GetPosition().y - 10);
 
 	m_pUIGunInfoRoot->AddChild(m_pBulletText);
@@ -382,14 +362,8 @@ void cPlayer::SettingPlayerInfoUI()
 	m_pUIPlayerHP->SetTexture("PlayerUI/hp_bar_front.png");
 	m_pUIPlayerHP->SetPosition(pHpBack->GetPosition().x + 31, pHpBack->GetPosition().y + 6);
 
-	/*m_pUIPlayerState = new cUIImageView;
-	m_pUIPlayerState->SetTexture("PlayerUI/playerStand.png");
-	m_pUIPlayerState->SetPosition(pHpBack->GetPosition().x + pHpBack->GetSize().nWidth / 2 + 5, pHpBack->GetPosition().y - 30);
-*/
-
 	m_pUIPlayerInfoRoot->AddChild(m_pCompassFront);
 	m_pUIPlayerInfoRoot->AddChild(m_pUIPlayerHP);
-//	m_pUIPlayerInfoRoot->AddChild(m_pUIPlayerState);
 }
 
 void cPlayer::CursorAction(float ActionPower)

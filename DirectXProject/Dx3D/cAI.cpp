@@ -8,8 +8,7 @@
 #include "cTextMap.h"
 
 cAI::cAI()
-	: m_pBoundingSphereDetailMesh(NULL)
-	, m_pAIOBB(NULL)
+	: m_pAIOBB(NULL)
 	, m_pAIPointPos(NULL)
 	, m_isShow(false)
 {
@@ -21,8 +20,6 @@ cAI::~cAI()
 	SAFE_DELETE(m_pAIOBB);
 	SAFE_RELEASE(m_pSprite);
 	SAFE_RELEASE(m_pAIPointPos);
-	SAFE_RELEASE(m_pBoundingSphereDetailMesh);
-	SAFE_RELEASE(m_pBoundingSphereMesh);
 	SAFE_RELEASE(m_pController);
 	SAFE_RELEASE(m_pGun);
 	SAFE_DELETE(m_pSkinnedMesh);
@@ -47,6 +44,8 @@ void cAI::Setup(char* szFolder, char* szFilename)
 	// GUN
 	m_pGun = new cGun;
 	m_pGun->Setup(&m_vPosition, "Gun/MG_42/", "MG_42.X");
+	m_pGun->SetCurrentBullet(10000);
+	m_pGun->SetMaxBullet(10000);
 	m_pGun->SetParentWorldMatrix(m_pSkinnedMesh->getMatrix("RightHandIndex1"));
 
 	D3DXMATRIXA16 matRX, matRY, matR;
@@ -62,9 +61,6 @@ void cAI::Setup(char* szFolder, char* szFilename)
 	m_pController->SetOBB(m_pAIOBB);
 	
 	// bounding Sphere
-	D3DXCreateSphere(g_pD3DDevice, AI_BOUNDING_SPHERE_DETAIL_SIZE, 20, 20, &m_pBoundingSphereDetailMesh, NULL);
-	D3DXCreateSphere(g_pD3DDevice, AI_BOUNDING_SPHERE_SIZE, 20, 20, &m_pBoundingSphereMesh, NULL);
-
 	m_stBoundingSphere.fRadius = AI_BOUNDING_SPHERE_SIZE;
 
 	m_vecBoundingSphereDetail.resize(11);
@@ -73,7 +69,6 @@ void cAI::Setup(char* szFolder, char* szFilename)
 void cAI::Update(D3DXVECTOR3 vPlayer, float fAngle)
 {
 	UpdateSkinnedMesh(m_vDirection);
-	SetBoundingSphere();
 	cGameObject::Update();
 
 	if (m_pController)
@@ -108,39 +103,13 @@ void cAI::Update(D3DXVECTOR3 vPlayer, float fAngle)
 
 void cAI::Render()
 {
-	if (m_pAIOBB)
-		m_pAIOBB->OBBBox_Render(D3DCOLOR_XRGB(0, 0, 255));
-
 	if (m_pSkinnedMesh)
 		m_pSkinnedMesh->UpdateAndRender();
 
+	SetBoundingSphere();
+
 	if (m_pGun)
 		m_pGun->Render();
-
-	//D3DXMATRIXA16 matWorld;
-	//D3DXMatrixIdentity(&matWorld);
-	//matWorld._41 = m_stBoundingSphere.vCenter.x;
-	//matWorld._42 = m_stBoundingSphere.vCenter.y;
-	//matWorld._43 = m_stBoundingSphere.vCenter.z;
-
-	//g_pD3DDevice->SetTransform(D3DTS_WORLD, &matWorld);
-
-	//m_pBoundingSphereMesh->DrawSubset(0);
-	//
-	/*for each(auto s in m_vecBoundingSphereDetail)
-	{
-		D3DXMATRIXA16 matWorld;
-		D3DXMatrixIdentity(&matWorld);
-		matWorld._41 = s.vCenter.x;
-		matWorld._42 = s.vCenter.y;
-		matWorld._43 = s.vCenter.z;
-		
-		g_pD3DDevice->SetTransform(D3DTS_WORLD, &matWorld);
-
-		m_pBoundingSphereDetailMesh->DrawSubset(0);
-	}
-	*/
-
 }
 
 void cAI::SpriteRender()
@@ -253,7 +222,7 @@ void cAI::BulletFire(D3DXVECTOR3 dir)
 void cAI::Destroy()
 {
 	m_pSkinnedMesh->PlayOneShotAfterHold(8);
-	g_pSoundManager->play("AIDeath");
+	g_pSoundManager->play("AIDeath", 0.4 * g_pSoundManager->GetSoundVol());
 }
 
 bool cAI::IsDeath()

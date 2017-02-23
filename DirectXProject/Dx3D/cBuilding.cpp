@@ -60,13 +60,8 @@ void cBuilding::Render()
 	g_pD3DDevice->SetTransform(D3DTS_WORLD, &matWorld);
 
 	if (m_pBuilding)
-	{
 		m_pBuilding->Render();
-	//	m_pBuilding->RenderShadow();
-	}
 
-	if (m_pOBB)
-		m_pOBB->OBBBox_Render(D3DCOLOR_XRGB(255, 0, 255));
 }
 
 void cBuilding::Init()
@@ -82,11 +77,7 @@ void cBuilding::SetOBB(char * szFolder, char * szFilename)
 	objFileName += ".obj";
 
 	cObjLoader* objLoader = new cObjLoader;
-	/*std::vector<cGroup*>	vecGroup;*/
 	objLoader->Load(m_vecGroup, szFolder, (char*)objFileName.c_str());
-	if (m_vecGroup.size() <= 0)
-		//°æ°íÃ¢;
-		;
 
 	SAFE_DELETE(objLoader);
 

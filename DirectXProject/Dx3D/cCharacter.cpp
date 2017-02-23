@@ -7,7 +7,6 @@
 cCharacter::cCharacter(void)
 	: m_pGun(NULL)
 	, m_pController(NULL)
-	, m_pBoundingSphereMesh(NULL)
 	, m_fMaxHp(8)
 	, m_fCurrentHp(8)
 {
@@ -17,7 +16,6 @@ cCharacter::cCharacter(void)
 
 cCharacter::~cCharacter(void)
 {
-	SAFE_RELEASE(m_pBoundingSphereMesh);
 }
 
 void cCharacter::Setup(char* szFolder, char* szFilename)

@@ -27,6 +27,7 @@ cMainGame::~cMainGame(void)
 void cMainGame::Setup()
 {
 	//ShowCursor(FALSE);
+
 	g_pSoundManager->Setup();
 
 	g_pSceneManager->AddScene("mapTool", new cMapToolScene);
@@ -35,7 +36,7 @@ void cMainGame::Setup()
 	g_pSceneManager->AddScene("vedioScene", new cVideoScene);
 	g_pSceneManager->AddLoadingScene("loadingScene", new cLoadingScene);
 
-	g_pSceneManager->ChangeScene("firstScene");
+	g_pSceneManager->ChangeScene("vedioScene");
 
 	// menu sound
 	g_pSoundManager->addSound("MenuSelect", "./Sound/Menu/Select.wav");

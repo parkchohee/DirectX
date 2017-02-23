@@ -24,6 +24,8 @@ cGun::cGun()
 
 cGun::~cGun()
 {
+	SAFE_RELEASE(m_pMesh);
+
 	for each (auto p in m_pvEffect)
 		SAFE_RELEASE(p);
 
@@ -42,6 +44,9 @@ void cGun::Setup(D3DXVECTOR3* pvTarget, char* szFolder, char* szFilename)
 
 	m_pGun = new cSkinnedMesh(szFolder, szFilename);
 
+
+	D3DXCreateSphere(g_pD3DDevice, 0.1, 20, 20, &m_pMesh, NULL);
+	
 }
 
 void cGun::Update()
@@ -77,6 +82,22 @@ void cGun::Render()
 {
 	if (m_pGun)
 		m_pGun->UpdateAndRender();
+	
+	if (*m_pGun->getLocalMatrix("tag_barrell") != NULL)
+	{
+		m_matTagBarrel = *m_pGun->getLocalMatrix("tag_barrell") * *m_pGun->GetParent();
+
+		/*D3DXMATRIXA16 matWorld;
+		D3DXMatrixIdentity(&matWorld);
+		matWorld._41 = m_matTagBarrel._41;
+		matWorld._42 = m_matTagBarrel._42;
+		matWorld._43 = m_matTagBarrel._43;
+
+		g_pD3DDevice->SetTransform(D3DTS_WORLD, &matWorld);
+
+		m_pMesh->DrawSubset(0);*/
+	}
+	
 
 	for each (auto p in m_pvEffect)
 		p->Render();
@@ -87,6 +108,8 @@ void cGun::Render()
 	{
 		m_pvBullet[i]->Render();
 	}
+
+
 
 }
 
@@ -129,16 +152,15 @@ bool cGun::Fire(D3DXVECTOR3 vDirection, D3DXMATRIXA16 & matWorld)
 
 	// 총구에서 나가도록 설정
 	if (*m_pGun->getLocalMatrix("tip") != NULL)
+	{
 		matPos = *m_pGun->getLocalMatrix("tip") * matPos;
+	}
 	else if (*m_pGun->getLocalMatrix("tag_barrell") != NULL)
 	{
-		matPos._42 = 1;
-	//	D3DXMatrixTranslation(&matPos, matPos._41, matPos._42, matPos._43);
-	//	matPos = *m_pGun->getLocalMatrix("tag_barrell") * matPos;
+		matPos = m_matTagBarrel; 
 	}
 	
-	D3DXVECTOR3 vecPos(0,0,0);
-	D3DXVec3TransformCoord(&vecPos, &vecPos, &matPos);
+	D3DXVECTOR3 vecPos = D3DXVECTOR3(matPos._41, matPos._42, matPos._43);
 
 	if (m_pvBullet.size() < m_nMaxBullet)
 	{
@@ -170,9 +192,6 @@ void cGun::Reload()
 		m_nMaxBullet = 0;
 	}
 
-	//m_nCurrentBullet = m_nMaxBullet;
-	//// reload 애니메이션 넘버로 설정
-	//m_pGun->PlayOneShot(2, 0, 0);
 }
 
 void cGun::RemoveBullet(int bulletIndex)

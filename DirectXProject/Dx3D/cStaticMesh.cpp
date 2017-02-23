@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "cStaticMesh.h"
+#include "cCamera.h"
 
 LPD3DXEFFECT cStaticMesh::pMeshEffect = NULL;
 
@@ -178,22 +179,18 @@ void cStaticMesh::Render()
 	}*/
 }
 
-void cStaticMesh::RenderShadow()
+void cStaticMesh::RenderShadow(cCamera * camera)
 {
 	if (pMeshEffect == NULL)
 		pMeshEffect = LoadEffect("Shader/XMeshStatic.fx");
 
 	pMeshEffect->SetTechnique("Shadow");
+
+	//¿ùµå 
 	pMeshEffect->SetMatrix("matWorld", &m_pmatWorld);
 
-	D3DXMATRIXA16 matProj, matView;
-	g_pD3DDevice->GetTransform(D3DTS_PROJECTION, &matProj);
-	
-	g_pD3DDevice->GetTransform(D3DTS_VIEW, &matView);
-	
-	matProj = matView * matProj;
-	pMeshEffect->SetMatrix("matViewProjection", &matProj);
-	pMeshEffect->SetTexture("Noise_Tex", g_pTextureManager->GetTexture("Shader/GrayNoise.png"));
+	//ºä
+	pMeshEffect->SetMatrix("matViewProjection", &camera->matViewProjection);
 
 	UINT pass;
 	pMeshEffect->Begin(&pass, 0);

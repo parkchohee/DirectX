@@ -43,7 +43,6 @@ class cPlayer : public cCharacter
 
 	cUIImageView*		m_pCompassFront;
 	cUIImageView*		m_pUIPlayerHP;
-//	cUIImageView*		m_pUIPlayerState;
 
 	float				m_fActionPower;
 	bool				m_isAction;

@@ -5,7 +5,7 @@
 
 cBuildingGroup::cBuildingGroup()
 	: m_vCenter(0, 0, 0)
-	, m_fScope(15.f)
+	, m_fScope(20.f)
 	, m_fBuildingScope(25.f)
 {
 }

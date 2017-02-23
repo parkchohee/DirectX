@@ -19,26 +19,31 @@ enum MAIN_MENU_BUTTON {
 	AUDIO_BTN,
 	MAP_BTN,
 	BACK_BTN,
-	MEDAL_BTN
+	MEDAL_BTN,
+	FIRST_MEDAL_BTN,
+	SECOND_MEDAL_BTN,
+	THIRD_MEDAL_BTN,
+	FOURTH_MEDAL_BTN,
+	FIFTH_MEDAL_BTN,
+	SIXTH_MEDAL_BTN
 };
 
 class cFirstScene : public cScene
 	, public iButtonDelegate
 {
-	cUIObject*         m_pMainUIRoot;
-	cUIObject*         m_pOptionUIRoot;
-	cUIObject*         m_pSoundUIRoot;
+	cUIObject*			m_pMainUIRoot;
+	cUIObject*			m_pOptionUIRoot;
+	cUIObject*			m_pSoundUIRoot;
 	cUIObject*          m_pMedalUIRoot;
-	LPD3DXSPRITE      m_pSprite;
+	LPD3DXSPRITE		m_pSprite;
 
-	MAIN_MENU_STATE      m_stMenu;
+	MAIN_MENU_STATE		m_stMenu;
 	POINT               m_ptMouse;
 	bool                m_bIsLButtonDown;
 	RECT                m_rSliderRect;
 	cUIImageView *      m_pSoundSlideBar;
 	cUIImageView *      m_pSoundSlider;
 
-	int                 GunLv[3];
 	cUIImageView*       m_pNinemmLv1;
 	cUIImageView*       m_pNinemmLv2;
 	cUIImageView*       m_pNinemmLv3;
@@ -50,6 +55,11 @@ class cFirstScene : public cScene
 	cUIImageView*       m_pWincLv1;
 	cUIImageView*       m_pWincLv2;
 	cUIImageView*       m_pWincLv3;
+
+	bool                m_honer[6];
+
+	cUIImageView*       m_pSoldierHonerText;
+	cUIImageView*       m_pTakeConditionText;
 
 public:
 	cFirstScene();
@@ -70,4 +80,8 @@ public:
 	void MedalMenuSetting();
 	void SoundBarControl();
 	void LoadHoner(char * szFilename);
+	void LoadAccuracyRate(char * szFilename);
+	void LoadHeathRate(char * szFileName);
+	void LoadPlayTime(char * szFilename);
 };
+

@@ -24,7 +24,7 @@ public:
 
 	bool Setup(char* szDirectory, char* szFilename);
 	void Render();
-	void RenderShadow();
+	void RenderShadow(cCamera * camera);
 	void Destroy();
 
 	LPD3DXEFFECT LoadEffect(char* szFilename);
