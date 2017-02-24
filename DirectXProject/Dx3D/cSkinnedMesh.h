@@ -82,7 +82,6 @@ public:	// animation function
 	void PlayOneShotAfterHold(std::string animName, float crossFadeTime = 0.0);
 	void PlayOneShotAfterHold(int animIndex, float crossFadeTime = 0.0);
 
-
 	void Pause() { m_bPlay = false;	}
 	void Resume() { m_bPlay = true; }
 	bool IsPlay() {	return m_bPlay; }

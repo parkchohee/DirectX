@@ -1,9 +1,11 @@
 #pragma once
 class cBuilding;
+class cFrustum;
 
 class cTextMap : public iMap
 {
 	std::vector<cBuilding*>		m_vpBuildings;
+	cFrustum*					m_pFrustum;
 
 public:
 	cTextMap();

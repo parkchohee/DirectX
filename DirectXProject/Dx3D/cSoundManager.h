@@ -22,6 +22,7 @@ private:
 
 	arrSounds _mTotalSounds;//맵에 담긴 사운드 목록
 
+	SYNTHESIZE(float, m_fSoundVol, SoundVol);
 
 public:
 	SINGLETONE(cSoundManager);

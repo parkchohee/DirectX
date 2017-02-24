@@ -30,27 +30,27 @@ void cEffect::Setup(char* fileName, float width, float height, int frameX, int f
 	{
 		m_vecVertex[i].resize(6);
 
-		m_vecVertex[i][0].p = D3DXVECTOR3(-width / 2, 0, 0);
+		m_vecVertex[i][0].p = D3DXVECTOR3(-width / 2, -height / 2, 0);
 		m_vecVertex[i][0].t = D3DXVECTOR2((1.0f / (float)frameX) * (i), 1.0f / (float)frameY);
 		m_vecVertex[i][0].c = D3DCOLOR_ARGB(255, 255, 255, 255);
 		
-		m_vecVertex[i][1].p = D3DXVECTOR3(-width / 2, height, 0);
+		m_vecVertex[i][1].p = D3DXVECTOR3(-width / 2, height / 2, 0);
 		m_vecVertex[i][1].t = D3DXVECTOR2((1.0f / (float)frameX) * (i), 0);
 		m_vecVertex[i][1].c = D3DCOLOR_ARGB(255, 255, 255, 255);
 		 
-		m_vecVertex[i][2].p = D3DXVECTOR3(width / 2, height, 0);
+		m_vecVertex[i][2].p = D3DXVECTOR3(width / 2, height / 2, 0);
 		m_vecVertex[i][2].t = D3DXVECTOR2((1.0f / (float)frameX) * (i + 1), 0);
 		m_vecVertex[i][2].c = D3DCOLOR_ARGB(255, 255, 255, 255);
 		
-		m_vecVertex[i][3].p = D3DXVECTOR3(-width / 2, 0, 0);
+		m_vecVertex[i][3].p = D3DXVECTOR3(-width / 2, -height / 2, 0);
 		m_vecVertex[i][3].t = D3DXVECTOR2((1.0f / (float)frameX) * (i), 1.0f / (float)frameY);
 		m_vecVertex[i][3].c = D3DCOLOR_ARGB(255, 255, 255, 255);
 		
-		m_vecVertex[i][4].p = D3DXVECTOR3(width / 2, height, 0);
+		m_vecVertex[i][4].p = D3DXVECTOR3(width / 2, height / 2, 0);
 		m_vecVertex[i][4].t = D3DXVECTOR2((1.0f / (float)frameX) * (i + 1), 0);
 		m_vecVertex[i][4].c = D3DCOLOR_ARGB(255, 255, 255, 255);
 		
-		m_vecVertex[i][5].p = D3DXVECTOR3(width / 2, 0, 0);
+		m_vecVertex[i][5].p = D3DXVECTOR3(width / 2, -height / 2, 0);
 		m_vecVertex[i][5].t = D3DXVECTOR2((1.0f / (float)frameX) * (i + 1), 1.0f / (float)frameY);
 		m_vecVertex[i][5].c = D3DCOLOR_ARGB(255, 255, 255, 255);
 	}

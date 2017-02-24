@@ -109,6 +109,7 @@
     <ClInclude Include="cGun.h" />
     <ClInclude Include="cHeightMap.h" />
     <ClInclude Include="cKeyManager.h" />
+    <ClInclude Include="cLight.h" />
     <ClInclude Include="cLoadingScene.h" />
     <ClInclude Include="cMainGame.h" />
     <ClInclude Include="cMakeBuildings.h" />
@@ -121,13 +122,16 @@
     <ClInclude Include="cObjectManager.h" />
     <ClInclude Include="cObjLoader.h" />
     <ClInclude Include="cObjMap.h" />
+    <ClInclude Include="cPlane.h" />
     <ClInclude Include="cPlayer.h" />
     <ClInclude Include="cPlayerController.h" />
     <ClInclude Include="cPlayScene.h" />
     <ClInclude Include="cPyramid.h" />
     <ClInclude Include="cRay.h" />
+    <ClInclude Include="cRenderTexture.h" />
     <ClInclude Include="cScene.h" />
     <ClInclude Include="cSceneManager.h" />
+    <ClInclude Include="cShaderLoader.h" />
     <ClInclude Include="cSkinnedMesh.h" />
     <ClInclude Include="cSkinnedMeshManager.h" />
     <ClInclude Include="cSoundManager.h" />
@@ -136,6 +140,7 @@
     <ClInclude Include="cStateMove.h" />
     <ClInclude Include="cStaticMesh.h" />
     <ClInclude Include="cStaticMeshManager.h" />
+    <ClInclude Include="cTexQuad.h" />
     <ClInclude Include="cTextMap.h" />
     <ClInclude Include="cTextureManager.h" />
     <ClInclude Include="cTimeManager.h" />
@@ -180,6 +185,7 @@
     <ClCompile Include="cGun.cpp" />
     <ClCompile Include="cHeightMap.cpp" />
     <ClCompile Include="cKeyManager.cpp" />
+    <ClCompile Include="cLight.cpp" />
     <ClCompile Include="cLoadingScene.cpp" />
     <ClCompile Include="cMainGame.cpp" />
     <ClCompile Include="cMakeBuildings.cpp" />
@@ -192,13 +198,16 @@
     <ClCompile Include="cObjectManager.cpp" />
     <ClCompile Include="cObjLoader.cpp" />
     <ClCompile Include="cObjMap.cpp" />
+    <ClCompile Include="cPlane.cpp" />
     <ClCompile Include="cPlayer.cpp" />
     <ClCompile Include="cPlayerController.cpp" />
     <ClCompile Include="cPlayScene.cpp" />
     <ClCompile Include="cPyramid.cpp" />
     <ClCompile Include="cRay.cpp" />
+    <ClCompile Include="cRenderTexture.cpp" />
     <ClCompile Include="cScene.cpp" />
     <ClCompile Include="cSceneManager.cpp" />
+    <ClCompile Include="cShaderLoader.cpp" />
     <ClCompile Include="cSkinnedMesh.cpp" />
     <ClCompile Include="cSkinnedMeshManager.cpp" />
     <ClCompile Include="cSoundManager.cpp" />
@@ -207,6 +216,7 @@
     <ClCompile Include="cStateMove.cpp" />
     <ClCompile Include="cStaticMesh.cpp" />
     <ClCompile Include="cStaticMeshManager.cpp" />
+    <ClCompile Include="cTexQuad.cpp" />
     <ClCompile Include="cTextMap.cpp" />
     <ClCompile Include="cTextureManager.cpp" />
     <ClCompile Include="cTimeManager.cpp" />

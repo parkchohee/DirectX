@@ -30,6 +30,12 @@ class cGun : public cObject
 	SYNTHESIZE(int, m_nCurrentBullet, CurrentBullet);	// 현재 남은 총알 수
 	SYNTHESIZE(int, m_nMagazine, Magazine);	            // 한번에 장착 할 수있는 탄창 수
 
+
+
+	LPD3DXMESH				m_pMesh;
+	D3DXMATRIXA16			m_matTagBarrel;
+
+
 public:
 	cGun();
 	~cGun();

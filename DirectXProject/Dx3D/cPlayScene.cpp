@@ -3,7 +3,6 @@
 #include "stdafx.h"
 #include "cPlayScene.h"
 #include "cCamera.h"
-#include "cGrid.h"
 #include "cUIImageView.h"
 #include "cPlayer.h"
 #include "cAI.h"
@@ -18,10 +17,15 @@
 #include "cEvent.h"
 #include "cAirDrop.h"
 #include "cFrustum.h"
+#include "cPlane.h"
+
+
+
+#include "cLight.h"
+
 
 cPlayScene::cPlayScene()
 	: m_pCamera(NULL)
-	, m_pGrid(NULL)
 	, m_pTextMap(NULL)
 	, m_pHeightMap(NULL)
 	, m_pPlayer(NULL)
@@ -32,6 +36,8 @@ cPlayScene::cPlayScene()
 	, m_ePrevState(AIRDROP_STATE)
 	, m_pFrustum(NULL)
 	, m_pQuitGameRoot(NULL)
+	, m_FireCount(0)
+	, m_HitCount(0)
 {
 }
 
@@ -42,6 +48,7 @@ cPlayScene::~cPlayScene()
 
 void cPlayScene::Setup()
 {
+	m_startTime = GetTickCount();
 	m_ePrevState = m_eState = AIRDROP_STATE;
 
 	m_pTextMap = new cTextMap;
@@ -106,15 +113,10 @@ void cPlayScene::Setup()
 
 	m_pCamera = new cCamera;
 	m_pCamera->Setup(&(m_pPlayer->GetPosition()));
-	//m_pCamera->Setup(NULL);
 
-	m_pGrid = new cGrid;
-	m_pGrid->Setup(50,1.0f);
-
-	
 	m_pSkyView = new cStaticMesh("Map/Sky/", "sky.X");
 	D3DXMATRIXA16 matS;
-	D3DXMatrixScaling(&matS, 0.05f, 0.05f, 0.05f);
+	D3DXMatrixScaling(&matS, 0.05f, 0.1f, 0.05f);
 	m_pSkyView->SetWorld(matS);
 
 	m_pAirDrop = new cAirDrop;
@@ -124,11 +126,24 @@ void cPlayScene::Setup()
 	m_pFrustum = new cFrustum;
 	m_pFrustum->Setup();
 
+	for (int i = 0; i < 10; i++)
+	{
+		cPlane* plane = new cPlane;
+		plane->SetPosition(D3DXVECTOR3(rand() % 20, 30 + rand() % 10, rand() % 30));
+		plane->Setup("plane/", "plane.X");
+
+		m_pvPlane.push_back(plane);
+	}
+
 	QuitGameUISetting();
 }
 
 void cPlayScene::Destroy()
 {
+	m_endTime = GetTickCount();
+	SaveAccuracyRate();
+	SavePlayTime();
+
 	if (m_pQuitGameRoot)
 		m_pQuitGameRoot->Destroy();
 
@@ -139,11 +154,13 @@ void cPlayScene::Destroy()
 	SAFE_DELETE(m_pSkyView);
 
 	SAFE_DELETE(m_pCamera);
-	SAFE_DELETE(m_pGrid);
 	SAFE_DELETE(m_pTextMap);
 	SAFE_DELETE(m_pHeightMap);
 
 	SAFE_RELEASE(m_pPlayer);
+
+	for each(auto p in m_pvPlane)
+		SAFE_DELETE(p);
 
 	for each(auto p in m_pvAI)
 		SAFE_RELEASE(p);
@@ -157,6 +174,7 @@ void cPlayScene::Destroy()
 	for each(auto p in m_pAttackEvent)
 		SAFE_RELEASE(p);
 
+	m_pvPlane.clear();
 	m_pvAI.clear();
 	m_pvDeathAI.clear();
 	m_pvBuildingGroup.clear();
@@ -222,7 +240,10 @@ void cPlayScene::Update()
 	}
 
 	if (m_pCamera)
+	{
 		m_pCamera->Update();
+		m_pCamera->UpdateToDevice();
+	}
 
 	if ((m_eState != GAME_OVER))
 	{
@@ -260,6 +281,9 @@ void cPlayScene::Update()
 		i++;
 	}
 
+	for each(auto p in m_pvPlane)
+		p->Update();
+
 	m_pFrustum->Update();
 }
 
@@ -274,8 +298,8 @@ void cPlayScene::Render()
 	if (m_pTextMap)
 		m_pTextMap->Render();
 
-	//if (m_pGrid)
-	//	m_pGrid->Render();
+	for each(auto p in m_pvPlane)
+		p->Render();
 
 	for each(auto p in m_pvAI)
 	{
@@ -310,7 +334,7 @@ void cPlayScene::Render()
 		if (m_pQuitGameRoot)
 			m_pQuitGameRoot->Render(m_pSprite);
 	}
-	
+
 }
 
 void cPlayScene::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
@@ -364,8 +388,11 @@ void cPlayScene::PlayerBulletCollision()
 		}
 	}
 
+	m_FireCount++;
+
 	if (fAttackRange > fMinDist)
 	{
+		m_HitCount++;
 		m_pPlayer->GetGun()->SetCurrentExp(m_pPlayer->GetGun()->GetCurrentExp() + 1.0f);
 		LevUpCheck();
 
@@ -531,17 +558,17 @@ void cPlayScene::QuitGameUISetting()
 
 	cUIImageView * QuitGameWindow = new cUIImageView;
 	QuitGameWindow->SetTexture("QuitUI/QuitGameWindow.png");
-	QuitGameWindow->SetPosition(CENTERX / 2, CENTERY / 2 - 50);
+	QuitGameWindow->SetPosition(CENTERX, CENTERY - 50);
 
 	cUIButton* YesButton = new cUIButton;
 	YesButton->SetTexture("QuitUI/YesButton_1.png", "QuitUI/YesButton_2.png", "QuitUI/YesButton_3.png");
-	YesButton->SetPosition(CENTERX / 2 - 260, CENTERY / 2 + 30);
+	YesButton->SetPosition(CENTERX - 260, CENTERY + 30);
 	YesButton->SetTag(EXIT_BTN);
 	YesButton->SetDelegate(this);
 
 	cUIButton* NoButton = new cUIButton;
 	NoButton->SetTexture("QuitUI/NoButton_1.png", "QuitUI/NoButton_2.png", "QuitUI/NoButton_3.png");
-	NoButton->SetPosition(CENTERX / 2 - 260, CENTERY / 2 - 60);
+	NoButton->SetPosition(CENTERX - 260, CENTERY - 60);
 	NoButton->SetTag(RETURN_BTN);
 	NoButton->SetDelegate(this);
 
@@ -561,4 +588,41 @@ void cPlayScene::OnClick(cUIButton * pSender)
 		m_eState = m_ePrevState;
 		break;
 	}
+}
+
+void cPlayScene::SaveAccuracyRate()
+{
+	if (m_HitCount > 10 && m_FireCount > 0)
+	{
+		HANDLE file;
+		char str[128] = { 0 };
+		DWORD write;
+
+		file = CreateFile("AccuracyRate.txt", GENERIC_WRITE, 0, NULL, CREATE_ALWAYS,
+			FILE_ATTRIBUTE_NORMAL, NULL);
+
+		if (m_HitCount / m_FireCount > 0.7f)
+			strcat_s(str, "\nGood");
+		else
+			strcat_s(str, "\nBad");
+
+		WriteFile(file, str, 128, &write, NULL);
+		CloseHandle(file);
+	}
+}
+
+void cPlayScene::SavePlayTime()
+{
+	HANDLE file;
+	char str[128] = { 0 };
+	DWORD write;
+
+	file = CreateFile("PlayTime.txt", GENERIC_WRITE, 0, NULL, CREATE_ALWAYS,
+		FILE_ATTRIBUTE_NORMAL, NULL);
+
+	strcat_s(str, std::to_string((m_endTime - m_startTime) / 1000.f).c_str());
+
+
+	WriteFile(file, str, 128, &write, NULL);
+	CloseHandle(file);
 }

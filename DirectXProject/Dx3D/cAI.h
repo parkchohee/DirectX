@@ -9,7 +9,6 @@ class cAI : public cCharacter
 {
 	cSkinnedMesh*			m_pSkinnedMesh;				// 캐릭터 몸체
 
-	LPD3DXMESH				m_pBoundingSphereDetailMesh;
 	std::vector<ST_SPHERE>	m_vecBoundingSphereDetail;
 
 	cOBB*					m_pAIOBB;

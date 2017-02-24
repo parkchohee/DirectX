@@ -1,7 +1,6 @@
 #include "StdAfx.h"
 #include "cCamera.h"
 
-
 cCamera::cCamera(void)
 	: m_vEye(0, 1.5, 0)
 	, m_vLookAt(0, 1.5, 5)
@@ -12,9 +11,17 @@ cCamera::cCamera(void)
 	, m_vCamRotAngle(0, 0, 0)
 	, m_vEyeTrans(0,0,0)
 	, m_vLookAtTrans(0,0,0)
+	, AspectRatio((float)WINSIZEX / WINSIZEY)
+	, Near(0.1f)
+	, Far(100)
+	, FOV(D3DX_PI / 3)
+	, Ortho(false)
+	, OrthoSize(5.0f)
 {
 	m_ptPrevMouse.x = 0;
 	m_ptPrevMouse.y = 0;
+
+	D3DXMatrixIdentity(&m_matWorld);
 }
 
 
@@ -26,47 +33,23 @@ void cCamera::Setup( D3DXVECTOR3* pvTarget )
 {
 	m_pvTarget = pvTarget;
 
-	RECT rc;
-	GetClientRect(g_hWnd, &rc);
+	m_vDir = m_vLookAt - m_vEye;
+	D3DXVec3Normalize(&m_vDir, &m_vDir);
 
-	D3DXMATRIXA16 matProj;
+	//RECT rc;
+	//GetClientRect(g_hWnd, &rc);
+
+	//D3DXMATRIXA16 matProj;
 	D3DXMatrixPerspectiveFovLH(&matProj,
-		D3DX_PI / 4.0f,
-		rc.right / (float)rc.bottom,
-		1.0f, 
-		10000.0f);
+		FOV,
+		AspectRatio,
+		Near, 
+		Far);
 	g_pD3DDevice->SetTransform(D3DTS_PROJECTION, &matProj);
 }
 
 void cCamera::Update()
 {
-	/*if (g_pKeyManager->IsStayKeyDown(VK_UP))
-	{
-		m_vEyeTrans.y += 0.1f;
-		m_vLookAtTrans.y += 0.1f;
-	}
-	else if (g_pKeyManager->IsStayKeyDown(VK_DOWN))
-	{
-		m_vEyeTrans.y -= 0.1f;
-		m_vLookAtTrans.y -= 0.1f;
-	}
-
-	if (g_pKeyManager->IsStayKeyDown(VK_LEFT))
-	{
-		m_vEyeTrans.x -= 0.1f;
-		m_vLookAtTrans.x -= 0.1f;
-	}
-	else if (g_pKeyManager->IsStayKeyDown(VK_RIGHT))
-	{
-		m_vEyeTrans.x += 0.1f;
-		m_vLookAtTrans.x += 0.1f;
-	}*/
-
-	/*if (g_pKeyManager->IsStayKeyDown(VK_RETURN))
-	{
-		m_fShakePow = 0.3;
-	}
-*/
 	ShakeUpdate();
 
 	m_vEye = D3DXVECTOR3(0, 1.5, 0) + m_vEyeTrans;
@@ -78,7 +61,7 @@ void cCamera::Update()
 
 	matR = matRX * matRY;
 	D3DXVec3TransformCoord(&m_vLookAt, &m_vLookAt, &matR);
-
+	D3DXVec3TransformCoord(&m_vDir, &m_vDir, &matR);
 
 	if (m_pvTarget)
 	{
@@ -86,10 +69,76 @@ void cCamera::Update()
 		m_vLookAt = m_vLookAt + *m_pvTarget;
 	}
 
-	D3DXMATRIXA16 matView;
 	D3DXMatrixLookAtLH(&matView, &m_vEye, &m_vLookAt, &m_vUp);
 	
+
+
+	//투영행렬 
+	if (this->Ortho)
+	{
+		D3DXMatrixOrthoLH(
+			&matProj,
+			OrthoSize * this->AspectRatio,	//직교투영 가로 사이즈
+			OrthoSize,					//직교투영 세로 사이즈
+			this->Near,				//카메라 Near
+			this->Far				//카메라 Far
+		);
+	}
+	else
+	{
+		//D3DXMatrixPerspectiveFovLH 원근 투영행렬을 만든다.
+		D3DXMatrixPerspectiveFovLH(
+			&matProj,
+			this->FOV,
+			this->AspectRatio,
+			this->Near,
+			this->Far);
+	}
+
+	this->matViewProjection =
+		this->matView * this->matProj;
+
+}
+
+void cCamera::UpdateLightCam()
+{
+	//D3DXMatrixLookAtLH(&matView, &m_vEye, &m_vLookAt, &m_vUp);
+	D3DXMatrixInverse(
+		&matView,
+		NULL,
+		&m_matWorld);
+
+	//투영행렬 
+	if (this->Ortho)
+	{
+		D3DXMatrixOrthoLH(
+			&matProj,
+			OrthoSize * this->AspectRatio,	//직교투영 가로 사이즈
+			OrthoSize,					//직교투영 세로 사이즈
+			this->Near,				//카메라 Near
+			this->Far				//카메라 Far
+		);
+	}
+	else
+	{
+		//D3DXMatrixPerspectiveFovLH 원근 투영행렬을 만든다.
+		D3DXMatrixPerspectiveFovLH(
+			&matProj,
+			this->FOV,
+			this->AspectRatio,
+			this->Near,
+			this->Far);
+	}
+
+	this->matViewProjection =
+		this->matView * this->matProj;
+
+}
+
+void cCamera::UpdateToDevice()
+{
 	g_pD3DDevice->SetTransform(D3DTS_VIEW, &matView);
+	g_pD3DDevice->SetTransform(D3DTS_PROJECTION, &matProj);
 }
 
 void cCamera::ShakeUpdate()

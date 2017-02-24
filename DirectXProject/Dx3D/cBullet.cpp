@@ -51,7 +51,7 @@ void cBullet::Render()
 	if(m_fMoveDistance < 1)
 		Render_Particle(); /// : particle
 
-	if (m_pBoundingSphereMesh)
+	/*if (m_pBoundingSphereMesh)
 	{
 		D3DXMATRIXA16 matT;
 		D3DXMatrixTranslation(&matT,
@@ -62,7 +62,7 @@ void cBullet::Render()
 		g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 		m_pBoundingSphereMesh->DrawSubset(0);
 		g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
-	}
+	}*/
 }
 
 void cBullet::Setup_Particle()

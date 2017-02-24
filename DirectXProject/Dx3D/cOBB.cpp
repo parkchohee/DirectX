@@ -91,6 +91,8 @@ void cOBB::Update( D3DXMATRIXA16* pmatWorld )
 		&m_vOrgCenterPos,
 		&m_matWorldTM);
 
+	m_fRadius = D3DXVec3Length(&(m_vCenterPos - m_vAxisDir[0])) / 2;
+
 	SetVertex();
 }
 

@@ -110,10 +110,10 @@ void cAIController::Update(OUT D3DXVECTOR3 & vPlayer, OUT D3DXVECTOR3 & vDirecti
 				pStateMove->SetTarget(m_pTarget);
 				pStateMove->SetBuildings(m_pTarget->GetBuildings());
 
-				D3DXVECTOR3 vDir = m_pTarget->GetPosition() - vPlayer;
+				/*D3DXVECTOR3 vDir = m_pTarget->GetPosition() - vPlayer;
 				D3DXVec3Normalize(&vDir, &vDir);
-
-				pStateMove->SetTo(vDir * 5 + vPlayer);	// vplayer의 위치에서 8만큼 떨어진 곳으로 셋팅해야함.
+*/
+				pStateMove->SetTo(/*vDir * 5 + */vPlayer);	// vplayer의 위치에서 8만큼 떨어진 곳으로 셋팅해야함.
 				pStateMove->Start();
 				pStateMove->SetDelegate(pStateMove);
 
@@ -123,6 +123,24 @@ void cAIController::Update(OUT D3DXVECTOR3 & vPlayer, OUT D3DXVECTOR3 & vDirecti
 			}
 		}
 		else
+		{
+			
+			cStateMove* pStateMove = new cStateMove;
+			pStateMove->SetFrom(m_pTarget->GetPosition());
+			pStateMove->SetTarget(m_pTarget);
+			pStateMove->SetBuildings(m_pTarget->GetBuildings());
+			pStateMove->Start();
+			pStateMove->SetDelegate(pStateMove);
+
+			m_pTarget->SetState(pStateMove);
+			m_pTarget->GetMesh()->Play("Walk");
+			SAFE_RELEASE(pStateMove);
+			
+		}
+	}
+	else
+	{
+		if (m_pTarget->GetState()->GetStateType() == STATE_ATTACK)
 		{
 			cStateMove* pStateMove = new cStateMove;
 			pStateMove->SetFrom(m_pTarget->GetPosition());
@@ -134,7 +152,6 @@ void cAIController::Update(OUT D3DXVECTOR3 & vPlayer, OUT D3DXVECTOR3 & vDirecti
 			m_pTarget->SetState(pStateMove);
 			m_pTarget->GetMesh()->Play("Walk");
 			SAFE_RELEASE(pStateMove);
-
 		}
 	}
 	//	/*if (m_pTarget->GetState()->GetStateType() == STATE_ATTACK)
