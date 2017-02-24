@@ -43,7 +43,7 @@ void cAIController::Setup(float moveSpeed, cCharacter* pCharacter)
 		pStateMove->SetDelegate(pStateMove);
 
 		m_pTarget->SetState(pStateMove);
-		m_pTarget->GetMesh()->Play("Walk");
+		m_pTarget->GetMesh()->Play("Walk", 0.3f);
 		SAFE_RELEASE(pStateMove);
 
 		m_fAttackRange = m_pTarget->GetGun()->GetAttackRange();
@@ -85,6 +85,7 @@ void cAIController::Update(OUT D3DXVECTOR3 & vPlayer, OUT D3DXVECTOR3 & vDirecti
 				
 				m_fDeltaTime = 0.f;
 
+				m_pTarget->GetMesh()->Play("StandIdle", 0.3f);
 				// 공격 state 만들어줌
 				cStateAttack* pStateAttack = new cStateAttack;
 				pStateAttack->SetTarget(m_pTarget);
@@ -118,7 +119,7 @@ void cAIController::Update(OUT D3DXVECTOR3 & vPlayer, OUT D3DXVECTOR3 & vDirecti
 				pStateMove->SetDelegate(pStateMove);
 
 				m_pTarget->SetState(pStateMove);
-				m_pTarget->GetMesh()->Play("Walk");
+				m_pTarget->GetMesh()->Play("Walk", 0.3f);
 				SAFE_RELEASE(pStateMove);
 			}
 		}
@@ -133,7 +134,7 @@ void cAIController::Update(OUT D3DXVECTOR3 & vPlayer, OUT D3DXVECTOR3 & vDirecti
 			pStateMove->SetDelegate(pStateMove);
 
 			m_pTarget->SetState(pStateMove);
-			m_pTarget->GetMesh()->Play("Walk");
+			m_pTarget->GetMesh()->Play("Walk", 0.3f);
 			SAFE_RELEASE(pStateMove);
 			
 		}

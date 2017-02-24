@@ -56,21 +56,21 @@ void cPlayer::Setup()
 	
 	cGun* pGun1 = new cGun;
 	pGun1->Setup(&m_vPosition, "Gun/shotgun/", "shotgun.X");
-	pGun1->SetAttackPower(10.f);
+	pGun1->SetAttackPower(1.f);
 	pGun1->SetMagazine(8.f);
 	pGun1->SetCurrentBullet(8.f);
 	m_vecGun[0] = pGun1;
 
 	cGun* pGun2 = new cGun;
 	pGun2->Setup(&m_vPosition, "Gun/winc/", "winchester.X");
-	pGun2->SetAttackPower(10.f);
+	pGun2->SetAttackPower(1.f);
 	pGun2->SetMagazine(10.f);
 	pGun2->SetCurrentBullet(10.f);
 	m_vecGun[1] = pGun2;
 	
 	cGun* pGun3 = new cGun;
 	pGun3->Setup(&m_vPosition, "Gun/9mm/", "9mm.X");
-	pGun3->SetAttackPower(10.f);
+	pGun3->SetAttackPower(1.f);
 	pGun3->SetMagazine(7.f);
 	pGun3->SetCurrentBullet(7.f);
 	m_vecGun[2] = pGun3;
@@ -430,4 +430,12 @@ void cPlayer::UIRender()
 
 	if (m_pUIPlayerInfoRoot)
 		m_pUIPlayerInfoRoot->Render(m_pSprite);
+}
+
+D3DXVECTOR3 cPlayer::GetSphereCenter()
+{
+	m_stSphere.vCenter = m_vPosition;
+	m_stSphere.vCenter.y = 1;
+
+	return m_stSphere.vCenter;
 }

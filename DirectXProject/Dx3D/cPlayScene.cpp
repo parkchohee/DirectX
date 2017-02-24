@@ -38,6 +38,7 @@ cPlayScene::cPlayScene()
 	, m_pQuitGameRoot(NULL)
 	, m_FireCount(0)
 	, m_HitCount(0)
+	, m_pQuestInfoRoot(NULL)
 {
 }
 
@@ -64,8 +65,8 @@ void cPlayScene::Setup()
 	m_pPlayer->SetBuildings(m_pvBuildingGroup[0]);
 	m_pPlayer->SetHeightMap(m_pHeightMap);
 	m_pPlayer->SetTextMap(m_pTextMap);
-	m_pPlayer->SetMaxHp(1000);
-	m_pPlayer->SetCurrentHp(1000);
+	m_pPlayer->SetMaxHp(30);
+	m_pPlayer->SetCurrentHp(30);
 
 	for (int i = 0; i < 10; i++)
 	{
@@ -73,8 +74,10 @@ void cPlayScene::Setup()
 		pAI->SetBuildings(m_pvBuildingGroup[0]);
 		pAI->SetPosition(D3DXVECTOR3(-20, 0, 20));
 		pAI->Setup("AI/", "soldier.X");
-		pAI->SetHeightMap(m_pHeightMap);
+	/*	pAI->SetHeightMap(m_pHeightMap);
 		pAI->SetTextMap(m_pTextMap);
+		pAI->SetMaxHp(1);
+		pAI->SetCurrentHp(1);*/
 		m_pvAI.push_back(pAI);
 	}
 
@@ -84,8 +87,10 @@ void cPlayScene::Setup()
 		pAI->SetBuildings(m_pvBuildingGroup[1]);
 		pAI->SetPosition(D3DXVECTOR3(20, 0, 20));
 		pAI->Setup("AI/", "soldier.X");
-		pAI->SetHeightMap(m_pHeightMap);
+	/*	pAI->SetHeightMap(m_pHeightMap);
 		pAI->SetTextMap(m_pTextMap);
+		pAI->SetMaxHp(1);
+		pAI->SetCurrentHp(1);*/
 		m_pvAI.push_back(pAI);
 	}
 
@@ -95,8 +100,10 @@ void cPlayScene::Setup()
 		pAI->SetBuildings(m_pvBuildingGroup[2]);
 		pAI->SetPosition(D3DXVECTOR3(-20, 0, -20));
 		pAI->Setup("AI/", "soldier.X");
-		pAI->SetHeightMap(m_pHeightMap);
+	/*	pAI->SetHeightMap(m_pHeightMap);
 		pAI->SetTextMap(m_pTextMap);
+		pAI->SetMaxHp(1);
+		pAI->SetCurrentHp(1);*/
 		m_pvAI.push_back(pAI);
 	}
 
@@ -106,9 +113,19 @@ void cPlayScene::Setup()
 		pAI->SetBuildings(m_pvBuildingGroup[3]);
 		pAI->SetPosition(D3DXVECTOR3(20, 0, -20));
 		pAI->Setup("AI/", "soldier.X");
-		pAI->SetHeightMap(m_pHeightMap);
+	/*	pAI->SetHeightMap(m_pHeightMap);
 		pAI->SetTextMap(m_pTextMap);
+		pAI->SetMaxHp(1);
+		pAI->SetCurrentHp(1);*/
 		m_pvAI.push_back(pAI);
+	}
+
+	for (int i = 0; i < m_pvAI.size(); i++)
+	{
+		m_pvAI[i]->SetHeightMap(m_pHeightMap);
+		m_pvAI[i]->SetTextMap(m_pTextMap);
+		m_pvAI[i]->SetMaxHp(1);
+		m_pvAI[i]->SetCurrentHp(1); 
 	}
 
 	m_pCamera = new cCamera;
@@ -136,6 +153,9 @@ void cPlayScene::Setup()
 	}
 
 	QuitGameUISetting();
+
+	m_nAIMaxSize = m_pvAI.size();
+	MissionUISetting();
 }
 
 void cPlayScene::Destroy()
@@ -143,6 +163,9 @@ void cPlayScene::Destroy()
 	m_endTime = GetTickCount();
 	SaveAccuracyRate();
 	SavePlayTime();
+
+	if (m_pQuestInfoRoot)
+		m_pQuestInfoRoot->Destroy();
 
 	if (m_pQuitGameRoot)
 		m_pQuitGameRoot->Destroy();
@@ -192,6 +215,18 @@ void cPlayScene::Update()
 		return;
 	}
 
+	if (m_eState != GAME_CLEAR)
+	{
+		if (m_pvAI.size() <= 0)
+		{
+			m_eState = GAME_CLEAR;
+
+			m_pEvent = new cEvent;
+			m_pEvent->Setup("PlayerUI/gameClear.png",
+				"PlayerUI/gameClear.png");
+		}
+	}
+
 	if (g_pKeyManager->IsOnceKeyDown(VK_ESCAPE))
 	{
 		if (m_eState == PAUSE_STATE)
@@ -232,7 +267,7 @@ void cPlayScene::Update()
 		{
 			SAFE_RELEASE(m_pEvent);
 
-			if (m_eState == GAME_OVER)
+			if (m_eState == GAME_OVER || m_eState == GAME_CLEAR)
 			{
 				g_pSceneManager->ChangeSceneWithLoading("firstScene", "loadingScene");
 			}
@@ -251,6 +286,7 @@ void cPlayScene::Update()
 		{
 			PlayerBulletCollision();
 			AIBulletCollision();
+			MissionUIUpdate();
 		}
 		else
 		{
@@ -322,6 +358,9 @@ void cPlayScene::Render()
 	{
 		if (m_pPlayer)
 			m_pPlayer->Render();
+
+		if (m_pQuestInfoRoot)
+			m_pQuestInfoRoot->Render(m_pSprite);
 	}
 	
 	if (m_eState == AIRDROP_STATE)
@@ -410,7 +449,7 @@ void cPlayScene::PlayerBulletCollision()
 
 void cPlayScene::AIBulletCollision()
 {
-	D3DXVECTOR3 vPlayerPos = m_pPlayer->GetPosition();
+	D3DXVECTOR3 vPlayerPos = m_pPlayer->GetSphereCenter();
 
 	for (size_t aiIndex = 0; aiIndex < m_pvAI.size(); aiIndex++)
 	{
@@ -521,8 +560,12 @@ void cPlayScene::LevUpCheck()
 	{
 		m_pPlayer->GetGun()->SetCurrentLv(m_pPlayer->GetGun()->GetCurrentLv() + 1); // 현재 레벨 증가
 		m_pPlayer->GetGun()->SetCurrentExp(0); // 현재 경험치 초기화
-		m_pPlayer->GetGun()->SetMaxExp(m_pPlayer->GetGun()->GetMaxExp() + 2); // 필요경험치 증가
+		m_pPlayer->GetGun()->SetMaxExp(m_pPlayer->GetGun()->GetMaxExp() + 3); // 필요경험치 증가
 
+		if (m_pPlayer->GetCurrentHp() + 5 <= m_pPlayer->GetMaxHp())
+			m_pPlayer->SetCurrentHp(m_pPlayer->GetCurrentHp() + 5);
+		else
+			m_pPlayer->SetCurrentHp(m_pPlayer->GetMaxHp());
 
 		switch (m_pPlayer->GetGun()->GetCurrentLv())
 		{
@@ -530,12 +573,13 @@ void cPlayScene::LevUpCheck()
 			m_pEvent = new cEvent;
 			m_pEvent->Setup("PlayerUI/secondclassshooter.png",
 				"PlayerUI/secondclassshooter.png");
-			m_pPlayer->GetGun()->SetAttackPower(m_pPlayer->GetGun()->GetAttackPower() + 5);
+			m_pPlayer->GetGun()->SetAttackPower(m_pPlayer->GetGun()->GetAttackPower() + 1);
 			break;
 		case 2:
 			m_pEvent = new cEvent;
 			m_pEvent->Setup("PlayerUI/firstclassshooter.png",
 				"PlayerUI/firstclassshooter.png");
+			
 			//m_pPlayer->SetMoveSpeed(m_pPlayer->GetMoveSpeed() + 0.05f);
 			break;
 		case 3:
@@ -575,6 +619,61 @@ void cPlayScene::QuitGameUISetting()
 	m_pQuitGameRoot->AddChild(QuitGameWindow);
 	m_pQuitGameRoot->AddChild(YesButton);
 	m_pQuitGameRoot->AddChild(NoButton);
+}
+
+void cPlayScene::MissionUISetting()
+{
+	RECT rc;
+	GetClientRect(g_hWnd, &rc);
+
+	m_pQuestInfoRoot = new cUIObject;
+	m_pQuestInfoRoot->SetPosition(0, 0);
+
+	cUIImageView* board = new cUIImageView;
+	board->SetTexture("PlayerUI/board.png");
+	board->SetPosition(rc.right - 150, rc.top + 120);
+	m_pQuestInfoRoot->AddChild(board);
+
+	cUIImageView* m_pMaxEnemyNumFirstPos = new cUIImageView;
+	m_pMaxEnemyNumFirstPos->SetPosition(rc.right - 75, rc.top + 138);
+	std::string filePath;
+	filePath = "PlayerUI/" + std::to_string(m_nAIMaxSize / 10) + ".png";
+	m_pMaxEnemyNumFirstPos->SetTexture((char*)filePath.c_str());
+	m_pQuestInfoRoot->AddChild(m_pMaxEnemyNumFirstPos);
+
+	cUIImageView* m_pMaxEnemyNumSecondPos = new cUIImageView;
+	m_pMaxEnemyNumSecondPos->SetPosition(rc.right - 55, rc.top + 138);
+	filePath = "PlayerUI/" + std::to_string(m_nAIMaxSize % 10) + ".png";
+	m_pMaxEnemyNumSecondPos->SetTexture((char*)filePath.c_str());
+	m_pQuestInfoRoot->AddChild(m_pMaxEnemyNumSecondPos);
+
+	m_pCurEnemyNumFirstPos = new cUIImageView;
+	m_pCurEnemyNumFirstPos->SetPosition(rc.right - 145, rc.top + 138);
+	m_pQuestInfoRoot->AddChild(m_pCurEnemyNumFirstPos);
+
+	m_pCurEnemyNumSecondPos = new cUIImageView;
+	m_pCurEnemyNumSecondPos->SetPosition(rc.right - 125, rc.top + 138);
+	m_pQuestInfoRoot->AddChild(m_pCurEnemyNumSecondPos);
+}
+
+void cPlayScene::MissionUIUpdate()
+{
+	if (m_pQuestInfoRoot)
+		m_pQuestInfoRoot->Update();
+
+	std::string filePath;
+	int num;
+	
+	if (m_pvAI.size() / 10 == 0)
+		num = -1;
+	else
+		num = m_pvAI.size() / 10;
+
+	filePath = "PlayerUI/" + std::to_string(num) + ".png";
+	m_pCurEnemyNumFirstPos->SetTexture((char*)filePath.c_str());
+	
+	filePath = "PlayerUI/" + std::to_string(m_pvAI.size() % 10) + ".png";
+	m_pCurEnemyNumSecondPos->SetTexture((char*)filePath.c_str());
 }
 
 void cPlayScene::OnClick(cUIButton * pSender)

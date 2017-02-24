@@ -13,12 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="소스 파일\Action">
-      <UniqueIdentifier>{01920b74-77b7-4c2b-bb3d-9dce268b774f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="헤더 파일\Action">
-      <UniqueIdentifier>{b82b5174-5e02-4a01-b7ea-b505a606471a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="소스 파일\Controller">
       <UniqueIdentifier>{0423543a-1e9c-452f-a82f-5c4fe9743044}</UniqueIdentifier>
     </Filter>
@@ -137,24 +131,6 @@
     </ClInclude>
     <ClInclude Include="cFontManager.h">
       <Filter>Setting&amp;Manager\header\Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="cAction.h">
-      <Filter>헤더 파일\Action</Filter>
-    </ClInclude>
-    <ClInclude Include="cActionBezier.h">
-      <Filter>헤더 파일\Action</Filter>
-    </ClInclude>
-    <ClInclude Include="cActionJump.h">
-      <Filter>헤더 파일\Action</Filter>
-    </ClInclude>
-    <ClInclude Include="cActionMove.h">
-      <Filter>헤더 파일\Action</Filter>
-    </ClInclude>
-    <ClInclude Include="cActionRepeat.h">
-      <Filter>헤더 파일\Action</Filter>
-    </ClInclude>
-    <ClInclude Include="cActionSeq.h">
-      <Filter>헤더 파일\Action</Filter>
     </ClInclude>
     <ClInclude Include="cUITextView.h">
       <Filter>Setting&amp;Manager\header\UI</Filter>
@@ -355,24 +331,6 @@
     </ClCompile>
     <ClCompile Include="cTimeManager.cpp">
       <Filter>Setting&amp;Manager\cpp\Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="cAction.cpp">
-      <Filter>소스 파일\Action</Filter>
-    </ClCompile>
-    <ClCompile Include="cActionBezier.cpp">
-      <Filter>소스 파일\Action</Filter>
-    </ClCompile>
-    <ClCompile Include="cActionJump.cpp">
-      <Filter>소스 파일\Action</Filter>
-    </ClCompile>
-    <ClCompile Include="cActionMove.cpp">
-      <Filter>소스 파일\Action</Filter>
-    </ClCompile>
-    <ClCompile Include="cActionRepeat.cpp">
-      <Filter>소스 파일\Action</Filter>
-    </ClCompile>
-    <ClCompile Include="cActionSeq.cpp">
-      <Filter>소스 파일\Action</Filter>
     </ClCompile>
     <ClCompile Include="cUIButton.cpp">
       <Filter>Setting&amp;Manager\cpp\UI</Filter>
