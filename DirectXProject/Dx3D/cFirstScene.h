@@ -25,7 +25,8 @@ enum MAIN_MENU_BUTTON {
 	THIRD_MEDAL_BTN,
 	FOURTH_MEDAL_BTN,
 	FIFTH_MEDAL_BTN,
-	SIXTH_MEDAL_BTN
+	SIXTH_MEDAL_BTN,
+	FAKE_BTN
 };
 
 class cFirstScene : public cScene
@@ -60,6 +61,10 @@ class cFirstScene : public cScene
 
 	cUIImageView*       m_pSoldierHonerText;
 	cUIImageView*       m_pTakeConditionText;
+
+	cUIButton*          m_pBtnAudio;
+	cUIButton*          m_pBtnMedal;
+	cUIButton*          m_pBtnBack;
 
 public:
 	cFirstScene();

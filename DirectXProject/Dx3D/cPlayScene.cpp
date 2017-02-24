@@ -64,8 +64,8 @@ void cPlayScene::Setup()
 	m_pPlayer->SetBuildings(m_pvBuildingGroup[0]);
 	m_pPlayer->SetHeightMap(m_pHeightMap);
 	m_pPlayer->SetTextMap(m_pTextMap);
-	m_pPlayer->SetMaxHp(1000);
-	m_pPlayer->SetCurrentHp(1000);
+	m_pPlayer->SetMaxHp(30);
+	m_pPlayer->SetCurrentHp(30);
 
 	for (int i = 0; i < 10; i++)
 	{
@@ -73,8 +73,10 @@ void cPlayScene::Setup()
 		pAI->SetBuildings(m_pvBuildingGroup[0]);
 		pAI->SetPosition(D3DXVECTOR3(-20, 0, 20));
 		pAI->Setup("AI/", "soldier.X");
-		pAI->SetHeightMap(m_pHeightMap);
+	/*	pAI->SetHeightMap(m_pHeightMap);
 		pAI->SetTextMap(m_pTextMap);
+		pAI->SetMaxHp(1);
+		pAI->SetCurrentHp(1);*/
 		m_pvAI.push_back(pAI);
 	}
 
@@ -84,8 +86,10 @@ void cPlayScene::Setup()
 		pAI->SetBuildings(m_pvBuildingGroup[1]);
 		pAI->SetPosition(D3DXVECTOR3(20, 0, 20));
 		pAI->Setup("AI/", "soldier.X");
-		pAI->SetHeightMap(m_pHeightMap);
+	/*	pAI->SetHeightMap(m_pHeightMap);
 		pAI->SetTextMap(m_pTextMap);
+		pAI->SetMaxHp(1);
+		pAI->SetCurrentHp(1);*/
 		m_pvAI.push_back(pAI);
 	}
 
@@ -95,8 +99,10 @@ void cPlayScene::Setup()
 		pAI->SetBuildings(m_pvBuildingGroup[2]);
 		pAI->SetPosition(D3DXVECTOR3(-20, 0, -20));
 		pAI->Setup("AI/", "soldier.X");
-		pAI->SetHeightMap(m_pHeightMap);
+	/*	pAI->SetHeightMap(m_pHeightMap);
 		pAI->SetTextMap(m_pTextMap);
+		pAI->SetMaxHp(1);
+		pAI->SetCurrentHp(1);*/
 		m_pvAI.push_back(pAI);
 	}
 
@@ -106,9 +112,19 @@ void cPlayScene::Setup()
 		pAI->SetBuildings(m_pvBuildingGroup[3]);
 		pAI->SetPosition(D3DXVECTOR3(20, 0, -20));
 		pAI->Setup("AI/", "soldier.X");
-		pAI->SetHeightMap(m_pHeightMap);
+	/*	pAI->SetHeightMap(m_pHeightMap);
 		pAI->SetTextMap(m_pTextMap);
+		pAI->SetMaxHp(1);
+		pAI->SetCurrentHp(1);*/
 		m_pvAI.push_back(pAI);
+	}
+
+	for (int i = 0; i < m_pvAI.size(); i++)
+	{
+		m_pvAI[i]->SetHeightMap(m_pHeightMap);
+		m_pvAI[i]->SetTextMap(m_pTextMap);
+		m_pvAI[i]->SetMaxHp(1);
+		m_pvAI[i]->SetCurrentHp(1); 
 	}
 
 	m_pCamera = new cCamera;
@@ -192,6 +208,18 @@ void cPlayScene::Update()
 		return;
 	}
 
+	if (m_eState != GAME_CLEAR)
+	{
+		if (m_pvAI.size() <= 0)
+		{
+			m_eState = GAME_CLEAR;
+
+			m_pEvent = new cEvent;
+			m_pEvent->Setup("PlayerUI/gameClear.png",
+				"PlayerUI/gameClear.png");
+		}
+	}
+
 	if (g_pKeyManager->IsOnceKeyDown(VK_ESCAPE))
 	{
 		if (m_eState == PAUSE_STATE)
@@ -232,7 +260,7 @@ void cPlayScene::Update()
 		{
 			SAFE_RELEASE(m_pEvent);
 
-			if (m_eState == GAME_OVER)
+			if (m_eState == GAME_OVER || m_eState == GAME_CLEAR)
 			{
 				g_pSceneManager->ChangeSceneWithLoading("firstScene", "loadingScene");
 			}
@@ -410,7 +438,7 @@ void cPlayScene::PlayerBulletCollision()
 
 void cPlayScene::AIBulletCollision()
 {
-	D3DXVECTOR3 vPlayerPos = m_pPlayer->GetPosition();
+	D3DXVECTOR3 vPlayerPos = m_pPlayer->GetSphereCenter();
 
 	for (size_t aiIndex = 0; aiIndex < m_pvAI.size(); aiIndex++)
 	{
@@ -521,8 +549,12 @@ void cPlayScene::LevUpCheck()
 	{
 		m_pPlayer->GetGun()->SetCurrentLv(m_pPlayer->GetGun()->GetCurrentLv() + 1); // 현재 레벨 증가
 		m_pPlayer->GetGun()->SetCurrentExp(0); // 현재 경험치 초기화
-		m_pPlayer->GetGun()->SetMaxExp(m_pPlayer->GetGun()->GetMaxExp() + 2); // 필요경험치 증가
+		m_pPlayer->GetGun()->SetMaxExp(m_pPlayer->GetGun()->GetMaxExp() + 3); // 필요경험치 증가
 
+		if (m_pPlayer->GetCurrentHp() + 5 <= m_pPlayer->GetMaxHp())
+			m_pPlayer->SetCurrentHp(m_pPlayer->GetCurrentHp() + 5);
+		else
+			m_pPlayer->SetCurrentHp(m_pPlayer->GetMaxHp());
 
 		switch (m_pPlayer->GetGun()->GetCurrentLv())
 		{
@@ -530,12 +562,13 @@ void cPlayScene::LevUpCheck()
 			m_pEvent = new cEvent;
 			m_pEvent->Setup("PlayerUI/secondclassshooter.png",
 				"PlayerUI/secondclassshooter.png");
-			m_pPlayer->GetGun()->SetAttackPower(m_pPlayer->GetGun()->GetAttackPower() + 5);
+			m_pPlayer->GetGun()->SetAttackPower(m_pPlayer->GetGun()->GetAttackPower() + 1);
 			break;
 		case 2:
 			m_pEvent = new cEvent;
 			m_pEvent->Setup("PlayerUI/firstclassshooter.png",
 				"PlayerUI/firstclassshooter.png");
+			
 			//m_pPlayer->SetMoveSpeed(m_pPlayer->GetMoveSpeed() + 0.05f);
 			break;
 		case 3:

@@ -95,6 +95,13 @@ void cFirstScene::Render()
 	case OPTION_MENU:
 		if (m_pOptionUIRoot)
 			m_pOptionUIRoot->Render(m_pSprite);
+		m_pBtnAudio->SetTexture("MainMenuUI/audio_black.png", "MainMenuUI/audio_white.png", "MainMenuUI/audio_white.png");
+		m_pBtnMedal->SetTexture("MainMenuUI/medal_black.png", "MainMenuUI/medal_white.png", "MainMenuUI/medal_white.png");
+		m_pBtnBack->SetTexture("MainMenuUI/back_black.png", "MainMenuUI/back_white.png", "MainMenuUI/back_white.png");
+		m_pBtnAudio->SetTag(AUDIO_BTN);
+		m_pBtnMedal->SetTag(MEDAL_BTN);
+		m_pBtnBack->SetTag(BACK_BTN);
+
 		break;
 	case SOUND_MENU:
 		if (m_pOptionUIRoot)
@@ -107,6 +114,12 @@ void cFirstScene::Render()
 			m_pOptionUIRoot->Render(m_pSprite);
 		if (m_pMedalUIRoot)
 			m_pMedalUIRoot->Render(m_pSprite);
+		m_pBtnAudio->SetTexture("MainMenuUI/audio_black.png", "MainMenuUI/audio_black.png", "MainMenuUI/audio_black.png");
+		m_pBtnMedal->SetTexture("MainMenuUI/medal_black.png", "MainMenuUI/medal_black.png", "MainMenuUI/medal_black.png");
+		m_pBtnBack->SetTexture("MainMenuUI/back_black.png", "MainMenuUI/back_black.png", "MainMenuUI/back_black.png");
+		m_pBtnAudio->SetTag(FAKE_BTN);
+		m_pBtnMedal->SetTag(FAKE_BTN);
+		m_pBtnBack->SetTag(FAKE_BTN);
 		break;
 	default:
 		break;
@@ -145,10 +158,12 @@ void cFirstScene::OnClick(cUIButton * pSender)
 		exit(0);
 		break;
 	case AUDIO_BTN:
+
 		if (m_stMenu == SOUND_MENU)
 			m_stMenu = OPTION_MENU;
 		else
 			m_stMenu = SOUND_MENU;
+
 		break;
 	case MEDAL_BTN:
 		m_stMenu = MEDAL_MENU;
@@ -185,8 +200,8 @@ void cFirstScene::OnClick(cUIButton * pSender)
 
 
 
-
-	g_pSoundManager->play("MenuSelect", 0.5f * g_pSoundManager->GetSoundVol());
+	if (pSender->GetTag() != FAKE_BTN)
+		g_pSoundManager->play("MenuSelect", 0.5f * g_pSoundManager->GetSoundVol());
 }
 
 void cFirstScene::MainMenuUISetting()
@@ -247,29 +262,33 @@ void cFirstScene::OptionMenuUISetting()
 	OptionImg->SetTexture("MainMenuUI/option_white.png");
 	OptionImg->SetPosition(rc.left + OptionImg->GetSize().nWidth / 2 + 30, rc.top + 50);
 
-	cUIButton* BtnAudio = new cUIButton;
-	BtnAudio->SetTexture("MainMenuUI/audio_black.png", "MainMenuUI/audio_white.png", "MainMenuUI/audio_white.png");
-	BtnAudio->SetTag(AUDIO_BTN);
-	BtnAudio->SetPosition(rc.left + 30, 100);
-	BtnAudio->SetDelegate(this);
+	m_pBtnAudio = new cUIButton;
+	m_pBtnAudio->SetTexture("MainMenuUI/audio_black.png", "MainMenuUI/audio_white.png", "MainMenuUI/audio_white.png");
+	m_pBtnAudio->SetTag(AUDIO_BTN);
+	m_pBtnAudio->SetPosition(rc.left + 30, 100);
+	m_pBtnAudio->SetDelegate(this);
 
-	cUIButton* BtnMedal = new cUIButton;
-	BtnMedal->SetTexture("MainMenuUI/medal_black.png", "MainMenuUI/medal_white.png", "MainMenuUI/medal_white.png");
-	BtnMedal->SetTag(MEDAL_BTN);
-	BtnMedal->SetPosition(rc.left + 30, 150);
-	BtnMedal->SetDelegate(this);
+	m_pBtnMedal = new cUIButton;
+	m_pBtnMedal->SetTexture("MainMenuUI/medal_black.png", "MainMenuUI/medal_white.png", "MainMenuUI/medal_white.png");
+	m_pBtnMedal->SetTag(MEDAL_BTN);
+	m_pBtnMedal->SetPosition(rc.left + 30, 150);
+	m_pBtnMedal->SetDelegate(this);
 
-	cUIButton* BtnBack = new cUIButton;
-	BtnBack->SetTexture("MainMenuUI/back_black.png", "MainMenuUI/back_white.png", "MainMenuUI/back_white.png");
-	BtnBack->SetTag(BACK_BTN);
-	BtnBack->SetPosition(rc.left + 30, 200);
-	BtnBack->SetDelegate(this);
+	m_pBtnBack = new cUIButton;
+	m_pBtnBack->SetTexture("MainMenuUI/back_black.png", "MainMenuUI/back_white.png", "MainMenuUI/back_white.png");
+	m_pBtnBack->SetTag(BACK_BTN);
+	m_pBtnBack->SetPosition(rc.left + 30, 200);
+	m_pBtnBack->SetDelegate(this);
+
+
 
 	m_pOptionUIRoot->AddChild(OptionBackground);
 	m_pOptionUIRoot->AddChild(OptionImg);
-	m_pOptionUIRoot->AddChild(BtnAudio);
-	m_pOptionUIRoot->AddChild(BtnMedal);
-	m_pOptionUIRoot->AddChild(BtnBack);
+	m_pOptionUIRoot->AddChild(m_pBtnAudio);
+	m_pOptionUIRoot->AddChild(m_pBtnMedal);
+	m_pOptionUIRoot->AddChild(m_pBtnBack);
+
+
 
 }
 

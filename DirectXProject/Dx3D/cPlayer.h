@@ -80,5 +80,7 @@ public:
 
 	void UIUpdate(float angle);
 	void UIRender();
+
+	D3DXVECTOR3 GetSphereCenter();
 };
 

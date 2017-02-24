@@ -230,6 +230,8 @@ void cSkinnedMesh::Play(std::string animName, float crossFadeTime)
 		m_fCrossFadeTime = crossFadeTime;
 		m_fLeftCrossFadeTime = crossFadeTime;
 
+		m_fPassedTime = 0.f;
+
 		this->SetAnimation(find->second);
 	}
 }
