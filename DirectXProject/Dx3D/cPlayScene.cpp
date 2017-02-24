@@ -38,6 +38,7 @@ cPlayScene::cPlayScene()
 	, m_pQuitGameRoot(NULL)
 	, m_FireCount(0)
 	, m_HitCount(0)
+	, m_pQuestInfoRoot(NULL)
 {
 }
 
@@ -152,6 +153,9 @@ void cPlayScene::Setup()
 	}
 
 	QuitGameUISetting();
+
+	m_nAIMaxSize = m_pvAI.size();
+	MissionUISetting();
 }
 
 void cPlayScene::Destroy()
@@ -159,6 +163,9 @@ void cPlayScene::Destroy()
 	m_endTime = GetTickCount();
 	SaveAccuracyRate();
 	SavePlayTime();
+
+	if (m_pQuestInfoRoot)
+		m_pQuestInfoRoot->Destroy();
 
 	if (m_pQuitGameRoot)
 		m_pQuitGameRoot->Destroy();
@@ -279,6 +286,7 @@ void cPlayScene::Update()
 		{
 			PlayerBulletCollision();
 			AIBulletCollision();
+			MissionUIUpdate();
 		}
 		else
 		{
@@ -350,6 +358,9 @@ void cPlayScene::Render()
 	{
 		if (m_pPlayer)
 			m_pPlayer->Render();
+
+		if (m_pQuestInfoRoot)
+			m_pQuestInfoRoot->Render(m_pSprite);
 	}
 	
 	if (m_eState == AIRDROP_STATE)
@@ -608,6 +619,61 @@ void cPlayScene::QuitGameUISetting()
 	m_pQuitGameRoot->AddChild(QuitGameWindow);
 	m_pQuitGameRoot->AddChild(YesButton);
 	m_pQuitGameRoot->AddChild(NoButton);
+}
+
+void cPlayScene::MissionUISetting()
+{
+	RECT rc;
+	GetClientRect(g_hWnd, &rc);
+
+	m_pQuestInfoRoot = new cUIObject;
+	m_pQuestInfoRoot->SetPosition(0, 0);
+
+	cUIImageView* board = new cUIImageView;
+	board->SetTexture("PlayerUI/board.png");
+	board->SetPosition(rc.right - 150, rc.top + 120);
+	m_pQuestInfoRoot->AddChild(board);
+
+	cUIImageView* m_pMaxEnemyNumFirstPos = new cUIImageView;
+	m_pMaxEnemyNumFirstPos->SetPosition(rc.right - 75, rc.top + 138);
+	std::string filePath;
+	filePath = "PlayerUI/" + std::to_string(m_nAIMaxSize / 10) + ".png";
+	m_pMaxEnemyNumFirstPos->SetTexture((char*)filePath.c_str());
+	m_pQuestInfoRoot->AddChild(m_pMaxEnemyNumFirstPos);
+
+	cUIImageView* m_pMaxEnemyNumSecondPos = new cUIImageView;
+	m_pMaxEnemyNumSecondPos->SetPosition(rc.right - 55, rc.top + 138);
+	filePath = "PlayerUI/" + std::to_string(m_nAIMaxSize % 10) + ".png";
+	m_pMaxEnemyNumSecondPos->SetTexture((char*)filePath.c_str());
+	m_pQuestInfoRoot->AddChild(m_pMaxEnemyNumSecondPos);
+
+	m_pCurEnemyNumFirstPos = new cUIImageView;
+	m_pCurEnemyNumFirstPos->SetPosition(rc.right - 145, rc.top + 138);
+	m_pQuestInfoRoot->AddChild(m_pCurEnemyNumFirstPos);
+
+	m_pCurEnemyNumSecondPos = new cUIImageView;
+	m_pCurEnemyNumSecondPos->SetPosition(rc.right - 125, rc.top + 138);
+	m_pQuestInfoRoot->AddChild(m_pCurEnemyNumSecondPos);
+}
+
+void cPlayScene::MissionUIUpdate()
+{
+	if (m_pQuestInfoRoot)
+		m_pQuestInfoRoot->Update();
+
+	std::string filePath;
+	int num;
+	
+	if (m_pvAI.size() / 10 == 0)
+		num = -1;
+	else
+		num = m_pvAI.size() / 10;
+
+	filePath = "PlayerUI/" + std::to_string(num) + ".png";
+	m_pCurEnemyNumFirstPos->SetTexture((char*)filePath.c_str());
+	
+	filePath = "PlayerUI/" + std::to_string(m_pvAI.size() % 10) + ".png";
+	m_pCurEnemyNumSecondPos->SetTexture((char*)filePath.c_str());
 }
 
 void cPlayScene::OnClick(cUIButton * pSender)

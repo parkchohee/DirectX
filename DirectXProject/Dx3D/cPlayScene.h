@@ -65,6 +65,11 @@ class cPlayScene
 	PLAY_STATE					m_ePrevState;
 	cAirDrop*					m_pAirDrop;
 	cUIObject*                  m_pQuitGameRoot;
+	cUIObject*					m_pQuestInfoRoot;
+
+	cUIImageView*	m_pCurEnemyNumFirstPos;
+	cUIImageView*	m_pCurEnemyNumSecondPos;
+
 	LPD3DXSPRITE		        m_pSprite;
 
 	cFrustum*					m_pFrustum;
@@ -76,6 +81,7 @@ class cPlayScene
 	float                       m_startTime;
 	float                       m_endTime;
 
+	int							m_nAIMaxSize;
 
 public:
 	cPlayScene();
@@ -99,6 +105,8 @@ public:
 	void LevUpCheck();
 
 	void QuitGameUISetting();
+	void MissionUISetting();
+	void MissionUIUpdate();
 	void OnClick(cUIButton * pSender);
 	void SaveAccuracyRate();
 	void SavePlayTime();
